@@ -1,0 +1,93 @@
+<script setup>
+//Importaciones
+import {ref, watch, computed } from "vue";
+import { Link, useForm } from '@inertiajs/vue3'
+import ButtonDropZone from '@/Components/ButtonDropZone.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import UbicacionDesplegable from './UbicacionDesplegable.vue';
+//Props
+var props = defineProps({
+    statu:Object,
+    ubicaciones:Object,
+    plataformas:Object,
+    contadores:Object
+});
+//Formulario para subir excel
+const document = ref(null)
+const formNewDts = useForm({
+  document: null,
+})
+
+//Watcher para la carga del reporte
+watch(document, (documentoCargado) => 
+{
+   formNewDts.document = documentoCargado
+   try 
+   {
+      if(formNewDts.document !== null)
+      {
+         formNewDts.post(route('reportes.store'),
+         {
+            onSuccess: () => {
+               formNewDts.reset();
+            },
+            onError:(err) => 
+            {
+              console.log(err);
+              formNewDts.reset();
+            }
+         }
+         );
+      }
+   } 
+   catch (error) 
+   {
+     console.log(error)  
+   }
+});
+
+//filtro
+const contadorIndividual = computed(() => 
+{
+  return   props.contadores.filter(contador => contador.status_padre == props.statu.id);
+});
+
+
+</script>
+<template>
+   <div>
+     <!--header-->
+     <div class="flex flex-row justify-between">
+        <h1 class="text-lg" style="font-family: 'Montserrat';">{{ statu.nombre }}</h1>
+        <div v-if="statu.id == 1">
+           <a :href="route('downloadReport')"  class="px-2 border rounded-lg">
+              <span style="font-family: 'Montserrat';">Descargar ejemplo</span>
+           </a>
+        </div>
+        <div v-if="statu.id == 1">
+           <ButtonDropZone v-model="document" />
+           <div v-if="formNewDts.hasErrors ">
+                <span class="text-sm text-red-500">
+                   {{ formNewDts.errors.errors }}
+                </span>
+           </div>
+        </div>
+     </div>
+     <div class="flex flex-row justify-between mb-2">
+        <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-2 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :class="'bg-['+contador.color+']'">
+            <p class="text-sm uppercase">
+              {{contador.nombre}}:
+            </p>
+            <p class="text-3xl font-bold">
+               {{ contador.confirmaciones_dts.length }}
+            </p>
+        </div>
+     </div>
+     <!--body-->
+     <div class="h-auto py-4 bg-white rounded-lg shadow-lg snap-2">
+         <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
+            <UbicacionDesplegable :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
+         </div>
+     </div> 
+  </div>
+</template>
