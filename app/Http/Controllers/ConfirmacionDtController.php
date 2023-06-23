@@ -80,4 +80,24 @@ class ConfirmacionDtController extends Controller
     {
         //
     }
+
+    //Functions API
+    public function indexApi(Request $request)
+    {
+        return ConfirmacionDt::select(
+            'confirmacion_dts.*',
+            'dts.referencia_dt',
+            'linea_transportes.nombre as linea_transporte',
+            'status.color'
+           )
+         /* 
+        ->where('status.status_padre','=',$request['status_id'])
+        ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
+        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
+        */
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
+        ->join('status', 'confirmacion_dts.status_id', 'status.id')
+        ->paginate(5);
+    }
 }
