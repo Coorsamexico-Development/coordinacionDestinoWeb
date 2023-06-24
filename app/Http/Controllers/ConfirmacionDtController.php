@@ -98,6 +98,6 @@ class ConfirmacionDtController extends Controller
         ->join('dts','confirmacion_dts.dt_id','dts.id')
         ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
         ->join('status', 'confirmacion_dts.status_id', 'status.id')
-        ->paginate(5);
+        ->get();
     }
 }
