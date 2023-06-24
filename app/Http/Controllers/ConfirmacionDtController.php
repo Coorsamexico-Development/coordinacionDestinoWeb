@@ -88,6 +88,7 @@ class ConfirmacionDtController extends Controller
             'confirmacion_dts.*',
             'dts.referencia_dt',
             'linea_transportes.nombre as linea_transporte',
+            'status.nombre as status',
             'status.color'
            )
          /* 
