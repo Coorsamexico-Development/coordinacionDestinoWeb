@@ -1,9 +1,15 @@
 <script setup>
 import {ref, watch, computed, reactive } from "vue";
+import ButtonWatch from '@/Components/ButtonWatch.vue'
   //Props
 var props = defineProps({
     dt:Object,
 });
+
+const openWatchModal = () => 
+{
+  
+}
 
 </script>
 <template>
@@ -23,8 +29,8 @@ var props = defineProps({
          </div>
       </div>
       <div>
-         <div>
-           
+         <div class="ml-8">
+           <ButtonWatch @click="openWatchModal()" :color="dt.color" />
          </div>
          <div>
             <p class="text-xs">{{ dt.cita.substring(0,10) }}</p>
