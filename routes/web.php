@@ -47,5 +47,4 @@ Route::get('/downloadReport',[ReporteController::class, 'downloadReport'])->name
 Route::get('/getConfirmaciones',[ConfirmacionDtController::class, 'index'])->name('getConfirmacions');
 //Cambio de status to riesgo
 Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
-
-
+Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');

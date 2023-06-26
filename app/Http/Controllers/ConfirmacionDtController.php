@@ -151,6 +151,13 @@ class ConfirmacionDtController extends Controller
          ]);
         }
 
+
+    }
+
+
+
+    public function changePorRecibir (Request $request)
+    {
         if($request['riesgo'] == false)
         {
             ConfirmacionDt::where('id','=',$request['id'])
@@ -171,6 +178,5 @@ class ConfirmacionDtController extends Controller
 
          return 'ok';
         }
-
     }
 }
