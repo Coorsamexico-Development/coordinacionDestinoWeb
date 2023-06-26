@@ -128,4 +128,12 @@ class ConfirmacionDtController extends Controller
         
         return $confirmacionesDts->get();
     }
+
+    public function changeToRiesgo (Request $request)
+    {
+         ConfirmacionDt::where('id','=',$request['id'])
+         ->update([
+            'confirmacion_dts.status_id' => 6
+         ]);
+    }
 }
