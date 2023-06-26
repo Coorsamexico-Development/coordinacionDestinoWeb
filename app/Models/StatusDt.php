@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class StatusDt extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'confirmacion_dt_id',
+        'status_id',
+        'activo',
+    ];
 }
