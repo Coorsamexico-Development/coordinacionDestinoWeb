@@ -5,13 +5,9 @@ var props = defineProps({
     dt:Object,
 });
 
-const setBgColor = computed(() => {
-    return  'bg-['+props.dt.color+ ']';
-});
-
 </script>
 <template>
-   <div class="flex justify-between p-2 m-4 border rounded-lg" :class="setBgColor">
+   <div class="flex justify-between p-2 m-4 border rounded-lg" :style="{borderColor: dt.color}" >
       <div>
         <div class="flex flex-row">
            <h1 class="text-sm font-bold">DT: </h1>
