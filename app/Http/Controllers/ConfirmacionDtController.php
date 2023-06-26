@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
+use App\Models\StatusDt;
 use Illuminate\Http\Request;
 
 class ConfirmacionDtController extends Controller
@@ -131,9 +132,17 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo (Request $request)
     {
-         ConfirmacionDt::where('id','=',$request['id'])
+       $confirmacionDt= ConfirmacionDt::where('id','=',$request['id'])
          ->update([
             'confirmacion_dts.status_id' => 6
          ]);
+
+       //Creamos el primer registro en la tabla de historico
+       StatusDt::updateOrCreate([
+        'confirmacion_dt_id' => $confirmacionDt->id,
+        'status_id' => 6,
+        'activo' => 1,
+      ]);
+
     }
 }
