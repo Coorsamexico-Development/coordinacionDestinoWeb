@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('confirmacion_dt_id')->constrained('confirmacion_dts');
             $table->foreignId('status_id')->constrained('status');
-            $table->time('hora');
             $table->boolean('activo')->default((1));
             $table->timestamps();
         });

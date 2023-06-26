@@ -62,7 +62,16 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
           'ubicacion_id' => $ubicacion->id,
           'status_id' => $status->id
         ]);
+
+      //Creamos el primer registro en la tabla de historico
+       StatusDt::updateOrCreate([
+         'confirmacion_dt_id' => $confirmacionDt->id,
+         'status_id' => $status->id,
+         
+       ]);
+
     }
+
 
     /*
     public function rules(): array
