@@ -132,21 +132,42 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo (Request $request)
     {
-         ConfirmacionDt::where('id','=',$request['id'])
-         ->update([
-            'confirmacion_dts.status_id' => 6
+        if($request['riesgo'] == true)
+        {
+          ConfirmacionDt::where('id','=',$request['id'])
+            ->update([
+               'confirmacion_dts.status_id' => 6
+            ]);
+   
+          StatusDt::where('id','=',$request['id'])
+          ->update([
+            'activo' => 0
+          ]);
+          //Creamos el primer registro en la tabla de historico
+          StatusDt::updateOrCreate([
+           'confirmacion_dt_id' => $request['id'],
+           'status_id' => 6,
+           'activo' => 1,
          ]);
-
-       StatusDt::where('id','=',$request['id'])
-       ->update([
-         'activo' => 0
-       ]);
-       //Creamos el primer registro en la tabla de historico
-       StatusDt::updateOrCreate([
-        'confirmacion_dt_id' => $request['id'],
-        'status_id' => 6,
-        'activo' => 1,
-      ]);
+        }
+        else
+        {
+            ConfirmacionDt::where('id','=',$request['id'])
+            ->update([
+               'confirmacion_dts.status_id' => 7
+            ]);
+   
+          StatusDt::where('id','=',$request['id'])
+          ->update([
+            'activo' => 0
+          ]);
+          //Creamos el primer registro en la tabla de historico
+          StatusDt::updateOrCreate([
+           'confirmacion_dt_id' => $request['id'],
+           'status_id' => 7,
+           'activo' => 1,
+         ]);
+        }
 
     }
 }
