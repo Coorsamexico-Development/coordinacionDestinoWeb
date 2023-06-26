@@ -67,7 +67,7 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
        StatusDt::updateOrCreate([
          'confirmacion_dt_id' => $confirmacionDt->id,
          'status_id' => $status->id,
-         
+         'activo' => 1,
        ]);
 
     }
