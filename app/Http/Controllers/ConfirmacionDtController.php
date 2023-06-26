@@ -168,6 +168,8 @@ class ConfirmacionDtController extends Controller
            'status_id' => 7,
            'activo' => 1,
          ]);
+
+         return 'ok';
         }
 
     }
