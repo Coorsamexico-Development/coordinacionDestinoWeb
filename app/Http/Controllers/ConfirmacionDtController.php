@@ -132,6 +132,7 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo (Request $request)
     {
+        return $request;
         if($request['riesgo'] == true)
         {
           ConfirmacionDt::where('id','=',$request['id'])
