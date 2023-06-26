@@ -69,7 +69,6 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
          'status_id' => $status->id,
          'activo' => 1,
        ]);
-
     }
 
 
