@@ -151,7 +151,8 @@ class ConfirmacionDtController extends Controller
            'activo' => 1,
          ]);
         }
-        else
+
+        if($request['riesgo'] == false)
         {
             ConfirmacionDt::where('id','=',$request['id'])
             ->update([
