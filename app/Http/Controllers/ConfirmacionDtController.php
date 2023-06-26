@@ -132,8 +132,6 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo (Request $request)
     {
-        if($request['riesgo'] == true)
-        {
           ConfirmacionDt::where('id','=',$request['id'])
             ->update([
                'confirmacion_dts.status_id' => 6
@@ -149,8 +147,6 @@ class ConfirmacionDtController extends Controller
            'status_id' => 6,
            'activo' => 1,
          ]);
-        }
-
 
     }
 
@@ -158,8 +154,6 @@ class ConfirmacionDtController extends Controller
 
     public function changePorRecibir (Request $request)
     {
-        if($request['riesgo'] == false)
-        {
             ConfirmacionDt::where('id','=',$request['id'])
             ->update([
                'confirmacion_dts.status_id' => 7
@@ -176,7 +170,5 @@ class ConfirmacionDtController extends Controller
            'activo' => 1,
          ]);
 
-         return 'ok';
-        }
     }
 }
