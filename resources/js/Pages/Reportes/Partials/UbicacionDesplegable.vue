@@ -91,18 +91,28 @@ const loadPage = async (page) =>
         console.log(e);
     })
 }
+
 </script>
 <template>
-   <div> <!--main-->
-       <div > <!--Header-->
-          <div class="flex flex-row justify-between">
-              <h1 class="m-2 m-4 text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
-              <svg @click="showClients()" v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
-                <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
-              </svg>    
-              <svg @click="showClients(ubicacion.id)" v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
-                <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
-              </svg>
+   <div class="bg-white rounded-xl"> <!--main-->
+       <div> <!--Header-->
+          <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
+              <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
+              <div class="flex flex-row items-center">
+                 <div class="flex flex-row mr-2">
+                    <div class="mx-2 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
+                       
+                     </div>
+                  </div>
+                  <div>
+                     <svg @click="showClients()" v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                       <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
+                     </svg>    
+                     <svg @click="showClients(ubicacion.id)" v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                       <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
+                     </svg>
+                  </div>
+              </div>
           </div>
        </div>
        <Transition name="slide-fade">

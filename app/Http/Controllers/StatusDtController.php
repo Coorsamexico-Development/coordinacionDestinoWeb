@@ -62,4 +62,9 @@ class StatusDtController extends Controller
     {
         //
     }
+
+    public function showHistorico(Request $request)
+    {
+
+    }
 }

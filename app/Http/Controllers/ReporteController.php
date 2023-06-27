@@ -10,6 +10,7 @@ use App\Models\Plataforma;
 use App\Models\Statu;
 use App\Models\Ubicacione;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPUnit\Event\Code\Throwable;
@@ -20,10 +21,31 @@ class ReporteController extends Controller
     public function index()
     {
         $status_padre = Statu::select('status.*')
+        ->with(['status_hijos' => function ($query)
+        {
+            $query->select('status.*')
+            ->with(
+                [
+                    'confirmacionesDts'  =>function($query1)
+                    {
+                        $query1->select('confirmacion_dts.*',
+                         'ubicaciones.id as ubicacion'
+                        )
+                        ->selectRaw('count(confirmacion_dts.id) as count')
+                        ->join('ubicaciones','confirmacion_dts.ubicacion_id','ubicaciones.id')
+                        ->groupBy('ubicaciones.id');
+                    }
+                ]
+            )->groupBy('status.id');
+        }])
         ->whereNull('status.status_padre')
         ->get();
 
-        $ubicaciones = Ubicacione::all();
+         //confirmacion_dts.*,
+         //count(confirmacion_dts.id) as contador,
+        $ubicaciones = Ubicacione::select('ubicaciones.*')
+       ->get();
+
 
         $plataformas = Plataforma::all();
 

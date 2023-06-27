@@ -1,14 +1,30 @@
 <script setup>
 import {ref, watch, computed, reactive } from "vue";
 import ButtonWatch from '@/Components/ButtonWatch.vue'
+import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue'
+import axios from "axios";
   //Props
 var props = defineProps({
     dt:Object,
 });
 
-const openWatchModal = () => 
+let infoModal = ref(null);
+//Funcion modales
+let modalWatch = ref(false);
+const modalWatchOpen = () => 
 {
-  
+  modalWatch.value=true;
+  axios.get(route('showHistorico')).then(response =>
+  {
+   console.log(response);
+  }).catch(err => 
+  {
+   console.log(err)
+  })
+}
+const modalWatchClose = () => 
+{
+  modalWatch.value=false;
 }
 
 </script>
@@ -30,7 +46,7 @@ const openWatchModal = () =>
       </div>
       <div>
          <div class="ml-8">
-           <ButtonWatch @click="openWatchModal()" :color="dt.color" />
+           <ButtonWatch @click="modalWatchOpen()" :color="dt.color" />
          </div>
          <div>
             <p class="text-xs">{{ dt.cita.substring(0,10) }}</p>
@@ -40,4 +56,5 @@ const openWatchModal = () =>
          </div>
       </div>
    </div>
+   <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()"  />
 </template>

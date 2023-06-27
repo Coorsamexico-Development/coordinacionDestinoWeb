@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\StatusDtController;
+use App\Models\StatusDt;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,3 +50,5 @@ Route::get('/getConfirmaciones',[ConfirmacionDtController::class, 'index'])->nam
 //Cambio de status to riesgo
 Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
 Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
+//Ruta para checar historico
+Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');

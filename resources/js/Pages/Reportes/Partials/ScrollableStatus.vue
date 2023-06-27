@@ -74,17 +74,17 @@ const contadorIndividual = computed(() =>
         </div>
      </div>
      <div class="flex flex-row justify-between mb-2">
-        <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-2 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :class="'bg-['+contador.color+']'">
-            <p class="text-sm uppercase">
+        <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-2 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
+            <p class="text-sm text-white uppercase">
               {{contador.nombre}}:
             </p>
-            <p class="text-3xl font-bold">
+            <p class="text-3xl font-bold text-white">
                {{ contador.confirmaciones_dts.length }}
             </p>
         </div>
      </div>
      <!--body-->
-     <div class="h-auto py-4 bg-white rounded-lg shadow-lg snap-2">
+     <div class="h-auto py-4 rounded-lg snap-2">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
             <UbicacionDesplegable :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
          </div>

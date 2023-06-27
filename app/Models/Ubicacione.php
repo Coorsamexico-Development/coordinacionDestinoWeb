@@ -11,4 +11,8 @@ class Ubicacione extends Model
     
     protected $fillable = ['nombre_ubicacion', 'abreviacion'];
 
+    public function confirmacionesDts ()
+    {
+        return $this->hasMany(ConfirmacionDt::class,'ubicacion_id');
+    }
 }

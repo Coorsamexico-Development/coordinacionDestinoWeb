@@ -13,4 +13,9 @@ class Statu extends Model
     {
         return $this->hasMany(ConfirmacionDt::class,'status_id');
     }
+
+    public function status_hijos()
+    {
+        return $this->hasMany(Statu::class, 'status_padre');
+    }
 }
