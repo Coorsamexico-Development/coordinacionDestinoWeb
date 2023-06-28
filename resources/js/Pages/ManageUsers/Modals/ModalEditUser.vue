@@ -8,40 +8,24 @@
           type: Boolean,
           default: false,
       },
-      infoModal:Object,
-      status:Object
   });
   
   const close = () => {    
      emit('close');
   };
-    
 </script>
 <template>
-   <DialogModal :maxWidth="'md'" :show="show" @close="close()">
+   <DialogModal  :show="show" @close="close()">
        <template #title>
          <div class="flex flex-row justify-between">
-            <h1>Historial</h1>
+            <h1>Edicion de usuario</h1>
             <span @click="close()">
                Cerrar
             </span>
          </div>
        </template>
        <template #content  >
-          <div class="grid grid-cols-2">
-            <div>
-               <div v-for="statu in status" :key="statu.id">
-                  
-                  <p  class="text-xl">
-                     {{ statu.nombre }}
-                  </p>
-                  <div>
-                    
-                  </div>
-               </div>
-            </div>
-          </div>
+
        </template>
    </DialogModal>
 </template>
-    

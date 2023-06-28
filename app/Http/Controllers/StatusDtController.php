@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Statu;
 use App\Models\StatusDt;
 use Illuminate\Http\Request;
 
@@ -65,6 +66,14 @@ class StatusDtController extends Controller
 
     public function showHistorico(Request $request)
     {
+        $historico =  StatusDt::select('status_dts.*')
+        ->where('status_dts.confirmacion_dt_id','=',$request['id'])
+        ->get();
 
+        $status_Hijos = Statu::select('status.*')
+        ->whereNotNull('status_padre')
+        ->get();
+
+        return ['historico' => $historico, 'status' => $status_Hijos];
     }
 }

@@ -121,7 +121,7 @@ const loadPage = async (page) =>
             <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
             <div v-if="dts !== null">
                <div v-for="dt in dtsData" :key="dt.id">
-                  <DtBlock :dt="dt" />
+                  <DtBlock :dt="dt"  />
                </div>
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
             </div>

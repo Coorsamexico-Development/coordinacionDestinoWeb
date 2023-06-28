@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserUbicacione;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserUbicacioneController extends Controller
 {
@@ -13,6 +15,14 @@ class UserUbicacioneController extends Controller
     public function index()
     {
         //
+        $users = User::select('users.*',
+        'ubicaciones.nombre_ubicacion as ubicacion')
+        ->leftJoin('user_ubicaciones','user_ubicaciones.user_id','users.id')
+        ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id','ubicaciones.id')
+        ->get();
+        return Inertia::render('ManageUsers/ManageUsers',[
+           'users' => $users
+        ]);
     }
 
     /**
