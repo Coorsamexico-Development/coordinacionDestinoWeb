@@ -7,6 +7,7 @@ use App\Imports\DtsImport;
 use App\Models\Cliente;
 use App\Models\ConfirmacionDt;
 use App\Models\Plataforma;
+use App\Models\Role;
 use App\Models\Statu;
 use App\Models\Ubicacione;
 use Illuminate\Http\Request;

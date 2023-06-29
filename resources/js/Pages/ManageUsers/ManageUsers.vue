@@ -3,6 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import TableUsers from './Partials/TableUsers.vue';
 var props = defineProps({
     users:Object,
+    roles:Object,
+    ubicaciones:Object
 });
 </script>
 <template>
@@ -13,7 +15,7 @@ var props = defineProps({
             </h2>
         </template>
         <div class="p-4 mx-10 mt-16 bg-white rounded-lg shadow-lg">
-            <TableUsers :users="users" />
+            <TableUsers :users="users" :roles="roles" :ubicaciones="ubicaciones" />
         </div>
     </AppLayout>
 </template>

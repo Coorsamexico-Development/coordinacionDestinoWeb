@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\Ubicacione;
 use App\Models\User;
 use App\Models\UserUbicacione;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserUbicacioneController extends Controller
@@ -16,12 +19,21 @@ class UserUbicacioneController extends Controller
     {
         //
         $users = User::select('users.*',
-        'ubicaciones.nombre_ubicacion as ubicacion')
+        'ubicaciones.id as ubicacion_id',
+        'ubicaciones.nombre_ubicacion as ubicacion',
+        'roles.nombre as role_name')
         ->leftJoin('user_ubicaciones','user_ubicaciones.user_id','users.id')
         ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id','ubicaciones.id')
+        ->leftJoin('roles', 'users.role_id', 'roles.id')
         ->get();
+
+        $roles = Role::all();
+        $ubicaciones = Ubicacione::all();
+
         return Inertia::render('ManageUsers/ManageUsers',[
-           'users' => $users
+           'users' => $users,
+           'roles' => $roles,
+           'ubicaciones' => $ubicaciones
         ]);
     }
 
@@ -60,9 +72,36 @@ class UserUbicacioneController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserUbicacione $userUbicacione)
+    public function update(Request $request)
     {
         //
+        $request->validate([ //validaciones
+            'id' => 'required',
+            'email' => 'required',
+            'nombre' => 'required',
+            'ap_paterno' => 'required',
+            'ap_materno' => 'required',
+            'contraseña' => 'required',
+            'role_id' => 'required',
+            'ubicacion_id' => 'required'
+        ]);
+
+      $user =  User::where('id','=',$request['id'])
+        ->update([
+            'email' => $request['email'],
+            'name' => $request['nombre'],
+            'apellido_paterno' => $request['ap_paterno'],
+            'apellido_materno' => $request['ap_materno'],
+            'role_id' => $request['role_id'],
+            'password' => Hash::make($request['contraseña'])
+        ]);
+        
+        UserUbicacione::updateOrCreate([
+            'user_id' => $request['id'],
+            'ubicacion_id' => $request['ubicacion_id']
+        ]);
+
+        return redirect()->back();
     }
 
     /**

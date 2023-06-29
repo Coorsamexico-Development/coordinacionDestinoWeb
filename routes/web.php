@@ -55,3 +55,5 @@ Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorReci
 Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');
 //Manage Users view
 Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
+//Edicion de usuario
+Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
