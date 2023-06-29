@@ -19,7 +19,13 @@ class AutenticatheController extends Controller
         ]);
      
         //$user = User::where('email', $request->email)->first();
-        $user = User::where('email', $request->email)
+        $user = User::select(
+            'users.*',
+            'ubicaciones.ubicacion_nombre'
+        )
+        ->leftJoin('user_ubicaciones','user_ubicaciones.user_id','users.id')
+        ->leftJoin('ubicaciones','user_ubicaciones.ubicacion_id','ubicaciones.id')
+        ->where('email', $request->email)
         ->first();
         
      
