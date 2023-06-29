@@ -37,7 +37,9 @@ class ReporteController extends Controller
                         ->groupBy('ubicaciones.id');
                     }
                 ]
-            )->groupBy('status.id');
+            )
+            ->whereNotNull('status.status_padre')
+            ->groupBy('status.id');
         }])
         ->whereNull('status.status_padre')
         ->get();
