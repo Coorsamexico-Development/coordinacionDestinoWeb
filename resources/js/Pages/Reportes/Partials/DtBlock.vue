@@ -37,18 +37,18 @@ const modalWatchClose = () =>
    <div class="flex justify-between m-4 border rounded-lg" :style="{borderColor: dt.color}" >
       <div class="w-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
       </div>
-      <div class="py-2">
-        <div class="flex flex-row">
-           <h1 class="text-sm font-bold">DT: </h1>
-           <p class="text-sm">{{ dt.referencia_dt }} </p>
+      <div class="px-4 py-2">
+        <div class="flex flex-row my-1">
+           <h1 class="text-xs font-bold">DT: </h1>
+           <p class="text-xs ">{{ dt.referencia_dt }} </p>
          </div>
-         <div class="flex flex-row"> 
-            <h1 class="text-sm font-bold">Confirmacion: </h1>
-            <p class="text-sm">{{ dt.confirmacion }}</p>
+         <div class="flex flex-row my-1"> 
+            <h1 class="text-xs font-bold">Confirmacion: </h1>
+            <p class="text-xs ">{{ dt.confirmacion }}</p>
          </div>
-         <div class="flex flex-row"> 
-            <h1 class="text-sm font-bold">Línea de transporte: </h1>
-            <p class="text-sm">{{ dt.linea_transporte }}</p>
+         <div class="flex flex-row my-1"> 
+            <h1 class="text-xs font-bold">Línea de transporte: </h1>
+            <p class="text-xs ">{{ dt.linea_transporte }}</p>
          </div>
       </div>
       <div class="px-2 py-2">
@@ -56,7 +56,7 @@ const modalWatchClose = () =>
            <ButtonWatch @click="modalWatchOpen()" :color="dt.color" />
          </div>
          <div>
-            <p class="text-xs">{{ dt.cita.substring(0,10) }}</p>
+            <p class="text-xs ">{{ dt.cita.substring(0,10) }}</p>
          </div>
          <div>
             <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>

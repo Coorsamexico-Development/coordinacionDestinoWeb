@@ -9,6 +9,7 @@ use App\Models\ConfirmacionDt;
 use App\Models\Plataforma;
 use App\Models\Role;
 use App\Models\Statu;
+use App\Models\StatusDt;
 use App\Models\Ubicacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,25 +20,15 @@ use PHPUnit\Event\Code\Throwable;
 class ReporteController extends Controller
 {
     //
+    /*
+      
+    */ 
     public function index()
-    {
-        $status_padre = Statu::select('status.*')
+    {  
+       $status_padre = Statu::select('status.*')
         ->with(['status_hijos' => function ($query)
         {
             $query->select('status.*')
-            ->with(
-                [
-                    'confirmacionesDts'  =>function($query1)
-                    {
-                        $query1->select('confirmacion_dts.*',
-                         'ubicaciones.id as ubicacion'
-                        )
-                        ->selectRaw('count(confirmacion_dts.id) as count')
-                        ->join('ubicaciones','confirmacion_dts.ubicacion_id','ubicaciones.id')
-                        ->groupBy('ubicaciones.id');
-                    }
-                ]
-            )
             ->whereNotNull('status.status_padre')
             ->groupBy('status.id');
         }])
@@ -47,6 +38,7 @@ class ReporteController extends Controller
          //confirmacion_dts.*,
          //count(confirmacion_dts.id) as contador,
         $ubicaciones = Ubicacione::select('ubicaciones.*')
+       ->with('confirmacionesDts')
        ->get();
 
 

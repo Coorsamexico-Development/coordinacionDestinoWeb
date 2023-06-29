@@ -92,6 +92,28 @@ const loadPage = async (page) =>
     })
 }
 
+const valores = computed(() => 
+{
+  let contadorGeneral = []
+  for (let index = 0; index < props.status.status_hijos.length; index++)
+  {
+    const statusHijo = props.status.status_hijos[index];
+    let acumulo=[];
+    for (let index2 = 0; index2 < props.ubicacion.confirmaciones_dts.length; index2++) 
+    {
+      const confirmacionDt = props.ubicacion.confirmaciones_dts[index2];
+      if(statusHijo.id == confirmacionDt.status_id)
+      {
+        acumulo.push(confirmacionDt)
+
+      }
+    }
+    contadorGeneral.push({status:statusHijo.id, statusName:statusHijo.nombre ,  total:acumulo.length})
+  }
+
+  return contadorGeneral
+});
+
 </script>
 <template>
    <div class="bg-white rounded-xl"> <!--main-->
@@ -99,9 +121,13 @@ const loadPage = async (page) =>
           <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
               <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
               <div class="flex flex-row items-center">
-                 <div class="flex flex-row mr-2">
+                 <div class="flex flex-row mr-2">     
                     <div class="mx-2 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
-                       
+                       <div v-for="valor in valores" :key="valor.id">
+                          <div v-if="valor.status == statuChild.id">
+                             {{ valor.total }}
+                          </div>
+                       </div>
                      </div>
                   </div>
                   <div>

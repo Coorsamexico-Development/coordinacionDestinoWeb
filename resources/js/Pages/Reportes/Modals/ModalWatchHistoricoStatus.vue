@@ -29,16 +29,8 @@
        </template>
        <template #content  >
           <div class="grid grid-cols-2">
-            <div>
-               <div v-for="statu in status" :key="statu.id">
-                  
-                  <p  class="text-xl">
-                     {{ statu.nombre }}
-                  </p>
-                  <div>
-                    
-                  </div>
-               </div>
+            <div v-for="histori in infoModal">
+               {{ histori.status_id }}
             </div>
           </div>
        </template>

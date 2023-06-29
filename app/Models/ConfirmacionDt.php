@@ -20,4 +20,5 @@ class ConfirmacionDt extends Model
     'ubicacion_id',
     'status_id'
      ];
+
 }
