@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\ConfirmacionDtController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -23,6 +24,8 @@ Route::get('artisan', function () {
     return "ok";
 });
 
+//Autenticacion
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -30,3 +33,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Ruta inicial para obtener DTS
 Route::get('/dtsApi',[ConfirmacionDtController::class, 'indexApi'])->name('dtsApi');
+//Autenticaciones
+Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
