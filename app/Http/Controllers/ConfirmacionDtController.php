@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
+use App\Models\Plataforma;
 use App\Models\StatusDt;
 use Illuminate\Http\Request;
 
@@ -120,8 +121,9 @@ class ConfirmacionDtController extends Controller
                 $confirmacionesDts->where('confirmacion_dts.plataforma_id','LIKE','%'.$request['plataforma_id'].'%');
              }
            } 
-
-        return $confirmacionesDts->get();
+           $plataformas = Plataforma::all();
+           $confirmacionesDts->get();
+        return ['dts' => $confirmacionesDts , 'plataformas'=>$plataformas];
     }
 
     public function changeToRiesgo (Request $request)
