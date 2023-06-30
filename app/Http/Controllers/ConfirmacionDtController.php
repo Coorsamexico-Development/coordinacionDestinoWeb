@@ -96,7 +96,7 @@ class ConfirmacionDtController extends Controller
            ->join('dts','confirmacion_dts.dt_id','dts.id')
            ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
            ->join('status', 'confirmacion_dts.status_id', 'status.id');
-
+           
            if($request->has('ubicacion_id'))
            {
              if($request['ubicacion_id'] !== null)
@@ -104,8 +104,6 @@ class ConfirmacionDtController extends Controller
                 $confirmacionesDts->where('confirmacion_dts.ubicacion_id','LIKE','%'.$request['ubicacion_id'].'%');
              }
            } 
-
-
            if($request->has('search'))
            {
              if($request['search'] !== null)
@@ -122,8 +120,8 @@ class ConfirmacionDtController extends Controller
              }
            } 
            $plataformas = Plataforma::all();
-           $confirmacionesDts->get();
-        return ['dts' => $confirmacionesDts , 'plataformas'=>$plataformas];
+        //return   $confirmacionesDts->get();
+        return ['dts' => $confirmacionesDts->get() , 'plataformas'=>$plataformas];
     }
 
     public function changeToRiesgo (Request $request)
