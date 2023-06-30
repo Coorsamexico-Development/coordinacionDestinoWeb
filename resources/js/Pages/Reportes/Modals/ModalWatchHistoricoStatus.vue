@@ -1,6 +1,8 @@
 <script setup>
  import { ref, watch, reactive } from 'vue';
  import DialogModal from '@/Components/DialogModal.vue';
+ import ButtonWatch from '@/Components/ButtonWatch.vue';
+
 
   const emit = defineEmits(["close"])
   const props = defineProps({
@@ -29,9 +31,15 @@
        </template>
        <template #content  >
           <div class="grid grid-cols-2">
-            <div v-for="histori in infoModal">
-               {{ histori.status_id }}
-            </div>
+             <div>
+               <div class="flex flex-row justify-between" v-for="histori in infoModal" :key="histori.id">
+                 {{ histori.status }}
+                <ButtonWatch :color="histori.color" />
+               </div>
+             </div>
+             <div>
+
+             </div>
           </div>
        </template>
    </DialogModal>

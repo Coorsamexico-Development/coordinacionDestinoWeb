@@ -66,7 +66,10 @@ class StatusDtController extends Controller
 
     public function showHistorico(Request $request)
     {
-        $historico =  StatusDt::select('status_dts.*')
+        $historico =  StatusDt::select('status_dts.*',
+        'status.nombre as status',
+        'status.color as color')
+        ->join('status', 'status_dts.status_id','status.id')
         ->where('status_dts.confirmacion_dt_id','=',$request['id'])
         ->get();
 

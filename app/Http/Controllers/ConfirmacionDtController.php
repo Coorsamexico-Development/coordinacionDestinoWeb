@@ -85,48 +85,42 @@ class ConfirmacionDtController extends Controller
     //Functions API
     public function indexApi(Request $request)
     {
-        $confirmacionesDts = null;
-        if(request()->has('search'))
-        {
-           if($request['search'] === null)
+        $confirmacionesDts = ConfirmacionDt::select(
+            'confirmacion_dts.*',
+            'dts.referencia_dt',
+            'linea_transportes.nombre as linea_transporte',
+            'status.nombre as status',
+            'status.color'
+           )
+           ->join('dts','confirmacion_dts.dt_id','dts.id')
+           ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
+           ->join('status', 'confirmacion_dts.status_id', 'status.id');
+
+           if($request->has('ubicacion_id'))
            {
-            $confirmacionesDts = ConfirmacionDt::select(
-                'confirmacion_dts.*',
-                'dts.referencia_dt',
-                'linea_transportes.nombre as linea_transporte',
-                'status.nombre as status',
-                'status.color'
-               )
-             /* 
-            ->where('status.status_padre','=',$request['status_id'])
-            ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
-            ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
-            */
-            ->join('dts','confirmacion_dts.dt_id','dts.id')
-            ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
-            ->join('status', 'confirmacion_dts.status_id', 'status.id');
-           }
-           else
+             if($request['ubicacion_id'] !== null)
+             {
+                $confirmacionesDts->where('confirmacion_dts.ubicacion_id','LIKE','%'.$request['ubicacion_id'].'%');
+             }
+           } 
+
+
+           if($request->has('search'))
            {
-            $confirmacionesDts = ConfirmacionDt::select(
-                'confirmacion_dts.*',
-                'dts.referencia_dt',
-                'linea_transportes.nombre as linea_transporte',
-                'status.nombre as status',
-                'status.color'
-               )
-             /* 
-            ->where('status.status_padre','=',$request['status_id'])
-            ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
-            ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
-            */
-            ->join('dts','confirmacion_dts.dt_id','dts.id')
-            ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
-            ->join('status', 'confirmacion_dts.status_id', 'status.id')
-            ->where('dts.referencia_dt','LIKE', '%'.$request['search'].'%');
-           }
-        }
-        
+             if($request['search'] !== null)
+             {
+                $confirmacionesDts->where('dts.referencia_dt','LIKE','%'.$request['search'].'%');
+             }
+           } 
+
+           if($request->has('plataforma_id'))
+           {
+             if($request['plataforma_id'] !== null)
+             {
+                $confirmacionesDts->where('confirmacion_dts.plataforma_id','LIKE','%'.$request['plataforma_id'].'%');
+             }
+           } 
+
         return $confirmacionesDts->get();
     }
 
