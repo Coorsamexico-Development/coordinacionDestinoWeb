@@ -98,8 +98,7 @@ class UserUbicacioneController extends Controller
         
         UserUbicacione::updateOrCreate([
             'user_id' => $request['id'],
-            'ubicacion_id' => $request['ubicacion_id']
-        ]);
+        ],['ubicacion_id' => $request['ubicacion_id']]);
 
         return redirect()->back();
     }

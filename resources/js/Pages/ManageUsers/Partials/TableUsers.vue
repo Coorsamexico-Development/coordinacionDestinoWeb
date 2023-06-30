@@ -19,7 +19,7 @@ const openEditUser = (user) =>
 const closeEditUser = () => 
 {
   editUser.value = false;
-  userActive.value = {}
+
 }
 
 </script>

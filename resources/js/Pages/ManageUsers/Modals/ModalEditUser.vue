@@ -11,7 +11,10 @@
           type: Boolean,
           default: false,
       },
-      user:Object,
+      user:{
+         type:Object,
+         required:true
+      },
       roles:Object,
       ubicaciones:Object
   });
