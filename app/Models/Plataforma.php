@@ -14,4 +14,9 @@ class Plataforma extends Model
         'activo',
     ];
 
+    public function confirmacionesDts ()
+    {
+        return $this->hasMany(ConfirmacionDt::class,'status_id');
+    }
+
 }
