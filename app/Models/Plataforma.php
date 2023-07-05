@@ -16,7 +16,7 @@ class Plataforma extends Model
 
     public function confirmacionesDts ()
     {
-        return $this->hasMany(ConfirmacionDt::class,'status_id');
+        return $this->hasMany(ConfirmacionDt::class,'plataforma_id');
     }
 
 }
