@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AutenticatheController;
+use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -35,3 +36,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/dtsApi',[ConfirmacionDtController::class, 'indexApi'])->name('dtsApi');
 //Autenticaciones
 Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
+//Consultar campos
+Route::get('/camposApi',[CampoController::class, 'indexApi']);

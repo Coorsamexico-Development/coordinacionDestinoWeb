@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campo;
+use App\Models\DtCampoValor;
 use Illuminate\Http\Request;
 
 class CampoController extends Controller
@@ -61,5 +62,21 @@ class CampoController extends Controller
     public function destroy(Campo $campo)
     {
         //
+    }
+
+    //<Consulta de campos para API
+    public function indexApi(Request $request)
+    {
+       if($request->has('dt_id'))
+       {
+        return   DtCampoValor::select('dt_campo_valors.*',
+                'campos.nombre as campo', 'campos.status_id as status',
+                'tipos_campos.nombre as tipo_campo'
+                )
+          ->where('dt_campo_valors.dt_id','=',$request['dt_id'])
+          ->join('campos','dt_campo_valors.campo_id', 'campos.id')
+          ->join('tipos_campos','campos.tipo_campo_id', 'tipos_campos.id')
+          ->get();
+       }
     }
 }
