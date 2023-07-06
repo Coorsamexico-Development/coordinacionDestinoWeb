@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('valor');
             $table->foreignId('dt_campo_valor_id')->constrained('dt_campo_valors');
             $table->foreignId('user_id')->constrained('users');
-            $table->time('hora_de_modificacion');
+            $table->boolean('activo')->default(1);
             $table->timestamps();
         });
     }
