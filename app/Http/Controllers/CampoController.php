@@ -65,18 +65,15 @@ class CampoController extends Controller
     }
 
     //<Consulta de campos para API
+    //Una vez que se crea un valor, se crea un registro dt_campo_valor
     public function indexApi(Request $request)
     {
-       if($request->has('dt_id'))
+       if($request->has('status_id'))
        {
-        return   DtCampoValor::select('dt_campo_valors.*',
-                'campos.nombre as campo', 'campos.status_id as status',
-                'tipos_campos.nombre as tipo_campo'
-                )
-          ->where('dt_campo_valors.dt_id','=',$request['dt_id'])
-          ->join('campos','dt_campo_valors.campo_id', 'campos.id')
-          ->join('tipos_campos','campos.tipo_campo_id', 'tipos_campos.id')
-          ->get();
+        return  
+           Campo::select('campos.*')
+           ->where('status_id','=', $request['status_id'])
+           ->get();
        }
     }
 }
