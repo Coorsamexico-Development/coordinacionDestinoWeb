@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campo;
 use App\Models\DtCampoValor;
+use App\Models\Statu;
 use Illuminate\Http\Request;
 
 class CampoController extends Controller
@@ -70,9 +71,14 @@ class CampoController extends Controller
     {
        if($request->has('status_id'))
        {
+       
+       $status_padre = Statu::select('status.status_padre')
+        ->where('status.id','=', $request['status_id'])
+        ->first();
+
         return  
            Campo::select('campos.*','tipos_campos.nombre as tipo_campo')
-           ->where('status_id','=', $request['status_id'])
+           ->where('status_id','=', $status_padre->id)
            ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
            ->get();
        }
