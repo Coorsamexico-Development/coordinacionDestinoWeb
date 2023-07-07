@@ -72,13 +72,13 @@ class CampoController extends Controller
        if($request->has('status_id'))
        {
        
-       $status_padre = Statu::select('status.status_padre')
+      $status_padre = Statu::select('status.status_padre')
         ->where('status.id','=', $request['status_id'])
         ->first();
 
         return  
            Campo::select('campos.*','tipos_campos.nombre as tipo_campo')
-           ->where('status_id','=', $status_padre->id)
+           ->where('status_id','=', $status_padre->status_padre)
            ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
            ->get();
        }
