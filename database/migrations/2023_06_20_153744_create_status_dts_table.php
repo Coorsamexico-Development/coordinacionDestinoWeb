@@ -18,10 +18,6 @@ return new class extends Migration
             $table->boolean('activo')->default((1));
             $table->timestamps();
         });
-
-        Schema::table('status_dts', function($table) {
-            $table->dropColumn(['hora']);
-        });
     }
 
     /**

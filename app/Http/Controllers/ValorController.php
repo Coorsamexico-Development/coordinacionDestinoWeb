@@ -62,4 +62,9 @@ class ValorController extends Controller
     {
         //
     }
+
+    public function valoresApi (Request $request) 
+    {
+      return $request;
+    }
 }

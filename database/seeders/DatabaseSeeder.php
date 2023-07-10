@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
          StatusSeeder::class,
          PlataformaSeeder::class,
          UbicacionesSeeder::class,
-         LineasTransporteSeeder::class
-         
+         LineasTransporteSeeder::class,
+         TipoCampoSeeder::class
         ]);
     }
 }
