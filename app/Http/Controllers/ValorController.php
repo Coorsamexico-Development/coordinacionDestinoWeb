@@ -81,10 +81,10 @@ class ValorController extends Controller
             'dt_campo_valors.*'
             )
             ->where('dt_campo_valors.dt_id','=', $request['dt'])
-            ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
+            ->where('dt_campo_valors.campo_id','=', $campo->campo_id)
             ->first();
 
-            array_push($json, $dt_campo);
+            
           }
 
           return $json;
