@@ -66,11 +66,28 @@ class ValorController extends Controller
 
     public function valoresApi (Request $request) 
     {
+      $data = $request['data'];
+      $fotos = $request['fotos'];
       if($request['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
-          return count($request['data']);
+          $json = [];
+          for ($i=0; $i < count($data) ; $i++) 
+          { 
+            $campo = $data[$i]; //rescatamos el valor
+
+            $dt_campo = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
+            ->first();
+
+            array_push($json, $dt_campo);
+          }
+
+          return $json;
       }
 
       //evidencias bd catalogos, 
