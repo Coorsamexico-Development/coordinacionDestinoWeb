@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DtCampoValor;
 use App\Models\Valor;
 use Illuminate\Http\Request;
 
@@ -65,6 +66,29 @@ class ValorController extends Controller
 
     public function valoresApi (Request $request) 
     {
-      return $request;
+        $campos = $request['data'];
+        $fotos = $request['fotos'];
+      if($request['tipo'] == 'guardar' )
+      {
+          //Si es guardado envia los datos pero no cambie el status
+          //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
+          for ($i=0; $i < count($campos) ; $i++)
+          { 
+             $campo_valor = $campos[$i];
+             $dt_campo_exist = DtCampoValor::select(
+                'dt_campo_valors.*'
+             )->where('dt_id','=', $request['dt'])
+             ->where('campo_id','=', $campo_valor->campo_id)
+             ->first();
+             return $dt_campo_exist;
+          }
+      }
+
+      if($request['tipo'] == 'siguiente' )
+      {
+        //Guarda todo y cambia status
+
+      }
+
     }
 }
