@@ -72,6 +72,7 @@ class ValorController extends Controller
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
+          return count($campos);
           for ($i=0; $i < count($campos) ; $i++)
           { 
              $campo_valor = $campos[$i];
