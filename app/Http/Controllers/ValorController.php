@@ -72,7 +72,6 @@ class ValorController extends Controller
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
-          $json = [];
           for ($i=0; $i < count($data) ; $i++) 
           { 
             $campo = $data[$i]; //rescatamos el valor
@@ -84,10 +83,15 @@ class ValorController extends Controller
             ->where('dt_campo_valors.campo_id','=', $campo->campo_id)
             ->first();
 
-            
+            if($dt_campo == null)//sino lo encuentra lo creara
+            {
+               $dt_campo = DtCampoValor::create(
+                [
+                   'dt_id' => $request['dt'],
+                   'campo_id' => $campo->campo_id
+                ]);
+            }
           }
-
-          return $json;
       }
 
       //evidencias bd catalogos, 
