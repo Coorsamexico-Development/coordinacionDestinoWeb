@@ -80,7 +80,7 @@ class ValorController extends Controller
             'dt_campo_valors.*'
             )
             ->where('dt_campo_valors.dt_id','=', $request['dt'])
-            ->where('dt_campo_valors.campo_id','=', $campo->campo_id)
+            ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
             ->first();
 
             if($dt_campo == null)//sino lo encuentra lo creara
@@ -88,7 +88,7 @@ class ValorController extends Controller
                $dt_campo = DtCampoValor::create(
                 [
                    'dt_id' => $request['dt'],
-                   'campo_id' => $campo->campo_id
+                   'campo_id' => $campo['campo_id']
                 ]);
             }
           }
