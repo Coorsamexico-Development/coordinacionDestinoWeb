@@ -142,10 +142,10 @@ class ValorController extends Controller
                $imageName = $explodeImage[1];
                $image_base64 = base64_decode($base64Image[1]);
                $file = $folderPath . uniqid() . '. '.$imageName; 
-
+               $urlFoto= null;
                try {
                 $s3Url = $folderPath . $imageName;
-                Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
+                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
                } catch (Exception $e) {
                 Log::error($e);
                 }
