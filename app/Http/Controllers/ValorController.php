@@ -104,6 +104,56 @@ class ValorController extends Controller
                    
             }
           }
+          
+          //Recorrido para fotos
+          //return $fotos['fotos']['fotos'];
+          $campo_foto = $fotos['campo_id'];
+          $dt_campo_foto = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.campo_id','=', $campo_foto)
+            ->first();
+         
+         if($dt_campo_foto == null)
+         {
+            $dt_campo_foto = DtCampoValor::create(
+                [
+                   'dt_id' => $request['dt'],
+                   'campo_id' => $campo_foto
+                ]);
+
+           //RECORREMOS las fotos para insercion
+           for ($x=0; $x < count($fotos['fotos']['fotos']) ; $x++) 
+           { 
+              $foto = $fotos['fotos']['fotos'][$x];
+              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
+              ->update(['activo' => 0]);
+              //Crea nuevo valor en la tabla de valores
+              $newValor = Valor::create([
+                  'valor' => $foto['photo'],
+                  'dt_campo_valor_id' => $dt_campo_foto->id,
+                  'user_id' => $request['usuario']
+              ]);
+           }
+         }
+         else
+         {
+           //RECORREMOS las fotos para insercion
+           for ($x=0; $x < count($fotos['fotos']['fotos']) ; $x++) 
+           { 
+              $foto = $fotos['fotos']['fotos'][$x];
+              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
+              ->update(['activo' => 0]);
+              //Crea nuevo valor en la tabla de valores
+              $newValor = Valor::create([
+                  'valor' => $foto['photo'],
+                  'dt_campo_valor_id' => $dt_campo_foto->id,
+                  'user_id' => $request['usuario']
+              ]);
+           }
+         }
+          
       }
 
       //evidencias bd catalogos, 
