@@ -172,8 +172,20 @@ class ValorController extends Controller
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
                 //Guardar en storage de Google
-              $rutaFoto = $foto['photo']->storeAs('evidencias', $foto['photo'], 'gcs');
-              $urlFoto = Storage::disk('gcs')->url($rutaFoto);
+                $folderPath = "evidencias/";
+                $base64Image = explode(";base64,", $foto['file']);
+                $explodeImage = explode("image/", $base64Image[0]);
+                $imageName = $explodeImage[1];
+                $image_base64 = base64_decode($base64Image[1]);
+                $file = $folderPath . uniqid() . '. '.$imageName; 
+                $urlFoto= null;
+                try {
+                 $s3Url = $folderPath . $imageName;
+                 $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
+                } catch (Exception $e) {
+                 Log::error($e);
+                 }
+                 
               $newValor = Valor::create([
                   'valor' => $urlFoto,
                   'dt_campo_valor_id' => $dt_campo_foto->id,
@@ -250,8 +262,20 @@ class ValorController extends Controller
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
                //Guardar en storage de Google
-               $rutaFoto = $foto['photo']->storeAs('evidencias', $foto['photo'], 'gcs');
-               $urlFoto = Storage::disk('gcs')->url($rutaFoto);
+               $folderPath = "evidencias/";
+               $base64Image = explode(";base64,", $foto['file']);
+               $explodeImage = explode("image/", $base64Image[0]);
+               $imageName = $explodeImage[1];
+               $image_base64 = base64_decode($base64Image[1]);
+               $file = $folderPath . uniqid() . '. '.$imageName; 
+               $urlFoto= null;
+               try {
+                $s3Url = $folderPath . $imageName;
+                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
+               } catch (Exception $e) {
+                Log::error($e);
+                }
+
               $newValor = Valor::create([
                   'valor' => $urlFoto,
                   'dt_campo_valor_id' => $dt_campo_foto->id,
@@ -269,8 +293,20 @@ class ValorController extends Controller
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
                 //Guardar en storage de Google
-              $rutaFoto = $foto['photo']->storeAs('evidencias', $foto['photo'], 'gcs');
-              $urlFoto = Storage::disk('gcs')->url($rutaFoto);
+               $folderPath = "evidencias/";
+               $base64Image = explode(";base64,", $foto['file']);
+               $explodeImage = explode("image/", $base64Image[0]);
+               $imageName = $explodeImage[1];
+               $image_base64 = base64_decode($base64Image[1]);
+               $file = $folderPath . uniqid() . '. '.$imageName; 
+               $urlFoto= null;
+               try {
+                $s3Url = $folderPath . $imageName;
+                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
+               } catch (Exception $e) {
+                Log::error($e);
+                }
+
               $newValor = Valor::create([
                   'valor' => $urlFoto,
                   'dt_campo_valor_id' => $dt_campo_foto->id,
