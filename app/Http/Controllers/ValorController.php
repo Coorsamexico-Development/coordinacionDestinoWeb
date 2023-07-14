@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DtCampoValor;
 use App\Models\Valor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ValorController extends Controller
 {
@@ -104,7 +105,7 @@ class ValorController extends Controller
                    
             }
           }
-          
+
           //Recorrido para fotos
           //return $fotos['fotos']['fotos'];
           $campo_foto = $fotos['campo_id'];
@@ -130,8 +131,11 @@ class ValorController extends Controller
               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
+               //Guardar en storage de Google
+               $rutaFoto = $foto['photo']->storeAs('evidencias', $foto['photo'], 'gcs');
+               $urlFoto = Storage::disk('gcs')->url($rutaFoto);
               $newValor = Valor::create([
-                  'valor' => $foto['photo'],
+                  'valor' => $urlFoto,
                   'dt_campo_valor_id' => $dt_campo_foto->id,
                   'user_id' => $request['usuario']
               ]);
@@ -146,11 +150,14 @@ class ValorController extends Controller
               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
+                //Guardar en storage de Google
+              $rutaFoto = $foto['photo']->storeAs('evidencias', $foto['photo'], 'gcs');
+              $urlFoto = Storage::disk('gcs')->url($rutaFoto);
               $newValor = Valor::create([
-                  'valor' => $foto['photo'],
+                  'valor' => $urlFoto,
                   'dt_campo_valor_id' => $dt_campo_foto->id,
                   'user_id' => $request['usuario']
-              ]);
+               ]);
            }
          }
           
