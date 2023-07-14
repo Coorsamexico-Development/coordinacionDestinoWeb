@@ -90,6 +90,18 @@ class ValorController extends Controller
                    'dt_id' => $request['dt'],
                    'campo_id' => $campo['campo_id']
                 ]);
+
+                //Hay que encontrar todos los valores anteriores para desactivarlos
+                //y crear uno nuevo
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $campo['value'],
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['usuario']
+                ]);
+                   
             }
           }
       }

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Valor extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'valor',
+        'dt_campo_valor_id',
+        'user_id',
+        'activo'
+    ];
 }
