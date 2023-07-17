@@ -74,10 +74,9 @@ class ValorController extends Controller
       $data = $request['data'];
       $fotos = $request['fotos'];
 
-      return $request['id'];
-
       if($request['tipo'] == 'guardar' )
       {
+          return 'hola';
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
           for ($i=0; $i < count($data) ; $i++) 
