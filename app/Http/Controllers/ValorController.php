@@ -119,8 +119,10 @@ class ValorController extends Controller
             ->where('dt_campo_valors.dt_id','=', $request['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
+        
+         $json = [];
          
-         if($dt_campo_foto == null)
+         if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
          {
             $dt_campo_foto = DtCampoValor::create(
                 [
@@ -129,69 +131,18 @@ class ValorController extends Controller
                 ]);
 
            //RECORREMOS las fotos para insercion
-           for ($x=0; $x < count($fotos['fotos']['fotos']) ; $x++) 
+
+           for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
-              $foto = $fotos['fotos']['fotos'][$x];
-              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
-              ->update(['activo' => 0]);
-              //Crea nuevo valor en la tabla de valores
-               //Guardar en storage de Google
-               $folderPath = "evidencias/";
-               $base64Image = explode(";base64,", $foto['file']);
-               $explodeImage = explode("image/", $base64Image[0]);
-               $imageName = $explodeImage[1];
-               $image_base64 = base64_decode($base64Image[1]);
-               $file = $folderPath . uniqid() . '. '.$imageName; 
-               $urlFoto= null;
-               try {
-                $s3Url = $folderPath . $imageName;
-                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
-               } catch (Exception $e) {
-                Log::error($e);
-                }
-               //$file = base64_decode($foto['file']);
-               //Storage::disk('gcs')->put('imgage.png', $file);
-               //$rutaFoto = $file->storeAs('evidencias', $foto['photo'], 'gcs');
-               //$urlFoto = Storage::disk('gcs')->url($rutaFoto);
-
-
-              $newValor = Valor::create([
-                  'valor' => $urlFoto,
-                  'dt_campo_valor_id' => $dt_campo_foto->id,
-                  'user_id' => $request['usuario']
-              ]);
+              $foto = $fotos['fotos']['fotos'][$i];
+              
            }
          }
          else
          {
            //RECORREMOS las fotos para insercion
-           for ($x=0; $x < count($fotos['fotos']['fotos']) ; $x++) 
-           { 
-              $foto = $fotos['fotos']['fotos'][$x];
-              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
-              ->update(['activo' => 0]);
-              //Crea nuevo valor en la tabla de valores
-                //Guardar en storage de Google
-                $folderPath = "evidencias/";
-                $base64Image = explode(";base64,", $foto['file']);
-                $explodeImage = explode("image/", $base64Image[0]);
-                $imageName = $explodeImage[1];
-                $image_base64 = base64_decode($base64Image[1]);
-                $file = $folderPath . uniqid() . '. '.$imageName; 
-                $urlFoto= null;
-                try {
-                 $s3Url = $folderPath . $imageName;
-                 $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
-                } catch (Exception $e) {
-                 Log::error($e);
-                 }
-                 
-              $newValor = Valor::create([
-                  'valor' => $urlFoto,
-                  'dt_campo_valor_id' => $dt_campo_foto->id,
-                  'user_id' => $request['usuario']
-               ]);
-           }
+           return $fotos;
+
          }
           
       }
@@ -293,25 +244,7 @@ class ValorController extends Controller
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
                 //Guardar en storage de Google
-               $folderPath = "evidencias/";
-               $base64Image = explode(";base64,", $foto['file']);
-               $explodeImage = explode("image/", $base64Image[0]);
-               $imageName = $explodeImage[1];
-               $image_base64 = base64_decode($base64Image[1]);
-               $file = $folderPath . uniqid() . '. '.$imageName; 
-               $urlFoto= null;
-               try {
-                $s3Url = $folderPath . $imageName;
-                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
-               } catch (Exception $e) {
-                Log::error($e);
-                }
 
-              $newValor = Valor::create([
-                  'valor' => $urlFoto,
-                  'dt_campo_valor_id' => $dt_campo_foto->id,
-                  'user_id' => $request['usuario']
-               ]);
            }
          }
       }
