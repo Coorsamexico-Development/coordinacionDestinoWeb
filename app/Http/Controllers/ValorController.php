@@ -108,6 +108,17 @@ class ValorController extends Controller
                     'user_id' => $request['usuario']
                 ]);             
             }
+            else
+            {
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $campo['value'],
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['usuario']
+                ]);   
+            }
           }
 
           //Recorrido para fotos
@@ -143,11 +154,15 @@ class ValorController extends Controller
             { 
                $foto = $fotos['fotos']['fotos'][$i];
                $base64 = base64_encode($foto);
-               array_push($json, $base64);
+               $newValor = Valor::create([
+                'valor' => $base64,
+                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'user_id' => $request['usuario']
+            ]);
             }
          }
 
-         return $json;
+
       }
 
       //evidencias bd catalogos, 
