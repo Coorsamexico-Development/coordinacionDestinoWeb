@@ -144,7 +144,7 @@ class ValorController extends Controller
            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
               $foto = $fotos['fotos']['fotos'][$i];
-              $base64 = base64_encode($foto);
+              $base64 = base64_encode(file_get_contents($foto));
               
            }
          }
