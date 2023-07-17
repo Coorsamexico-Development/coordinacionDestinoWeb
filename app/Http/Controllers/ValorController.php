@@ -74,7 +74,7 @@ class ValorController extends Controller
       $data = $request['data'];
       $fotos = $request['fotos'];
 
-      return $data['id'];
+      return $request['id'];
 
       if($request['tipo'] == 'guardar' )
       {
