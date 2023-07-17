@@ -40,4 +40,4 @@ Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
 //Consultar campos
 Route::get('/camposApi',[CampoController::class, 'indexApi']);
 //Guardar campos con valores en valores
-Route::get('/valores', [ValorController::class, 'valoresApi']);
+Route::post('/valores', [ValorController::class, 'valoresApi']);
