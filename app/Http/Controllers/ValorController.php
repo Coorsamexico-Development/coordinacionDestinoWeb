@@ -73,6 +73,7 @@ class ValorController extends Controller
     {
       $data = $request['data'];
       $fotos = $request['fotos'];
+      return $fotos;
       if($request['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
@@ -118,9 +119,7 @@ class ValorController extends Controller
             ->where('dt_campo_valors.dt_id','=', $request['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
-        
-         $json = [];
-         
+
          if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
          {
             $dt_campo_foto = DtCampoValor::create(
@@ -134,16 +133,14 @@ class ValorController extends Controller
            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
               $foto = $fotos['fotos']['fotos'][$i];
-              array_push($json, $foto);
+            
            }
          }
          else
          {
            //RECORREMOS las fotos para insercion
            return $fotos;
-
          }
-        return $json;  
       }
 
       //evidencias bd catalogos, 
