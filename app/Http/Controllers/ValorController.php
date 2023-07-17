@@ -73,7 +73,6 @@ class ValorController extends Controller
     {
       $data = $request['data'];
       $fotos = $request['fotos'];
-      return [$data, $fotos];
       if($request['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
@@ -106,8 +105,7 @@ class ValorController extends Controller
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $dt_campo->id,
                     'user_id' => $request['usuario']
-                ]);
-                   
+                ]);             
             }
           }
 
@@ -136,7 +134,7 @@ class ValorController extends Controller
            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
               $foto = $fotos['fotos']['fotos'][$i];
-              
+              array_push($json, $foto);
            }
          }
          else
@@ -145,7 +143,7 @@ class ValorController extends Controller
            return $fotos;
 
          }
-          
+        return $json;  
       }
 
       //evidencias bd catalogos, 
