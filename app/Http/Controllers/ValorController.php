@@ -74,6 +74,8 @@ class ValorController extends Controller
       $data = $request['data'];
       $fotos = $request['fotos'];
 
+      return $data['id'];
+
       if($request['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
@@ -131,7 +133,6 @@ class ValorController extends Controller
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
 
-          $json = [];
          if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
          {
             $dt_campo_foto = DtCampoValor::create(
