@@ -120,6 +120,7 @@ class ValorController extends Controller
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
 
+          $json = [];
          if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
          {
             $dt_campo_foto = DtCampoValor::create(
@@ -129,18 +130,24 @@ class ValorController extends Controller
                 ]);
 
            //RECORREMOS las fotos para insercion
-
            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
               $foto = $fotos['fotos']['fotos'][$i];
-            
+              $base64 = base64_encode($foto);
+              
            }
          }
          else
          {
-           //RECORREMOS las fotos para insercion
-           return $fotos;
+            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
+            { 
+               $foto = $fotos['fotos']['fotos'][$i];
+               $base64 = base64_encode($foto);
+               array_push($json, $base64);
+            }
          }
+
+         return $json;
       }
 
       //evidencias bd catalogos, 
