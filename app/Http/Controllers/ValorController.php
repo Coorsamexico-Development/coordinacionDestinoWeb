@@ -248,21 +248,5 @@ class ValorController extends Controller
            }
          }
       }
-
-      $confirmacionDt =  ConfirmacionDt::where('dt_id','=',$request['dt'])
-      ->update([
-         'status_id' => 8 //pasa a documentado
-      ]);
-
-      //desactivamos todos los anteriores
-      StatusDt::where('confirmacion_dt_id','=',$confirmacionDt->id)
-      ->update([
-         'activo' => 0
-      ]);
-
-      StatusDt::create([
-        'confirmacion_dt_id' => $confirmacionDt->id,
-        'status_id' => 8 //status de documentacion 
-      ]);
     }
 }
