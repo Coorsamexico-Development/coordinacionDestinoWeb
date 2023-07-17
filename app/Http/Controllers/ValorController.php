@@ -76,7 +76,6 @@ class ValorController extends Controller
 
       if($request['tipo'] == 'guardar' )
       {
-          return 'hola';
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
           for ($i=0; $i < count($data) ; $i++) 
@@ -144,7 +143,7 @@ class ValorController extends Controller
            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
            { 
               $foto = $fotos['fotos']['fotos'][$i];
-              $base64 = base64_encode(file_get_contents($foto));
+              $base64 = base64_encode(file_get_contents($foto['base64']));
               
            }
          }
@@ -153,7 +152,7 @@ class ValorController extends Controller
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
             { 
                $foto = $fotos['fotos']['fotos'][$i];
-               $base64 = base64_encode($foto);
+               $base64 = base64_encode(file_get_contents($foto['base64']));
                $newValor = Valor::create([
                 'valor' => $base64,
                 'dt_campo_valor_id' => $dt_campo_foto->id,
