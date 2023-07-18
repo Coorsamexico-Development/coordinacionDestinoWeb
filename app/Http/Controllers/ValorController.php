@@ -71,6 +71,8 @@ class ValorController extends Controller
 
     public function valoresApi (Request $request) 
     {
+
+      return 'ok';
       $data = $request['data'];
       $fotos = $request['fotos'];
 
@@ -78,7 +80,6 @@ class ValorController extends Controller
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
-          
           for ($i=0; $i < count($data) ; $i++) 
           { 
             $campo = $data[$i]; //rescatamos el valor
