@@ -262,6 +262,7 @@ class ValorController extends Controller
         }
 
         //Al finalizar
+        /*
         ConfirmacionDt::where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
         ->update([
             'confirmacion_dts.status_id' => 8
@@ -276,6 +277,7 @@ class ValorController extends Controller
             'confirmacion_dt_id' => $confirmacionDt['id'],
             'status_id' => 8
         ]);
+        */
 
       }
     }

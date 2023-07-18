@@ -17,6 +17,11 @@
   const close = () => {    
      emit('close');
   };
+
+  const consultarHistoria = () => 
+  {
+    
+  }
     
 </script>
 <template>
@@ -34,11 +39,11 @@
              <div>
                <div class="flex flex-row justify-between" v-for="histori in infoModal" :key="histori.id">
                  {{ histori.status }}
-                <ButtonWatch :color="histori.color" />
+                <ButtonWatch :color="histori.color" @click="consultarHistoria()" />
                </div>
              </div>
              <div>
-
+                
              </div>
           </div>
        </template>
