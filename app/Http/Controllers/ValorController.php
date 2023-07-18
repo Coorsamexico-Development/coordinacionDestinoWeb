@@ -261,7 +261,22 @@ class ValorController extends Controller
             } 
         }
 
-         return $dt_campo_foto;
-        }
+        //Al finalizar
+        ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
+        ->update([
+            'status_id' => 8
+        ]);
+       
+        //Busca la confirmaciondt
+        $confirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion','=',$request['params']['confirmacion'])
+        ->first();
+
+        StatusDt::create([
+            'confirmacion_dt_id' => $confirmacionDt->id,
+            'status_id' => 8
+        ]);
+
+      }
     }
 }
