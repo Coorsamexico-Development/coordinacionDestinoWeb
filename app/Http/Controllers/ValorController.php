@@ -134,6 +134,8 @@ class ValorController extends Controller
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
 
+          return $dt_campo_foto->id;
+
          if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
          {
             $dt_campo_foto = DtCampoValor::create(
