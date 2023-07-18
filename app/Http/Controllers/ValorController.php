@@ -148,14 +148,14 @@ class ValorController extends Controller
               $foto = $fotos['fotos']['fotos'][$i];
               $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
               ]);
            }
          }
          else
          {
-            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto->id)
+            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
 
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
@@ -163,7 +163,7 @@ class ValorController extends Controller
                $foto = $fotos['fotos']['fotos'][$i];
                $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
             ]);
             }
@@ -228,7 +228,7 @@ class ValorController extends Controller
           
         if($dt_campo_foto == null)
         {
-$dt_campo_foto = DtCampoValor::create(
+           $dt_campo_foto = DtCampoValor::create(
                 [
                    'dt_id' => $request['params']['dt'],
                    'campo_id' => $campo_foto
@@ -240,14 +240,14 @@ $dt_campo_foto = DtCampoValor::create(
               $foto = $fotos['fotos']['fotos'][$i];
               $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
               ]);
            }
         }
         else
         {
-            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto->id)
+            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
 
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
@@ -255,7 +255,7 @@ $dt_campo_foto = DtCampoValor::create(
                $foto = $fotos['fotos']['fotos'][$i];
                $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
             ]);
             } 
