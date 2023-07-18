@@ -262,14 +262,14 @@ class ValorController extends Controller
         }
 
         //Al finalizar
-        ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
+        ConfirmacionDt::where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
         ->update([
-            'status_id' => 8
+            'confirmacion_dts.status_id' => 8
         ]);
        
         //Busca la confirmaciondt
         $confirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
-        ->where('confirmacion','=',$request['params']['confirmacion'])
+        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
         ->first();
 
         StatusDt::create([
