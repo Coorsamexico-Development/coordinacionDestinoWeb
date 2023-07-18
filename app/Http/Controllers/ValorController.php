@@ -72,9 +72,10 @@ class ValorController extends Controller
     public function valoresApi (Request $request) 
     {
 
-      return 'ok';
       $data = $request['data'];
       $fotos = $request['fotos'];
+
+      return $fotos;
 
       if($request['tipo'] == 'guardar' )
       {
