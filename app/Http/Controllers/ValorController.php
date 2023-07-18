@@ -74,9 +74,6 @@ class ValorController extends Controller
 
       $data = $request['params']['data'];
       $fotos = $request['params']['fotos'];
-
-      return $request;
-
       if($request['params']['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
