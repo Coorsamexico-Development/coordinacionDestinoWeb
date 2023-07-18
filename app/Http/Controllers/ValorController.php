@@ -78,6 +78,7 @@ class ValorController extends Controller
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
+          /*
           for ($i=0; $i < count($data) ; $i++) 
           { 
             $campo = $data[$i]; //rescatamos el valor
@@ -120,7 +121,7 @@ class ValorController extends Controller
                 ]);   
             }
           }
-
+           */
           //Recorrido para fotos
           //return $fotos['fotos']['fotos'];
           $campo_foto = $fotos['campo_id'];
@@ -152,9 +153,16 @@ class ValorController extends Controller
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
             { 
                $foto = $fotos['fotos']['fotos'][$i];
-               $base64 = base64_encode(file_get_contents($foto['base64']));
+               $image_64 = base64_decode($foto['base64']);
+               $filename_path = md5(time().uniqid()).".jpg";
+               
+               $path = "uploads/".$filename_path.".png";
+               //$file= file_put_contents($path,$image_64);
+               
+               $url= Storage::disk('gcs')->put($filename_path, $image_64);
+              
                $newValor = Valor::create([
-                'valor' => $base64,
+                'valor' => $url,
                 'dt_campo_valor_id' => $dt_campo_foto->id,
                 'user_id' => $request['usuario']
             ]);
