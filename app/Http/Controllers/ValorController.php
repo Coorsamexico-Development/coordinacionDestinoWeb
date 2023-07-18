@@ -72,12 +72,12 @@ class ValorController extends Controller
     public function valoresApi (Request $request) 
     {
 
-      $data = $request['data'];
-      $fotos = $request['fotos'];
+      $data = $request['params']['data'];
+      $fotos = $request['params']['fotos'];
 
-      return $request['params'];
+      //return $request['params'];
 
-      if($request['tipo'] == 'guardar' )
+      if($request['params']['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
@@ -88,7 +88,7 @@ class ValorController extends Controller
             $dt_campo = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
             ->first();
 
@@ -96,7 +96,7 @@ class ValorController extends Controller
             {
                $dt_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['dt'],
+                   'dt_id' => $request['params']['dt'],
                    'campo_id' => $campo['campo_id']
                 ]);
 
@@ -108,7 +108,7 @@ class ValorController extends Controller
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $dt_campo->id,
-                    'user_id' => $request['usuario']
+                    'user_id' => $request['params']['usuario']
                 ]);             
             }
             else
@@ -119,7 +119,7 @@ class ValorController extends Controller
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $dt_campo->id,
-                    'user_id' => $request['usuario']
+                    'user_id' => $request['params']['usuario']
                 ]);   
             }
           }
@@ -130,7 +130,7 @@ class ValorController extends Controller
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
 
@@ -138,7 +138,7 @@ class ValorController extends Controller
          {
             $dt_campo_foto = DtCampoValor::create(
                 [
-                   'dt_id' => $request['dt'],
+                   'dt_id' => $request['params']['dt'],
                    'campo_id' => $campo_foto
                 ]);
 
@@ -149,7 +149,7 @@ class ValorController extends Controller
               $newValor = Valor::create([
                 'valor' => $foto['base64'],
                 'dt_campo_valor_id' => $dt_campo_foto->id,
-                'user_id' => $request['usuario']
+                'user_id' => $request['params']['usuario']
               ]);
            }
          }
@@ -161,7 +161,7 @@ class ValorController extends Controller
                $newValor = Valor::create([
                 'valor' => $foto['base64'],
                 'dt_campo_valor_id' => $dt_campo_foto->id,
-                'user_id' => $request['usuario']
+                'user_id' => $request['params']['usuario']
             ]);
             }
          }
@@ -183,7 +183,7 @@ class ValorController extends Controller
             $dt_campo = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
             ->first();
 
@@ -191,7 +191,7 @@ class ValorController extends Controller
             {
                $dt_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['dt'],
+                   'dt_id' => $request['params']['dt'],
                    'campo_id' => $campo['campo_id']
                 ]);
 
@@ -203,7 +203,7 @@ class ValorController extends Controller
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $dt_campo->id,
-                    'user_id' => $request['usuario']
+                    'user_id' => $request['params']['usuario']
                 ]);
                    
             }
@@ -215,7 +215,7 @@ class ValorController extends Controller
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
             ->where('dt_campo_valors.campo_id','=', $campo_foto)
             ->first();
          
@@ -223,7 +223,7 @@ class ValorController extends Controller
          {
             $dt_campo_foto = DtCampoValor::create(
                 [
-                   'dt_id' => $request['dt'],
+                   'dt_id' => $request['params']['dt'],
                    'campo_id' => $campo_foto
                 ]);
 
@@ -234,25 +234,11 @@ class ValorController extends Controller
               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
-               //Guardar en storage de Google
-               $folderPath = "evidencias/";
-               $base64Image = explode(";base64,", $foto['file']);
-               $explodeImage = explode("image/", $base64Image[0]);
-               $imageName = $explodeImage[1];
-               $image_base64 = base64_decode($base64Image[1]);
-               $file = $folderPath . uniqid() . '. '.$imageName; 
-               $urlFoto= null;
-               try {
-                $s3Url = $folderPath . $imageName;
-                $urlFoto= Storage::disk('gcs')->put($s3Url, 'file' , 'gcs');
-               } catch (Exception $e) {
-                Log::error($e);
-                }
 
               $newValor = Valor::create([
-                  'valor' => $urlFoto,
+                  'valor' => $foto['base64'],
                   'dt_campo_valor_id' => $dt_campo_foto->id,
-                  'user_id' => $request['usuario']
+                  'user_id' => $request['params']['usuario']
               ]);
            }
          }
@@ -266,7 +252,11 @@ class ValorController extends Controller
               ->update(['activo' => 0]);
               //Crea nuevo valor en la tabla de valores
                 //Guardar en storage de Google
-
+               $newValor = Valor::create([
+                   'valor' => $foto['base64'],
+                   'dt_campo_valor_id' => $dt_campo_foto->id,
+                   'user_id' => $request['params']['usuario']
+               ]);
            }
          }
       }
