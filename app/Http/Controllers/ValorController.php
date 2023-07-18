@@ -220,7 +220,7 @@ class ValorController extends Controller
           //Recorrido para fotos
           //return $fotos['fotos']['fotos'];
           $campo_foto = $fotos['campo_id'];
-          return $campo_foto;
+          //return $campo_foto;
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
             )
@@ -242,14 +242,14 @@ class ValorController extends Controller
               $foto = $fotos['fotos']['fotos'][$i];
               $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
               ]);
            }
          }
          else
          {
-            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto->id)
+            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
 
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
@@ -257,14 +257,14 @@ class ValorController extends Controller
                $foto = $fotos['fotos']['fotos'][$i];
                $newValor = Valor::create([
                 'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'dt_campo_valor_id' => $dt_campo_foto['id'],
                 'user_id' => $request['params']['usuario']
             ]);
             }
          }
 
          //Hay que cambiar el status
-         ConfirmacionDt::where('confirmacion_dts.confirmacion')
+         ConfirmacionDt::where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
          ->update([
             'status_id' => 8
          ]);
