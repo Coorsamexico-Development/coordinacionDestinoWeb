@@ -262,6 +262,7 @@ class ValorController extends Controller
         }
 
         //Al finalizar
+        return $request['params']['confirmacion'];
         /*
         ConfirmacionDt::where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
         ->update([
