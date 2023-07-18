@@ -216,6 +216,16 @@ class ValorController extends Controller
                 ]);   
             }
           }
+
+          //Fotos
+          $campo_foto = $fotos['campo_id'];
+          $dt_campo_foto = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.campo_id','=', $campo_foto)
+            ->first();
+         return $dt_campo_foto;
         }
     }
 }
