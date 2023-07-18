@@ -216,6 +216,54 @@ class ValorController extends Controller
                 ]);   
             }
           }
+
+          //Recorrido para fotos
+          //return $fotos['fotos']['fotos'];
+          $campo_foto = $fotos['campo_id'];
+          $dt_campo_foto = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.campo_id','=', $campo_foto)
+            ->first();
+
+         if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
+         {
+            $dt_campo_foto = DtCampoValor::create(
+                [
+                   'dt_id' => $request['params']['dt'],
+                   'campo_id' => $campo_foto
+                ]);
+
+           //RECORREMOS las fotos para insercion
+           for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
+           { 
+              $foto = $fotos['fotos']['fotos'][$i];
+              $newValor = Valor::create([
+                'valor' => $foto['base64'],
+                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'user_id' => $request['params']['usuario']
+              ]);
+           }
+         }
+         else
+         {
+            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto->id)
+                ->update(['activo' => 0]);
+
+            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
+            { 
+               $foto = $fotos['fotos']['fotos'][$i];
+               $newValor = Valor::create([
+                'valor' => $foto['base64'],
+                'dt_campo_valor_id' => $dt_campo_foto->id,
+                'user_id' => $request['params']['usuario']
+            ]);
+            }
+         }
+
+         //Hay que cambiar el status
+         
       }
     }
 }
