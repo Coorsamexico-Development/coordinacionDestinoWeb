@@ -171,7 +171,7 @@ class ValorController extends Controller
 
       //evidencias bd catalogos, 
 
-      if($request['tipo'] == 'siguiente' )
+      if($request['params']['tipo'] == 'siguiente' )
       {
         //Guarda todo y cambia status
           //Si es guardado envia los datos pero no cambie el status
