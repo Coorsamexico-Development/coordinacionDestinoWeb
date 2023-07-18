@@ -263,7 +263,10 @@ class ValorController extends Controller
          }
 
          //Hay que cambiar el status
-         
+         ConfirmacionDt::where('confirmacion_dts.confirmacion')
+         ->update([
+            'status_id' => 8
+         ]);
       }
     }
 }
