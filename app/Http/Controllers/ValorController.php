@@ -220,6 +220,7 @@ class ValorController extends Controller
           //Recorrido para fotos
           //return $fotos['fotos']['fotos'];
           $campo_foto = $fotos['campo_id'];
+          return $campo_foto;
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
             )
