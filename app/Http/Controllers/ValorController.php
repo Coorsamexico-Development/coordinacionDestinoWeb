@@ -273,7 +273,7 @@ class ValorController extends Controller
         ->first();
 
         StatusDt::create([
-            'confirmacion_dt_id' => $confirmacionDt->id,
+            'confirmacion_dt_id' => $confirmacionDt['id'],
             'status_id' => 8
         ]);
 
