@@ -270,9 +270,24 @@ class ValorController extends Controller
            }
 
            //Actualizamos status de la confirmacion
-          return ConfirmacionDt::select('confirmacion_dts.*')->
+          $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
            where('confirmacion','=',$request['params']['confirmacion'])
            ->first();
+
+           ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
+           ->update([
+             'status_id' => 8
+            ]);
+
+          StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
+          ->update([
+            'activo' => 0
+          ]);
+
+          StatusDt::create([
+            'confirmacion_dt_id' => $cofnirmacionDt['id'],
+            'status_id' => 8
+          ]);
         }
     }
 }
