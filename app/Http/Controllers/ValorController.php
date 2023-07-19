@@ -155,6 +155,8 @@ class ValorController extends Controller
             $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
 
+            return $fotos['fotos']['fotos'];
+
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
             { 
                $foto = $fotos['fotos']['fotos'][$i];
