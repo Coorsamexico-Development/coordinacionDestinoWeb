@@ -154,8 +154,6 @@ class ConfirmacionDtController extends Controller
 
     }
 
-
-
     public function changePorRecibir (Request $request)
     {
             ConfirmacionDt::where('id','=',$request['id'])
@@ -173,6 +171,43 @@ class ConfirmacionDtController extends Controller
            'status_id' => 7,
            'activo' => 1,
          ]);
+    }
 
+    public function changeToEnEspera (Request $request) 
+    {
+          ConfirmacionDt::where('id','=',$request['id'])
+          ->update([
+             'confirmacion_dts.status_id' => 9
+          ]);
+
+        StatusDt::where('id','=',$request['id'])
+        ->update([
+          'activo' => 0
+        ]);
+        //Creamos el primer registro en la tabla de historico
+        StatusDt::updateOrCreate([
+         'confirmacion_dt_id' => $request['id'],
+         'status_id' => 9,
+         'activo' => 1,
+       ]);
+    }
+
+    public function changeToEnDocumentacion (Request $request) 
+    {
+          ConfirmacionDt::where('id','=',$request['id'])
+          ->update([
+             'confirmacion_dts.status_id' => 8
+          ]);
+    
+        StatusDt::where('id','=',$request['id'])
+        ->update([
+          'activo' => 0
+        ]);
+        //Creamos el primer registro en la tabla de historico
+        StatusDt::updateOrCreate([
+         'confirmacion_dt_id' => $request['id'],
+         'status_id' => 8,
+         'activo' => 1,
+       ]);
     }
 }
