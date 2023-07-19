@@ -269,7 +269,10 @@ class ValorController extends Controller
               }
            }
 
-           
+           //Actualizamos status de la confirmacion
+          return ConfirmacionDt::select('confirmacion_dts.*')->
+           where('confirmacion','=',$request['params']['confirmacion'])
+           ->first();
         }
     }
 }
