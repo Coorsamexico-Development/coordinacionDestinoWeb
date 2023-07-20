@@ -293,7 +293,6 @@ class ValorController extends Controller
 
     public function documentacionValores(Request $request)
     {
-        return $request['params'];
         $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
         if($request['params']['tipo'] == 'guardar')
         {
