@@ -210,4 +210,42 @@ class ConfirmacionDtController extends Controller
          'activo' => 1,
        ]);
     }
+
+    public function changeToDescarga (Request $request)
+    {
+      ConfirmacionDt::where('id','=',$request['id'])
+          ->update([
+             'confirmacion_dts.status_id' => 11
+          ]);
+    
+        StatusDt::where('id','=',$request['id'])
+        ->update([
+          'activo' => 0
+        ]);
+        //Creamos el primer registro en la tabla de historico
+        StatusDt::updateOrCreate([
+         'confirmacion_dt_id' => $request['id'],
+         'status_id' => 11,
+         'activo' => 1,
+       ]);
+    }
+
+    public function changeEnrrampado(Request $request)
+    {
+      ConfirmacionDt::where('id','=',$request['id'])
+      ->update([
+         'confirmacion_dts.status_id' => 10
+      ]);
+
+    StatusDt::where('id','=',$request['id'])
+    ->update([
+      'activo' => 0
+    ]);
+    //Creamos el primer registro en la tabla de historico
+    StatusDt::updateOrCreate([
+     'confirmacion_dt_id' => $request['id'],
+     'status_id' => 10,
+     'activo' => 1,
+   ]);
+    }
 }
