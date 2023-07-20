@@ -39,5 +39,7 @@ Route::get('/dtsApi',[ConfirmacionDtController::class, 'indexApi'])->name('dtsAp
 Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
 //Consultar campos
 Route::get('/camposApi',[CampoController::class, 'indexApi']);
-//Guardar campos con valores en valores
+//Guardar campos con valores en valores primera pantalla
 Route::post('/valores', [ValorController::class, 'valoresApi']);
+//Guardar fotos segunda pantalla
+Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);

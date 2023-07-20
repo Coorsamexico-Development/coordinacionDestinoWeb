@@ -290,4 +290,9 @@ class ValorController extends Controller
           ]);
         }
     }
+
+    public function documentacionValores(Request $request)
+    {
+        return $request['params'];
+    }
 }
