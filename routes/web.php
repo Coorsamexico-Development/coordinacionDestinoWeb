@@ -54,6 +54,9 @@ Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorReci
 //Cambio de status to espera
 Route::get('/changeToEnEspera', [ConfirmacionDtController::class, 'changeToEnEspera'])->name('changeToEnEspera');
 Route::get('/changeToEnDocumentacion', [ConfirmacionDtController::class, 'changeToEnDocumentacion'])->name('changeToEnDocumentacion');
+//Cambio de status to riesgo
+Route::get('/changeToDescarga', [ConfirmacionDtController::class, 'changeToDescarga'])->name('changeToDescarga');
+Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrrampado'])->name('changeEnrrampado');
 //Ruta para checar historico
 Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');
 //Manage Users view
