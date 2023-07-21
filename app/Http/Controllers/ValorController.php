@@ -394,4 +394,9 @@ class ValorController extends Controller
 
         }
     }
+
+    public function valoresEnrrampe (Request $request)
+    {
+      return $request['params'];
+    }
 }
