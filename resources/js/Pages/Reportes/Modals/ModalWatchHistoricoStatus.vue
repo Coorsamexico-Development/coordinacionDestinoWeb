@@ -64,7 +64,7 @@
           <div class="grid w-full grid-cols-2 gap-4">
              <div>
                <div class="flex flex-row gap-4" v-for="histori in infoModal" :key="histori.id">
-                  <h1 class="text-lg">{{ histori.status }}</h1>
+                  <h1 class="text-l">{{ histori.status }}</h1>
                   <ButtonWatch class="w-8 h-6" :color="histori.color" @click="consultarHistoria(histori)" />
                   <div>
                     <span>Ultima actualizacion</span>
