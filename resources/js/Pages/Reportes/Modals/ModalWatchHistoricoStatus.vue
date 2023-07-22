@@ -63,15 +63,21 @@
        <template #content  >
           <div class="grid w-full grid-cols-2 gap-4">
              <div>
-               <div class="flex flex-row gap-4" v-for="histori in infoModal" :key="histori.id">
-                  <h1 class="text-l">{{ histori.status }}</h1>
-                  <ButtonWatch class="w-8 h-6" :color="histori.color" @click="consultarHistoria(histori)" />
-                  <div>
-                    <span>Ultima actualizacion</span>
-                    <br />
-                    {{ histori.updated_at.substring(0,10) +' '+histori.updated_at.substring(11,19) }}
-                  </div>
-               </div>
+               <table>
+                  <tr v-for="histori in infoModal" :key="histori.id">
+                     <td>
+                        <h1 class="text-l">{{ histori.status }}</h1>
+                     </td>
+                     <td>
+                        <ButtonWatch class="w-8 h-6" :color="histori.color" @click="consultarHistoria(histori)" />
+                     </td>
+                     <td>
+                        <span>Ultima actualizacion</span>
+                        <br />
+                        {{ histori.updated_at.substring(0,10) +' '+histori.updated_at.substring(11,19) }}
+                     </td>
+                  </tr>
+               </table>
              </div>
              <div style="overflow-y: scroll;">
                 <div v-if="camposValores !== 0">
