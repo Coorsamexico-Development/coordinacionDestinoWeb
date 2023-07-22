@@ -34,32 +34,38 @@ const modalWatchClose = () =>
 
 </script>
 <template>
-   <div class="flex justify-between m-4 border rounded-lg" :style="{borderColor: dt.color}" >
-      <div class="w-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
+   <div class="flex m-4 border rounded-lg drop-shadow-lg" >
+      <div class="w-4 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
       </div>
-      <div class="px-4 py-2">
+      <div class="py-2">
         <div class="flex flex-row my-1">
-           <h1 class="text-xs font-bold">DT: </h1>
-           <p class="text-xs ">{{ dt.referencia_dt }} </p>
+           <h1 class="text-xl font-semibold uppercase">DT: </h1>
+           <p class="text-xl ">{{ dt.referencia_dt }} </p>
          </div>
          <div class="flex flex-row my-1"> 
-            <h1 class="text-xs font-bold">Confirmacion: </h1>
-            <p class="text-xs ">{{ dt.confirmacion }}</p>
+            <h1 class="text-sm font-semibold uppercase">Conf: </h1>
+            <p class="text-sm ">{{ dt.confirmacion }}</p>
          </div>
          <div class="flex flex-row my-1"> 
-            <h1 class="text-xs font-bold">Línea de transporte: </h1>
-            <p class="text-xs ">{{ dt.linea_transporte }}</p>
+            <h1 class="text-sm font-bold uppercase">LT: </h1>
+            <p class="text-sm">{{ dt.linea_transporte }}</p>
          </div>
       </div>
-      <div class="px-2 py-2">
-         <div class="ml-8">
-           <ButtonWatch @click="modalWatchOpen()" :color="dt.color" />
+      <div class="justify-center px-2 py-2 ml-8">
+         <div class="flex flex-row-reverse flex-end">
+           <ButtonWatch  @click="modalWatchOpen()" :color="dt.color" />
          </div>
-         <div>
-            <p class="text-xs ">{{ dt.cita.substring(0,10) }}</p>
+         <div class="flex flex-row-reverse items-center" :style="{color:dt.color}">
+            <h1 class="text-sm">{{ dt.status }}</h1>
+            <span class="w-2 h-2 mr-2 rounded-full" :style="{backgroundColor:dt.color}"></span>
          </div>
-         <div>
-            <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+         <div class="flex flex-row justify-between">
+            <div>
+              <p class="text-xs ">{{ dt.cita.substring(0,10) }}</p>
+            </div>
+            <div>
+               <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+            </div>
          </div>
       </div>
    </div>

@@ -20,11 +20,11 @@ const setearPlataforma = (plataforma_id) =>
     <div class="flex flex-row justify-center py-4">
         <div class="mx-0.5" v-for="plataforma in plataformas" :key="plataforma.id">
           <div @click="setearPlataforma(plataforma.id)">
-            <div class="bg-[#C6C6C6] px-4 py-1 rounded-xl text-white" v-if="activo === plataforma.id">
+            <div class="bg-[#C6C6C6] px-4 py-1 rounded-full text-white" v-if="activo === plataforma.id">
                <h1 :class="[]"  style="font-family: 'Montserrat';">{{ plataforma.nombre }}</h1>
             </div>
             <div class="px-4 py-1" v-else>
-              <h1   style="font-family: 'Montserrat';">{{ plataforma.nombre }}</h1>
+              <h1 class="text-[#9B9B9B]"  style="font-family: 'Montserrat';">{{ plataforma.nombre }}</h1>
             </div>
           </div>
         </div>

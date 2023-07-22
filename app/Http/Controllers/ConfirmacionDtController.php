@@ -24,7 +24,8 @@ class ConfirmacionDtController extends Controller
             'confirmacion_dts.*',
             'dts.referencia_dt',
             'linea_transportes.nombre as linea_transporte',
-            'status.color'
+            'status.color',
+            'status.nombre as status'
         )
         ->where('status.status_padre','=',$request['status_id'])
         ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])

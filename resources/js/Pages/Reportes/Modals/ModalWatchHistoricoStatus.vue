@@ -73,7 +73,7 @@
                   </div>
                </div>
              </div>
-             <div>
+             <div style="overflow-y: scroll;">
                 <div v-if="camposValores !== 0">
                    <div v-for="campoValor in camposValores" :key="campoValor.id">
                      <Campo :campoValor="campoValor" />
