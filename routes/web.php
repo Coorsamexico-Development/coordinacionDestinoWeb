@@ -4,6 +4,7 @@ use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\UserUbicacioneController;
+use App\Http\Controllers\ValorController;
 use App\Models\StatusDt;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,8 @@ Route::get('/changeToDescarga', [ConfirmacionDtController::class, 'changeToDesca
 Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrrampado'])->name('changeEnrrampado');
 //Ruta para checar historico
 Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');
+//Ver valores
+Route::get('/checkValores',[ValorController::class, 'checkValores'])->name('checkValores');
 //Manage Users view
 Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
 //Edicion de usuario
