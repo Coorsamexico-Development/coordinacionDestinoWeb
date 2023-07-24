@@ -397,16 +397,7 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
-      if($request->has('file'))
-      {
-        if ($request['file'] != null) 
-        {
-          $imagen = request('file');
-          $nombre_original = $imagen->getClientOriginalName();
-          $ruta_icono = $imagen->storeAs('docs', $nombre_original, 'gcs'); //guardamos el archivo en el storage
-          $urlIcono = Storage::disk('gcs')->url($ruta_icono);
-        }
-      }
+      return is_file($request['documento']);
     }
 
     public function checkValores (Request $request)
