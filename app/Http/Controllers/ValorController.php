@@ -398,8 +398,7 @@ class ValorController extends Controller
     public function valoresEnrrampe (Request $request)
     {
       //return $request;
-      return $request;
-      Storage::disk('gcs')->put('file.pdf',base64_decode($request['documento']));
+      Storage::disk('gcs')->put('file.pdf',base64_decode($request['documento']['base64']));
     }
 
     public function checkValores (Request $request)
