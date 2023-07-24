@@ -5,6 +5,9 @@
  import InputLabel from '@/Components/InputLabel.vue';
  import axios from 'axios';
  import Campo from '../Partials/Campo.vue';
+ import { Fancybox } from "@fancyapps/ui";
+ import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
 
   const emit = defineEmits(["close"])
   const props = defineProps({
