@@ -397,13 +397,12 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
-      //return is_file($request['file']);
       if($request['file'] !== null)
       {
-        $file = $request['file'];
-        if(is_file(($file)))
+        if(is_file(($request['file'])))
         {
-          return 'es archivo';
+          $file = request('file');
+         return  $nombre_original = $file->getClientOriginalName();
         }
         else{
           return 'no es';
