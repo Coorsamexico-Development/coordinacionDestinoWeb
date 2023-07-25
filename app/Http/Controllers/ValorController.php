@@ -398,7 +398,11 @@ class ValorController extends Controller
     public function valoresEnrrampe (Request $request)
     {
       //return is_file($request['file']);
-      return $request;
+      if($request['file'] !== null)
+      {
+        $file = $request['file'];
+        Storage::disk('gcs')->put('example.pdf', $file);
+      }
     }
 
     public function checkValores (Request $request)
