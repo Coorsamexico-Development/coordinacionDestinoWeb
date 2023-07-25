@@ -54,6 +54,9 @@
   }
   }
 
+
+  /*
+  Prueba para subida de archivos 
   let file = ref(null)
   let formDoc = useForm({
    'file': null
@@ -64,7 +67,7 @@
      formDoc.file = documentoCargado;
      formDoc.post(route('valoresEnrrampe'));
  });
-    
+    */
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :show="show" @close="close()">
@@ -77,7 +80,6 @@
          </div>
        </template>
        <template #content  >
-         <DropFile v-model="file" />
           <div class="grid w-full grid-cols-2 gap-4">
              <div>
                <table>
