@@ -402,7 +402,9 @@ class ValorController extends Controller
         if(is_file(($request['file'])))
         {
           $file = request('file');
-         return  $nombre_original = $file->getClientOriginalName();
+          $nombre_original = $file->getClientOriginalName();
+          $ruta_icono = $file->storeAs('docs', $nombre_original, 'gcs');
+          $urlIcono = Storage::disk('gcs')->url($ruta_icono);
         }
         else{
           return 'no es';
