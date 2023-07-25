@@ -406,7 +406,7 @@ class ValorController extends Controller
           return 'es archivo';
         }
         else{
-          return 'no es'
+          return 'no es';
         }
       }
     }
