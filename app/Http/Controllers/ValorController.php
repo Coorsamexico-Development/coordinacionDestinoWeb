@@ -401,7 +401,13 @@ class ValorController extends Controller
       if($request['file'] !== null)
       {
         $file = $request['file'];
-        is_file(($file));
+        if(is_file(($file)))
+        {
+          return 'es archivo';
+        }
+        else{
+          return 'no es'
+        }
       }
     }
 
