@@ -404,8 +404,6 @@ class ValorController extends Controller
           $file = request('file');
           $nombre_original = $file->getClientOriginalName();
           $ruta_icono = $file->storeAs('docs', $nombre_original, 'gcs');
-
-          return $ruta_icono;
           $urlIcono = Storage::disk('gcs')->url($ruta_icono);
 
           return 'ok';
