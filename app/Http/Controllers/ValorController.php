@@ -400,8 +400,9 @@ class ValorController extends Controller
       //return is_file($request['file']);
       $imagen = request('file');
       $nombre_original = $imagen->getClientOriginalName();
-      $ruta_icono = $imagen->storeAs('iconos', $nombre_original, 'gcs'); //guardamos el archivo en el storage
-      $urlIcono = Storage::disk('gcs')->url($ruta_icono);
+
+      return $nombre_original;
+
     }
 
     public function checkValores (Request $request)
