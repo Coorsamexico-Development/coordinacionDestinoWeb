@@ -401,7 +401,7 @@ class ValorController extends Controller
       if($request['file'] !== null)
       {
         $file = $request['file'];
-        Storage::disk('gcs')->put('example.pdf', $file);
+        Storage::disk('gcs')->store('example.pdf', $file);
       }
     }
 
