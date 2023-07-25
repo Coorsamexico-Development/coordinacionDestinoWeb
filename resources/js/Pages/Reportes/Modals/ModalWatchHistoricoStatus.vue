@@ -7,6 +7,8 @@
  import Campo from '../Partials/Campo.vue';
  import { Fancybox } from "@fancyapps/ui";
  import "@fancyapps/ui/dist/fancybox/fancybox.css";
+ import DropFile from '@/Components/DropFile.vue';
+ import { useForm } from '@inertiajs/vue3'
 
 
   const emit = defineEmits(["close"])
@@ -51,6 +53,17 @@
     console.log(err)
   }
   }
+
+  let file = ref(null)
+  let formDoc = useForm({
+   'file': null
+  })
+
+  watch(file, (documentoCargado) => 
+ {
+     formDoc.file = documentoCargado;
+     formDoc.post(route('valoresEnrrampe'));
+ });
     
 </script>
 <template>
@@ -64,6 +77,7 @@
          </div>
        </template>
        <template #content  >
+         <DropFile v-model="file" />
           <div class="grid w-full grid-cols-2 gap-4">
              <div>
                <table>
