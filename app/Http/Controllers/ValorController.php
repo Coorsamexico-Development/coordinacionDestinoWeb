@@ -398,7 +398,7 @@ class ValorController extends Controller
     public function valoresEnrrampe (Request $request)
     {
       //return is_file($request['file']);
-      return $request['file'];
+      return $request;
     }
 
     public function checkValores (Request $request)
