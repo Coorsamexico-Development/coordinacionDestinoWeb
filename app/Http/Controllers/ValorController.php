@@ -10,6 +10,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
 
 class ValorController extends Controller
 {
@@ -412,6 +414,11 @@ class ValorController extends Controller
           return 'no es';
         }
       }
+    }
+
+    public function fotosEnrrampe (Request $request)
+    {
+      $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
     }
 
     public function checkValores (Request $request)
