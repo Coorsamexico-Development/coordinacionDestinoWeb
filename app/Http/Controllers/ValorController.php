@@ -418,7 +418,15 @@ class ValorController extends Controller
 
     public function fotosEnrrampe (Request $request)
     {
-     return $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
+      $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
+      $jsonPrueba = [];
+      for ($i=0; $i < count($fotos['fotos']) ; $i++) 
+      { 
+        $foto = $fotos['fotos'][$i];
+        array_push($jsonPrueba, $foto);
+      }
+
+      return $jsonPrueba;
     }
 
     public function checkValores (Request $request)
