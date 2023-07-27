@@ -419,9 +419,9 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
       $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
-      for ($i=0; $i < count($fotos['fotos']) ; $i++) 
+      for ($i=0; $i < count($fotos) ; $i++) 
       { 
-        $foto = $fotos['fotos'][$i];
+        $foto = $fotos[$i];
         if($foto['id'] !== 0)
         {
             $dt_campo_foto = DtCampoValor::select(
