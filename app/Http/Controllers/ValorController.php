@@ -450,10 +450,10 @@ class ValorController extends Controller
             $data_pdf =[
                'title' => 'Liberacion de Confirmación'.$request['params']['confirmacion']
             ];
-            $pdf = PDF::loadView('index', $data_pdf);
-            return $pdf->download()->getOriginalContent();
-            $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
-            $urlFile = Storage::disk('gcs')->url($ruta_pdf);
+            $pdf = PDF::loadView('index', $data_pdf)->download()->getOriginalContent();
+
+           // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
+            $urlFile = Storage::disk('gcs')->put('docs', $pdf);
         }
         else{
           return 'no es un archivo';
