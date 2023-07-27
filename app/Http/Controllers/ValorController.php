@@ -405,11 +405,46 @@ class ValorController extends Controller
         {
           $file = request('file');
           $nombre_original = $file->getClientOriginalName();
-          //$ruta_icono = $file->storeAs('docs', $nombre_original, 'gcs');
-          //$urlIcono = Storage::disk('gcs')->url($ruta_icono);
+          $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
+          $urlFile = Storage::disk('gcs')->url($ruta_file);
 
-          return $request;
-          
+           $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.campo_id','=', $request['params']['tipo_campo_file'])
+            ->first();
+
+            if($dt_campo == null)
+            {
+                $dt_campo = DtCampoValor::create(
+                [
+                   'dt_id' => $request['params']['dt'],
+                   'campo_id' =>$request['params']['tipo_campo_file']
+                ]);
+
+                //Hay que encontrar todos los valores anteriores para desactivarlos
+                //y crear uno nuevo
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $urlFile,
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['params']['usuario']
+                ]);
+            }
+            else
+            {
+              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+              ->update(['activo' => 0]);
+              //Crea nuevo valor en la tabla de valores
+              $newValor = Valor::create([
+                  'valor' => $urlFile,
+                  'dt_campo_valor_id' => $dt_campo->id,
+                  'user_id' => $request['params']['usuario']
+              ]);  
+            }
           return 'ok';
         }
         else{
