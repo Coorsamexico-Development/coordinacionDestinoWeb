@@ -399,6 +399,15 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
+
+        //creacion del PDF
+        $data_pdf =[
+          'title' => 'Liberacion de Confirmación'.$request['params']['confirmacion']
+       ];
+       $pdf = PDF::loadView('index', $data_pdf)->download()->getOriginalContent();
+      // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
+       Storage::disk('gcs')->put('docs', $pdf);
+    /*
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -446,19 +455,12 @@ class ValorController extends Controller
               ]);  
             }
           
-            //creacion del PDF
-            $data_pdf =[
-               'title' => 'Liberacion de Confirmación'.$request['params']['confirmacion']
-            ];
-            $pdf = PDF::loadView('index', $data_pdf)->download()->getOriginalContent();
-
-           // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
-            $urlFile = Storage::disk('gcs')->put('docs', $pdf);
         }
         else{
           return 'no es un archivo';
         }
       }
+    */
     }
 
     public function fotosEnrrampe (Request $request)
