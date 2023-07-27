@@ -418,7 +418,7 @@ class ValorController extends Controller
 
     public function fotosEnrrampe (Request $request)
     {
-      $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
+     return $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
     }
 
     public function checkValores (Request $request)
