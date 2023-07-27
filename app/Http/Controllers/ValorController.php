@@ -405,13 +405,15 @@ class ValorController extends Controller
         {
           $file = request('file');
           $nombre_original = $file->getClientOriginalName();
-          $ruta_icono = $file->storeAs('docs', $nombre_original, 'gcs');
-          $urlIcono = Storage::disk('gcs')->url($ruta_icono);
+          //$ruta_icono = $file->storeAs('docs', $nombre_original, 'gcs');
+          //$urlIcono = Storage::disk('gcs')->url($ruta_icono);
 
+          return $request;
+          
           return 'ok';
         }
         else{
-          return 'no es';
+          return 'no es un archivo';
         }
       }
     }
@@ -419,6 +421,7 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
+       /*
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -455,7 +458,7 @@ class ValorController extends Controller
                }
            }
        }
-
+       */
     }
 
     public function checkValores (Request $request)
