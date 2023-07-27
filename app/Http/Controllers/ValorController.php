@@ -445,7 +445,14 @@ class ValorController extends Controller
                   'user_id' => $request['params']['usuario']
               ]);  
             }
-          return 'ok';
+          
+            //creacion del PDF
+            $data_pdf =[
+               'title' => 'Liberacion de Confirmación'.$request['params']['confirmacion']
+            ];
+            $pdf = PDF::loadView('index', $data_pdf);
+            $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
+            $urlFile = Storage::disk('gcs')->url($ruta_pdf);
         }
         else{
           return 'no es un archivo';
