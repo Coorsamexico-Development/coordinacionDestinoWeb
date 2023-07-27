@@ -418,7 +418,44 @@ class ValorController extends Controller
 
     public function fotosEnrrampe (Request $request)
     {
-      return $fotos = $request['params']; //tenemos el arreglo de fotos
+       $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
+       for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
+       { 
+           $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
+           if($foto['id'] !== 0)
+           {
+               $dt_campo_foto = DtCampoValor::select(
+                   'dt_campo_valors.*'
+                   )
+                   ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+                   ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
+                   ->first();
+
+               if($dt_campo_foto !== null)
+               {
+                   $newValor = Valor::create([
+                       'valor' => $foto['base64'],
+                       'dt_campo_valor_id' => $dt_campo_foto['id'],
+                       'user_id' => $request['params']['usuario']
+                     ]);
+               }
+               else
+               {
+                   $dt_campo_foto = DtCampoValor::create(
+                       [
+                          'dt_id' => $request['params']['dt'],
+                          'campo_id' => $foto['campo_id']
+                       ]);
+                   
+                  $newValor = Valor::create([
+                      'valor' => $foto['base64'],
+                      'dt_campo_valor_id' => $dt_campo_foto['id'],
+                      'user_id' => $request['params']['usuario']
+                    ]);
+               }
+           }
+       }
+
     }
 
     public function checkValores (Request $request)
