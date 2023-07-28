@@ -412,8 +412,8 @@ class ValorController extends Controller
              <body>
                  <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
                  <div>
-                    <p>Firma</p>
-                    <img src="'.$request['firma'].'"/>
+                    <p style="font-size:2rem">Firma</p>
+                    <img style="width:5rem; heigth:4rem" src="'.$request['firma'].'"/>
                  </div>
              </body>
         </html>
