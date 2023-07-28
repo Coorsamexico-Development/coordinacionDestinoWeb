@@ -407,17 +407,17 @@ class ValorController extends Controller
                 $pdf->loadHTML('
                 <html>
                      <head>
-                       <title>Hola</title>
+                       <title>Confirmacion'. $request['params']['confirmacion'] .'</title>
                      </head>
                      <body>
-                       
+                         <h1>'. $request['params']['confirmacion'] . '</h1>
                      </body>
                 </html>
                 ');
                 
                 Storage::disk('gcs') //guardamos en google
                 ->put(
-                 'invoice/invoice-1001.pdf',
+                 'invoice/invoice-1002.pdf',
                   $pdf->output()
                  );
 
