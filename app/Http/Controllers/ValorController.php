@@ -420,8 +420,8 @@ class ValorController extends Controller
       ');
 
       $content = $pdf->download()->getOriginalContent();//no es un archivo
-      $pdf->stream();
-      return  $pdf->download();
+      //$pdf->stream();
+      return  $pdf->stream();
       // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
 
     /*
