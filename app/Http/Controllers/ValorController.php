@@ -399,14 +399,31 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
+      //creacion del PDF
+      $pdf = App::make('dompdf.wrapper');
+      $pdf->loadHTML('
+      <html>
+          <head>
+            <title>Confirmacion</title>
+         </head>
+         <body>
+             <h1 style="color:red">{{ $title }}</h1>
+             <p>{{ $date }}</p>
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+             consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+             cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+         </body>
+         </html>
+      ');
 
-        //creacion del PDF
-        $data_pdf =[
-          'title' => 'Liberacion de Confirmación'.$request['params']['confirmacion']
-       ];
-       $pdf = PDF::loadView('index', $data_pdf)->download()->getOriginalContent();
+      $content = $pdf->download()->getOriginalContent();//no es un archivo
+      $pdf->stream();
+      return  $pdf->download();
       // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
-       Storage::disk('gcs')->put('docs', $pdf);
+
     /*
       if($request['file'] !== null)
       {
