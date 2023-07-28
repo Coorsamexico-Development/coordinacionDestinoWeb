@@ -424,7 +424,7 @@ class ValorController extends Controller
         'pdfs/invoice-1002.pdf',
          $pdf->output()
         );
-  
+  /*
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -478,7 +478,7 @@ class ValorController extends Controller
           return 'no es un archivo';
         }
       }
-      
+  */    
     }
 
     public function fotosEnrrampe (Request $request)
