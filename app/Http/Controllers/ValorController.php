@@ -407,10 +407,10 @@ class ValorController extends Controller
                 $pdf->loadHTML('
                 <html>
                      <head>
-                       <title>Confirmacion'. $request['params']['confirmacion'] .'</title>
+                       <title>Confirmacion'. $request['confirmacion'] .'</title>
                      </head>
                      <body>
-                         <h1>'. $request['params']['confirmacion'] . '</h1>
+                         <h1>'. $request['confirmacion'] . '</h1>
                      </body>
                 </html>
                 ');
@@ -420,7 +420,7 @@ class ValorController extends Controller
                  'invoice/invoice-1002.pdf',
                   $pdf->output()
                  );
-
+  /*
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -474,7 +474,7 @@ class ValorController extends Controller
           return 'no es un archivo';
         }
       }
-
+*/
     }
 
     public function fotosEnrrampe (Request $request)
