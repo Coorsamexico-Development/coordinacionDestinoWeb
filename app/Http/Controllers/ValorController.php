@@ -405,9 +405,9 @@ class ValorController extends Controller
        //creacion del PDF
        $pdf = App::make('dompdf.wrapper');
        //Creamoe el documento de verificacion y lo guardamos
-       return  $dt = Dt::select(
+       $dt = Dt::select(
          'dts.referencia_dt'
-       )->first();
+         )->first();
 
         $pdf->loadHTML('
         <html>
@@ -417,7 +417,7 @@ class ValorController extends Controller
              <body>
                  <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
                  <div>
-                   DT:
+                   DT:'.$dt['referencia_dt'].'
                  </div>
                  <div>
                     <p style="font-size:2rem">Firma</p>
