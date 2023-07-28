@@ -400,8 +400,28 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
+      
       //creacion del PDF
       $pdf = App::make('dompdf.wrapper');
+                //Creamoe el documento de verificacion y lo guardamos
+                $pdf->loadHTML('
+                <html>
+                     <head>
+                       <title>Confirmacion'.$request['params']['confirmacion'].'</title>
+                     </head>
+                     '.'
+                     <body>
+                       <img src="'.$request['params']['firma'].'">
+                     </body>
+                </html>
+                ');
+                
+                Storage::disk('gcs') //guardamos en google
+                ->put(
+                 'invoice/invoice-1001.pdf',
+                  $pdf->output()
+                 );
+                 
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -449,24 +469,6 @@ class ValorController extends Controller
               ]);  
             }
 
-          //Creamoe el documento de verificacion y lo guardamos
-          $pdf->loadHTML('
-          <html>
-               <head>
-                 <title>Confirmacion'.$request['params']['confirmacion'].'</title>
-               </head>
-               '.'
-               <body>
-                 <img src="'.$request['params']['firma'].'">
-               </body>
-          </html>
-          ');
-          
-          Storage::disk('gcs') //guardamos en google
-          ->put(
-           'invoice/invoice-1001.pdf',
-            $pdf->output()
-           );
           
         }
         else{
