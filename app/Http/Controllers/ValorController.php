@@ -407,11 +407,10 @@ class ValorController extends Controller
                 $pdf->loadHTML('
                 <html>
                      <head>
-                       <title>Confirmacion'.$request['params']['confirmacion'].'</title>
+                       <title>Hola</title>
                      </head>
-                     '.'
                      <body>
-                       <img src="'.$request['params']['firma'].'">
+                       
                      </body>
                 </html>
                 ');
@@ -421,7 +420,7 @@ class ValorController extends Controller
                  'invoice/invoice-1001.pdf',
                   $pdf->output()
                  );
-                 
+
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
