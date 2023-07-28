@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
+use App\Models\Dt;
 use App\Models\DtCampoValor;
 use App\Models\StatusDt;
 use App\Models\Valor;
@@ -404,6 +405,10 @@ class ValorController extends Controller
        //creacion del PDF
        $pdf = App::make('dompdf.wrapper');
        //Creamoe el documento de verificacion y lo guardamos
+       return  $dt = Dt::select(
+         'dts.referencia_dt'
+       )->first();
+
         $pdf->loadHTML('
         <html>
              <head>
@@ -411,6 +416,9 @@ class ValorController extends Controller
              </head>
              <body>
                  <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
+                 <div>
+                   DT:
+                 </div>
                  <div>
                     <p style="font-size:2rem">Firma</p>
                     <img style="width:5rem; heigth:4rem" src="'.$request['firma'].'"/>
