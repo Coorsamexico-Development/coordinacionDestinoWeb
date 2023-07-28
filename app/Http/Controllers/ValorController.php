@@ -417,7 +417,7 @@ class ValorController extends Controller
              <body>
                  <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
                  <div>
-                   DT:'.$dt['referencia_dt'].'
+                   <h3> DT:'.$dt['referencia_dt'].'</h3>
                  </div>
                  <div>
                     <p style="font-size:2rem">Firma</p>
@@ -429,7 +429,7 @@ class ValorController extends Controller
                 
        Storage::disk('gcs') //guardamos en google
        ->put(
-        'pdfs/invoice-1002.pdf',
+        'pdfs/'.$request['confirmacion'].'_'.now().'.pdf',
          $pdf->output()
         );
   /*
