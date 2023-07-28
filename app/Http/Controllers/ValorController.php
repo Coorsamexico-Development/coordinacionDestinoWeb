@@ -401,26 +401,30 @@ class ValorController extends Controller
     public function valoresEnrrampe (Request $request)
     {
       
-      //creacion del PDF
-      $pdf = App::make('dompdf.wrapper');
-                //Creamoe el documento de verificacion y lo guardamos
-                $pdf->loadHTML('
-                <html>
-                     <head>
-                       <title>Confirmacion'. $request['confirmacion'] .'</title>
-                     </head>
-                     <body>
-                         <h1>'. $request['confirmacion'] . '</h1>
-                     </body>
-                </html>
-                ');
+       //creacion del PDF
+       $pdf = App::make('dompdf.wrapper');
+       //Creamoe el documento de verificacion y lo guardamos
+        $pdf->loadHTML('
+        <html>
+             <head>
+               <title>Confirmacion_'. $request['confirmacion'] .'</title>
+             </head>
+             <body>
+                 <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
+                 <div>
+                    <p>Firma</p>
+                    <img src="'.$request['firma'].'"/>
+                 </div>
+             </body>
+        </html>
+        ');
                 
-                Storage::disk('gcs') //guardamos en google
-                ->put(
-                 'invoice/invoice-1002.pdf',
-                  $pdf->output()
-                 );
-  /*
+       Storage::disk('gcs') //guardamos en google
+       ->put(
+        'pdfs/invoice-1002.pdf',
+         $pdf->output()
+        );
+  
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -474,7 +478,7 @@ class ValorController extends Controller
           return 'no es un archivo';
         }
       }
-*/
+      
     }
 
     public function fotosEnrrampe (Request $request)
