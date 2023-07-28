@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
+use Google\Cloud\Storage\StorageClient;
 
 class ValorController extends Controller
 {
@@ -401,30 +402,6 @@ class ValorController extends Controller
     {
       //creacion del PDF
       $pdf = App::make('dompdf.wrapper');
-      $pdf->loadHTML('
-      <html>
-          <head>
-            <title>Confirmacion</title>
-         </head>
-         <body>
-             <h1 style="color:red">{{ $title }}</h1>
-             <p>{{ $date }}</p>
-             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-             quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-             consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-             cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-             proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-         </body>
-         </html>
-      ');
-
-      $content = $pdf->download()->getOriginalContent();//no es un archivo
-      //$pdf->stream();
-      return  $pdf->stream();
-      // $ruta_pdf = $pdf->storeAs('docs', 'pdf_'.$request['params']['confirmacion'] , 'gcs');
-
-    /*
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -471,13 +448,39 @@ class ValorController extends Controller
                   'user_id' => $request['params']['usuario']
               ]);  
             }
+
+          //Creamoe el documento de verificacion y lo guardamos
+          $pdf->loadHTML('
+          <html>
+              <head>
+                <title>Confirmacion'.$request['params']['confirmacion'].'</title>
+             </head>
+             '.'
+             <body>
+                 <h1 style="color:red">{{ $title }}</h1>
+                 <p>{{ $date }}</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+             </body>
+             </html>
+          ');
+          
+          Storage::disk('gcs') //guardamos en google
+          ->put(
+           'invoice/invoice-1001.pdf',
+            $pdf->output()
+           );
           
         }
         else{
           return 'no es un archivo';
         }
       }
-    */
+
     }
 
     public function fotosEnrrampe (Request $request)
