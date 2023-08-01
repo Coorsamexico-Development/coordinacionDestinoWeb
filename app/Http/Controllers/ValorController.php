@@ -401,31 +401,41 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
-      
        //creacion del PDF
-       $pdf = App::make('dompdf.wrapper');
-       //Creamoe el documento de verificacion y lo guardamos
-       $dt = Dt::select(
+        $pdf = App::make('dompdf.wrapper');
+        //Creamoe el documento de verificacion y lo guardamos
+        $dt = Dt::select( //buscamos el dt
          'dts.referencia_dt'
-         )->first();
+         )
+         ->where('dts.id','=',$request['dt'])
+         ->first();
 
-        $pdf->loadHTML('
-        <html>
-             <head>
-               <title>Confirmacion_'. $request['confirmacion'] .'</title>
-             </head>
-             <body>
-                 <h1>Confirmacion: '. $request['confirmacion'] . '</h1>
-                 <div>
-                   <h3> DT:'.$dt['referencia_dt'].'</h3>
-                 </div>
-                 <div>
-                    <p style="font-size:2rem">Firma</p>
-                    <img style="width:5rem; heigth:4rem" src="'.$request['firma'].'"/>
-                 </div>
-             </body>
-        </html>
-        ');
+         $confirmacion_dt = ConfirmacionDt::select(
+            'confirmacion_dts.cita'
+         )
+         ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+         ->first();
+        
+        $statusByConfirmacion = StatusDt::select(
+          'status.nombre as status',
+          'status.color as color',
+          'status.updated_at as status_dt_updated_at'
+        )
+        ->join('status','status_dts.status_id','status.id')
+        ->where('confirmacion_dt_id','=',1)
+        ->get();
+
+
+        $data = [
+          'confirmacion' => $request['confirmacion'],
+          'dt' => $dt['referencia_dt'],
+          'status_dt' => $statusByConfirmacion,
+          'title' => $request['confirmacion'].'_'.now(),
+          'cita' => $confirmacion_dt['cita']
+        ];
+
+        $pdf->loadView('pdfs.plantilla_confirmacion', $data);
+        //return $pdf->stream();
                 
        Storage::disk('gcs') //guardamos en google
        ->put(

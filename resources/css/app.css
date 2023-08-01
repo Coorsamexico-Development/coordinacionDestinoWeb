@@ -5,3 +5,8 @@
 [x-cloak] {
     display: none;
 }
+
+.navMenu
+{
+   background-image: url('../assets//img//fondo-menu.jpg');
+}

@@ -46,3 +46,9 @@ Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);
 //Guardar valores 3era pantalla
 Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
+
+
+//Prueba para la estructura del PDF
+Route::get('/pdf', function(){
+    return view('pdfs.plantilla_confirmacion')->render();
+});
