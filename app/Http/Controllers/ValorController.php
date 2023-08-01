@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campo;
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
 use App\Models\DtCampoValor;
+use App\Models\Statu;
 use App\Models\StatusDt;
 use App\Models\Valor;
 use Exception;
@@ -561,15 +563,10 @@ class ValorController extends Controller
         ->where('confirmacion_dts.status_id','=',$request['status_id'])
         ->first();
 
-      return Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
-      ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id') //si o si pertenece a un dt
-      ->join('campos','dt_campo_valors.campo_id','campos.id') //el dti tiene campos pertenecientes a un status
-      ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
-      ->where('campos.status_id','=', $request['status_id'])
-      ->where('valors.activo','=', 1)
-      ->get();
-      
-      /*
+      $status = Statu::select('status.*')
+      ->where('status.id','=',$request['status_id'])
+      ->first();
+
       Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
        ->join('dts','dt_campo_valors.dt_id','dts.id')
@@ -577,9 +574,9 @@ class ValorController extends Controller
        ->join('campos','dt_campo_valors.campo_id','campos.id')
        ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
        ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
-       ->where('campos.status_id','=', $request['status_id'])
+       ->where('campos.status_id','=', $status['status_padre'])
        ->where('valors.activo','=', 1)
        ->get();
-       */
+
     }
 }

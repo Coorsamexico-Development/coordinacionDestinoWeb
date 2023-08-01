@@ -98,11 +98,15 @@
                   </tr>
                </table>
              </div>
-             <div style="overflow-y: scroll;">
+             <div style="overflow-y: scroll; height: 20rem;">
                 <div v-if="camposValores !== 0">
+                  {{ camposValores }}
                    <div v-for="campoValor in camposValores" :key="campoValor.id">
                      <Campo :campoValor="campoValor" />
                    </div>
+                </div>
+                <div v-else>
+                  <h3>No hay información</h3>
                 </div>
              </div>
           </div>
