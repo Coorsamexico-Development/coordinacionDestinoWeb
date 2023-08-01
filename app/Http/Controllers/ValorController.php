@@ -558,18 +558,24 @@ class ValorController extends Controller
     public function checkValores (Request $request)
     {
       //Necesitamos los campos con los valores de este dt_confirmacion con ese status
-      $confirmacion_dt= ConfirmacionDt::select('confirmacion_dts.*')
-        ->where('confirmacion_dts.id', '=', $request['confirmacion_dt_id'])
-        ->where('confirmacion_dts.status_id','=',$request['status_id'])
-        ->first();
-
       $status = Statu::select('status.*')
       ->where('status.id','=',$request['status_id'])
       ->first();
 
-      return Campo::select('campos.*')
+       $campos = Campo::select('campos.id as campo_id','campos.nombre as campo','tipos_campos.nombre as tipo_campo')
+       ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
        ->where('campos.status_id','=', $status['status_padre'])
        ->get();
+
+       $valors = Valor::select('valors.*','campos.id as campo_id',)
+       ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+       ->join('campos','dt_campo_valors.campo_id','campos.id')
+       ->where('campos.status_id','=', $status['status_padre'])
+       ->where('valors.activo','=', 1)
+       ->get();
+
+       return ['campos' => $campos, 'valors' => $valors ];
+
       /*Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
        ->join('dts','dt_campo_valors.dt_id','dts.id')

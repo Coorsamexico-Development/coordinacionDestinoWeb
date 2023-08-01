@@ -100,9 +100,8 @@
              </div>
              <div style="overflow-y: scroll; height: 20rem;">
                 <div v-if="camposValores !== 0">
-                  {{ camposValores }}
-                   <div v-for="campoValor in camposValores" :key="campoValor.id">
-                     <Campo :campoValor="campoValor" />
+                   <div>
+                     <Campo :camposValores="camposValores" />
                    </div>
                 </div>
                 <div v-else>

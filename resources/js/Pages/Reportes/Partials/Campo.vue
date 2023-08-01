@@ -8,21 +8,32 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
  const props = defineProps({
-    campoValor:Object,
+   camposValores:Object,
   });
 </script>
 <template>
     <div>
-        <InputLabel>
-            {{ campoValor.campo }}
-        </InputLabel>
-        <div v-if="campoValor.tipo_campo == 'image'">
-           <img :src="campoValor.valor" />
-        </div>
-        <div v-if="campoValor.tipo_campo == 'text' || campoValor.tipo_campo == 'number'" >
-           <h1>
-              {{ campoValor.valor }}
-           </h1>
-        </div>
+       <div v-if="camposValores.campos"> <!--Recorrido de campos-->
+           <div v-for="campo in camposValores.campos" :key="campo.campo_id">
+             <div>
+               <InputLabel>
+                  {{ campo.campo }}
+               </InputLabel>
+               <div> <!--Valores-->
+                  <div v-for="valor in camposValores?.valors" :key="valor.id">
+                    <div v-if="valor.campo_id == campo.campo_id">
+                       <!--Reflejo dependiendo el tipo de campo-->
+                       <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
+                          <h3>{{ valor.valor }}</h3>
+                       </div>
+                       <div v-if="campo.tipo_campo == 'image'">
+                          <img :src="valor.valor" />
+                       </div>
+                    </div>
+                  </div>
+               </div>
+             </div>
+           </div>
+       </div>
     </div>
 </template>
