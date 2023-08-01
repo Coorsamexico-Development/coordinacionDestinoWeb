@@ -88,7 +88,6 @@
                         <h1 class="text-l">{{ histori.status }}</h1>
                      </td>
                      <td>
-                        {{ histori }}
                         <ButtonWatch class="w-8 h-6" :color="histori.color" @click="consultarHistoria(histori)" />
                      </td>
                      <td>
