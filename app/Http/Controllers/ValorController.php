@@ -567,7 +567,7 @@ class ValorController extends Controller
       ->where('status.id','=',$request['status_id'])
       ->first();
 
-      Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
+      return Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
        ->join('dts','dt_campo_valors.dt_id','dts.id')
        ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
