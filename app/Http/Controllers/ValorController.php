@@ -103,8 +103,10 @@ class ValorController extends Controller
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
                 //y crear uno nuevo
+                /*
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
+                */
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -114,8 +116,10 @@ class ValorController extends Controller
             }
             else
             {
+              /*
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
+                */
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -159,9 +163,10 @@ class ValorController extends Controller
          }
          else
          {
+          /*
             $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
-
+*/
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
             { 
                $foto = $fotos['fotos']['fotos'][$i];
@@ -202,8 +207,10 @@ class ValorController extends Controller
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
                 //y crear uno nuevo
+                /*
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
+                */
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -213,8 +220,10 @@ class ValorController extends Controller
             }
             else
             {
+              /*
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
+                */
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -256,8 +265,10 @@ class ValorController extends Controller
            }
            else
            {
+            /*
               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                   ->update(['activo' => 0]);
+              */
    
               for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
               { 
