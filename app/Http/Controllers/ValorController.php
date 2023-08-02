@@ -575,6 +575,7 @@ class ValorController extends Controller
        ->where('campos.status_id','=', $status['status_padre'])
        ->where('valors.activo','=', 1)
        ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
+       ->distinct('valors.id')
        ->get();
 
        return ['campos' => $campos, 'valors' => $valors ];

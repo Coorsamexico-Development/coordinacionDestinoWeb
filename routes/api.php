@@ -44,7 +44,7 @@ Route::post('/valores', [ValorController::class, 'valoresApi']);
 //Guardar fotos segunda pantalla
 Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);
 //Guardar valores 3era pantalla
-Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
+Route::get('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
 
 
