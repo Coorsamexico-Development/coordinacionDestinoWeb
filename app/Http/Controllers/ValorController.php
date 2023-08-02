@@ -575,7 +575,7 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
-       /*
+       
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -612,7 +612,7 @@ class ValorController extends Controller
                }
            }
        }
-       */
+       
     }
 
     public function checkValores (Request $request)
