@@ -424,6 +424,7 @@ class ValorController extends Controller
           $nombre_original = $file->getClientOriginalName();
           $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
           $urlFile = Storage::disk('gcs')->url($ruta_file);
+          return $urlFile;
 
            $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
             'dt_campo_valors.*'
@@ -575,7 +576,7 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
-       
+       /*
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -612,6 +613,7 @@ class ValorController extends Controller
                }
            }
        }
+       */
        
     }
 
