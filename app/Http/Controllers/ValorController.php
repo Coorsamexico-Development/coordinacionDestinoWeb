@@ -424,7 +424,6 @@ class ValorController extends Controller
           $nombre_original = $file->getClientOriginalName();
           $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
           $urlFile = Storage::disk('gcs')->url($ruta_file);
-          return $urlFile;
 
            $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
             'dt_campo_valors.*'
