@@ -88,6 +88,7 @@ class ValorController extends Controller
           { 
             $campo = $data[$i]; //rescatamos el valor
 
+            //buscamos el dtcampo al que pertenece el valor y lo buscamos
             $dt_campo = DtCampoValor::select(
             'dt_campo_valors.*'
             )
@@ -105,10 +106,11 @@ class ValorController extends Controller
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
                 //y crear uno nuevo
-                /*
+                //Recibimos el id del dt
+                
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
-                */
+                
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -118,10 +120,10 @@ class ValorController extends Controller
             }
             else
             {
-              /*
+              
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
-                */
+                
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -165,10 +167,10 @@ class ValorController extends Controller
          }
          else
          {
-          /*
+      
             $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                 ->update(['activo' => 0]);
-*/
+
             for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
             { 
                $foto = $fotos['fotos']['fotos'][$i];
@@ -209,10 +211,10 @@ class ValorController extends Controller
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
                 //y crear uno nuevo
-                /*
+                
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
-                */
+                
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -222,10 +224,10 @@ class ValorController extends Controller
             }
             else
             {
-              /*
+              
                 $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
                 ->update(['activo' => 0]);
-                */
+                
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
@@ -267,10 +269,10 @@ class ValorController extends Controller
            }
            else
            {
-            /*
+            
               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
                   ->update(['activo' => 0]);
-              */
+              
    
               for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
               { 
@@ -515,7 +517,7 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
-       /*
+       
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -552,7 +554,7 @@ class ValorController extends Controller
                }
            }
        }
-       */
+       
     }
 
     public function checkValores (Request $request)
@@ -579,18 +581,5 @@ class ValorController extends Controller
        ->get();
 
        return ['campos' => $campos, 'valors' => $valors ];
-
-      /*Valor::select('valors.*', 'campos.nombre as campo', 'tipos_campos.nombre as tipo_campo')
-       ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-       ->join('dts','dt_campo_valors.dt_id','dts.id')
-       ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
-       ->join('campos','dt_campo_valors.campo_id','campos.id')
-       ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
-       ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
-       ->where('campos.status_id','=', $status['status_padre'])
-       ->where('valors.activo','=', 1)
-       ->get();
-       */
-
     }
 }
