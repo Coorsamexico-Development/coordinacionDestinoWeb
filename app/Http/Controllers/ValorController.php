@@ -521,8 +521,7 @@ class ValorController extends Controller
         ->where('confirmacion_dts.dt_id','=',  $confirmacion_dt['id'])
         ->distinct('valors.id')
         ->get();
-
-       
+     
         //seteamos la data en el pdf para la plantilla
         $data = [
           'confirmacion' =>  $request['confirmacion'],
@@ -534,17 +533,37 @@ class ValorController extends Controller
         ];
 
         $pdf->loadView('pdfs.plantilla_confirmacion', $data);
-     
-                
-      //guardamos en storage
+                 
+        //guardamos en storage
          $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
         ->put(
          'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf',
           $pdf->output()
         );
        
-       $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf');
+        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf');
+        //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
+        
+        $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
+        ->update([
+          'pdf' => $urlPdf,
+          'status_id' => 5
+        ]);
 
+        //Buscamos el existente
+        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+        ->first();
+
+        StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
+        ->update([
+          'activo' => 0
+        ]);
+
+        StatusDt::create([
+          'confirmacion_dt_id' => $cofnirmacionDt['id'],
+          'status_id' => 5
+        ]);
           
         }
         else{
