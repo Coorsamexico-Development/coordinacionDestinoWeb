@@ -47,8 +47,16 @@ Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);
 Route::get('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
 
+Route::get('artisan', function () {
+    Artisan::call('migrate', [
+        '--force' => true
+    ]);
+    return "ok";
+});
 
 //Prueba para la estructura del PDF
+/*
 Route::get('/pdf', function(){
     return view('pdfs.plantilla_confirmacion')->render();
 });
+*/

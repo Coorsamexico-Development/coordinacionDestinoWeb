@@ -18,4 +18,9 @@ class Statu extends Model
     {
         return $this->hasMany(Statu::class, 'status_padre');
     }
+
+    public function campos()
+    {
+        return $this->hasMany(Campo::class, 'status_id' ,'status_padre');
+    }
 }

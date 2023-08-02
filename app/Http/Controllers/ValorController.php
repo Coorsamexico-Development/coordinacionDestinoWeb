@@ -416,48 +416,6 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
-       //creacion del PDF
-        $pdf = App::make('dompdf.wrapper');
-        //Creamoe el documento de verificacion y lo guardamos
-        $dt = Dt::select( //buscamos el dt
-         'dts.referencia_dt'
-         )
-         ->where('dts.id','=',$request['dt'])
-         ->first();
-
-         $confirmacion_dt = ConfirmacionDt::select(
-            'confirmacion_dts.cita'
-         )
-         ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
-         ->first();
-        
-        $statusByConfirmacion = StatusDt::select(
-          'status.nombre as status',
-          'status.color as color',
-          'status.updated_at as status_dt_updated_at'
-        )
-        ->join('status','status_dts.status_id','status.id')
-        ->where('confirmacion_dt_id','=',1)
-        ->get();
-
-
-        $data = [
-          'confirmacion' => $request['confirmacion'],
-          'dt' => $dt['referencia_dt'],
-          'status_dt' => $statusByConfirmacion,
-          'title' => $request['confirmacion'].'_'.now(),
-          'cita' => $confirmacion_dt['cita']
-        ];
-
-        $pdf->loadView('pdfs.plantilla_confirmacion', $data);
-        //return $pdf->stream();
-                
-       Storage::disk('gcs') //guardamos en google
-       ->put(
-        'pdfs/'.$request['confirmacion'].'_'.now().'.pdf',
-         $pdf->output()
-        );
-  /*
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -505,19 +463,100 @@ class ValorController extends Controller
               ]);  
             }
 
+       //creacion del PDF el cual se debe guardar en confirmacion_dt
+       $pdf = App::make('dompdf.wrapper');
+       //buscamos el dt
+        $dt = Dt::select( 
+         'dts.referencia_dt'
+         )
+         ->where('dts.id','=',$request['dt'])
+         ->first();
+
+         //buscamos la confirmacion
+         $confirmacion_dt = ConfirmacionDt::select(
+            'confirmacion_dts.id',
+            'confirmacion_dts.cita'
+         )
+         ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])//$request['confirmacion'])
+         ->first();
+        
+         //Consultamos todos loscambios de status por confirmacion
+        $statusByConfirmacion = StatusDt::select(
+          'status.id as status_id',
+          'status.status_padre as status_padre_id',
+          'status.nombre as status_name',
+          'status.color as color',
+          'status_dts.updated_at as status_dt_updated_at'
+        )
+        ->with([
+          'status' => function ($query) 
+            {
+              return  $query->select(
+                'status.*'
+              )
+              ->with([
+                'campos' => function ($query1) 
+                {
+                   return $query1->select(
+                    'campos.*',
+                    'tipos_campos.nombre as tipo_campo'
+                   )
+                   ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id');
+                }
+              ]);
+            }
+          ])
+        ->join('status','status_dts.status_id','status.id')
+        ->where('confirmacion_dt_id','=', $confirmacion_dt['id'])
+        ->get();
+
+        //Consultamos valores
+        $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
+        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+        ->join('dts','dt_campo_valors.dt_id','dts.id')
+        ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+        ->join('campos','dt_campo_valors.campo_id','campos.id')
+        ->join('status','campos.status_id','status.id')
+        ->where('valors.activo','=', 1)
+        ->where('confirmacion_dts.dt_id','=',  $confirmacion_dt['id'])
+        ->distinct('valors.id')
+        ->get();
+
+       
+        //seteamos la data en el pdf para la plantilla
+        $data = [
+          'confirmacion' =>  $request['confirmacion'],
+          'dt' =>  $dt['referencia_dt'],//$dt['referencia_dt'],
+          'status_dt' => $statusByConfirmacion,
+          'title' =>  $request['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
+          'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
+          'valors' => $valors
+        ];
+
+        $pdf->loadView('pdfs.plantilla_confirmacion', $data);
+     
+                
+      //guardamos en storage
+         $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
+        ->put(
+         'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf',
+          $pdf->output()
+        );
+       
+       $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf');
+
           
         }
         else{
           return 'no es un archivo';
         }
-      }
-  */    
+      }    
     }
 
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
-       
+       /*
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -554,7 +593,7 @@ class ValorController extends Controller
                }
            }
        }
-       
+       */
     }
 
     public function checkValores (Request $request)

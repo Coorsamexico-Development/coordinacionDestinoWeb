@@ -14,4 +14,9 @@ class StatusDt extends Model
         'status_id',
         'activo',
     ];
+
+    public function status ()
+    {
+        return $this->hasOne(Statu::class,'id','status_id');
+    }
 }

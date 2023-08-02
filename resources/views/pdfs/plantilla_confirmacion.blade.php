@@ -20,19 +20,63 @@
      </div>
      <div id="cuerpo">
         <div>
-          @foreach ($status_dt as $statu )
+          @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
             <div>
-               <?php 
-                echo '
-                <hr style="height: 5px;
-                     margin-left: 0%;
-                     margin-right: 0%;
-                     width: 5%;
-                     background-color:'.$statu['color'].'" />
-                '    
-               ?>
-               <p style="font-size: 1.2rem"> - {{$statu['status']}} --- Actualizado:    {{$statu['status_dt_updated_at']}}   </p>
+               <p style="font-size: 1.2rem"> 
+                   <?php 
+                   echo '
+                   <span style="
+                        height: 3px;
+                        margin-left: 0%;
+                        margin-right: 0%;
+                        width: 10%;
+                        padding-left:1.2rem;
+                        border-radius:100%;
+                        background-color:'.$statu['color'].'">
+                    </span>
+                   '    
+                  ?>
+                 <span style="font-style: italic;">{{$statu['status_name']}}</span>
+                 <br/> - Actualizado:    {{$statu['status_dt_updated_at']}} 
+               </p>
             </div>
+            <!-- CAMPOS POR STATUS-->
+            <div style="margin-top:-0.5rem"> 
+                @foreach ($statu['status']['campos'] as $campo )
+                <div>
+                   <li>{{$campo['nombre']}}</li>
+                   @foreach ($valors  as $valor )
+                    @if ($valor['campo_id'] == $campo['id'] && $valor['status_id'] == $statu['status_padre_id'] )
+                      <div>
+                        @if ($campo['tipo_campo'] == 'text' ||$campo['tipo_campo'] == 'number')
+                          <div>
+                             <p>{{$valor['valor']}}</p>
+                          </div>
+                        @endif
+                        @if ($campo['tipo_campo'] == 'image')
+                         <div>
+                           <?php 
+                              echo
+                               '<img style="width:15rem" src="'.$valor['valor'].'"/>'
+                            ?>
+                         </div>
+                        @endif
+                        @if ($campo['tipo_campo'] == 'file')
+                         <div>
+                           <?php 
+                              echo
+                               '<a href="'.$valor['valor'].'">
+                                  Ir a documento
+                                </a>'
+                            ?>
+                         </div>
+                        @endif
+                      </div>
+                    @endif
+                   @endforeach
+                </div>
+                @endforeach
+            </div> 
           @endforeach
         </div>
      </div>
