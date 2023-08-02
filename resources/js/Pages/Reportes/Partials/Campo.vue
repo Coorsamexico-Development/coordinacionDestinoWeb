@@ -19,8 +19,9 @@ import 'swiper/css/pagination';
                <InputLabel>
                   {{ campo.campo }}
                </InputLabel>
-               <div> <!--Valores-->
-                  <div v-for="valor in camposValores?.valors" :key="valor.id">
+               <div v-if="camposValores.valors.length > 0"> <!--Valores-->
+                  <div v-for="valor in camposValores.valors" :key="valor.id">
+                     {{ valor }}
                     <div v-if="valor.campo_id == campo.campo_id">
                        <!--Reflejo dependiendo el tipo de campo-->
                        <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
@@ -31,6 +32,9 @@ import 'swiper/css/pagination';
                        </div>
                     </div>
                   </div>
+               </div>
+               <div v-else>
+                  <h3>Aun no hay información</h3>
                </div>
              </div>
            </div>
