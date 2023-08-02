@@ -429,16 +429,16 @@ class ValorController extends Controller
            $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
-            ->where('dt_campo_valors.campo_id','=', $request['params']['tipo_campo_file'])
+            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
             ->first();
 
             if($dt_campo == null)
             {
                 $dt_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['params']['dt'],
-                   'campo_id' =>$request['params']['tipo_campo_file']
+                   'dt_id' => $request['dt'],
+                   'campo_id' =>$request['tipo_campo_file']
                 ]);
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
@@ -449,7 +449,7 @@ class ValorController extends Controller
                 $newValor = Valor::create([
                     'valor' => $urlFile,
                     'dt_campo_valor_id' => $dt_campo->id,
-                    'user_id' => $request['params']['usuario']
+                    'user_id' => $request['usuario']
                 ]);
             }
             else
@@ -460,7 +460,7 @@ class ValorController extends Controller
               $newValor = Valor::create([
                   'valor' => $urlFile,
                   'dt_campo_valor_id' => $dt_campo->id,
-                  'user_id' => $request['params']['usuario']
+                  'user_id' => $request['usuario']
               ]);  
             }
 
