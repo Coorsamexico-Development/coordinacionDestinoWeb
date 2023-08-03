@@ -40,6 +40,8 @@ import 'swiper/css/pagination';
                            <ButtonWatch :color="'#1D96F1'" />
                         </a>
                        </div>
+                       <div v-if="campo.tipo_campo == 'firma'" style="display: none;">
+                       </div>
                     </div>
                   </div>
                </div>
