@@ -2,6 +2,7 @@
 import axios from "axios";
 import {ref, watch, computed, reactive } from "vue";
 import SwitchButton from './SwitchButton.vue';
+import DtBlock from './DtBlock.vue';
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -17,7 +18,7 @@ const params = reactive({
    //siempre consultara la primer plataforma
     ubicacion_id: -1,
     plataforma_id:1,
-    status_id:props.status.id
+    status_id:props.status.status_padre
 });
 const showClients = (ubicacion_id) =>  //funcion para desplegar
 {
@@ -69,7 +70,7 @@ watch(params, (newParams) =>
 });
 </script>
 <template>
-    <div class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
+    <div class="pb-1 bg-white rounded-xl drop-shadow-lg"> <!--main-->
         <div> <!--Header-->
           <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
             <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
@@ -88,8 +89,13 @@ watch(params, (newParams) =>
           <Transition name="slide-fade">
             <div v-if="show" >
                 <!--SwitchButton-->
-               <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
-                {{ dtsData }}
+                <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
+                 <div v-if="dts !== null">
+                 <div v-for="dt in dtsData" :key="dt.id">
+                   <DtBlock :dt="dt"  />
+                 </div>
+                 <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
+              </div>
             </div>
          </Transition>
     </div>
