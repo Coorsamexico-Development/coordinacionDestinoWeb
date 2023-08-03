@@ -27,12 +27,12 @@ class ConfirmacionDtController extends Controller
             'status.color',
             'status.nombre as status'
         )
-        ->where('status.status_padre','=',$request['status_id'])
-        ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
-        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
         ->join('dts','confirmacion_dts.dt_id','dts.id')
         ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
         ->join('status', 'confirmacion_dts.status_id', 'status.id')
+        ->where('status.status_padre','=',$request['status_id'])
+        ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
+        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
         ->paginate(5);
     }
 

@@ -529,7 +529,8 @@ class ValorController extends Controller
           'status_dt' => $statusByConfirmacion,
           'title' =>  $request['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
           'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
-          'valors' => $valors
+          'valors' => $valors,
+          'firma' => $request['firma']
         ];
 
         $pdf->loadView('pdfs.plantilla_confirmacion', $data);
