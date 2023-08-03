@@ -1,5 +1,7 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
+import ButtonWatch from '@/Components/ButtonWatch.vue';
+import { Fancybox } from "@fancyapps/ui";
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
 // import Swiper and modules styles
@@ -28,6 +30,9 @@ import 'swiper/css/pagination';
                        </div>
                        <div v-if="campo.tipo_campo == 'image'">
                           <img :src="valor.valor" />
+                       </div>
+                       <div v-if="campo.tipo_campo == 'file'">
+                           <ButtonWatch :color="'#1D96F1'"  :href="valor.valor"  data-fancybox data-type="pdf"/>
                        </div>
                     </div>
                   </div>

@@ -41,7 +41,7 @@
    }}).then(response => 
       {
          //console.log(response);
-         tamañoModal.value = '2xl'
+         tamañoModal.value = '4xl'
          camposValores.value= response.data;
       }).catch(err => 
       {

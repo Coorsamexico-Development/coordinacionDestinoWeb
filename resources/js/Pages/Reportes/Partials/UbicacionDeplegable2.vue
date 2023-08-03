@@ -45,7 +45,7 @@ watch(params, (newParams) =>
 
   if(newParams.ubicacion_id !== -1)
   {
-    console.log(newParams)
+    //console.log(newParams)
     axios.get(route('getConfirmacions',{
       ubicacion_id: newParams.ubicacion_id,
       plataforma_id: newParams.plataforma_id,
@@ -53,7 +53,7 @@ watch(params, (newParams) =>
     }))
       .then(response => {
           // Obtenemos los datos
-          console.log(response)
+          //console.log(response)
           nuevosParametros.value = {
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
