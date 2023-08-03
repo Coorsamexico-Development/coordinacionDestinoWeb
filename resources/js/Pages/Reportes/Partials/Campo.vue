@@ -1,17 +1,21 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import ButtonWatch from '@/Components/ButtonWatch.vue';
-import { Fancybox } from "@fancyapps/ui";
 import Swiper from 'swiper';
 import { Navigation, Pagination } from 'swiper/modules';
+import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
 // import Swiper and modules styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
  const props = defineProps({
    camposValores:Object,
   });
+
+  Fancybox.bind("[data-fancybox]", {
+    // Your custom options
+});
 </script>
 <template>
     <div>
@@ -32,7 +36,9 @@ import 'swiper/css/pagination';
                           <img :src="valor.valor" />
                        </div>
                        <div v-if="campo.tipo_campo == 'file'">
-                           <ButtonWatch :color="'#1D96F1'"  :href="valor.valor"  data-fancybox data-type="pdf"/>
+                        <a :href="valor.valor" data-fancybox   data-type="pdf">
+                           <ButtonWatch :color="'#1D96F1'" />
+                        </a>
                        </div>
                     </div>
                   </div>

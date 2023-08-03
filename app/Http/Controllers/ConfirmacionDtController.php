@@ -249,4 +249,11 @@ class ConfirmacionDtController extends Controller
      'activo' => 1,
    ]);
     }
+
+  public function getPDF (Request $request)
+  {
+      return ConfirmacionDt::select('confirmacion_dts.*')
+      ->where('id','=',$request['id'])
+      ->first();
+  }
 }

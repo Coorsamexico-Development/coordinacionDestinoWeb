@@ -66,3 +66,5 @@ Route::get('/checkValores',[ValorController::class, 'checkValores'])->name('chec
 Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
 //Edicion de usuario
 Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
+//Obtener PDF general
+Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF');

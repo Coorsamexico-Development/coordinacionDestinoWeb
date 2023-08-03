@@ -1,4 +1,5 @@
 <script setup>
+import PaginationAxios from "@/Components/PaginationAxios.vue";
 import axios from "axios";
 import {ref, watch, computed, reactive } from "vue";
 import SwitchButton from './SwitchButton.vue';
@@ -68,6 +69,26 @@ watch(params, (newParams) =>
   }
 
 });
+
+//Reconsulta al paginado
+const loadPage = async (page) =>
+{
+   axios.get(page,{
+    params:{
+      plataforma_id:nuevosParametros.value.plataforma_id,
+      ubicacion_id:nuevosParametros.value.ubicacion_id,
+      status_id:nuevosParametros.value.status_id
+    }
+   })
+    .then(response => {
+       dts.value = response.data
+       dtsData.value = response.data.data;
+    })
+    .catch(e => {
+        // Podemos mostrar los errores en la consola
+        console.log(e);
+    })
+}
 </script>
 <template>
     <div class="pb-1 bg-white rounded-xl drop-shadow-lg"> <!--main-->
