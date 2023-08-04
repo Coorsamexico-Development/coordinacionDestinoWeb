@@ -139,7 +139,6 @@
              </div>
              <div style="overflow-y: scroll; height: 20rem;">
                <div v-if="statusActual !== null">
-                  {{statusActual}}
                   <div v-if="statusActual.status_id !== 5 || statusActual.status_id !== 4 ">
                     <div v-if="camposValores !== 0">
                        <div>
