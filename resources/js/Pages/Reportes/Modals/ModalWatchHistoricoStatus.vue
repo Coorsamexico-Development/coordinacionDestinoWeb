@@ -26,6 +26,7 @@
      emit('close');
      camposValores.value = [];
      tamañoModal.value = 'md';
+     pdf.value = null;
   };
 
   const statusActual = ref(null);
@@ -80,6 +81,19 @@
     
  });
 
+
+ const enviarCorreo = () => 
+ {
+    axios.get('/sentMail', {params:
+       {
+       }}).then(response => 
+       {
+          console.log(response.data);
+       }).catch(err => 
+       {
+         console.log(err)
+       });
+ }
   /*
   Prueba para subida de archivos 
   let file = ref(null)
@@ -125,6 +139,7 @@
              </div>
              <div style="overflow-y: scroll; height: 20rem;">
                <div v-if="statusActual !== null">
+                  {{statusActual}}
                   <div v-if="statusActual.status_id !== 5 || statusActual.status_id !== 4 ">
                     <div v-if="camposValores !== 0">
                        <div>
@@ -142,6 +157,11 @@
                            <a :href="pdf.pdf" data-fancybox   data-type="pdf">
                               <ButtonWatch :color="'#1D96F1'" />
                            </a>
+                       </div>
+                       <div class="">
+                          <button @click ="enviarCorreo">
+                             Enviar correo
+                          </button>
                        </div>
                     </div>
                  </div>  

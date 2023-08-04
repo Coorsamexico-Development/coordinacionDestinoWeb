@@ -68,3 +68,5 @@ Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manage
 Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
 //Obtener PDF general
 Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF');
+//Ruta para enviar correo
+Route::get('/sentMail',[ReporteController::class, 'sentMail'])->name('sentMail');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\DtsExport;
 use App\Imports\DtsImport;
+use App\Mail\PDFMail;
 use App\Models\Cliente;
 use App\Models\ConfirmacionDt;
 use App\Models\Plataforma;
@@ -13,16 +14,13 @@ use App\Models\StatusDt;
 use App\Models\Ubicacione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPUnit\Event\Code\Throwable;
 
 class ReporteController extends Controller
 {
-    //
-    /*
-      
-    */ 
     public function index()
     {  
        $status_padre = Statu::select('status.*')
@@ -86,5 +84,17 @@ class ReporteController extends Controller
     public function downloadReport() 
     {
         return Excel::download(new DtsExport, 'example.xlsx');
+    }
+
+
+    public function sentMail ()
+    {
+        /*
+          Credenciales de correo
+          reportes.coordinacion@outlook.com
+          c00rs4m3x1c0
+        */ 
+       Mail::to('hugo201123@gmail.com')->send(new PDFMail);
+       return 'ok';
     }
 }
