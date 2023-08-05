@@ -21,6 +21,7 @@
     "dependencies": {
         "@fancyapps/ui": "^5.0.20",
         "lodash": "^4.17.21",
-        "swiper": "^10.0.4"
+        "swiper": "^10.0.4",
+        "vue-izitoast": "^1.2.1"
     }
 }

@@ -3,12 +3,15 @@
  import DialogModal from '@/Components/DialogModal.vue';
  import ButtonWatch from '@/Components/ButtonWatch.vue';
  import InputLabel from '@/Components/InputLabel.vue';
+ import TextInput from '@/Components/TextInput.vue';
  import axios from 'axios';
  import Campo from '../Partials/Campo.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
   import '@fancyapps/ui/dist/fancybox/fancybox.css';
  import DropFile from '@/Components/DropFile.vue';
  import { useForm } from '@inertiajs/vue3'
+ import VueIziToast from 'vue-izitoast';
+ import 'izitoast/dist/css/iziToast.css';
   const emit = defineEmits(["close"])
   const props = defineProps({
       show: {
@@ -63,7 +66,6 @@
  const pdf = ref(null);
  watch(statusActual, (newStatus) => 
  {
-   console.log(newStatus)
     if(newStatus.status_id == 5 || newStatus.status_id == 4)
     {
        axios.get('/getPDF', {params:
@@ -77,6 +79,10 @@
           {
             console.log(err)
           });
+       }
+       else
+       {
+         pdf.value = null;
        }
     
  });
@@ -94,6 +100,27 @@
          console.log(err)
        });
  }
+
+ const email = ref('');
+ const emails = ref([]);
+ const agregarCorreo = () =>
+ {
+    if(email.value !== "")
+    {
+      //console.log(email.value)
+      emails.value.push(email.value);
+      email.value = '';
+    }
+    else
+    {
+
+    }
+ }
+ const eliminarEmail = (email) => 
+ {
+    emails.value.filter()
+ }
+
   /*
   Prueba para subida de archivos 
   let file = ref(null)
@@ -137,7 +164,7 @@
                   </tr>
                </table>
              </div>
-             <div style="overflow-y: scroll; height: 20rem;">
+             <div style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 5 || statusActual.status_id !== 4 ">
                     <div v-if="camposValores !== 0">
@@ -152,15 +179,35 @@
                  <div v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
                        <div class="flex flex-row">
-                           <h1 class="mx-2">Ver documento</h1>
+                           <h1 class="mx-2">Ver documento final</h1>
                            <a :href="pdf.pdf" data-fancybox   data-type="pdf">
                               <ButtonWatch :color="'#1D96F1'" />
                            </a>
                        </div>
-                       <div class="">
-                          <button @click ="enviarCorreo">
+                       <div class="grid grid-rows-3">
+                        <div class="w-full px-2">
+                           <InputLabel>
+                              Para
+                           </InputLabel>
+                            <TextInput v-model="email" class="w-full h-8">
+                            </TextInput>
+                            <button class="bg-[#44BFFC] text-white px-2 py-1 rounded-lg m-2" @click="agregarCorreo()" >
+                                Agregar correo
+                            </button>
+                           <div class="grid grid-cols-5">
+                              <div class="flex flex-row px-2 my-1 bg-blue-200 rounded-2xl" v-for="email in emails" :key="email.id">
+                                 <button @click="eliminarEmail(email)" class="px-1 text-red-500">
+                                    x
+                                 </button>
+                                  {{ email }}
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row-start-3">
+                           <button class="bg-[#4f595e] text-white px-2 py-1 rounded-lg"  @click ="enviarCorreo">
                              Enviar correo
-                          </button>
+                           </button>
+                        </div>
                        </div>
                     </div>
                  </div>  
