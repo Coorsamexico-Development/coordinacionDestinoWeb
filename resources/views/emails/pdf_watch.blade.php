@@ -8,6 +8,6 @@
         </title>
     </head>
     <body>
-        Hola
+        Aqui tienes el reporte, que lo disfrutes c:
     </body>
 </html>

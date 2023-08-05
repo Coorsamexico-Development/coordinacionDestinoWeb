@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPUnit\Event\Code\Throwable;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class ReporteController extends Controller
 {
@@ -87,14 +90,40 @@ class ReporteController extends Controller
     }
 
 
-    public function sentMail ()
+    public function sentMail (Request $request)
     {
+        /*
+        $request->validate([
+            'emails' => ['required'],
+            'asunto' => ['required'],
+            'pdf' => ['required']
+        ]);
+        */
+        //return $request['pdf'];
+        $main_url = $request['pdf'];
+        $pdf_content = file_get_contents($request['pdf']);
+        //$file = basename($main_url);
+        //$pdf = header("Content-disposition:attachment; filename=$file");
+       
         /*
           Credenciales de correo
           reportes.coordinacion@outlook.com
           c00rs4m3x1c0
         */ 
-       Mail::to('hugo201123@gmail.com')->send(new PDFMail);
+      if (count($request['emails']) > 0) 
+      {
+        $asunto = $request['asunto'];
+          
+        for ($i=0; $i < count($request['emails'])  ; $i++) 
+        { 
+            $email = $request['emails'][$i];
+            Mail::to($email)->send(new PDFMail(
+                $asunto,
+                $pdf_content
+            ));
+        }
+      }
+      
        return 'ok';
     }
 }

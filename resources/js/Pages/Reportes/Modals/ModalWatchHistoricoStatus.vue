@@ -71,7 +71,7 @@
           id:newStatus.confirmacion_dt_id
        }}).then(response => 
           {
-             console.log(response);
+             //console.log(response);
              pdf.value = response.data;
           }).catch(err => 
           {
@@ -85,22 +85,9 @@
     
  });
 
-
- const enviarCorreo = () => 
- {
-    axios.get('/sentMail', {params:
-       {
-       }}).then(response => 
-       {
-          console.log(response.data);
-       }).catch(err => 
-       {
-         console.log(err)
-       });
- }
-
  const email = ref('');
  const emails = ref([]);
+ const asunto = ref('');
  const agregarCorreo = () =>
  {
     if(email.value !== "")
@@ -114,11 +101,30 @@
 
     }
  }
- const eliminarEmail = (email) => 
+ const eliminarEmail = (emailSelect) => 
  {
-    emails.value.filter()
+    emails.value.filter(email => email !== emailSelect );
  }
 
+ const enviarCorreo = () => 
+ {
+    axios.get('/sentMail', {params:
+       {
+         emails:emails.value,
+         asunto:asunto.value,
+         pdf:pdf.value.pdf
+       }}).then(response => 
+       {
+          console.log(response.data);
+          email.value = '';
+          emails.value = [];
+          asunto.value = '';
+          
+       }).catch(err => 
+       {
+         console.log(err)
+       });
+ }
   /*
   Prueba para subida de archivos 
   let file = ref(null)
@@ -182,8 +188,8 @@
                               <ButtonWatch :color="'#1D96F1'" />
                            </a>
                        </div>
-                       <div class="grid grid-rows-3">
-                        <div class="w-full px-2">
+                       <div class="grid grid-rows-3 mx-2">
+                        <div class="w-full row-start-1 px-2">
                            <InputLabel>
                               Para
                            </InputLabel>
@@ -192,14 +198,17 @@
                             <button class="bg-[#44BFFC] text-white px-2 py-1 rounded-lg m-2" @click="agregarCorreo()" >
                                 Agregar correo
                             </button>
-                           <div class="grid grid-cols-5">
-                              <div class="flex flex-row px-2 my-1 bg-blue-200 rounded-2xl" v-for="email in emails" :key="email.id">
+                           <div class="grid grid-cols-2">
+                              <div class="flex flex-row bg-blue-200 rounded-2xl" v-for="email in emails" :key="email.id">
                                  <button @click="eliminarEmail(email)" class="px-1 text-red-500">
                                     x
                                  </button>
                                   {{ email }}
                               </div>
                            </div>
+                        </div>
+                        <div class="row-start-2 mt-4">
+                           <textarea v-model="asunto" class="w-full"></textarea>
                         </div>
                         <div class="row-start-3">
                            <button class="bg-[#4f595e] text-white px-2 py-1 rounded-lg"  @click ="enviarCorreo">

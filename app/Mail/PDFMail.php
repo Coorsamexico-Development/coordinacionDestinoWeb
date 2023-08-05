@@ -13,23 +13,29 @@ class PDFMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected  $asunto;
+    protected  $pdf;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($asunto, $pdf)
     {
         //
+        $this->asunto = $asunto;
+        $this->pdf = $pdf;
     }
 
     /**
      * Get the message envelope.
      */
+    /*
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'P D F Mail',
+            subject: $this->info['asunto'],
         );
     }
+    */
 
     /**
      * Get the message content definition.
@@ -53,6 +59,11 @@ class PDFMail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emails.pdf_watch');
+        return $this->markdown('emails.pdf_watch')
+        ->subject($this->asunto)
+        ->attachData($this->pdf, 'reporte.pdf', [
+            'mime' => 'application/pdf',
+        ]);
+
     }
 }
