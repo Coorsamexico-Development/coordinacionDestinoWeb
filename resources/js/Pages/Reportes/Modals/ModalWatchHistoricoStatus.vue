@@ -10,8 +10,6 @@
   import '@fancyapps/ui/dist/fancybox/fancybox.css';
  import DropFile from '@/Components/DropFile.vue';
  import { useForm } from '@inertiajs/vue3'
- import VueIziToast from 'vue-izitoast';
- import 'izitoast/dist/css/iziToast.css';
   const emit = defineEmits(["close"])
   const props = defineProps({
       show: {
