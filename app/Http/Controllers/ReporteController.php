@@ -101,16 +101,15 @@ class ReporteController extends Controller
         */
         //return $request['pdf'];
         $main_url = $request['pdf'];
+        $ch = curl_init();
+	    curl_setopt($ch, CURLOPT_URL, $main_url);
+	    curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	    $output = curl_exec($ch);
+	    curl_close($ch);
 
-       $ch = curl_init($main_url);
-       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-       curl_setopt($ch, CURLOPT_HEADER, 0);
-       curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)");
-       curl_setopt($ch, CURLOPT_MAXREDIRS, 2); 
-       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-       $content = curl_exec($ch);
-       curl_close($ch);
-
+       return $output;
 
    
         //$pdf_content = file_get_contents($request['pdf']);
