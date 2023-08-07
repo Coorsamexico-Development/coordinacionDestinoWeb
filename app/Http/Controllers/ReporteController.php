@@ -111,7 +111,7 @@ class ReporteController extends Controller
        $content = curl_exec($ch);
        curl_close($ch);
 
-       return $content;   
+
    
         //$pdf_content = file_get_contents($request['pdf']);
         //return $pdf_content;
