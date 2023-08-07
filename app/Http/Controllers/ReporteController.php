@@ -116,4 +116,13 @@ class ReporteController extends Controller
       
        return 'ok';
     }
+
+    //Funcion para graficas
+    public function reporteGraficos (Request $request) 
+    {
+       
+        return Inertia::render('Graficas/Graficas.index',[
+
+        ]);
+    }
 }

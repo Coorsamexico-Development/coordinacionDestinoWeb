@@ -116,14 +116,15 @@
          pdf:pdf.value.pdf.substring(70)
        }}).then(response => 
        {
-          console.log(response.data);
+          //console.log(response.data);
           email.value = '';
           emails.value = [];
           asunto.value = '';
-          
+          alert(response.data);          
        }).catch(err => 
        {
          console.log(err)
+         alert(err);  
        });
  }
   /*

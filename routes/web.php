@@ -70,3 +70,5 @@ Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editU
 Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF');
 //Ruta para enviar correo
 Route::get('/sentMail',[ReporteController::class, 'sentMail'])->name('sentMail');
+//Apartado de graficas
+Route::get('/reporteGraficos',[ReporteController::class, 'reporteGraficos'])->name('reportes.graficos.index');
