@@ -100,13 +100,6 @@ class ReporteController extends Controller
         ]);
         */
         //return $request['pdf'];
-        $arrContextOptions=array(
-            "ssl"=>array(
-                  "verify_peer"=>false,
-                  "verify_peer_name"=>false,
-              ),
-          );  
-      
         $main_url = $request['pdf'];
         return file_get_contents($main_url);
 
