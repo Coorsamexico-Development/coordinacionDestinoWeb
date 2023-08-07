@@ -99,13 +99,7 @@ class ReporteController extends Controller
             'pdf' => ['required']
         ]);
         */
-        //return $request['pdf'];
-        $main_url = $request['pdf'];
-        return file_get_contents($main_url);
-
-        //$file = basename($main_url);
-        //$pdf = header("Content-disposition:attachment; filename=$file");
-       
+        return $request;
         /*
           Credenciales de correo
           reportes.coordinacion@outlook.com
@@ -114,15 +108,16 @@ class ReporteController extends Controller
       if (count($request['emails']) > 0) 
       {
         $asunto = $request['asunto'];
-          
+          /*
         for ($i=0; $i < count($request['emails'])  ; $i++) 
         { 
             $email = $request['emails'][$i];
             Mail::to($email)->send(new PDFMail(
                 $asunto,
-                $main_url
+               
             ));
         }
+        */
       }
       
        return 'ok';

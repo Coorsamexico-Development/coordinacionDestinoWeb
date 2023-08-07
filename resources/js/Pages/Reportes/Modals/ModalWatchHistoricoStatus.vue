@@ -112,7 +112,7 @@
        {
          emails:emails.value,
          asunto:asunto.value,
-         pdf:pdf.value.pdf
+         confirmacion:pdf.value.confirmacion
        }}).then(response => 
        {
           console.log(response.data);
