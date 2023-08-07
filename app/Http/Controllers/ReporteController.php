@@ -93,31 +93,25 @@ class ReporteController extends Controller
     public function sentMail (Request $request)
     {
         /*
-        $request->validate([
-            'emails' => ['required'],
-            'asunto' => ['required'],
-            'pdf' => ['required']
-        ]);
-        */
-        return $request;
-        /*
           Credenciales de correo
           reportes.coordinacion@outlook.com
           c00rs4m3x1c0
         */ 
+
+      //Buscamos la confirmacion
+      $file = Storage::disk('gcs')->get('pdfs/'.$request['pdf']);
+
       if (count($request['emails']) > 0) 
       {
         $asunto = $request['asunto'];
-          /*
         for ($i=0; $i < count($request['emails'])  ; $i++) 
         { 
             $email = $request['emails'][$i];
             Mail::to($email)->send(new PDFMail(
                 $asunto,
-               
+                $file
             ));
         }
-        */
       }
       
        return 'ok';

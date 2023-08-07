@@ -542,7 +542,7 @@ class ValorController extends Controller
           $pdf->output()
         );
        
-        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf');
+        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d_H-m').'.pdf');
         //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
         
         $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])

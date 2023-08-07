@@ -108,11 +108,12 @@
 
  const enviarCorreo = () => 
  {
+    //console.log(pdf.value.pdf.substring(70));
     axios.get('/sentMail', {params:
        {
          emails:emails.value,
          asunto:asunto.value,
-         confirmacion:pdf.value.confirmacion
+         pdf:pdf.value.pdf.substring(70)
        }}).then(response => 
        {
           console.log(response.data);
