@@ -101,7 +101,10 @@ class ReporteController extends Controller
         */
         //return $request['pdf'];
         $main_url = $request['pdf'];
-        $pdf_content = file_get_contents($request['pdf']);
+        $context = stream_context_create(array(
+            'http' => array('ignore_errors' => true),
+        ));
+        $pdf_content = file_get_contents($request['pdf'], false, $context);
         return $pdf_content;
         //$file = basename($main_url);
         //$pdf = header("Content-disposition:attachment; filename=$file");
