@@ -101,19 +101,7 @@ class ReporteController extends Controller
         */
         //return $request['pdf'];
         $main_url = $request['pdf'];
-        $ch = curl_init();
-	    curl_setopt($ch, CURLOPT_URL, $main_url);
-	    curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
-	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-	    $output = curl_exec($ch);
-	    curl_close($ch);
-
-       return $output;
-
-   
-        //$pdf_content = file_get_contents($request['pdf']);
-        //return $pdf_content;
+        $pdf_content = file_get_contents($request['pdf']);
         //$file = basename($main_url);
         //$pdf = header("Content-disposition:attachment; filename=$file");
        
@@ -131,7 +119,7 @@ class ReporteController extends Controller
             $email = $request['emails'][$i];
             Mail::to($email)->send(new PDFMail(
                 $asunto,
-                $content
+                $pdf_content
             ));
         }
       }
