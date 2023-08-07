@@ -102,7 +102,7 @@ class ReporteController extends Controller
         //return $request['pdf'];
         $main_url = $request['pdf'];
 
-        $ch = curl_init($main_url);
+       $ch = curl_init($main_url);
        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
        curl_setopt($ch, CURLOPT_HEADER, 0);
        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)");
@@ -111,7 +111,8 @@ class ReporteController extends Controller
        $content = curl_exec($ch);
        curl_close($ch);
 
-       return $content;
+       return [$content, $request];
+
 
         //$pdf_content = file_get_contents($request['pdf']);
         //return $pdf_content;

@@ -208,6 +208,9 @@
                            </div>
                         </div>
                         <div class="row-start-2 mt-4">
+                           <InputLabel>
+                              Asunto
+                           </InputLabel>
                            <textarea v-model="asunto" class="w-full"></textarea>
                         </div>
                         <div class="row-start-3">
