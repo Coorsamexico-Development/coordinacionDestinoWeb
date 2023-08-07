@@ -538,11 +538,11 @@ class ValorController extends Controller
         //guardamos en storage
          $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
         ->put(
-         'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-s').'.pdf',
+         'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf',
           $pdf->output()
         );
        
-        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-s').'.pdf');
+        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
         //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
         
         $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
@@ -576,7 +576,7 @@ class ValorController extends Controller
     public function fotosEnrrampe (Request $request)
     {
        $fotos = $request['params']['fotos']; //tenemos el objeto de fotos dividido por el campo y el objeto de fotos que contiene un array de fotos
-       /*
+       
        for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
        { 
            $foto = $fotos['fotos']['fotos'][$i]; // tenemos cada objeto de foto
@@ -613,7 +613,6 @@ class ValorController extends Controller
                }
            }
        }
-       */
        
     }
 
