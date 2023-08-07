@@ -538,11 +538,11 @@ class ValorController extends Controller
         //guardamos en storage
          $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
         ->put(
-         'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d H-m').'.pdf',
+         'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-s').'.pdf',
           $pdf->output()
         );
        
-        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('H-S').'.pdf');
+        $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-s').'.pdf');
         //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
         
         $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
