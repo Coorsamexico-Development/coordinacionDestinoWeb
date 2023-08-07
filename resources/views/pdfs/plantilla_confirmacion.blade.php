@@ -83,7 +83,7 @@
      <div class="firma">
         <h3 class="confirmacion">Firma</h3>
         <?php
-         echo '<img width: 18rem src="'.$firma.'" />'
+         echo '<img width: 12rem src="'.$firma.'" />'
         ?>
     </div>
     </body>
