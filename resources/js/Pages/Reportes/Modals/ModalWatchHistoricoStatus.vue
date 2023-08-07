@@ -108,15 +108,11 @@
 
  const enviarCorreo = () => 
  {
-    let protocol = pdf.value.pdf.substring(0,4);
-    let file = pdf.value.pdf.substring(5);
-    let url = protocol+file;
-
     axios.get('/sentMail', {params:
        {
          emails:emails.value,
          asunto:asunto.value,
-         pdf:url
+         pdf:pdf.value.pdf
        }}).then(response => 
        {
           console.log(response.data);
