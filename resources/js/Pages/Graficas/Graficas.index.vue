@@ -36,9 +36,9 @@ const contadorGlobal = computed(() =>
                 Reportes
             </h2>
         </template>
-       <div class="grid grid-cols-3 gap-4">
+       <div class="grid grid-cols-6 gap-4">
           <div class="p-4">
-              <div class="w-80"> <!--Totales-->
+              <div class="w-full"> <!--Totales-->
                  <h1 class="mb-8 text-xl font-bold">Totales</h1>
                  <div class="px-4" style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
                     <div v-for="statu in status" :key="statu.id">
@@ -52,7 +52,7 @@ const contadorGlobal = computed(() =>
                   
               </div>
           </div>
-          <div>
+          <div class="w-full col-start-2 col-end-5">
              <div class="p-4">
                 <div class="flex flex-row justify-between">
                     <h1 class="mb-8 text-xl font-bold">
