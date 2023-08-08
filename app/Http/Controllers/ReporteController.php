@@ -120,9 +120,26 @@ class ReporteController extends Controller
     //Funcion para graficas
     public function reporteGraficos (Request $request) 
     {
+        $status =  Statu::select('status.*')
+        ->with(['status_hijos' => function ($query)
+        {
+            $query->select('status.*')
+            ->whereNotNull('status.status_padre')
+            ->groupBy('status.id')
+            ->with(
+                'confirmacionesDts' 
+                );
+        }])
+        ->whereNull('status.status_padre')
+        ->get();
+
+        $plataformas = Plataforma::select('plataformas.*')
+        ->where('plataformas.activo','=',1)
+        ->get();
        
         return Inertia::render('Graficas/Graficas.index',[
-
+          'status' => $status,
+          'plataformas' => $plataformas
         ]);
     }
 }
