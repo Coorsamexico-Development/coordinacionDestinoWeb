@@ -1,6 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StatusBoxContador from './Partials/StatusBoxContador.vue';
+import PlataformaBoxContador from './Partials/PlataformaBoxContador.vue';
 var props = defineProps({
    status:Object,
    plataformas:Object
@@ -39,8 +40,10 @@ var props = defineProps({
                         Switch
                     </div>
                 </div>
-                <div>
-
+                <div class="flex flex-row justify-between">
+                    <div  v-for="plataforma in plataformas" :key="plataforma.id">
+                        <PlataformaBoxContador :plataforma="plataforma" />
+                    </div>
                 </div>
              </div>
           </div>

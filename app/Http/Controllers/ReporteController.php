@@ -135,6 +135,9 @@ class ReporteController extends Controller
 
         $plataformas = Plataforma::select('plataformas.*')
         ->where('plataformas.activo','=',1)
+        ->with(
+            'confirmacionesDts' 
+            )
         ->get();
        
         return Inertia::render('Graficas/Graficas.index',[
