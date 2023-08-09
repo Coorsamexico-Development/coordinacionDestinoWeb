@@ -121,24 +121,56 @@ class ReporteController extends Controller
     public function reporteGraficos (Request $request) 
     {
         $status =  Statu::select('status.*')
-        ->with(['status_hijos' => function ($query)
+        ->with(['status_hijos' => function ($query) use ($request) 
         {
             $query->select('status.*')
             ->whereNotNull('status.status_padre')
             ->groupBy('status.id')
             ->with(
-                'confirmacionesDts' 
+                [
+                    'confirmacionesDts'  => function ($query1) use ($request) 
+                      {
+                        $fechaActual = date("Y-m");
+                        $query1->select(
+                            'confirmacion_dts.*',
+                        );
+        
+                        if($request->has('fecha'))
+                        {
+                        
+                          $query1->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
+                        }
+                        else{
+                            $query1->where('confirmacion_dts.cita','LIKE','%'.$fechaActual.'%');
+                        }
+                      }
+                    ]
                 );
         }])
-        ->whereNull('status.status_padre')
-        ->get();
+        ->whereNull('status.status_padre');
 
         $plataformas = Plataforma::select('plataformas.*')
         ->where('plataformas.activo','=',1)
         ->with(
-            'confirmacionesDts' 
-            )
-        ->get();
+            [
+                'confirmacionesDts'  => function ($query) use ($request) 
+                  {
+                    $fechaActual = date("Y-m");
+                    $query->select(
+                        'confirmacion_dts.*',
+                    );
+    
+                    if($request->has('fecha'))
+                    {
+                      $query->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
+                    }
+                    else{
+                        $query->where('confirmacion_dts.cita','LIKE','%'.$fechaActual.'%');
+                    }
+                  }
+                ]
+            );
+
 
         $ubicaciones = Ubicacione::all();
         $status_graph = Statu::select(
@@ -147,14 +179,30 @@ class ReporteController extends Controller
         )
         ->where('status.nombre','LIKE','%Liberada%')
         ->orWhere('status.nombre','LIKE','%riesgo%')
-        ->with('confirmacionesDts')
-        ->get();
+        ->with([
+            'confirmacionesDts'  => function ($query) use ($request) 
+              {
+                $fechaActual = date("Y-m");
+                $query->select(
+                    'confirmacion_dts.*',
+                );
+
+                if($request->has('fecha'))
+                {
+                  $query->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
+                }
+                else{
+                    $query->where('confirmacion_dts.cita','LIKE','%'.$fechaActual.'%');
+                }
+              }
+            ]);
+
        
         return Inertia::render('Graficas/Graficas.index',[
-          'status' => $status,
-          'plataformas' => $plataformas,
+          'status' => fn () =>  $status->get(),
+          'plataformas' => fn () => $plataformas->get(),
           'ubicaciones' => $ubicaciones,
-          'status_graph' =>$status_graph
+          'status_graph' => fn () => $status_graph->get()
         ]);
     }
 }

@@ -1,10 +1,14 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { router } from '@inertiajs/vue3'
 import StatusBoxContador from './Partials/StatusBoxContador.vue';
 import PlataformaBoxContador from './Partials/PlataformaBoxContador.vue';
 import Switch from './Partials/Switch.vue'
 import { onMounted, reactive, ref, watch, computed } from "vue";
 import GraficaTotales from './Partials/GraficaTotales.vue'
+import ButtonCalendar from '@/Components/ButtonCalendar.vue';
+import { pickBy, throttle } from "lodash";
+
 var props = defineProps({
    status:Object,
    plataformas:Object,
@@ -26,7 +30,7 @@ const contadorGlobal = computed(() =>
     } 
 
     return {
-      tipo:'DTS',
+      tipo:'Confirmaciones',
       cantidad:totales.length
      }
 });
@@ -54,7 +58,7 @@ const dataGrafica = computed(() =>
          for (let index3 = 0; index3 < status.confirmaciones_dts.length; index3++) 
          {
             const confirmacion = status.confirmaciones_dts[index3];
-            console.log(confirmacion.ubicacion_id)
+            //console.log(confirmacion.ubicacion_id)
             if(ubicacion.id == confirmacion.ubicacion_id)
             {
               //console.log('son iguales')
@@ -69,6 +73,97 @@ const dataGrafica = computed(() =>
 
    return finalData;
 });
+
+//Fechas
+let date = ref({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+});
+
+//Filtros
+const params = reactive({
+    tipo: null,
+    fecha:null,
+});
+
+const changeDate = (newDate) => {
+    date.value = newDate;
+    let fecha = null;
+    //console.log(newDate.month)
+    switch (newDate.month) 
+    {
+      case 0: //Enero
+            fecha = newDate.year + '-' + "01";
+            params.fecha = fecha;
+         break;
+      case 1: //Febrero
+            fecha = newDate.year + '-' + "02";
+            params.fecha = fecha;
+         break;
+      case 2: //Marzo
+            fecha = newDate.year + '-' + "03";
+            params.fecha = fecha;
+         break;
+      case 3: //Abril
+            fecha = newDate.year + '-' + "04";
+            params.fecha = fecha;
+         break;
+      case 4: //Mayo
+            fecha = newDate.year + '-' + "05";
+            params.fecha = fecha;
+         break;
+      case 5: //Junio
+         fecha = newDate.year + '-' + "06";
+         params.fecha = fecha;
+      break;
+      case 6: //Julio
+         fecha = newDate.year + '-' + "07";
+         params.fecha = fecha;
+      break;
+      case 7: //Agosto
+         fecha = newDate.year + '-' + "08";
+         params.fecha = fecha;
+      break;
+      case 8: //Spetiembre
+         fecha = newDate.year + '-' + "09";
+         params.fecha = fecha;
+      break;
+      case 9: //Octubre
+         fecha = newDate.year + '-' + "10";
+         params.fecha = fecha;
+      break;
+      case 10: //Noviembre
+         fecha = newDate.year + '-' + "11";
+         params.fecha = fecha;
+      break;
+      case 11: //Diciembre
+         fecha = newDate.year + '-' + "12";
+         params.fecha = fecha;
+      break;
+    }
+};
+
+//watcher para filtros
+watch(params, throttle(function () 
+  {
+    search();
+ }), 100);
+
+ const search = () => 
+{
+   const filters = pickBy(params);
+   //console.log(filters);
+   
+   
+   router.visit(route('reportes.graficos.index'),{
+        data:filters,
+        preserveScroll:true,
+        preserveState:true,
+        only:['status_graph','plataformas', 'status']
+    }); 
+   
+   
+}
 
 </script>
 <template>
@@ -91,7 +186,7 @@ const dataGrafica = computed(() =>
                  </div>
               </div>
               <div>
-                  
+
               </div>
           </div>
           <div class="w-full col-start-2 col-end-5">
@@ -100,6 +195,9 @@ const dataGrafica = computed(() =>
                     <h1 class="mb-8 text-xl font-bold">
                         Embarques
                     </h1>
+                    <div>
+                    <ButtonCalendar :month="date.month"  :year="date.year"  @change-date="changeDate($event)" />
+                    </div>
                     <div>
                         <Switch />
                     </div>

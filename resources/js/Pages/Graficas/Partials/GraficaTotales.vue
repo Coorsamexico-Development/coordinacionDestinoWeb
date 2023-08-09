@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeUpdate, ref } from "vue";
+import { onMounted, onBeforeUpdate, ref, watch } from "vue";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
@@ -10,6 +10,14 @@ var props = defineProps({
     status_graph:Object
 });
 
+let chart = null;
+
+watch(() => props.data,(nuevosValores) => 
+    { //el whatcher observa el cambio de la data
+        console.log(nuevosValores);  //lo imprime
+        chart.data = nuevosValores  
+     });
+
 am4core.useTheme(am4themes_animated);
 onMounted(() => 
  {     
@@ -18,7 +26,7 @@ onMounted(() =>
        // Themes end
        
        // Create chart instance
-       var chart = am4core.create("chartdiv", am4charts.XYChart);
+       chart = am4core.create("chartdiv", am4charts.XYChart);
     
        // Add data
        chart.data = props.data
