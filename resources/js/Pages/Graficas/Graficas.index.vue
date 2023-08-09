@@ -66,6 +66,7 @@ const dataGrafica = computed(() =>
             }
          }
 
+       
         newObject[status.nombre] = contador.length;
        }     
       finalData.push(newObject);

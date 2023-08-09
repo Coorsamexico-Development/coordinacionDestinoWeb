@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
 use App\Models\Plataforma;
+use App\Models\Statu;
 use App\Models\StatusDt;
+use App\Models\Ubicacione;
 use Illuminate\Http\Request;
 
 class ConfirmacionDtController extends Controller
@@ -255,5 +257,21 @@ class ConfirmacionDtController extends Controller
       return ConfirmacionDt::select('confirmacion_dts.*')
       ->where('id','=',$request['id'])
       ->first();
+  }
+
+  public function consultarConfirmaciones (Request $request)
+  {
+      $ubicacion = Ubicacione::select('ubicaciones.*')
+      ->where('ubicaciones.nombre_ubicacion','=',$request['ubicacion'])
+      ->first();
+
+      $status = Statu::select('status.*')
+      ->where('status.nombre','=',$request['status'])
+      ->first();
+
+     return $confirmaciones = ConfirmacionDt::select('confirmacion_dts.*')
+      ->where('confirmacion_dts.status_id','=', $status['id'])
+      ->where('confirmacion_dts.ubicacion_id','=', $ubicacion['id'])
+      ->get();
   }
 }

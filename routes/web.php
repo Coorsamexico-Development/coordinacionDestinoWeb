@@ -72,3 +72,5 @@ Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF'
 Route::get('/sentMail',[ReporteController::class, 'sentMail'])->name('sentMail');
 //Apartado de graficas
 Route::get('/reporteGraficos',[ReporteController::class, 'reporteGraficos'])->name('reportes.graficos.index');
+//Consulta para checar viejes de grafica por click
+Route::get('/consultarConfirmaciones',[ConfirmacionDtController::class, 'consultarConfirmaciones'])->name('consultarConfirmaciones');

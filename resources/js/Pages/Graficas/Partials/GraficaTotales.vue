@@ -3,6 +3,8 @@ import { onMounted, onBeforeUpdate, ref, watch } from "vue";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import ModalInfoViajes from '../Modals/ModalInfoViajes.vue'
+import axios from 'axios';
 
 var props = defineProps({
     data:Array,
@@ -70,14 +72,17 @@ onMounted(() =>
        valueAxis.min = 0;
        
        // Create series
-       function createSeries(field, name) {
-         
+       function createSeries(field, name)
+      {
+
          // Set up series
          var series = chart.series.push(new am4charts.ColumnSeries());
          series.name = name;
          series.dataFields.valueY = field;
          series.dataFields.categoryX = "ubicacion";
          series.sequencedInterpolation = true;
+         //series.dataFields.categoryY = name;
+       
          
          // Make it stacked
          series.stacked = true;
@@ -91,6 +96,12 @@ onMounted(() =>
          labelBullet.label.text = "{valueY}";
          labelBullet.locationY = 0.5;
          labelBullet.label.hideOversized = true;
+
+         series.columns.template.events.on("hit", function(ev)
+         {
+            //console.log(ev.target.dataItem.component.dataFields.valueY);
+            consultar(ev.target.dataItem.categoryX, ev.target.dataItem.component.dataFields.valueY)
+         })
          
          return series;
        }
@@ -99,7 +110,7 @@ onMounted(() =>
        for (let index = 0; index < props.status_graph.length; index++)
          {
             const statu = props.status_graph[index];
-            //console.log(statu)
+
             createSeries(statu.nombre, statu.nombre);
             
          }
@@ -117,10 +128,46 @@ onMounted(() =>
        chart.scrollbarX.parent = chart.bottomAxesContainer;
        // Legend
        chart.legend = new am4charts.Legend();
+
+       
  });
+
+ const consultar = async (ubicacion, status) => 
+ {
+    try 
+    {
+      await axios.get('/consultarConfirmaciones', {params:
+      {
+        ubicacion: ubicacion,
+        status: status
+        }}).then(response => 
+        {
+            console.log(response.data)
+       }).catch(err => 
+      {
+        console.log(err)
+      });
+    } 
+    catch (error) 
+    {
+      
+    }
+ }
+
+ const modalInfo = ref(false);
+ const openModalInfo = () => 
+ {
+    modalInfo.value = true;
+ }
+
+ const closeModalInfo = () =>
+ {
+   modalInfo.value = false;
+ }
 </script>
 <template>
     <div id="chartdiv"></div>
+    <ModalInfoViajes :show="modalInfo" @close="closeModalInfo()" />
 </template>
 <style>
 #chartdiv {
