@@ -104,7 +104,9 @@ onMounted(() =>
        createSeries("meast", "Middle-East");
        createSeries("africa", "Africa");
     */
-       
+            
+       chart.scrollbarX = new am4core.Scrollbar();
+       chart.scrollbarX.parent = chart.bottomAxesContainer;
        // Legend
        chart.legend = new am4charts.Legend();
  });

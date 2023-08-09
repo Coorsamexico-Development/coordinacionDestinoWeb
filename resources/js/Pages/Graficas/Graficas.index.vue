@@ -122,8 +122,7 @@ const dataGrafica = computed(() =>
              </div>
              <div>
                <div class="w-full p-4 bg-white rounded-lg">
-                  <h1>Totales</h1>
-                  {{ dataGrafica }}
+                  <h1 class="text-xl font-bold">Totales</h1>
                   <GraficaTotales :data="dataGrafica" :ubicaciones="ubicaciones" :status_graph="status_graph" />
                </div>
              </div>
