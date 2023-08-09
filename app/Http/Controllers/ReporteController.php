@@ -139,10 +139,22 @@ class ReporteController extends Controller
             'confirmacionesDts' 
             )
         ->get();
+
+        $ubicaciones = Ubicacione::all();
+        $status_graph = Statu::select(
+            'status.id',
+            'status.nombre'
+        )
+        ->where('status.nombre','LIKE','%Liberada%')
+        ->orWhere('status.nombre','LIKE','%riesgo%')
+        ->with('confirmacionesDts')
+        ->get();
        
         return Inertia::render('Graficas/Graficas.index',[
           'status' => $status,
-          'plataformas' => $plataformas
+          'plataformas' => $plataformas,
+          'ubicaciones' => $ubicaciones,
+          'status_graph' =>$status_graph
         ]);
     }
 }

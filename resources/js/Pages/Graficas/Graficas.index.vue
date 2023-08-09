@@ -2,11 +2,14 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import StatusBoxContador from './Partials/StatusBoxContador.vue';
 import PlataformaBoxContador from './Partials/PlataformaBoxContador.vue';
+import Switch from './Partials/Switch.vue'
 import { onMounted, reactive, ref, watch, computed } from "vue";
 import GraficaTotales from './Partials/GraficaTotales.vue'
 var props = defineProps({
    status:Object,
-   plataformas:Object
+   plataformas:Object,
+   ubicaciones:Object,
+   status_graph:Object
 });
 
 const contadorGlobal = computed(() =>
@@ -26,6 +29,45 @@ const contadorGlobal = computed(() =>
       tipo:'DTS',
       cantidad:totales.length
      }
+});
+
+const dataGrafica = computed(() =>
+{
+   let finalData = [];
+   for (let index = 0; index < props.ubicaciones.length; index++) 
+   {
+      const ubicacion = props.ubicaciones[index];
+      let newObject = 
+       {
+          id: ubicacion.id,
+          ubicacion:ubicacion.nombre_ubicacion,
+       };  
+
+       //Todas las ubicaciones tendran los mismos status pero hay que setear el conteo por ubicacion
+      // console.log(ubicacion.id)
+       //Recorremos los status y los steamos por ubicacion
+       for (let index2 = 0; index2 < props.status_graph.length; index2++) 
+       {
+         const status = props.status_graph[index2];   
+         let contador = [];   
+        // newObject[status.nombre] = 0;
+         for (let index3 = 0; index3 < status.confirmaciones_dts.length; index3++) 
+         {
+            const confirmacion = status.confirmaciones_dts[index3];
+            console.log(confirmacion.ubicacion_id)
+            if(ubicacion.id == confirmacion.ubicacion_id)
+            {
+              //console.log('son iguales')
+              contador.push(confirmacion);
+            }
+         }
+
+        newObject[status.nombre] = contador.length;
+       }     
+      finalData.push(newObject);
+   }
+
+   return finalData;
 });
 
 </script>
@@ -59,7 +101,7 @@ const contadorGlobal = computed(() =>
                         Embarques
                     </h1>
                     <div>
-                        Switch
+                        <Switch />
                     </div>
                 </div>
                 <div class="flex flex-row justify-between bg-white rounded-lg">
@@ -79,9 +121,10 @@ const contadorGlobal = computed(() =>
                 </div>
              </div>
              <div>
-               <div class="p-4 bg-white rounded-lg">
+               <div class="w-full p-4 bg-white rounded-lg">
                   <h1>Totales</h1>
-                  <GraficaTotales />
+                  {{ dataGrafica }}
+                  <GraficaTotales :data="dataGrafica" :ubicaciones="ubicaciones" :status_graph="status_graph" />
                </div>
              </div>
           </div>
