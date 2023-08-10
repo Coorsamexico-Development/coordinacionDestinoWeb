@@ -79,5 +79,7 @@ const closeEditUser = () =>
         </td>
      </tr>
    </table>
-   <ModalEditUser @close="closeEditUser()" :show="editUser" :user="userActive" :roles="roles" :ubicaciones="ubicaciones" />
+   <div v-if="userActive !== {}">
+     <ModalEditUser @close="closeEditUser()" :show="editUser" :user="userActive" :roles="roles" :ubicaciones="ubicaciones" />
+   </div>
 </template>

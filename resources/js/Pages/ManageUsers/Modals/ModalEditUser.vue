@@ -23,7 +23,16 @@
      emit('close');
   };
 
+
   const form = useForm({
+    nombre:'',
+    ap_paterno:'',
+    ap_materno:'',
+    email:'',
+    contraseña:'',
+    role_id:'',
+    ubicacion_id:''
+   /*
     nombre:props.user.name,
     ap_paterno:props.user.apellido_paterno,
     ap_materno:props.user.apellido_materno,
@@ -31,7 +40,21 @@
     contraseña:'',
     role_id:props.user.role_id,
     ubicacion_id:props.user.ubicacion_id
+    */
   })
+
+
+  watch(() => props.user,(nuevosValores) => 
+    { //el whatcher observa el cambio de la data
+        console.log(nuevosValores);  //lo imprim
+        form.nombre = nuevosValores.name
+        form.ap_paterno = nuevosValores.apellido_paterno
+        form.ap_materno = nuevosValores.apellido_materno
+        form.email = nuevosValores.email
+        form.role_id = nuevosValores.role_id
+        form.ubicacion_id = nuevosValores.ubicacion_id
+     });
+
 
   const editUser = () => 
   {
@@ -58,6 +81,7 @@
          </div>
        </template>
        <template #content  >
+         {{ user }}
           <div class="grid grid-cols-3">
             <div>
                <InputLabel :value="'Nombre'" />
