@@ -83,7 +83,11 @@ onMounted(() =>
          series.dataFields.categoryX = "ubicacion";
          series.sequencedInterpolation = true;
          //series.dataFields.categoryY = name;
-       
+        
+         if(name == 'En riesgo')
+         {
+           series.columns.template.fill = am4core.color("#E86881"); // green fill
+         }
          
          // Make it stacked
          series.stacked = true;
