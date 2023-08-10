@@ -1,7 +1,11 @@
 <script setup> 
  import { ref, watch, reactive } from 'vue';
  import DialogModal from '@/Components/DialogModal.vue';
- const emit = defineEmits(["close"])
+ import ButtonWatch from '@/Components/ButtonWatch.vue';
+ import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
+ import '@fancyapps/ui/dist/fancybox/fancybox.css';
+
+  const emit = defineEmits(["close"])
   const props = defineProps({
       show: {
           type: Boolean,
@@ -13,6 +17,10 @@
   const close = () => { 
      emit('close');
   };
+
+  Fancybox.bind("[data-fancybox]", {
+    // Your custom options
+ });
 </script>
 <template>
        <DialogModal  :show="show" @close="close()">
@@ -26,11 +34,11 @@
        </template>
        <template #content  >
 
-          <table class="w-full">
-            <thead>
-               <tr>
+          <table class="w-full text-center">
+            <thead class="">
+               <tr class="border-b border-[#44BFFC]">
                   <th>
-                     Confirmación
+                     <h1 class="">Confirmación</h1>
                   </th>
                   <th>
                      DT
@@ -72,8 +80,10 @@
                   <td>
                      {{ viaje.plataforma }}
                   </td>
-                  <td>
-                    
+                  <td class="flex justify-center">
+                     <a :href="viaje.pdf" data-fancybox   data-type="pdf">
+                        <ButtonWatch :color="'#1D96F1'" />
+                     </a>
                   </td>
                </tr>
             </tbody>
