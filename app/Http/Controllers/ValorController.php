@@ -628,6 +628,8 @@ class ValorController extends Controller
        ->where('campos.status_id','=', $status['status_padre'])
        ->get();
 
+       return $request;
+       
        $valors = Valor::select('valors.*','campos.id as campo_id',)
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
        ->join('dts','dt_campo_valors.dt_id','dts.id')
