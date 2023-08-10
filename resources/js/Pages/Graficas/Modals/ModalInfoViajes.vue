@@ -23,7 +23,7 @@
  });
 </script>
 <template>
-       <DialogModal  :show="show" @close="close()">
+       <DialogModal maxWidth="4xl"  :show="show" @close="close()">
        <template #title>
          <div class="flex flex-row justify-between">
             <h1>Viajes</h1>
