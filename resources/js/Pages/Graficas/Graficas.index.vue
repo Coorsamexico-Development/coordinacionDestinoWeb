@@ -222,7 +222,7 @@ watch(params, throttle(function ()
              <div>
                <div class="w-full p-4 bg-white rounded-lg">
                   <h1 class="text-xl font-bold">Totales</h1>
-                  <GraficaTotales :data="dataGrafica" :ubicaciones="ubicaciones" :status_graph="status_graph" />
+                  <GraficaTotales :data="dataGrafica" :ubicaciones="ubicaciones" :status_graph="status_graph" :fecha="params.fecha" />
                </div>
              </div>
           </div>

@@ -9,7 +9,8 @@ import axios from 'axios';
 var props = defineProps({
     data:Array,
     ubicaciones:Object,
-    status_graph:Object
+    status_graph:Object,
+    fecha:String
 });
 
 let chart = null;
@@ -132,17 +133,22 @@ onMounted(() =>
        
  });
 
+ let viajes = ref([]);
  const consultar = async (ubicacion, status) => 
  {
     try 
     {
       await axios.get('/consultarConfirmaciones', {params:
       {
+        fecha:props.fecha,
         ubicacion: ubicacion,
         status: status
         }}).then(response => 
         {
-            console.log(response.data)
+            //console.log(response.data)
+            viajes.value = response.data;
+            openModalInfo();
+
        }).catch(err => 
       {
         console.log(err)
@@ -167,7 +173,9 @@ onMounted(() =>
 </script>
 <template>
     <div id="chartdiv"></div>
-    <ModalInfoViajes :show="modalInfo" @close="closeModalInfo()" />
+    <div v-if="viajes.length > 0">
+      <ModalInfoViajes :show="modalInfo" @close="closeModalInfo()" :viajes="viajes" />
+    </div>
 </template>
 <style>
 #chartdiv {
