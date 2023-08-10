@@ -57,7 +57,7 @@ watch(params, (newParams) =>
     }))
       .then(response => {
           // Obtenemos los datos
-          console.log(response)
+          //console.log(response)
           nuevosParametros.value = {
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
@@ -147,6 +147,7 @@ const valores = computed(() =>
             <!--SwitchButton-->
             <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
             <div v-if="dts !== null">
+              <!--SON CONFIRMACIONES las que se listan-->
                <div v-for="dt in dtsData" :key="dt.id">
                   <DtBlock :dt="dt"  />
                </div>
