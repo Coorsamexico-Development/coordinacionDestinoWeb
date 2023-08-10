@@ -630,7 +630,9 @@ class ValorController extends Controller
 
        $valors =  Valor::select('valors.*')
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-       ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
+       ->join('dts','dt_campo_valors.dt_id','dts.id')
+       ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+       ->where('confirmacion_dts.id','=',  $request['confirmacion_dt_id'])
        ->distinct('valors.id')
        ->get();
 

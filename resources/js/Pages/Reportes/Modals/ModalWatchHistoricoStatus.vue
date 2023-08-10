@@ -34,6 +34,7 @@
 
   const consultarHistoria = async (historiaIndividual) => 
   {
+   console.log(historiaIndividual)
    statusActual.value = historiaIndividual;
    try 
    {
