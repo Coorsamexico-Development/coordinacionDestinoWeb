@@ -4,6 +4,7 @@
  import ButtonWatch from '@/Components/ButtonWatch.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
  import '@fancyapps/ui/dist/fancybox/fancybox.css';
+ import ModalWatchHistoricoStatus from '../../Reportes/Modals/ModalWatchHistoricoStatus.vue'
 
   const emit = defineEmits(["close"])
   const props = defineProps({
@@ -121,5 +122,5 @@ const modalWatchClose = () =>
           </table>
        </template>
    </DialogModal>
-   
+   <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
 </template>
