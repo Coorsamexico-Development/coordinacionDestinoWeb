@@ -628,8 +628,13 @@ class ValorController extends Controller
        ->where('campos.status_id','=', $status['status_padre'])
        ->get();
 
-       return $request;
-       
+       $valors =  Valor::select('valors.*')
+       ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+       ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
+       ->distinct('valors.id')
+       ->get();
+
+       /*
        $valors = Valor::select('valors.*','campos.id as campo_id',)
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
        ->join('dts','dt_campo_valors.dt_id','dts.id')
@@ -640,6 +645,7 @@ class ValorController extends Controller
        ->where('confirmacion_dts.dt_id','=',  $request['confirmacion_dt_id'])
        ->distinct('valors.id')
        ->get();
+       */
 
        return ['campos' => $campos, 'valors' => $valors ];
     }
