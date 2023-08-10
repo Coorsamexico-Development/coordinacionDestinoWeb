@@ -81,7 +81,6 @@
          </div>
        </template>
        <template #content  >
-         {{ user }}
           <div class="grid grid-cols-3">
             <div>
                <InputLabel :value="'Nombre'" />
