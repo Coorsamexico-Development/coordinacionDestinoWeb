@@ -277,6 +277,7 @@ class ConfirmacionDtController extends Controller
              'confirmacion_dts.cita',
              'confirmacion_dts.numero_cajas',
              'confirmacion_dts.pdf',
+             'confirmacion_dts.dt_id as dt_id',
              'dts.referencia_dt as dt',
              'linea_transportes.nombre as linea_transporte',
              'plataformas.nombre as plataforma'

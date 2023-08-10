@@ -21,6 +21,31 @@
   Fancybox.bind("[data-fancybox]", {
     // Your custom options
  });
+
+ let infoModal = ref(null);
+ let status = ref([]);
+ //Funcion modales
+ let modalWatch = ref(false);
+ const modalWatchOpen = (id) => 
+{
+  modalWatch.value=true;
+  axios.get(route('showHistorico'), {params:{
+   id:id
+  }}).then(response =>
+  {
+    console.log(response);
+    infoModal.value = response.data.historico;
+    status.value = response.data.status;
+  }).catch(err => 
+  {
+   console.log(err)
+  })
+}
+const modalWatchClose = () => 
+{
+  modalWatch.value=false;
+}
+
 </script>
 <template>
        <DialogModal maxWidth="4xl"  :show="show" @close="close()">
@@ -58,6 +83,9 @@
                   <th>
                      Documento final
                   </th>
+                  <th>
+                     Historico
+                  </th>
                </tr>
             </thead>
             <tbody>
@@ -85,9 +113,13 @@
                         <ButtonWatch :color="'#1D96F1'" />
                      </a>
                   </td>
+                  <td >
+                     <ButtonWatch @click="modalWatchOpen(viaje.dt_id)" :color="'#1D96F1'" />
+                  </td>
                </tr>
             </tbody>
           </table>
        </template>
    </DialogModal>
+   
 </template>
