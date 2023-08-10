@@ -618,6 +618,7 @@ class ValorController extends Controller
 
     public function checkValores (Request $request)
     {
+      return $request;
       //Necesitamos los campos con los valores de este dt_confirmacion con ese status
       $status = Statu::select('status.*')
       ->where('status.id','=',$request['status_id'])
