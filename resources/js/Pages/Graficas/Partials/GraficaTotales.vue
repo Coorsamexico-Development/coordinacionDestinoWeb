@@ -151,7 +151,7 @@ onMounted(() =>
         }}).then(response => 
         {
             console.log(response.data)
-            viajes.value = response.data;
+            viajes.value = response.data[0].confirmaciones_dts;
             openModalInfo();
 
        }).catch(err => 

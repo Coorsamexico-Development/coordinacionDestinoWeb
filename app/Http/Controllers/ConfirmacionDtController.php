@@ -272,23 +272,30 @@ class ConfirmacionDtController extends Controller
 
       if($request['fecha'])
       {
-        return $confirmaciones = StatusDt::select('confirmacion_dts.id',
-        'confirmacion_dts.confirmacion',
-        'confirmacion_dts.pdf',
-        'confirmacion_dts.cita',
-        'confirmacion_dts.numero_cajas',
-        'confirmacion_dts.pdf',
-        'confirmacion_dts.dt_id as dt_id',
-        'dts.referencia_dt as dt',
-        'linea_transportes.nombre as linea_transporte',
-        'plataformas.nombre as plataforma')
-        ->join('confirmacion_dts','status_dts.confirmacion_dt_id','confirmacion_dts.id')
-        ->join('dts','confirmacion_dts.dt_id','dts.id')
-        ->join('linea_transportes','confirmacion_dts.linea_transporte_id','linea_transportes.id')
-        ->join('plataformas','confirmacion_dts.plataforma_id','plataformas.id')
-        ->where('confirmacion_dts.status_id','=', $status['id'])
-        ->where('confirmacion_dts.ubicacion_id','=', $ubicacion['id'])
-        ->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%')
+        return $confirmaciones = 
+        Statu::select('status.*')
+        ->with(['confirmacionesDts'  => function ($query) use ($request, $ubicacion) 
+         {
+          return  $query->select(
+              'confirmacion_dts.id',
+              'confirmacion_dts.confirmacion',
+              'confirmacion_dts.pdf',
+              'confirmacion_dts.cita',
+              'confirmacion_dts.numero_cajas',
+              'confirmacion_dts.pdf',
+              'confirmacion_dts.dt_id as dt_id',
+              'dts.referencia_dt as dt',
+              'linea_transportes.nombre as linea_transporte',
+              'plataformas.nombre as plataforma'
+          )
+          ->join('dts','confirmacion_dts.dt_id','dts.id')
+          ->join('linea_transportes','confirmacion_dts.linea_transporte_id','linea_transportes.id')
+          ->join('plataformas','confirmacion_dts.plataforma_id','plataformas.id')
+          ->where('confirmacion_dts.ubicacion_id','=', $ubicacion['id'])
+          ->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%')
+          ;
+        }])
+        ->where('status.id','=', $status['id'])
         ->get();
         
       /*$confirmaciones = ConfirmacionDt::select(
@@ -312,10 +319,5 @@ class ConfirmacionDtController extends Controller
        ->get();
        */
       }
-      else
-      {
-        $hoy = date("Y-m-d");   
-      }
-
   }
 }
