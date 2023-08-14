@@ -140,6 +140,7 @@ onMounted(() =>
  let viajes = ref([]);
  const consultar = async (ubicacion, status) => 
  {
+   console.log(ubicacion +' - ' + status)
     try 
     {
       await axios.get('/consultarConfirmaciones', {params:
