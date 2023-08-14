@@ -115,7 +115,7 @@ const modalWatchClose = () =>
                      </a>
                   </td>
                   <td >
-                     <ButtonWatch @click="modalWatchOpen(viaje.dt_id)" :color="'#1D96F1'" />
+                     <ButtonWatch @click="modalWatchOpen(viaje.id)" :color="'#1D96F1'" />
                   </td>
                </tr>
             </tbody>

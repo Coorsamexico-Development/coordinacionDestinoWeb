@@ -178,7 +178,6 @@ onMounted(() =>
 </script>
 <template>
     <div id="chartdiv"></div>
-    {{ viajes }}
     <div v-if="viajes.length > 0">
       <ModalInfoViajes :show="modalInfo" @close="closeModalInfo()" :viajes="viajes" />
     </div>
