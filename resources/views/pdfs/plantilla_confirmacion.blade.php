@@ -57,7 +57,7 @@
                          <div>
                            <?php 
                               echo
-                               '<img style="width:2rem" src="'.$valor['valor'].'"/>'
+                               '<img style="width:5rem" src="'.$valor['valor'].'"/>'
                             ?>
                          </div>
                         @endif
@@ -83,7 +83,7 @@
      <div class="firma">
         <h3 class="confirmacion">Firma</h3>
         <?php
-         echo '<img width: 12rem src="'.$firma.'" />'
+         echo '<img width:5rem src="'.$firma.'" />'
         ?>
     </div>
     </body>
