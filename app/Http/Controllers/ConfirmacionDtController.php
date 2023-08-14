@@ -273,22 +273,9 @@ class ConfirmacionDtController extends Controller
       if($request['fecha'])
       {
         return $confirmaciones = 
-        Statu::select('status.*')
-        ->with(['confirmacionesDts'  => function ($query) use ($request, $ubicacion) 
-         {
-          return  $query->select(
-              'confirmacion_dts.*',
-              'dts.referencia_dt as dt',
-              'linea_transportes.nombre as linea_transporte',
-              'plataformas.nombre as plataforma'
-          )
-          ->join('dts','confirmacion_dts.dt_id','dts.id')
-          ->join('linea_transportes','confirmacion_dts.linea_transporte_id','linea_transportes.id')
-          ->join('plataformas','confirmacion_dts.plataforma_id','plataformas.id')
-          ->where('confirmacion_dts.ubicacion_id','=', $ubicacion['id'])
-          ->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
-        }])
-        ->where('status.id','=', $status['id'])
+        StatusDt::select('status_dts.*')
+        ->with('status')
+        ->where('status_dts.status_i','=', $status['id'])
         ->get();
         
       /*$confirmaciones = ConfirmacionDt::select(
