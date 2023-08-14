@@ -57,7 +57,7 @@
                          <div>
                            <?php 
                               echo
-                               '<img style="width:5rem" src="'.$valor['valor'].'"/>'
+                               '<img style="width:2rem" src="'.$valor['valor'].'"/>'
                             ?>
                          </div>
                         @endif
