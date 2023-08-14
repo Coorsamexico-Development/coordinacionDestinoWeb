@@ -140,7 +140,7 @@ onMounted(() =>
  let viajes = ref([]);
  const consultar = async (ubicacion, status) => 
  {
-   console.log(ubicacion +' - ' + status)
+   //console.log(ubicacion +' - ' + status)
     try 
     {
       await axios.get('/consultarConfirmaciones', {params:
@@ -150,7 +150,7 @@ onMounted(() =>
         status: status
         }}).then(response => 
         {
-            //console.log(response.data)
+            console.log(response.data)
             viajes.value = response.data;
             openModalInfo();
 
