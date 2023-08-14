@@ -275,7 +275,8 @@ class ConfirmacionDtController extends Controller
         return $confirmaciones = 
         StatusDt::select('status_dts.*')
         ->with('status')
-        ->where('status_dts.status_i','=', $status['id'])
+        ->where('status_dts.status_id','=', $status['id'])
+        ->distinct('status_dts.confirmacion_dt_id')
         ->get();
         
       /*$confirmaciones = ConfirmacionDt::select(
