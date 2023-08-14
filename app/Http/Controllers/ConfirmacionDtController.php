@@ -261,7 +261,8 @@ class ConfirmacionDtController extends Controller
 
   public function consultarConfirmaciones (Request $request)
   {
-
+ 
+      return $request;
       $ubicacion = Ubicacione::select('ubicaciones.*')
       ->where('ubicaciones.nombre_ubicacion','=',$request['ubicacion'])
       ->first();
