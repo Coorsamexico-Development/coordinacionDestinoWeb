@@ -17,7 +17,7 @@ let chart = null;
 
 watch(() => props.data,(nuevosValores) => 
     { //el whatcher observa el cambio de la data
-        console.log(nuevosValores);  //lo imprime
+        //console.log(nuevosValores);  //lo imprime
         chart.data = nuevosValores  
      });
 
