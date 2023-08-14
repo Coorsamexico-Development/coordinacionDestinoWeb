@@ -183,9 +183,20 @@ class ReporteController extends Controller
         ->with([
            'status_dts' => function ($query) use ($request) 
            {
+             $fechaActual = date("Y-m");
              $query->select(
                 'status_dts.*',
+                'confirmacion_dts.ubicacion_id',
             )->join('confirmacion_dts','status_dts.confirmacion_dt_id','confirmacion_dts.id');
+
+            if($request->has('fecha'))
+            {
+              $query->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
+            }
+            else{
+                $query->where('confirmacion_dts.cita','LIKE','%'.$fechaActual.'%');
+            }
+
            }
           ]);
 

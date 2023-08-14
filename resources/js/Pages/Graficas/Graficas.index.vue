@@ -56,10 +56,11 @@ const dataGrafica = computed(() =>
          const status = props.status_graph[index2];   
          let contador = [];   
         // newObject[status.nombre] = 0;
-        /*
-         for (let index3 = 0; index3 < status.confirmaciones_dts.length; index3++) 
+         //console.log(status)
+         for (let index3 = 0; index3 < status.status_dts.length; index3++) 
          {
-            const confirmacion = status.confirmaciones_dts[index3];
+            const confirmacion = status.status_dts[index3];
+         //console.log(confirmacion)
             //console.log(confirmacion.ubicacion_id)
             if(ubicacion.id == confirmacion.ubicacion_id)
             {
@@ -67,7 +68,7 @@ const dataGrafica = computed(() =>
               contador.push(confirmacion);
             }
          }
-         */
+         
 
         newObject[status.nombre] = contador.length;
        }     
@@ -222,7 +223,6 @@ watch(params, throttle(function ()
              <div>
                <div class="w-full p-4 bg-white rounded-lg">
                   <h1 class="text-xl font-bold">Totales</h1>
-                   {{ status_graph }}
                   <GraficaTotales :data="dataGrafica" :ubicaciones="ubicaciones" :status_graph="status_graph" :fecha="params.fecha" />
                </div>
              </div>
