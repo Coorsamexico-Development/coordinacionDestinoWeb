@@ -13,7 +13,8 @@ var props = defineProps({
    status:Object,
    plataformas:Object,
    ubicaciones:Object,
-   status_graph:Object
+   status_graph:Object,
+   contadoresGlobales:Object
 });
 
 const contadorGlobal = computed(() =>
@@ -55,6 +56,7 @@ const dataGrafica = computed(() =>
          const status = props.status_graph[index2];   
          let contador = [];   
         // newObject[status.nombre] = 0;
+        /*
          for (let index3 = 0; index3 < status.confirmaciones_dts.length; index3++) 
          {
             const confirmacion = status.confirmaciones_dts[index3];
@@ -65,8 +67,8 @@ const dataGrafica = computed(() =>
               contador.push(confirmacion);
             }
          }
+         */
 
-       
         newObject[status.nombre] = contador.length;
        }     
       finalData.push(newObject);
@@ -179,11 +181,9 @@ watch(params, throttle(function ()
               <div class="w-full"> <!--Totales-->
                  <h1 class="m-2 mb-8 text-xl font-bold">Totales</h1>
                  <div class="px-4" style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
-                    <div v-for="statu in status" :key="statu.id">
-                       <div v-for="statu_hijo in statu.status_hijos" :key="statu_hijo.id">
+                       <div v-for="statu_hijo in contadoresGlobales" :key="statu_hijo.id">
                           <StatusBoxContador :statu="statu_hijo" />
                        </div>
-                    </div>
                  </div>
               </div>
               <div>

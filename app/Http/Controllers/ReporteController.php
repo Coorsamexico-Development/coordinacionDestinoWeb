@@ -173,6 +173,7 @@ class ReporteController extends Controller
 
 
         $ubicaciones = Ubicacione::all();
+        
         $status_graph = Statu::select(
             'status.id',
             'status.nombre'
@@ -197,12 +198,21 @@ class ReporteController extends Controller
               }
             ]);
 
+
+        $contadoresGlobales = Statu::select('status.id',
+        'status.nombre','status.color')
+        ->with('confirmacionesDts')
+        ->whereNotNull('status.status_padre')
+        ->where('status.nombre','NOT LIKE','%Liberada%')
+        ->get();
+
        
         return Inertia::render('Graficas/Graficas.index',[
           'status' => fn () =>  $status->get(),
           'plataformas' => fn () => $plataformas->get(),
           'ubicaciones' => $ubicaciones,
-          'status_graph' => fn () => $status_graph->get()
+          'status_graph' => fn () => $status_graph->get(),
+          'contadoresGlobales' => $contadoresGlobales
         ]);
     }
 }
