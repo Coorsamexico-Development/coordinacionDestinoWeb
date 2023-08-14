@@ -173,30 +173,14 @@ class ReporteController extends Controller
 
 
         $ubicaciones = Ubicacione::all();
-        
+
         $status_graph = Statu::select(
             'status.id',
             'status.nombre'
         )
         ->where('status.nombre','LIKE','%Liberada%')
         ->orWhere('status.nombre','LIKE','%riesgo%')
-        ->with([
-            'confirmacionesDts'  => function ($query) use ($request) 
-              {
-                $fechaActual = date("Y-m");
-                $query->select(
-                    'confirmacion_dts.*',
-                );
-
-                if($request->has('fecha'))
-                {
-                  $query->where('confirmacion_dts.cita','LIKE','%'.$request['fecha'].'%');
-                }
-                else{
-                    $query->where('confirmacion_dts.cita','LIKE','%'.$fechaActual.'%');
-                }
-              }
-            ]);
+        ->with('status_dts');
 
 
         $contadoresGlobales = Statu::select('status.id',
