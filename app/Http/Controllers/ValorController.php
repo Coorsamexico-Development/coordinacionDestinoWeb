@@ -508,6 +508,7 @@ class ValorController extends Controller
           ])
         ->join('status','status_dts.status_id','status.id')
         ->where('confirmacion_dt_id','=', $confirmacion_dt['id'])
+        ->distinct('status.id')
         ->get();
 
         //Consultamos valores
