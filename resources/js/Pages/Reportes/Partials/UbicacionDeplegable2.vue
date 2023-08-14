@@ -89,6 +89,22 @@ const loadPage = async (page) =>
         console.log(e);
     })
 }
+
+const contador = computed(() =>
+{
+  let cont = [];
+
+  for (let index = 0; index < props.ubicacion.confirmaciones_dts.length; index++) 
+  {
+    const confirmacion = props.ubicacion.confirmaciones_dts[index];
+    if(confirmacion.ubicacion_id == props.ubicacion.id && confirmacion.status_id == props.status.id)
+    {
+      cont.push(confirmacion)
+    }
+  }
+
+  return cont;
+});
 </script>
 <template>
     <div class="pb-1 bg-white rounded-xl drop-shadow-lg"> <!--main-->
@@ -96,6 +112,11 @@ const loadPage = async (page) =>
           <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
             <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
             <div class="flex flex-row items-center">
+                  <div>
+                    <h1 class="mx-2 text-3xl font-bold" :style="{color:status.color}">
+                      {{contador.length}}
+                    </h1>
+                  </div>
                   <div>
                      <svg @click="showClients()" v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                        <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
