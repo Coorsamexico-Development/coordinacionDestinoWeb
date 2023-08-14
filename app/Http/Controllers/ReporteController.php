@@ -180,7 +180,14 @@ class ReporteController extends Controller
         )
         ->where('status.nombre','LIKE','%Liberada%')
         ->orWhere('status.nombre','LIKE','%riesgo%')
-        ->with('status_dts');
+        ->with([
+           'status_dts' => function ($query) use ($request) 
+           {
+             $query->select(
+                'status_dts.*',
+            )->join('confirmacion_dts','status_dts.confirmacion_dt_id','confirmacion_dts.id');
+           }
+          ]);
 
 
         $contadoresGlobales = Statu::select('status.id',
