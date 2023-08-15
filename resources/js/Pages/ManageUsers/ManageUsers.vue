@@ -29,7 +29,7 @@ let closeModalNewUser = () =>
             <h2 class="text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
                 Usuarios
             </h2>
-            <button @click="openModalNewUser()" class="px-4 text-white bg-lime-500 rounded-xl">
+            <button @click="openModalNewUser()" class="px-4 mt-2 -ml-4 text-white bg-lime-500 rounded-xl">
                 Nuevo usuario
             </button>
         </template>
