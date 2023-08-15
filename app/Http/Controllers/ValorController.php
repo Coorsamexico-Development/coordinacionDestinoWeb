@@ -416,25 +416,6 @@ class ValorController extends Controller
 
     public function valoresEnrrampe (Request $request)
     {
-
-      $confirmacion_dt = ConfirmacionDt::select(
-        'confirmacion_dts.id',
-        'confirmacion_dts.cita'
-     )
-     ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])//$request['confirmacion'])
-     ->first();
-
-  return   $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
-     ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-     ->join('dts','dt_campo_valors.dt_id','dts.id')
-     ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
-     ->join('campos','dt_campo_valors.campo_id','campos.id')
-     ->join('status','campos.status_id','status.id')
-     ->where('valors.activo','=', 1)
-     ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
-     ->distinct('valors.id')
-     ->get();
-
       if($request['file'] !== null)
       {
         if(is_file(($request['file'])))
@@ -539,7 +520,7 @@ class ValorController extends Controller
         ->join('status','campos.status_id','status.id')
         ->where('valors.activo','=', 1)
         ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
-        ->distinct('valors.id')
+        //->distinct('valors.id')
         ->get();
      
         //seteamos la data en el pdf para la plantilla

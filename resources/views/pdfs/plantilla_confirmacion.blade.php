@@ -46,9 +46,9 @@
                 <div>
                    <li>{{$campo['nombre']}}</li>
                    @foreach ($valors  as $valor )
-                    @if ($valor['campo_id'] == $campo['id'] && $valor['status_id'] == $statu['status_padre_id'] )
+                    @if ($valor['campo_id'] == $campo['id']  )
                       <div>
-                        @if ($campo['tipo_campo'] == 'text' ||$campo['tipo_campo'] == 'number')
+                        @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
                           <div>
                              <p>{{$valor['valor']}}</p>
                           </div>
