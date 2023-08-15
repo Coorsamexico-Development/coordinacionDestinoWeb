@@ -520,7 +520,7 @@ class ValorController extends Controller
         ->join('status','campos.status_id','status.id')
         ->where('valors.activo','=', 1)
         ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
-        //->distinct('valors.id')
+        ->distinct('valors.id')
         ->get();
      
         //seteamos la data en el pdf para la plantilla
