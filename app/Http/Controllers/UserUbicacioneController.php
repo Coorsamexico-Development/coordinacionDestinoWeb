@@ -51,6 +51,31 @@ class UserUbicacioneController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([ //validaciones
+            'email' => 'required',
+            'nombre' => 'required',
+            'ap_paterno' => 'required',
+            'ap_materno' => 'required',
+            'contraseña' => 'required',
+            'role_id' => 'required',
+            'ubicacion_id' => 'required'
+        ]);
+
+        $user =  User::create([
+            'email' => $request['email'],
+            'name' => $request['nombre'],
+            'apellido_paterno' => $request['ap_paterno'],
+            'apellido_materno' => $request['ap_materno'],
+            'role_id' => $request['role_id'],
+            'password' => Hash::make($request['contraseña'])
+        ]);
+        
+        UserUbicacione::updateOrCreate([
+            'user_id' => $user['id'],
+        ],['ubicacion_id' => $request['ubicacion_id']]);
+
+        return redirect()->back();
+
     }
 
     /**

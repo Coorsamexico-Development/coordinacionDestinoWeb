@@ -66,6 +66,8 @@ Route::get('/checkValores',[ValorController::class, 'checkValores'])->name('chec
 Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
 //Edicion de usuario
 Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
+//Creacion de usuario
+Route::get('/saveUser',[UserUbicacioneController::class, 'store'])->name('saveUser');
 //Obtener PDF general
 Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF');
 //Ruta para enviar correo
