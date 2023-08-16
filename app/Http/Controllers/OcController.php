@@ -31,7 +31,7 @@ class OcController extends Controller
     {
         //
         $request->validate([ //validaciones
-            'ocs' => 'required',
+            'ocs' => 'required|unique:ocs',
             'confirmacion' => 'required'
         ]);
 
