@@ -117,9 +117,6 @@
                        <td>
                           {{ oc.referencia }}
                        </td>
-                       <td>
-                          
-                       </td>
                     </tr>
                 </tbody>
             </table>
