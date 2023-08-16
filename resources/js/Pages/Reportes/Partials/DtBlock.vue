@@ -1,7 +1,8 @@
 <script setup>
 import {ref, watch, computed, reactive } from "vue";
 import ButtonWatch from '@/Components/ButtonWatch.vue'
-import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue'
+import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
+import ModalAddOcs from "../Modals/ModalAddOcs.vue";
 import axios from "axios";
   //Props
 var props = defineProps({
@@ -32,12 +33,24 @@ const modalWatchClose = () =>
   modalWatch.value=false;
 }
 
+let modalOcs = ref(false);
+
+const modalOcsOpen = () => 
+{
+  modalOcs.value = true;
+}
+
+const modalOcsClose = () => 
+{
+   modalOcs.value = false;
+}
+
 </script>
 <template>
-   <div class="flex m-4 border rounded-lg drop-shadow-lg" >
-      <div class="w-4 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
+   <div class="grid grid-cols-12 m-3 border rounded-lg drop-shadow-2xl" >
+      <div class="w-4 col-start-1 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
       </div>
-      <div class="py-2">
+      <div class="col-start-2 col-end-7 py-2">
         <div class="flex flex-row my-1">
            <h1 class="text-xl font-semibold uppercase">DT: </h1>
            <p class="text-xl ">{{ dt.referencia_dt }} </p>
@@ -47,27 +60,35 @@ const modalWatchClose = () =>
             <p class="text-sm ">{{ dt.confirmacion }}</p>
          </div>
          <div class="flex flex-row my-1"> 
-            <h1 class="text-sm font-bold uppercase">LT: </h1>
-            <p class="text-sm">{{ dt.linea_transporte }}</p>
+            <h1 class="text-xs font-bold uppercase">LT: </h1>
+            <p class="text-xs">{{ dt.linea_transporte }}</p>
          </div>
       </div>
-      <div class="justify-center px-2 py-2 ml-8">
+      <div class="justify-center col-start-7 col-end-13 px-2 py-2">
          <div class="flex flex-row-reverse flex-end">
            <ButtonWatch  @click="modalWatchOpen()" :color="dt.color" />
+           <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 " >
+            <p class="text-sm text-white">OCS</p>
+           </button>
          </div>
          <div class="flex flex-row-reverse items-center" :style="{color:dt.color}">
             <h1 class="text-sm">{{ dt.status }}</h1>
             <span class="w-2 h-2 mr-2 rounded-full" :style="{backgroundColor:dt.color}"></span>
          </div>
-         <div class="flex flex-row justify-between">
-            <div>
-              <p class="text-xs ">{{ dt.cita.substring(0,10) }}</p>
+         <div class="flex flex-row items-center justify-center mt-1">
+            <div class="flex flex-row mr-2">
+              <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
+              <div>
+                <p class="" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
+              </div>
             </div>
-            <div>
-               <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+            <div class="flex flex-row"> 
+              <img class="w-3 h-3 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
+              <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
             </div>
          </div>
       </div>
    </div>
    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" />
 </template>
