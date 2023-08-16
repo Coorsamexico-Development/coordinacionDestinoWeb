@@ -38,11 +38,39 @@ let modalOcs = ref(false);
 const modalOcsOpen = () => 
 {
   modalOcs.value = true;
+  try {
+     consultarOcs();
+  } 
+  catch (error) 
+  {
+    
+  }
 }
 
 const modalOcsClose = () => 
 {
    modalOcs.value = false;
+}
+
+let ocs = ref([]);
+const consultarOcs = () => 
+{
+  try 
+    {
+        axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
+        {
+           console.log(response.data)
+           ocs.value = response.data;
+        })
+        .catch(err=> 
+        {
+            
+        })   
+    } 
+    catch (error) 
+    {
+        
+    }
 }
 
 </script>
@@ -90,5 +118,5 @@ const modalOcsClose = () =>
       </div>
    </div>
    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" />
+   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" :confirmacion="dt.confirmacion" :ocsAxios="ocs" @reconsultar="consultarOcs()" />
 </template>

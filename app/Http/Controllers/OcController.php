@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConfirmacionDt;
 use App\Models\Oc;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,30 @@ class OcController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([ //validaciones
+            'ocs' => 'required',
+            'confirmacion' => 'required'
+        ]);
+
+        $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+        ->first();
+
+        if (count($request['ocs']) > 0) 
+        {
+           for ($i=0; $i < count($request['ocs']) ; $i++) 
+           { 
+
+            $oc = $request['ocs'][$i];
+
+             Oc::updateOrcreate([
+               'confirmacion_dt_id' => $confirmacion['id'],
+               'referencia' => $oc['referencia']
+             ]);
+           }
+        }
+
+      return redirect()->back();
     }
 
     /**
@@ -61,5 +86,17 @@ class OcController extends Controller
     public function destroy(Oc $oc)
     {
         //
+    }
+
+    public function consultarOcs(Request $request)
+    {
+
+        $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+        ->first();
+
+        return Oc::select('ocs.*')
+        ->where('confirmacion_dt_id','=', $confirmacion['id'])
+        ->get();
     }
 }

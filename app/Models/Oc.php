@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Oc extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'referencia',
+        'confirmacion_dt_id'
+    ];
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\OcController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\UserUbicacioneController;
@@ -76,3 +77,7 @@ Route::get('/sentMail',[ReporteController::class, 'sentMail'])->name('sentMail')
 Route::get('/reporteGraficos',[ReporteController::class, 'reporteGraficos'])->name('reportes.graficos.index');
 //Consulta para checar viejes de grafica por click
 Route::get('/consultarConfirmaciones',[ConfirmacionDtController::class, 'consultarConfirmaciones'])->name('consultarConfirmaciones');
+//Creacion de OCS
+Route::get('/saveOcs',[OcController::class, 'store'])->name('saveOcs');
+//Consultar OCS
+Route::get('/consultarOcs',[OcController::class, 'consultarOcs'])->name('consultarOcs');
