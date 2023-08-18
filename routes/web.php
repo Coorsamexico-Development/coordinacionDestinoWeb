@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\UserUbicacioneController;
 use App\Http\Controllers\ValorController;
@@ -81,3 +82,5 @@ Route::get('/consultarConfirmaciones',[ConfirmacionDtController::class, 'consult
 Route::get('/saveOcs',[OcController::class, 'store'])->name('saveOcs');
 //Consultar OCS
 Route::get('/consultarOcs',[OcController::class, 'consultarOcs'])->name('consultarOcs');
+//Roles y permisos index
+Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');

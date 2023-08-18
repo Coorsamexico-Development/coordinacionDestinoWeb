@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\RolesPermission;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RolesPermissionController extends Controller
 {
@@ -13,6 +15,13 @@ class RolesPermissionController extends Controller
     public function index()
     {
         //
+
+        $roles = Role::select('roles.*')
+        ->get();
+
+        return Inertia::render('RolesPermisos/RolesPermisos',[
+          'roles' => $roles
+        ]);
     }
 
     /**
