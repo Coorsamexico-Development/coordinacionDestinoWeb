@@ -94,10 +94,10 @@ class OcController extends Controller
         ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
         ->first();
 
-        return $confirmacion;
+        return $confirmacion['id'];
 
         return Oc::select('ocs.*')
-        ->where('confirmacion_dt_id','=', $confirmacion['id'])
+        ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
         ->get();
     }
 }
