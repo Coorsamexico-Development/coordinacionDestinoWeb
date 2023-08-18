@@ -90,9 +90,6 @@ class OcController extends Controller
 
     public function consultarOcs(Request $request)
     {
-
-        return $request; 
-
         $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
         ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
         ->first();
