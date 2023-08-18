@@ -79,7 +79,7 @@ class ValorController extends Controller
     {
 
       $data = $request['params']['data'];
-      $fotos = $request['params']['fotos'];
+     // $fotos = $request['params']['fotos'];
       if($request['params']['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
@@ -237,7 +237,8 @@ class ValorController extends Controller
             }
           }
          //Recorrido de fotos
-            $campo_foto = $fotos['campo_id'];
+         /*  
+         $campo_foto = $fotos['campo_id'];
             $dt_campo_foto = DtCampoValor::select(
               'dt_campo_valors.*'
               )
@@ -287,6 +288,8 @@ class ValorController extends Controller
                  }
               }
            }
+
+            */
 
            //Actualizamos status de la confirmacion
           $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
