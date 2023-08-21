@@ -45,11 +45,12 @@ class OcController extends Controller
            { 
 
             $oc = $request['ocs'][$i];
-
+/*
              Oc::updateOrcreate([
                'confirmacion_dt_id' => $confirmacion['id'],
                'referencia' => $oc['referencia']
              ]);
+*/
            }
         }
 
