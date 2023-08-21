@@ -31,7 +31,7 @@ class OcController extends Controller
     {
         //
         $request->validate([ //validaciones
-            'ocs' => 'required|unique:ocs',
+            'ocs' => 'required',
             'confirmacion' => 'required'
         ]);
 
@@ -45,12 +45,11 @@ class OcController extends Controller
            { 
 
             $oc = $request['ocs'][$i];
-/*
              Oc::updateOrcreate([
                'confirmacion_dt_id' => $confirmacion['id'],
                'referencia' => $oc['referencia']
              ]);
-*/
+
            }
         }
 
