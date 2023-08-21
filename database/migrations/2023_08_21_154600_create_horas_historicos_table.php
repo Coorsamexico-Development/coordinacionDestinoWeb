@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('horas_historicos', function (Blueprint $table) {
             $table->id();
-            #table
+            $table->foreignId('hora_id')->constrained('horas');
+            $table->foreignId('status_dts_id')->constrained('status_dts');
             $table->timestamps();
         });
     }

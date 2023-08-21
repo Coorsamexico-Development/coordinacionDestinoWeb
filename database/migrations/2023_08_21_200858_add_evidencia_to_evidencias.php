@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->foreignId('status_id')->constrained('status');
-            $table->boolean('activo')->default(1);
-            $table->timestamps();
+        Schema::table('evidencias', function (Blueprint $table) {
+            //
+            $table->string('evidencia')->nullable();
         });
     }
 
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horas');
+        Schema::table('evidencias', function (Blueprint $table) {
+            //
+        });
     }
 };

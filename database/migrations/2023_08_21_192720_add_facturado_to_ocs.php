@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horas', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->foreignId('status_id')->constrained('status');
-            $table->boolean('activo')->default(1);
-            $table->timestamps();
+        Schema::table('ocs', function (Blueprint $table) {
+            //
+           $table->integer('facturado')->nullable();
+           $table->integer('en POD')->nullable();
+           $table->boolean('bandera')->default(1);
         });
     }
 
@@ -25,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horas');
+        Schema::table('ocs', function (Blueprint $table) {
+            //
+        });
     }
 };
