@@ -327,6 +327,7 @@ class ValorController extends Controller
     public function documentacionValores(Request $request)
     {
         $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
+        $data = $request['params']['data'];
         if($request['params']['tipo'] == 'guardar')
         {
             for ($i=0; $i < count($fotos) ; $i++) 
@@ -404,6 +405,57 @@ class ValorController extends Controller
                     }
                 }
             }
+
+             //Guarda todo y cambia status
+            //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
+            for ($i=0; $i < count($data) ; $i++) 
+            { 
+              $campo = $data[$i]; //rescatamos el valor
+
+              $dt_campo = DtCampoValor::select(
+              'dt_campo_valors.*'
+              )
+              ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+              ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
+              ->first();
+
+              if($dt_campo == null)//sino lo encuentra lo creara
+              {
+                 $dt_campo = DtCampoValor::create(
+                  [
+                     'dt_id' => $request['params']['dt'],
+                     'campo_id' => $campo['campo_id']
+                  ]);
+
+                  //Hay que encontrar todos los valores anteriores para desactivarlos
+                  //y crear uno nuevo
+                  
+                  $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                  ->update(['activo' => 0]);
+                  
+                  //Crea nuevo valor en la tabla de valores
+                  $newValor = Valor::create([
+                      'valor' => $campo['value'],
+                      'dt_campo_valor_id' => $dt_campo->id,
+                      'user_id' => $request['params']['usuario']
+                  ]);             
+              }
+              else
+              {
+                
+                  $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                  ->update(['activo' => 0]);
+                  
+                  //Crea nuevo valor en la tabla de valores
+                  $newValor = Valor::create([
+                      'valor' => $campo['value'],
+                      'dt_campo_valor_id' => $dt_campo->id,
+                      'user_id' => $request['params']['usuario']
+                  ]);   
+              }
+            }
+
+
 
             //Cambio al sig status
               $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
