@@ -107,7 +107,7 @@ class OcController extends Controller
        for ($i=0; $i < count($ocs) ; $i++)
         { 
            $oc = $ocs[$i];
-           Oc::where('id','=',$oc['id'])
+           Oc::where('id','=',$oc['oc_id'])
            ->update([
               'facturado' => $oc['value']
            ]);
