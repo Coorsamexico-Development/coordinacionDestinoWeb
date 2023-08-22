@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
+use App\Models\HorasHistorico;
 use App\Models\Plataforma;
 use App\Models\Statu;
 use App\Models\StatusDt;
@@ -240,16 +241,27 @@ class ConfirmacionDtController extends Controller
          'confirmacion_dts.status_id' => 10
       ]);
 
-    StatusDt::where('id','=',$request['id'])
-    ->update([
-      'activo' => 0
-    ]);
-    //Creamos el primer registro en la tabla de historico
-    StatusDt::updateOrCreate([
-     'confirmacion_dt_id' => $request['id'],
-     'status_id' => 10,
-     'activo' => 1,
-   ]);
+       StatusDt::where('id','=',$request['id'])
+       ->update([
+         'activo' => 0
+       ]);
+       //Creamos el primer registro en la tabla de historico
+      $newStatus = StatusDt::updateOrCreate([
+        'confirmacion_dt_id' => $request['id'],
+        'status_id' => 10,
+        'activo' => 1,
+      ]);
+
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+
+       HorasHistorico::create([
+         'hora_id' => 5,
+         'status_dts_id' => $newStatus['id'],
+         'hora' => $hora_actual
+       ]);
+      
     }
 
   public function getPDF (Request $request)
