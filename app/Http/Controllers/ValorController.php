@@ -307,20 +307,21 @@ class ValorController extends Controller
             'activo' => 0
           ]);
 
-        $statusDts = StatusDt::create([
-            'confirmacion_dt_id' => $cofnirmacionDt['id'],
-            'status_id' => 8
-          ]);
+          $newStatus = StatusDt::create([
+              'confirmacion_dt_id' => $cofnirmacionDt['id'],
+              'status_id' => 8
+            ]);
 
+                 
           date_default_timezone_set('America/Mexico_City');
           $fecha_actual = getdate();
           $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
 
-          HorasHistorico::create([
-            'hora_id' => 1,
-            'status_dts' => $statusDts['id'],
-            'hora' => $hora_actual
-          ]);
+           HorasHistorico::create([
+             'hora_id' => 1,
+             'status_dts_id' => $newStatus['id'],
+             'hora' => $hora_actual
+           ]);
         }
     }
 
