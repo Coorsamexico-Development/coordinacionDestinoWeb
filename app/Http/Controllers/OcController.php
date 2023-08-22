@@ -103,7 +103,8 @@ class OcController extends Controller
 
     public function saveFacturados (Request $request)
     {
-       $ocs = $request['ocs'];
+       
+       $ocs = $request['params']['ocs'];
        for ($i=0; $i < count($ocs) ; $i++)
         { 
            $oc = $ocs[$i];
