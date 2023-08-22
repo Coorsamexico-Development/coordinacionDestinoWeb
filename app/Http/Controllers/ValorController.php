@@ -6,6 +6,7 @@ use App\Models\Campo;
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
 use App\Models\DtCampoValor;
+use App\Models\HorasHistorico;
 use App\Models\Statu;
 use App\Models\StatusDt;
 use App\Models\Valor;
@@ -306,9 +307,19 @@ class ValorController extends Controller
             'activo' => 0
           ]);
 
-          StatusDt::create([
+        $statusDts = StatusDt::create([
             'confirmacion_dt_id' => $cofnirmacionDt['id'],
             'status_id' => 8
+          ]);
+
+          date_default_timezone_set('America/Mexico_City');
+          $fecha_actual = getdate();
+          $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+
+          HorasHistorico::create([
+            'hora_id' => 1,
+            'status_dts' => $statusDts['id'],
+            'hora' => $hora_actual
           ]);
         }
     }

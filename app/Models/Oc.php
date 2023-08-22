@@ -11,6 +11,9 @@ class Oc extends Model
 
     protected $fillable = [
         'referencia',
-        'confirmacion_dt_id'
+        'confirmacion_dt_id',
+        'facturado',
+        'en POD',
+        'bandera'
     ];
 }
