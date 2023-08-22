@@ -3,6 +3,7 @@
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\OcController;
 use App\Http\Controllers\ValorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -53,6 +54,8 @@ Route::get('artisan', function () {
     ]);
     return "ok";
 });
+
+Route::get('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 
 //Prueba para la estructura del PDF
 /*

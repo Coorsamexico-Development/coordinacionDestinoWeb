@@ -100,4 +100,17 @@ class OcController extends Controller
         ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
         ->get();
     }
+
+    public function saveFacturados (Request $request)
+    {
+       $ocs = $request['ocs'];
+       for ($i=0; $i < count($ocs) ; $i++)
+        { 
+           $oc = $ocs[$i];
+           Oc::where('id','=',$oc['id'])
+           ->update([
+              'facturado' => $oc['value']
+           ]);
+        }
+    } 
 }
