@@ -695,6 +695,12 @@ class ValorController extends Controller
        
     }
 
+    //Funcion de enrrampado segunda version
+    public function valoresEnrrampado (Request $request)
+    {
+      retun $request;
+    }
+
     public function checkValores (Request $request)
     {
       //return $request;
