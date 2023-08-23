@@ -48,7 +48,7 @@ Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);
 Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
 //Ruta de guardado global de enrrampe
-Route::post('/valoresEnrrampado',[ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado')
+Route::post('/valoresEnrrampado',[ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
 
 Route::get('artisan', function () {
     Artisan::call('migrate', [
