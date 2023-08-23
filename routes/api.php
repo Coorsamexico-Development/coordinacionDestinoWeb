@@ -41,9 +41,9 @@ Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
 //Consultar campos
 Route::get('/camposApi',[CampoController::class, 'indexApi']);
 //Guardar campos con valores en valores primera pantalla
-Route::post('/valores', [ValorController::class, 'valoresApi']);
+Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
 //Guardar fotos segunda pantalla
-Route::post('/valoresFotos',[ValorController::class, 'documentacionValores']);
+Route::post('/valoresDeDocumentacion',[ValorController::class, 'documentacionValores']);
 //Guardar valores 3era pantalla
 Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
