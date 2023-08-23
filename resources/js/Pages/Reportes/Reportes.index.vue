@@ -18,7 +18,7 @@ var props = defineProps({
               <TextInput class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
-       <div class="grid grid-cols-4 gap-4 m-6">
+       <div class="grid grid-cols-3 gap-4 m-6">
          <div v-for="statu in status_padre" :key="statu.id">
             <div v-if="statu.id !==12">
                 <ScrollableStatus  :statu="statu" :ubicaciones="ubicaciones" :plataformas="plataformas" :contadores = 'contadores' />

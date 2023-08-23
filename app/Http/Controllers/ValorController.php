@@ -80,7 +80,7 @@ class ValorController extends Controller
     {
 
       $data = $request['params']['data'];
-     // $fotos = $request['params']['fotos'];
+      $fotos = $request['params']['fotos'];
       if($request['params']['tipo'] == 'guardar' )
       {
           //Si es guardado envia los datos pero no cambie el status
@@ -238,8 +238,7 @@ class ValorController extends Controller
             }
           }
          //Recorrido de fotos
-         /*  
-         $campo_foto = $fotos['campo_id'];
+            $campo_foto = $fotos['campo_id'];
             $dt_campo_foto = DtCampoValor::select(
               'dt_campo_valors.*'
               )
@@ -290,9 +289,8 @@ class ValorController extends Controller
               }
            }
 
-            */
-
            //Actualizamos status de la confirmacion
+           /*
           $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
            where('confirmacion','=',$request['params']['confirmacion'])
            ->first();
@@ -322,6 +320,7 @@ class ValorController extends Controller
              'status_dts_id' => $newStatus['id'],
              'hora' => $hora_actual
            ]);
+           */
         }
     }
 
@@ -698,7 +697,58 @@ class ValorController extends Controller
     //Funcion de enrrampado segunda version
     public function valoresEnrrampado (Request $request)
     {
-      return $request;
+       $data = $request['params']['data'];
+       $fotos = $request['params']['fotos'];
+          //Guarda todo y cambia status
+          //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
+          for ($i=0; $i < count($data) ; $i++) 
+          { 
+            $campo = $data[$i]; //rescatamos el valor
+
+            $dt_campo = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
+            ->first();
+
+            if($dt_campo == null)//sino lo encuentra lo creara
+            {
+               $dt_campo = DtCampoValor::create(
+                [
+                   'dt_id' => $request['params']['dt'],
+                   'campo_id' => $campo['campo_id']
+                ]);
+
+                //Hay que encontrar todos los valores anteriores para desactivarlos
+                //y crear uno nuevo
+                
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $campo['value'],
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['params']['usuario']
+                ]);             
+            }
+            else
+            {
+              
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $campo['value'],
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['params']['usuario']
+                ]);   
+            }
+          }
+
+          
     }
 
     public function checkValores (Request $request)
