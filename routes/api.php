@@ -38,8 +38,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/dtsApi',[ConfirmacionDtController::class, 'indexApi'])->name('dtsApi');
 //Autenticaciones
 Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
-//Consultar campos
+//Consultar campos a partir del status padre
 Route::get('/camposApi',[CampoController::class, 'indexApi']);
+//Consultar campos a partir de status
+Route::get('/camposByStatus',[CampoController::class,'camposByStatus']);
 //Guardar campos con valores en valores primera pantalla
 Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
 //Guardar fotos segunda pantalla

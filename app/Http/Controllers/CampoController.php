@@ -83,4 +83,21 @@ class CampoController extends Controller
            ->get();
        }
     }
+
+    public function camposByStatus(Request $request)
+    {
+        if($request->has('status_id'))
+        {
+        
+       $status_padre = Statu::select('status.id')
+         ->where('status.id','=', $request['status_id'])
+         ->first();
+ 
+         return  
+            Campo::select('campos.*','tipos_campos.nombre as tipo_campo')
+            ->where('status_id','=', $status_padre->id)
+            ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
+            ->get();
+        }
+    }
 }
