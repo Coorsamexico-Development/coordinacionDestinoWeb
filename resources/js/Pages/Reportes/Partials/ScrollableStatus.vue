@@ -73,8 +73,8 @@ const contadorIndividual = computed(() =>
            </div>
         </div>
      </div>
-     <div class="flex flex-row justify-between">
-        <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-2 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
+     <div class="grid grid-cols-3">
+        <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-1 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
             <p class="text-sm text-white uppercase">
               {{contador.nombre}}:
             </p>
