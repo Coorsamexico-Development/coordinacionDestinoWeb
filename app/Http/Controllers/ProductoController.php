@@ -65,7 +65,8 @@ class ProductoController extends Controller
 
     public function apiIndex(Request $request)
     {
-       return Producto::where('SKU','=',$request['busqueda'])
+       return Producto::select('productos.*')
+       ->where('SKU','LIKE',$request['busqueda'])
        ->where('activo','=',1)
        ->get();
     } 
