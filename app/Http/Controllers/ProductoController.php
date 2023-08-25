@@ -67,6 +67,6 @@ class ProductoController extends Controller
     {
        return Producto::where('SKU','=',$request['busqueda'])
        ->where('activo','=',1)
-       ->first();
+       ->get();
     } 
 }
