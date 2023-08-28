@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Incidencia;
+use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 
 class IncidenciaController extends Controller
@@ -61,5 +62,12 @@ class IncidenciaController extends Controller
     public function destroy(Incidencia $incidencia)
     {
         //
+    }
+
+    public function checkIncidencias(Request $request)
+    {
+       return TipoIncidencia::select('tipo_incidencias.*')
+       ->where('tipo_incidencias.activo','=',1)
+       ->get();
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
@@ -63,7 +64,8 @@ Route::get('artisan', function () {
 Route::get('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para consultar productos
 Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('indexProductos');
-
+//Ruta para checar las incidencias
+Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias'])->name('checkIncidencias');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){
