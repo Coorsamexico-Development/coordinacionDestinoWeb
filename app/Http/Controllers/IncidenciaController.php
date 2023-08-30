@@ -70,4 +70,9 @@ class IncidenciaController extends Controller
        ->where('tipo_incidencias.activo','=',1)
        ->get();
     }
+
+    public function saveIncidencias (Request $request)
+    {
+      
+    }
 }

@@ -66,6 +66,8 @@ Route::get('/saveFacturados', [OcController::class, 'saveFacturados'])->name('sa
 Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('indexProductos');
 //Ruta para checar las incidencias
 Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias'])->name('checkIncidencias');
+//Save incidencias
+Route::get('saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias')
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){
