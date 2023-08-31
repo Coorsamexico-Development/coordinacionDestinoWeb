@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evidencia;
 use App\Models\Incidencia;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
@@ -73,6 +74,30 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias (Request $request)
     {
-      return $request['params']['data'];
+      $data = $request['params']['data'];
+
+      if(count($data) !== 0)
+      {
+       for ($i=0; $i < count($data) ; $i++) 
+       { 
+         $producto = $data[$i];
+        $incidencia = Incidencia::create([
+           'ocs_id' => $producto['oc_id'],
+           'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
+           'cantidad' => $producto['cantidad'],
+           'ean_id' => $producto['id'] //es el id porque estamos pasando productos
+         ]);
+
+         //Vamos a recorrer las evidencias
+         for ($x=0; $x < count($producto['evidencias']) ; $x++) 
+         { 
+            $evidencia = $producto['evidencias'][$x];
+            Evidencia::create([
+              'evidencia' => $evidencia['foto'],
+              'incidencia_id' => $incidencia['id']
+            ]);
+         }
+       }
+      }
     }
 }

@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Incidencia extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'ocs_id',
+        'tipo_incidencia_id',
+        'cantidad',
+        'ean_id',
+    ];
 }
