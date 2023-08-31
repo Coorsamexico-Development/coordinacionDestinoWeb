@@ -73,6 +73,6 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias (Request $request)
     {
-      
+      return $request;
     }
 }

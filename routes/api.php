@@ -67,7 +67,7 @@ Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('in
 //Ruta para checar las incidencias
 Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias'])->name('checkIncidencias');
 //Save incidencias
-Route::get('saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias')
+Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias')
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){
