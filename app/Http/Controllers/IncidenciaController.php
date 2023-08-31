@@ -85,11 +85,11 @@ class IncidenciaController extends Controller
            'ocs_id' => $producto['oc_id'],
            'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
            'cantidad' => $producto['cantidad'],
-           'ean_id' => $producto['id'] //es el id porque estamos pasando productos
+           'ean_id' => $producto['id']
          ]);
 
          //Vamos a recorrer las evidencias
-         
+         /*
          for ($x=0; $x < count($producto['evidencias']) ; $x++) 
          { 
             $evidencia = $producto['evidencias'][$x];
@@ -98,6 +98,7 @@ class IncidenciaController extends Controller
               'incidencia_id' => $incidencia['id']
             ]);
          }
+         */
          
        }
       
