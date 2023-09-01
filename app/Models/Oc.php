@@ -19,6 +19,6 @@ class Oc extends Model
 
     public function incidencias()
     {
-        return $this->hasMany(Incidencia::class, 'incidencia_id');
+        return $this->hasMany(Incidencia::class, 'id');
     }
 }
