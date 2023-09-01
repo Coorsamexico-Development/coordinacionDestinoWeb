@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Evidencia;
 use App\Models\Incidencia;
+use App\Models\Oc;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 
@@ -81,7 +82,7 @@ class IncidenciaController extends Controller
        for ($i=0; $i < count($data) ; $i++) 
        { 
          $producto = $data[$i];
-         $incidencia = Incidencia::create([
+         $incidencia = Incidencia::updateOrCreate([
            'ocs_id' => $producto['oc_id'],
            'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
            'cantidad' => $producto['cantidad'],
@@ -93,7 +94,7 @@ class IncidenciaController extends Controller
          for ($x=0; $x < count($producto['evidencias']) ; $x++) 
          { 
             $evidencia = $producto['evidencias'][$x];
-            Evidencia::create([
+            Evidencia::updateOrCreate([
               'evidencia' => $evidencia['foto'],
               'incidencia_id' => $incidencia['id']
             ]);
@@ -103,4 +104,5 @@ class IncidenciaController extends Controller
        }
       
     }
+
 }

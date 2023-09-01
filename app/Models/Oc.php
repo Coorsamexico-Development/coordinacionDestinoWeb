@@ -16,4 +16,9 @@ class Oc extends Model
         'en POD',
         'bandera'
     ];
+
+    public function incidencias()
+    {
+        return $this->hasMany(Incidencia::class, 'incidencia_id');
+    }
 }

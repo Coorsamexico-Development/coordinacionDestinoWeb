@@ -64,10 +64,11 @@ Route::get('artisan', function () {
 Route::get('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para consultar productos
 Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('indexProductos');
-//Ruta para checar las incidencias
+//Ruta para checar el tipo de incidencias
 Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias'])->name('checkIncidencias');
 //Save incidencias
 Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias');
+Route::get('/checkIncidenciasByOc',[IncidenciaController::class, 'checkIncidenciasByOc'])->name('checkIncidenciasByOc');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){
