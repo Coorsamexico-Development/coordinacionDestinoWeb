@@ -89,7 +89,7 @@ class IncidenciaController extends Controller
          ]);
 
          //Vamos a recorrer las evidencias
-         /*
+         
          for ($x=0; $x < count($producto['evidencias']) ; $x++) 
          { 
             $evidencia = $producto['evidencias'][$x];
@@ -98,7 +98,7 @@ class IncidenciaController extends Controller
               'incidencia_id' => $incidencia['id']
             ]);
          }
-         */
+         
          
        }
       
