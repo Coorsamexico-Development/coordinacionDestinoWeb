@@ -77,34 +77,15 @@ class IncidenciaController extends Controller
        $data = $request['params']['data'];
 
        // return $data;
-       $array =[];
+     
 
        for ($i=0; $i < count($data) ; $i++) 
        { 
          $producto = $data[$i];
-         array_push($array,$producto);
-         /*
-         $incidencia = Incidencia::create([
-           'ocs_id' => $producto['oc_id'],
-           'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
-           'cantidad' => $producto['cantidad'],
-           'ean_id' => $producto['id']
-         ]);
-         */
-
-         //Vamos a recorrer las evidencias
-         /*
-         for ($x=0; $x < count($producto['evidencias']) ; $x++) 
-         { 
-            $evidencia = $producto['evidencias'][$x];
-            Evidencia::create([
-              'evidencia' => $evidencia['foto'],
-              'incidencia_id' => $incidencia['id']
-            ]);
-         }
-         */
+       
+       
        }
-       return $array;
       
+      return 'ok';
     }
 }
