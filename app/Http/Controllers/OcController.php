@@ -100,7 +100,9 @@ class OcController extends Controller
         ->with(['incidencias'  => function ($query) {
             $query->select(
                 'incidencias.*',
-              )->get();
+                'tipo_incidencias.nombre as tipo_incidencia'
+              )->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias')
+              ->get();
              }
             ])
         ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
