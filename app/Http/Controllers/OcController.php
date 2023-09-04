@@ -97,7 +97,15 @@ class OcController extends Controller
         //return $confirmacion['id'];
 
         return Oc::select('ocs.*')
-        ->with('incidencias')
+        ->with(['incidencias'  => function ($query) {
+            $query->select(
+                'incidencias.*',
+                'productos.SKU','tipo_incidencias.nombre'
+              )->join('productos','incidencias.ean_id','productos.id')
+              ->join('tipo_incidencias','incidencias.tipo_incidencia_id', 'incidencias.id')
+              ->get();
+             }
+            ])
         ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
         ->get();
     }
