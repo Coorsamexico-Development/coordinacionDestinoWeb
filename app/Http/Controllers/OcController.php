@@ -101,7 +101,7 @@ class OcController extends Controller
             $query->select(
                 'incidencias.*',
                 'tipo_incidencias.nombre as tipo_incidencia'
-              )->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias')
+              )->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
               ->get();
              }
             ])
