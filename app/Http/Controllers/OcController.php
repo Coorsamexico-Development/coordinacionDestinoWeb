@@ -100,8 +100,10 @@ class OcController extends Controller
         ->with(['incidencias'  => function ($query) {
             $query->select(
                 'incidencias.*',
-                'tipo_incidencias.nombre as tipo_incidencia'
+                'tipo_incidencias.nombre as tipo_incidencia',
+                'productos.SKU as sku'
               )->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+              ->join('productos','incidencias.ean_id','productos.id')
               ->get();
              }
             ])
