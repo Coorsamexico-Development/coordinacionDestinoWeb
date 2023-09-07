@@ -3,6 +3,7 @@
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\HorasHistoricoController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
@@ -69,7 +70,10 @@ Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias']
 //Save incidencias
 Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias');
 Route::get('/checkIncidenciasByOc',[IncidenciaController::class, 'checkIncidenciasByOc'])->name('checkIncidenciasByOc');
+//Ruta para guardar ocs cuadradas
 Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre');
+//Ruta para cambiar y tomar la hr de folios
+Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){
