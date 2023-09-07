@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
 use App\Models\HorasHistorico;
+use App\Models\Statu;
+use App\Models\StatusDt;
 use Illuminate\Http\Request;
 
 class HorasHistoricoController extends Controller
@@ -66,9 +68,20 @@ class HorasHistoricoController extends Controller
 
     public function savehrFolios(Request $request)
     {
-     return  $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
+      $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',[$request['confirmacion']])
        ->first();
+
+       $status = Statu::select('status.*')
+       ->where('status.id','=',$request['status_id'])
+       ->first();
      
+       $status_dt = StatusDt::select('status_dts.*')
+       ->where('status_dts.status_id','=',$status['id'])
+       ->where('status_dts.confirmacion_dt_id','=',$confirmacion_Dt['id'])
+       ->where('status_dts.activo','=',1)
+       ->first();
+
+       return $status_dt;
     }
 }
