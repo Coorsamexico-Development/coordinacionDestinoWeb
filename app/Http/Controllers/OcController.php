@@ -126,6 +126,17 @@ class OcController extends Controller
 
     public function saveCuadre (Request $request)
     {
-        return $request;
+        $ocsCuadradas =  $request['params']['ocs'];
+        if(count($ocsCuadradas) !== 0)
+        {
+          for ($i=0; $i < count($ocsCuadradas) ; $i++) 
+          { 
+             $oc = $ocsCuadradas[$i];
+             Oc::where('id','=', $oc['id'])
+             ->update([
+                'en POD' => $oc['pod']
+             ]);
+          }
+        }
     }
 }
