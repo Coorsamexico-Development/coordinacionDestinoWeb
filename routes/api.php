@@ -69,6 +69,7 @@ Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias']
 //Save incidencias
 Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias');
 Route::get('/checkIncidenciasByOc',[IncidenciaController::class, 'checkIncidenciasByOc'])->name('checkIncidenciasByOc');
+Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){

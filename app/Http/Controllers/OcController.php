@@ -123,4 +123,9 @@ class OcController extends Controller
            ]);
         }
     } 
+
+    public function saveCuadre (Request $request)
+    {
+        return $request;
+    }
 }
