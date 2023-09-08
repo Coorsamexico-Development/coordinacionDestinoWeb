@@ -8,6 +8,7 @@ use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
+use App\Models\ConfirmacionDt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,8 @@ Route::get('/checkIncidenciasByOc',[IncidenciaController::class, 'checkIncidenci
 Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre');
 //Ruta para cambiar y tomar la hr de folios
 Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
+//Ruta para guardar datos y cambiar al status de liberacion
+Route::post('/valoresLiberacion',[ConfirmacionDtController::class, 'valoresLiberacion'])->name('valoresLiberacion');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){

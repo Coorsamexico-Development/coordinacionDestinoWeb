@@ -351,4 +351,9 @@ class ConfirmacionDtController extends Controller
         ->get();
       }
   }
+
+  public function valoresLiberacion (Request $request)
+  {
+    return $request['params'];
+  }
 }
