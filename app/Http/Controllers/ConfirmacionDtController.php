@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
+use App\Models\DtCampoValor;
 use App\Models\HorasHistorico;
+use App\Models\Oc;
 use App\Models\Plataforma;
 use App\Models\Statu;
 use App\Models\StatusDt;
 use App\Models\Ubicacione;
+use App\Models\Valor;
 use Illuminate\Http\Request;
 
 class ConfirmacionDtController extends Controller
@@ -354,10 +357,14 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
-      return $request['params'];
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',[$request['confirmacion']])
        ->first();
+
+       return  $ocs = Oc::select('ocs.*')
+       ->with('incidencias')
+       ->where('ocs.confirmacion_dt_id','=',$confirmacion_Dt['id'])
+       ->get();
 
        $status = Statu::select('status.*')
        ->where('status.id','=',$request['status_id'])
@@ -377,6 +384,30 @@ class ConfirmacionDtController extends Controller
        ]);
 
 
+       //Creamos el guardado de los valores
+       for ($i=0; $i < count($request['params']['valores']) ; $i++)
+       { 
+          $valor = $request['params']['valores'];
+          //Buscamos el dt_campo_valor
+          $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
+          ->where('dt_campo_valors.dt_id','=',$confirmacion_Dt['dt_id'])
+          ->where('dt_campo_valors.campo_id','=', $valor['campo_id'])
+          ->first();
 
+          //creamos los valores
+          $newValor = Valor::updateOrCreate([
+             'valor' => $valor['value'],
+             'dt_campo_valor_id' => $dt_campo_valor['id'],
+             'user_id' => $request['params']['usuario']
+          ]);
+       }
+
+      //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
+      //si se llega a encontrar alguna ya se considera liberacion con incidencia}
+      $ocs = Oc::select('ocs.*')
+      ->with('incidencias')
+      ->where('ocs.confirmacion_dt_id','=',$confirmacion_Dt['id'])
+      ->get();
+    
   }
 }
