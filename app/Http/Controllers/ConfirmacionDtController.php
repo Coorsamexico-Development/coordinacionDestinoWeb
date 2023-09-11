@@ -354,6 +354,29 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
-    return $request['params'];
+      return $request['params'];
+       $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('confirmacion_dts.confirmacion','=',[$request['confirmacion']])
+       ->first();
+
+       $status = Statu::select('status.*')
+       ->where('status.id','=',$request['status_id'])
+       ->first();
+     
+       $status_dt = StatusDt::select('status_dts.*')
+       ->where('status_dts.status_id','=',$status['id'])
+       ->where('status_dts.confirmacion_dt_id','=',$confirmacion_Dt['id'])
+       ->where('status_dts.activo','=',1)
+       ->first();
+
+
+       HorasHistorico::updateOrCreate([
+         'horas_historicos.hora_id' => 6, //es la hr de folios
+         'horas_historicos.status_dts_id' => $status_dt['id'],
+         'horas_historicos.hora' => $request['params']['horaImpresion']
+       ]);
+
+
+
   }
 }
