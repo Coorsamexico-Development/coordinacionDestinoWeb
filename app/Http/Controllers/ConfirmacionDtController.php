@@ -387,7 +387,7 @@ class ConfirmacionDtController extends Controller
        //Creamos el guardado de los valores
        for ($i=0; $i < count($request['params']['valores']) ; $i++)
        { 
-          $valor = $request['params']['valores'];
+          $valor = $request['params']['valores'][$i];
           //Buscamos el dt_campo_valor
           $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
           ->where('dt_campo_valors.dt_id','=',$confirmacion_Dt['dt_id'])
