@@ -358,7 +358,7 @@ class ConfirmacionDtController extends Controller
   public function valoresLiberacion (Request $request)
   {
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
-       ->where('confirmacion_dts.confirmacion','=',[$request['confirmacion']])
+       ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
 
        return  $ocs = Oc::select('ocs.*')
@@ -367,7 +367,7 @@ class ConfirmacionDtController extends Controller
        ->get();
 
        $status = Statu::select('status.*')
-       ->where('status.id','=',$request['status_id'])
+       ->where('status.id','=',$request['params']['status_id'])
        ->first();
      
        $status_dt = StatusDt::select('status_dts.*')
