@@ -394,12 +394,30 @@ class ConfirmacionDtController extends Controller
           ->where('dt_campo_valors.campo_id','=', $valor['campo_id'])
           ->first();
 
-          //creamos los valores
-          $newValor = Valor::updateOrCreate([
-             'valor' => $valor['value'],
-             'dt_campo_valor_id' => $dt_campo_valor['id'],
-             'user_id' => $request['params']['usuario']
-          ]);
+          if($dt_campo_valor !== null)
+          {
+              //creamos los valores
+              $newValor = Valor::updateOrCreate([
+                'valor' => $valor['value'],
+                'dt_campo_valor_id' => $dt_campo_valor['id'],
+                'user_id' => $request['params']['usuario']
+             ]);
+          }
+          else
+          {
+            $newDt_campo_valor = DtCampoValor::create([
+              'dt_id' =>  $confirmacion_Dt['dt_id'],
+              'campo_id' => $valor['campo_id']
+            ]);
+
+            $newValor = Valor::updateOrCreate([
+              'valor' => $valor['value'],
+              'dt_campo_valor_id' => $newDt_campo_valor['id'],
+              'user_id' => $request['params']['usuario']
+           ]);
+          }
+
+
        }
 
       //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
