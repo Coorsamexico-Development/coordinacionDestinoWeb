@@ -378,7 +378,6 @@ class ConfirmacionDtController extends Controller
        ->where('status_dts.activo','=',1)
        ->first();
 
-       return $request['params'];
 
        HorasHistorico::updateOrCreate([
          'horas_historicos.hora_id' => 6, //es la hr de folios
