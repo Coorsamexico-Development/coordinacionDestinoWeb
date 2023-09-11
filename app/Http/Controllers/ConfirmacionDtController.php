@@ -366,18 +366,7 @@ class ConfirmacionDtController extends Controller
        ->where('ocs.confirmacion_dt_id','=',$confirmacion_Dt['id'])
        ->get();
      
-       //recorremos las ocs para ver si hay incidencias
-       $totalIncidencias = [];
-       for ($x=0; $x < count($ocs) ; $x++) 
-       { 
-          $oc = $ocs[$x];
-          if(count($oc['incidencias']) > 0)
-          {
-            array_push($totalIncidencias, $oc['incidencias']);
-          }
-       }
-
-       return $totalIncidencias;
+       //return $totalIncidencias;
 
        $status = Statu::select('status.*')
        ->where('status.id','=',$request['params']['status_id'])
@@ -418,5 +407,52 @@ class ConfirmacionDtController extends Controller
       //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
       //si se llega a encontrar alguna ya se considera liberacion con incidencia}
     
+       //recorremos las ocs para ver si hay incidencias
+       $totalIncidencias = [];
+       for ($x=0; $x < count($ocs) ; $x++) 
+       { 
+          $oc = $ocs[$x];
+          if(count($oc['incidencias']) > 0)
+          {
+            array_push($totalIncidencias, $oc['incidencias']);
+          }
+       }
+
+       if(count($totalIncidencias) > 0) //si hay al menos alguna incidencia
+       {
+          ConfirmacionDt::where('id','=',$confirmacion_Dt['id'])
+          ->update([
+             'confirmacion_dts.status_id' => 4 //se libera con incidencia
+          ]);
+  
+           StatusDt::where('confirmacion_dt_id','=',$confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
+           ->update([
+             'activo' => 0
+           ]);
+           //Creamos el primer registro en la tabla de historico
+          $newStatus = StatusDt::updateOrCreate([
+            'confirmacion_dt_id' => $confirmacion_Dt['id'],
+            'status_id' => 4,
+            'activo' => 1,
+          ]);
+       }
+       else
+       {
+           ConfirmacionDt::where('id','=',$confirmacion_Dt['id'])
+           ->update([
+              'confirmacion_dts.status_id' => 5 //se libera con incidencia
+           ]);
+
+            StatusDt::where('confirmacion_dt_id','=',$confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
+            ->update([
+              'activo' => 0
+            ]);
+            //Creamos el primer registro en la tabla de historico
+           $newStatus = StatusDt::updateOrCreate([
+             'confirmacion_dt_id' => $confirmacion_Dt['id'],
+             'status_id' => 5,
+             'activo' => 1,
+           ]);
+       }
   }
 }
