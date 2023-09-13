@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campo;
 use App\Models\ConfirmacionDt;
 use App\Models\DtCampoValor;
 use App\Models\HorasHistorico;
@@ -474,6 +475,43 @@ class ConfirmacionDtController extends Controller
 
   public function firmasLiberacion (Request $request)
   {
-     return $request['params'];
+     //return $request['params'];
+     $status = $request['params']['status'];
+     $firmas = $request['params']['firmas'];
+     
+     $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+    ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
+    ->first();
+
+    $campo = Campo::select('campos.*')
+    ->where('campos.status_id','=',$status)
+    ->where('campos.tipo_campo_id','=',5)
+    ->first();
+
+    $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
+    ->where('dt_campo_valors.dt_id','=',$confirmacion_dt['dt_id'])
+    ->where('dt_campo_valors.campo_id','=',$campo['id'])
+    ->first();
+
+    if($dt_campo_valor == null)
+    {
+      $dt_campo_valor = DtCampoValor::create([
+        'dt_id' =>$confirmacion_dt['dt_id'],
+        'campo_id' => $campo['id']
+       ]);
+    }
+
+    //recorremos las firmas
+    for ($i=0; $i < count($firmas) ; $i++) 
+    { 
+      $firma =$firmas[$i];
+      Valor::create([
+        'valor' => $firma['firma'],
+        'dt_campo_valor_id' => $dt_campo_valor['id'],
+        'user_id' => $request['params']['usuario']
+      ]);
+    }
+
+    return 'ok';
   }
 }
