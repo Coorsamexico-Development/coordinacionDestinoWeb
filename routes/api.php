@@ -77,6 +77,8 @@ Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre
 Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
 //Ruta para guardar datos y cambiar al status de liberacion
 Route::post('/valoresLiberacion',[ConfirmacionDtController::class, 'valoresLiberacion'])->name('valoresLiberacion');
+//Valores de firmsas
+Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
 //Prueba para la estructura del PDF
 /*
 Route::get('/pdf', function(){

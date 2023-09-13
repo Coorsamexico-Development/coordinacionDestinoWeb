@@ -471,4 +471,9 @@ class ConfirmacionDtController extends Controller
            ]);
        }
   }
+
+  public function firmasLiberacion (Request $request)
+  {
+     return $request['params'];
+  }
 }
