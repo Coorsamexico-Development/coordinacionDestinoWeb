@@ -358,6 +358,8 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
+       return $request;
+
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
@@ -505,11 +507,7 @@ class ConfirmacionDtController extends Controller
     for ($i=0; $i < count($firmas) ; $i++) 
     { 
       $firma =$firmas[$i];
-      Valor::create([
-        'valor' => $firma['firma'],
-        'dt_campo_valor_id' => $dt_campo_valor['id'],
-        'user_id' => $request['params']['usuario']
-      ]);
+
     }
 
     return 'ok';
