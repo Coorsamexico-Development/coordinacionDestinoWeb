@@ -359,6 +359,7 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
+       return $request;
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
@@ -476,7 +477,6 @@ class ConfirmacionDtController extends Controller
 
   public function saveDocEnrrampe(Request $request)
   {
-       return $request;
        //Si existe un documento hay que guardarlo respectivamente
        if($request['file'] !== null)
        {
