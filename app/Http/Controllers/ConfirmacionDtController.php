@@ -359,7 +359,6 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
-       return $request;
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
