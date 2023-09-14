@@ -13,6 +13,7 @@ use App\Models\StatusDt;
 use App\Models\Ubicacione;
 use App\Models\Valor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ConfirmacionDtController extends Controller
 {
@@ -358,8 +359,6 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
-       return $request;
-
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
@@ -422,6 +421,58 @@ class ConfirmacionDtController extends Controller
 
 
        }
+
+       //Si existe un documento hay que guardarlo respectivamente
+       if($request['file'] !== null)
+       {
+        if(is_file(($request['file'])))
+        {
+          $file = request('file');
+          $nombre_original = $file->getClientOriginalName();
+          $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
+          $urlFile = Storage::disk('gcs')->url($ruta_file);
+
+          //comprobamos
+          $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
+            ->first();
+
+            if($dt_campo == null)
+            {
+                $dt_campo = DtCampoValor::create(
+                [
+                   'dt_id' => $request['dt'],
+                   'campo_id' =>$request['tipo_campo_file']
+                ]);
+
+                //Hay que encontrar todos los valores anteriores para desactivarlos
+                //y crear uno nuevo
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $urlFile,
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['usuario']
+                ]);
+            }
+            else
+            {
+              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+              ->update(['activo' => 0]);
+              //Crea nuevo valor en la tabla de valores
+              $newValor = Valor::create([
+                  'valor' => $urlFile,
+                  'dt_campo_valor_id' => $dt_campo->id,
+                  'user_id' => $request['usuario']
+              ]);  
+            }
+        }
+       }
+
 
       //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
       //si se llega a encontrar alguna ya se considera liberacion con incidencia}
