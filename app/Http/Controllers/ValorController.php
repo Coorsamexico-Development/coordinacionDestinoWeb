@@ -783,7 +783,7 @@ class ValorController extends Controller
        ->join('dts','dt_campo_valors.dt_id','dts.id')
        ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
        ->join('campos','dt_campo_valors.campo_id','campos.id')
-       ->where('campos.status_id','=', $status['status_padre'])
+       ->where('campos.status_id','=', $status['id'])
        ->where('valors.activo','=', 1)
        ->where('confirmacion_dts.id','=',  $request['confirmacion_dt_id'])
        ->get();
