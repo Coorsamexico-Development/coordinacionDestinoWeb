@@ -646,6 +646,7 @@ class ValorController extends Controller
     {
           $data = $request['params']['data'];
           $fotos = $request['params']['fotos'];
+          return $fotos;
           //Guarda todo y cambia status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
           for ($i=0; $i < count($data) ; $i++) 
@@ -706,7 +707,7 @@ class ValorController extends Controller
                 ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
                 ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
                 ->first();
-                
+
                 if($dt_campo_foto !== null)
                 {
                     $newValor = Valor::create([
