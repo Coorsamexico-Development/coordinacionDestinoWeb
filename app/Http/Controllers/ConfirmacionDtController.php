@@ -493,6 +493,37 @@ class ConfirmacionDtController extends Controller
             ->where('dt_campo_valors.dt_id','=', $request['dt'])
             ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
             ->first();
+
+            if($dt_campo == null)
+            {
+                $dt_campo = DtCampoValor::create(
+                [
+                   'dt_id' => $request['dt'],
+                   'campo_id' =>$request['tipo_campo_file']
+                ]);
+
+                //Hay que encontrar todos los valores anteriores para desactivarlos
+                //y crear uno nuevo
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                ->update(['activo' => 0]);
+                //Crea nuevo valor en la tabla de valores
+                $newValor = Valor::create([
+                    'valor' => $urlFile,
+                    'dt_campo_valor_id' => $dt_campo->id,
+                    'user_id' => $request['usuario']
+                ]);
+            }
+            else
+            {
+              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+              ->update(['activo' => 0]);
+              //Crea nuevo valor en la tabla de valores
+              $newValor = Valor::create([
+                  'valor' => $urlFile,
+                  'dt_campo_valor_id' => $dt_campo->id,
+                  'user_id' => $request['usuario']
+              ]);  
+            }
         }
        }
 
