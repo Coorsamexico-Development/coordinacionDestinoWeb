@@ -644,8 +644,8 @@ class ValorController extends Controller
     //Funcion de enrrampado segunda version
     public function valoresEnrrampado (Request $request)
     {
-       $data = $request['params']['data'];
-       $fotos = $request['params']['fotos'];
+          $data = $request['params']['data'];
+          $fotos = $request['params']['fotos'];
           //Guarda todo y cambia status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
           for ($i=0; $i < count($data) ; $i++) 
@@ -695,57 +695,43 @@ class ValorController extends Controller
             }
           }
           //Recorrido de fotos
-          $campo_foto = $fotos['campo_id'];
-          $dt_campo_foto = DtCampoValor::select(
-            'dt_campo_valors.*'
-            )
-            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
-            ->where('dt_campo_valors.campo_id','=', $campo_foto)
-            ->first();
- 
-         if($dt_campo_foto == null) //sino encuentra el tipo de campo hay que crearlo
-         {
-            $dt_campo_foto = DtCampoValor::create(
-                [
-                   'dt_id' => $request['params']['dt'],
-                   'campo_id' => $campo_foto
-                ]);
- 
-           //RECORREMOS las fotos para insercion
-           for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
-           { 
-              $foto = $fotos['fotos']['fotos'][$i];
-              if($foto['id'] !== 0)
-              {
-                 $newValor = Valor::create([
-                    'valor' => $foto['base64'],
-                    'dt_campo_valor_id' => $dt_campo_foto['id'],
-                    'user_id' => $request['params']['usuario']
-                  ]);
-              }
-           }
-         }
-         else
-         {
-          
-            $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_foto['id'])
-                ->update(['activo' => 0]);
-            
- 
-            for ($i=0; $i < count($fotos['fotos']['fotos']) ; $i++) 
-            { 
-               $foto = $fotos['fotos']['fotos'][$i];
-               if($foto['id'] !== 0)
-               {
-                  $newValor = Valor::create([
-                    'valor' => $foto['base64'],
-                    'dt_campo_valor_id' => $dt_campo_foto['id'],
-                    'user_id' => $request['params']['usuario']
-                  ]);
-               }
+          for ($x=0; $x < count($fotos) ; $x++)
+          { 
+            $foto = $fotos[$x];
+            if($foto['id'] !== 0)
+            {
+              $dt_campo_foto = DtCampoValor::select(
+                'dt_campo_valors.*'
+                )
+                ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+                ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
+                ->first();
+                
+                if($dt_campo_foto !== null)
+                {
+                    $newValor = Valor::create([
+                        'valor' => $foto['base64'],
+                        'dt_campo_valor_id' => $dt_campo_foto['id'],
+                        'user_id' => $request['params']['usuario']
+                      ]);
+                }
+                else
+                {
+                    $dt_campo_foto = DtCampoValor::create(
+                        [
+                           'dt_id' => $request['params']['dt'],
+                           'campo_id' => $foto['campo_id']
+                        ]);
+                    
+                   $newValor = Valor::create([
+                       'valor' => $foto['base64'],
+                       'dt_campo_valor_id' => $dt_campo_foto['id'],
+                       'user_id' => $request['params']['usuario']
+                     ]);
+                }
             }
-         }  
-
+          }
+ 
            //Cambio al sig status
            $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
            where('confirmacion','=',$request['params']['confirmacion'])
