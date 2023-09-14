@@ -52,6 +52,8 @@ Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
 Route::post('/valoresDeDocumentacion',[ValorController::class, 'documentacionValores']);
 //Guardar valores 3era pantalla
 Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
+//Guardar docs de la espera de ennrampe
+
 Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
 //Ruta de guardado global de enrrampe
 Route::post('/valoresEnrrampado',[ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
@@ -77,6 +79,8 @@ Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre
 Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
 //Ruta para guardar datos y cambiar al status de liberacion
 Route::post('/valoresLiberacion',[ConfirmacionDtController::class, 'valoresLiberacion'])->name('valoresLiberacion');
+//Ruta para guardar documento de la liberacion
+Route::post('/saveDocEnrrampe',[ConfirmacionDtController::class, 'saveDocEnrrampe'])->name('saveDocEnrrampe');
 //Valores de firmsas
 Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
 //Prueba para la estructura del PDF

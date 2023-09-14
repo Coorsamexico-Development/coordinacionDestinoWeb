@@ -359,11 +359,8 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
-
-       return $request['valores'];
-
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
-       ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+       ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
 
        $ocs = Oc::select('ocs.*')
@@ -374,7 +371,7 @@ class ConfirmacionDtController extends Controller
        //return $totalIncidencias;
 
        $status = Statu::select('status.*')
-       ->where('status.id','=',$request['status_id'])
+       ->where('status.id','=',$request['params']['status_id'])
        ->first();
      
        $status_dt = StatusDt::select('status_dts.*')
@@ -386,11 +383,11 @@ class ConfirmacionDtController extends Controller
        HorasHistorico::updateOrCreate([
          'hora_id' => 6, //es la hr de folios
          'status_dts_id' => $status_dt['id'],
-         'hora' => $request['horaImpresion']
+         'hora' => $request['params']['horaImpresion']
        ]);
 
        //Creamos el guardado de los valores
-       for ($i=0; $i < count($request['valores']) ; $i++)
+       for ($i=0; $i < count($request['params']['valores']) ; $i++)
        { 
           $valor = $request['params']['valores'][$i];
           //Buscamos el dt_campo_valor
@@ -424,58 +421,6 @@ class ConfirmacionDtController extends Controller
 
 
        }
-
-       //Si existe un documento hay que guardarlo respectivamente
-       if($request['file'] !== null)
-       {
-        if(is_file(($request['file'])))
-        {
-          $file = request('file');
-          $nombre_original = $file->getClientOriginalName();
-          $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
-          $urlFile = Storage::disk('gcs')->url($ruta_file);
-
-          //comprobamos
-          $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
-            'dt_campo_valors.*'
-            )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
-            ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
-            ->first();
-
-            if($dt_campo == null)
-            {
-                $dt_campo = DtCampoValor::create(
-                [
-                   'dt_id' => $request['dt'],
-                   'campo_id' =>$request['tipo_campo_file']
-                ]);
-
-                //Hay que encontrar todos los valores anteriores para desactivarlos
-                //y crear uno nuevo
-                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
-                ->update(['activo' => 0]);
-                //Crea nuevo valor en la tabla de valores
-                $newValor = Valor::create([
-                    'valor' => $urlFile,
-                    'dt_campo_valor_id' => $dt_campo->id,
-                    'user_id' => $request['usuario']
-                ]);
-            }
-            else
-            {
-              $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
-              ->update(['activo' => 0]);
-              //Crea nuevo valor en la tabla de valores
-              $newValor = Valor::create([
-                  'valor' => $urlFile,
-                  'dt_campo_valor_id' => $dt_campo->id,
-                  'user_id' => $request['usuario']
-              ]);  
-            }
-        }
-       }
-
 
       //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
       //si se llega a encontrar alguna ya se considera liberacion con incidencia}
@@ -527,6 +472,31 @@ class ConfirmacionDtController extends Controller
              'activo' => 1,
            ]);
        }
+  }
+
+  public function saveDocEnrrampe(Request $request)
+  {
+       //Si existe un documento hay que guardarlo respectivamente
+       if($request['file'] !== null)
+       {
+        if(is_file(($request['file'])))
+        {
+          $file = request('file');
+          $nombre_original = $file->getClientOriginalName();
+          $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
+          $urlFile = Storage::disk('gcs')->url($ruta_file);
+
+          //comprobamos
+          $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
+            ->first();
+        }
+       }
+
+
   }
 
   public function firmasLiberacion (Request $request)
