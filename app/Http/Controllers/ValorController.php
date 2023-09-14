@@ -775,7 +775,7 @@ class ValorController extends Controller
 
        $campos = Campo::select('campos.id as campo_id','campos.nombre as campo','tipos_campos.nombre as tipo_campo')
        ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id')
-       ->where('campos.status_id','=', $status['status_padre'])
+       ->where('campos.status_id','=', $status['id'])
        ->get();
 
        $valors = Valor::select('valors.*','campos.id as campo_id',)
