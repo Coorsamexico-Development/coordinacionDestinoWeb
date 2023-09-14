@@ -476,6 +476,7 @@ class ConfirmacionDtController extends Controller
 
   public function saveDocEnrrampe(Request $request)
   {
+       return $request;
        //Si existe un documento hay que guardarlo respectivamente
        if($request['file'] !== null)
        {
