@@ -646,7 +646,6 @@ class ValorController extends Controller
     {
           $data = $request['params']['data'];
           $fotos = $request['params']['fotos'];
-          return $fotos;
           //Guarda todo y cambia status
           //Se recorren los datos y se extraen los campos, al recorrer el ciclo, se insertaran en la BD
           for ($i=0; $i < count($data) ; $i++) 
