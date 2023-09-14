@@ -360,7 +360,7 @@ class ConfirmacionDtController extends Controller
   public function valoresLiberacion (Request $request)
   {
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
-       ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
+       ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
        ->first();
 
        $ocs = Oc::select('ocs.*')
@@ -371,7 +371,7 @@ class ConfirmacionDtController extends Controller
        //return $totalIncidencias;
 
        $status = Statu::select('status.*')
-       ->where('status.id','=',$request['params']['status_id'])
+       ->where('status.id','=',$request['status_id'])
        ->first();
      
        $status_dt = StatusDt::select('status_dts.*')
@@ -383,11 +383,11 @@ class ConfirmacionDtController extends Controller
        HorasHistorico::updateOrCreate([
          'hora_id' => 6, //es la hr de folios
          'status_dts_id' => $status_dt['id'],
-         'hora' => $request['params']['horaImpresion']
+         'hora' => $request['horaImpresion']
        ]);
 
        //Creamos el guardado de los valores
-       for ($i=0; $i < count($request['params']['valores']) ; $i++)
+       for ($i=0; $i < count($request['valores']) ; $i++)
        { 
           $valor = $request['params']['valores'][$i];
           //Buscamos el dt_campo_valor
