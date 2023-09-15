@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" >
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>
-            {{$title}}
+           {{$title}}
         </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     </head>
     <body style="font-family: Montserrat">
-     <div id="cabecera">
-        <div>
-            <h1 class="confirmacion">Confirmacion: {{$confirmacion}}</h1>
-            <span class="linea"></span>
-            <div class="contenedor_dt_ct">
-                <h2 class="dt">DT:{{$dt}}</h2>
-                <h2 class="dt">Cita:{{$cita}}</h2>
-            </div>
-        </div>
-     </div>
-     <div id="cuerpo">
-        <div>
-          @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
+       <div class="container-sm">
+        <div class="card" style="width: 18rem;">
+          <div>
+            <h1 class="">Confirmacion: {{$confirmacion}}</h1>
+            <span class=""></span>
+              <div class="">
+                 <h2 class="">DT:{{$dt}}</h2>
+                 <h2 class="">Cita:{{$cita}}</h2>
+              </div>
+          </div>
+          <div>
+            @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
             <div>
                <p style="font-size: 1.2rem"> 
                    <?php 
@@ -80,23 +80,24 @@
               @endif
             </div> 
           @endforeach
+          </div>
+          <div class="firma">
+            <h3 class="confirmacion">Firmas</h3>
+            <div>
+              @foreach ($firmas as $firma )
+                <?php 
+                  echo '
+                    <p>'.$firma['nombre'].'</p>
+                    <img style="width:10rem"  src="'.$firma['firma'].'" />
+                    <img style="width:10rem"  src="'.$firma['foto'].'" />
+                   '
+                ?>
+              @endforeach
+            </div>
         </div>
-     </div>
-     <div class="firma">
-        <h3 class="confirmacion">Firmas</h3>
-        <div>
-          @foreach ($firmas as $firma )
-            <?php 
-              echo '
-                <p>'.$firma['nombre'].'</p>
-                <img style="width:10rem"  src="'.$firma['firma'].'" />
-                <img style="width:10rem"  src="'.$firma['foto'].'" />
-               '
-            ?>
-          @endforeach
-        </div>
-    </div>
+       </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </html>
 <style>
     .confirmacion

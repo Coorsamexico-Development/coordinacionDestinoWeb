@@ -84,9 +84,9 @@ Route::post('/valoresLiberacion',[ConfirmacionDtController::class, 'valoresLiber
 Route::post('/saveDocEnrrampe',[ConfirmacionDtController::class, 'saveDocEnrrampe'])->name('saveDocEnrrampe');
 //Valores de firmsas
 Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
+
 //Prueba para la estructura del PDF
-/*
+
 Route::get('/pdf', function(){
     return view('pdfs.plantilla_confirmacion')->render();
 });
-*/
