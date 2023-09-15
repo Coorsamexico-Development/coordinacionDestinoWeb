@@ -536,6 +536,7 @@ class ConfirmacionDtController extends Controller
 
   public function firmasLiberacion (Request $request)
   {
+    return $request['params'];
      //creacion del PDF el cual se debe guardar en confirmacion_dt
      $pdf = App::make('dompdf.wrapper');
      //return $request['params'];
