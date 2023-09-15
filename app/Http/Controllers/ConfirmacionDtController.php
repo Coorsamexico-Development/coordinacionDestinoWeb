@@ -551,7 +551,7 @@ class ConfirmacionDtController extends Controller
      $dt = Dt::select( 
       'dts.referencia_dt'
       )
-      ->where('dts.id','=',$request['dt'])
+      ->where('dts.id','=',$request['params']['dt'])
       ->first();
 
      //Consultamos todos los campos de status por confirmacion
