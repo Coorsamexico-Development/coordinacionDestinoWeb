@@ -619,12 +619,13 @@ class ConfirmacionDtController extends Controller
      
       $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
       //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
-      
+      /*
       $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
       ->update([
         'pdf' => $urlPdf,
         'cerrado' => 1
       ]);
+      */
 
     return 'ok';
   }
