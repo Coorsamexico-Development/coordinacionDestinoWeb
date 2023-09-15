@@ -599,7 +599,7 @@ class ConfirmacionDtController extends Controller
 
       //seteamos la data en el pdf para la plantilla
       $data = [
-        'confirmacion' =>  $request['confirmacion'],
+        'confirmacion' =>  $request['params']['confirmacion'],
         'dt' =>  $dt['referencia_dt'],//$dt['referencia_dt'],
         'status_dt' => $statusByConfirmacion,
         'title' =>  $request['params']['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
@@ -613,11 +613,11 @@ class ConfirmacionDtController extends Controller
       //guardamos en storage
        $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
       ->put(
-       'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf',
+       'pdfs/'.$request['params']['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf',
         $pdf->output()
       );
      
-      $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
+      $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['params']['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
       //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
       /*
       $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
