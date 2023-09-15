@@ -82,10 +82,14 @@
      </div>
      <div class="firma">
         <h3 class="confirmacion">Firmas</h3>
-        @foreach ($statu['status']['firmas'] as $firma )
+        @foreach ($firmas as $firma)
         <div>
           <?php
-             echo '<img style="width:10rem" src="'.$firma['base64'].'" />'
+               echo '<p>'
+                     .$firma['nombre'].   
+                    '</p>'
+               echo '<img style="width:10rem" src="'.$firma['firma'].'" />'
+               echo '<img style="width:10rem" src="'.$firma['foto'].'" />'
            ?>
         </div>
         @endforeach
