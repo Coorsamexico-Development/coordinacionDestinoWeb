@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campo;
 use App\Models\ConfirmacionDt;
+use App\Models\Dt;
 use App\Models\DtCampoValor;
 use App\Models\HorasHistorico;
 use App\Models\Oc;
@@ -13,6 +14,7 @@ use App\Models\StatusDt;
 use App\Models\Ubicacione;
 use App\Models\Valor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 
 class ConfirmacionDtController extends Controller
@@ -534,6 +536,8 @@ class ConfirmacionDtController extends Controller
 
   public function firmasLiberacion (Request $request)
   {
+     //creacion del PDF el cual se debe guardar en confirmacion_dt
+     $pdf = App::make('dompdf.wrapper');
      //return $request['params'];
      $status = $request['params']['status'];
      $firmas = $request['params']['firmas'];
@@ -541,31 +545,85 @@ class ConfirmacionDtController extends Controller
      $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
     ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
     ->first();
+    
+     //buscamos el dt
+     $dt = Dt::select( 
+      'dts.referencia_dt'
+      )
+      ->where('dts.id','=',$request['dt'])
+      ->first();
 
-    $campo = Campo::select('campos.*')
-    ->where('campos.status_id','=',$status)
-    ->where('campos.tipo_campo_id','=',5)
-    ->first();
+     //Consultamos todos los campos de status por confirmacion
+     $statusByConfirmacion = StatusDt::select(
+      'status.id as status_id',
+      'status.status_padre as status_padre_id',
+      'status.nombre as status_name',
+      'status.color as color',
+      'status_dts.updated_at as status_dt_updated_at'
+    )
+    ->with([
+      'status' => function ($query) 
+        {
+          return  $query->select(
+            'status.*'
+          )
+          ->with([
+            'campos' => function ($query1) 
+            {
+               return $query1->select(
+                'campos.*',
+                'tipos_campos.nombre as tipo_campo'
+               )
+               ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id');
+            }
+          ]);
+        }
+      ])
+    ->join('status','status_dts.status_id','status.id')
+    ->where('confirmacion_dt_id','=', $confirmacion_dt['id'])
+    ->distinct('status.id')
+    ->get();
 
-    $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
-    ->where('dt_campo_valors.dt_id','=',$confirmacion_dt['dt_id'])
-    ->where('dt_campo_valors.campo_id','=',$campo['id'])
-    ->first();
+    //Consultamos valores
+    $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
+    ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+    ->join('dts','dt_campo_valors.dt_id','dts.id')
+    ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+    ->join('campos','dt_campo_valors.campo_id','campos.id')
+    ->join('status','campos.status_id','status.id')
+    ->where('valors.activo','=', 1)
+    ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
+    ->distinct('valors.id')
+    ->get();
 
-    if($dt_campo_valor == null)
-    {
-      $dt_campo_valor = DtCampoValor::create([
-        'dt_id' =>$confirmacion_dt['dt_id'],
-        'campo_id' => $campo['id']
-       ]);
-    }
+      //seteamos la data en el pdf para la plantilla
+      $data = [
+        'confirmacion' =>  $request['confirmacion'],
+        'dt' =>  $dt['referencia_dt'],//$dt['referencia_dt'],
+        'status_dt' => $statusByConfirmacion,
+        'title' =>  $request['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
+        'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
+        'valors' => $valors,
+        'firmas' => $firmas
+      ];
 
-    //recorremos las firmas
-    for ($i=0; $i < count($firmas) ; $i++) 
-    { 
-      $firma =$firmas[$i];
-
-    }
+      $pdf->loadView('pdfs.plantilla_confirmacion', $data);
+                 
+      //guardamos en storage
+       $ruta_pdf  =  Storage::disk('gcs') //guardamos en google
+      ->put(
+       'pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf',
+        $pdf->output()
+      );
+     
+      $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
+      //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
+      
+      $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
+      ->update([
+        'pdf' => $urlPdf,
+        'cerrado' => 1
+      ]);
 
     return 'ok';
   }
