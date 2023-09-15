@@ -85,7 +85,13 @@
      </div>
      <div class="firma">
         <h3 class="confirmacion">Firmas</h3>
-       
+        <div>
+          @foreach ($firmas as $firma )
+            <?php 
+              echo '<img src="'.$firma['firma'].'" />'
+            ?>
+          @endforeach
+        </div>
     </div>
     </body>
 </html>
