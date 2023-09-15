@@ -82,17 +82,7 @@
      </div>
      <div class="firma">
         <h3 class="confirmacion">Firmas</h3>
-        @foreach ($firmas as $firma)
-        <div>
-          <?php
-               echo '<p>'
-                     .$firma['nombre'].   
-                    '</p>'
-               echo '<img style="width:10rem" src="'.$firma['firma'].'" />'
-               echo '<img style="width:10rem" src="'.$firma['foto'].'" />'
-           ?>
-        </div>
-        @endforeach
+       
     </div>
     </body>
 </html>
