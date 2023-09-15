@@ -569,7 +569,7 @@ class ConfirmacionDtController extends Controller
             'status.*'
           )
           ->with([
-            'campos' => function ($query1) 
+            'camposByStatus' => function ($query1) 
             {
                return $query1->select(
                 'campos.*',
@@ -584,8 +584,6 @@ class ConfirmacionDtController extends Controller
     ->where('confirmacion_dt_id','=', $confirmacion_dt['id'])
     ->distinct('status.id')
     ->get();
-
-    return $statusByConfirmacion;
 
     //Consultamos valores
     $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
