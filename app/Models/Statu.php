@@ -24,7 +24,7 @@ class Statu extends Model
         return $this->hasMany(Campo::class, 'status_id' ,'status_padre');
     }
 
-    public function camposByStatus ()
+    public function campos2 ()
     {
         return $this->hasMany(Campo::class, 'status_id');
     }

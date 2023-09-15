@@ -42,7 +42,7 @@
             </div>
             <!-- CAMPOS POR STATUS-->
             <div style="margin-top:-0.5rem"> 
-                @foreach ($statu['status']['campos_by_status'] as $campo )
+                @foreach ($statu['status']['campos2'] as $campo )
                 <div>
                    <li>{{$campo['nombre']}}</li>
                    @foreach ($valors  as $valor )

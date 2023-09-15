@@ -569,7 +569,7 @@ class ConfirmacionDtController extends Controller
             'status.*'
           )
           ->with([
-            'camposByStatus' => function ($query1) 
+            'campos2' => function ($query1) 
             {
                return $query1->select(
                 'campos.*',
