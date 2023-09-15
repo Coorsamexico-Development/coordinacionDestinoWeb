@@ -42,6 +42,9 @@
             </div>
             <!-- CAMPOS POR STATUS-->
             <div style="margin-top:-0.5rem"> 
+                <?php 
+                   echo $statu
+                  ?>
                 @foreach ($statu['status']['campos'] as $campo )
                 <div>
                    <li>{{$campo['nombre']}}</li>
