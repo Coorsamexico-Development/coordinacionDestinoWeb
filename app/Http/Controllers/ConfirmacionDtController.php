@@ -597,6 +597,9 @@ class ConfirmacionDtController extends Controller
     ->distinct('valors.id')
     ->get();
 
+    $ocs = Oc::select('ocs.*')
+    ->get();
+
       //seteamos la data en el pdf para la plantilla
       $data = [
         'confirmacion' =>  $request['params']['confirmacion'],
@@ -619,13 +622,13 @@ class ConfirmacionDtController extends Controller
      
       $urlPdf = Storage::disk('gcs')->url('pdfs/'.$request['params']['confirmacion'].'_'.date('Y-m-d').'_'.date('h-i').'.pdf');
       //Seteamos el documento en la BD y cambiamos status a liberacion de incidencia
-      /*
+      
       $setPDF = ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
       ->update([
         'pdf' => $urlPdf,
         'cerrado' => 1
       ]);
-      */
+      
 
     return 'ok';
   }
