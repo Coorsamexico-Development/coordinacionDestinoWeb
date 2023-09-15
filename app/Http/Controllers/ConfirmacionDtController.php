@@ -553,6 +553,8 @@ class ConfirmacionDtController extends Controller
       ->where('dts.id','=',$request['params']['dt'])
       ->first();
 
+      return $dt;
+
      //Consultamos todos los campos de status por confirmacion
      $statusByConfirmacion = StatusDt::select(
       'status.id as status_id',
