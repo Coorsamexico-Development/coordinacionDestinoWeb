@@ -553,7 +553,6 @@ class ConfirmacionDtController extends Controller
       ->where('dts.id','=',$request['params']['dt'])
       ->first();
 
-      return $dt;
 
      //Consultamos todos los campos de status por confirmacion
      $statusByConfirmacion = StatusDt::select(
@@ -586,6 +585,8 @@ class ConfirmacionDtController extends Controller
     ->distinct('status.id')
     ->get();
 
+    return $statusByConfirmacion;
+
     //Consultamos valores
     $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
     ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
@@ -603,7 +604,7 @@ class ConfirmacionDtController extends Controller
         'confirmacion' =>  $request['confirmacion'],
         'dt' =>  $dt['referencia_dt'],//$dt['referencia_dt'],
         'status_dt' => $statusByConfirmacion,
-        'title' =>  $request['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
+        'title' =>  $request['params']['confirmacion'].'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
         'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
         'valors' => $valors,
         'firmas' => $firmas
