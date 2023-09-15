@@ -359,6 +359,7 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion (Request $request)
   {
+       
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
        ->first();
@@ -387,6 +388,7 @@ class ConfirmacionDtController extends Controller
        ]);
 
        //Creamos el guardado de los valores
+       return $request['params']['valores'];
        for ($i=0; $i < count($request['params']['valores']) ; $i++)
        { 
           $valor = $request['params']['valores'][$i];
