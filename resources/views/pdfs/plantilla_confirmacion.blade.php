@@ -43,7 +43,7 @@
                </p>
             </div>
             <!-- CAMPOS POR STATUS-->
-            <div style="margin-top:-0.5rem"> 
+            <div style="margin-top:-0.5rem; "> 
               @if (count($statu['status']['campos2']) > 0 )
                 @foreach ($statu['status']['campos2'] as $campo )
                 <div>

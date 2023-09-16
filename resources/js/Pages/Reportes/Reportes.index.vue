@@ -22,7 +22,7 @@ watch(buscador, (newBusqueda) =>
     preserveState:true,
     replace:true,
     data:{busqueda:newBusqueda},
-    only:['contadores']
+    only:['contadores','ubicaciones']
   })
 
 });
@@ -41,7 +41,7 @@ watch(buscador, (newBusqueda) =>
        <div class="grid grid-cols-3 gap-4 m-6">
          <div v-for="statu in status_padre" :key="statu.id">
             <div v-if="statu.id !==12">
-                <ScrollableStatus  :statu="statu" :ubicaciones="ubicaciones" :plataformas="plataformas" :contadores = 'contadores' />
+                <ScrollableStatus :buscador="buscador" :statu="statu" :ubicaciones="ubicaciones" :plataformas="plataformas" :contadores = 'contadores' />
             </div>
             <div v-else>
                 <div v-for="statu_hijo in statu.status_hijos" :key="statu_hijo.id">

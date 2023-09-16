@@ -27,10 +27,10 @@ class ConfirmacionDtController extends Controller
         request()->validate([
             'plataforma_id' => ['required'],
             'ubicacion_id' => ['required'],
-            'status_id' => ['required']
+            'status_id' => ['required'],
         ]);
         
-        return ConfirmacionDt::select(
+       $confirmaciones =  ConfirmacionDt::select(
             'confirmacion_dts.*',
             'dts.referencia_dt',
             'linea_transportes.nombre as linea_transporte',
@@ -42,8 +42,16 @@ class ConfirmacionDtController extends Controller
         ->join('status', 'confirmacion_dts.status_id', 'status.id')
         ->where('status.status_padre','=',$request['status_id'])
         //->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
-        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id'])
-        ->paginate(5);
+        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id']);
+
+        if($request->has("busqueda"))
+        {
+          $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+          $confirmaciones->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+          ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+        }
+
+      return  $confirmaciones->paginate(5);
     }
 
     /**

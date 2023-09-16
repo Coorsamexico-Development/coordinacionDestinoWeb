@@ -10,7 +10,8 @@ var props = defineProps({
     statu:Object,
     ubicaciones:Object,
     plataformas:Object,
-    contadores:Object
+    contadores:Object,
+    buscador:String
 });
 //Formulario para subir excel
 const document = ref(null)
@@ -86,7 +87,7 @@ const contadorIndividual = computed(() =>
      <!--body-->
      <div class="px-4 py-4 rounded-lg snap-2 h-96" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-            <UbicacionDesplegable :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
+            <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
          </div>
      </div> 
   </div>

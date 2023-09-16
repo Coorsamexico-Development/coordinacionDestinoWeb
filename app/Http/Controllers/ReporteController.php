@@ -39,7 +39,24 @@ class ReporteController extends Controller
          //confirmacion_dts.*,
          //count(confirmacion_dts.id) as contador,
         $ubicaciones = Ubicacione::select('ubicaciones.*')
-       ->with('confirmacionesDts')
+       ->with(
+        [
+         'confirmacionesDts'  =>  function ($query) use ($request) 
+         {
+           $query->select(
+             'confirmacion_dts.*',
+             'dts.referencia_dt'
+           )->join('dts','confirmacion_dts.dt_id','dts.id');
+
+           if ($request->has("busqueda")) 
+           {
+             $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+             $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+             ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+           }
+         }
+        ]
+       )
        ->get();
 
 
