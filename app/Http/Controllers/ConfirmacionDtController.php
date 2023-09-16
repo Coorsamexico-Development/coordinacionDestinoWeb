@@ -29,6 +29,7 @@ class ConfirmacionDtController extends Controller
             'ubicacion_id' => ['required'],
             'status_id' => ['required'],
         ]);
+
         
        $confirmaciones =  ConfirmacionDt::select(
             'confirmacion_dts.*',
@@ -46,9 +47,12 @@ class ConfirmacionDtController extends Controller
 
         if($request->has("busqueda"))
         {
-          $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
-          $confirmaciones->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
-          ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+          if($request['busqueda'] !== null)
+          {
+            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+            $confirmaciones->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+            ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+          }
         }
 
       return  $confirmaciones->paginate(5);

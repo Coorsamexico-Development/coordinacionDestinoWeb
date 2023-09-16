@@ -66,7 +66,7 @@ watch(params, (newParams) =>
     }))
       .then(response => {
           // Obtenemos los datos
-          //console.log(response)
+          console.log(response.data)
           nuevosParametros.value = {
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
