@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ReporteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {  
        $status_padre = Statu::select('status.*')
         ->with(['status_hijos' => function ($query)
@@ -49,17 +49,31 @@ class ReporteController extends Controller
 
         $contadores = Statu::select('status.*')
         ->with(
-            'confirmacionesDts' 
+             [
+              'confirmacionesDts'  =>  function ($query) use ($request) 
+              {
+                $query->select(
+                  'confirmacion_dts.*',
+                  'dts.referencia_dt'
+                )->join('dts','confirmacion_dts.dt_id','dts.id');
+
+                if ($request->has("busqueda")) 
+                {
+                  $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+                  $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+                  ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+                }
+              }
+             ]
             )
-        ->whereNotNull('status.status_padre')
-        ->get();
+        ->whereNotNull('status.status_padre');
 
 
         return Inertia::render('Reportes/Reportes.index',[
             'status_padre' => $status_padre,
             'ubicaciones' => $ubicaciones,
             'plataformas' => $plataformas,
-            'contadores' => $contadores
+            'contadores' =>  fn () => $contadores->get()
         ]);
     }
 
