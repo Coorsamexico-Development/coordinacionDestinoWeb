@@ -18,38 +18,26 @@ import 'swiper/css/pagination';
 });
 </script>
 <template>
-    <div>
-       <div v-if="camposValores.campos"> <!--Recorrido de campos-->
-           <div v-for="campo in camposValores.campos" :key="campo.campo_id">
-             <div>
-               <InputLabel>
-                  {{ campo.campo }}
-               </InputLabel>
-               <div v-if="camposValores.valors.length > 0"> <!--Valores-->
-                  <div v-for="valor in camposValores.valors" :key="valor.id">
-                    <div v-if="valor.campo_id == campo.campo_id">
-                       <!--Reflejo dependiendo el tipo de campo-->
-                       <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-                          <h3>{{ valor.valor }}</h3>
-                       </div>
-                       <div v-if="campo.tipo_campo == 'image'">
-                          <img :src="valor.valor" data-fancybox />
-                       </div>
-                       <div v-if="campo.tipo_campo == 'file'">
-                        <a :href="valor.valor" data-fancybox   data-type="pdf">
-                           <ButtonWatch :color="'#1D96F1'" />
-                        </a>
-                       </div>
-                       <div v-if="campo.tipo_campo == 'firma'" style="display: none;">
-                       </div>
-                    </div>
-                  </div>
-               </div>
-               <div v-else>
-                  <h3>Aun no hay información</h3>
-               </div>
-             </div>
+    <div v-for="campo in camposValores">
+       <h1>{{ campo.campo }}</h1>
+       <div v-for="(valor,key) in campo.valores" :key="valor.id">
+         <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
+              <h3>{{ valor.valor }}</h3>
+         </div>
+         <div v-if="key == 0">
+           <div v-if="campo.tipo_campo == 'file'">
+            <a :href="valor.valor" data-fancybox="gallery"    >
+               <ButtonWatch :color="'#1D96F1'" />
+            </a>
            </div>
+         </div>
+         <div v-if="key == 0">
+           <div v-if="campo.tipo_campo == 'image'">
+            <a :href="valor.valor" data-fancybox="gallery"    >
+               <ButtonWatch :color="'#1D96F1'" />
+            </a>
+           </div>
+         </div>
        </div>
     </div>
 </template>
