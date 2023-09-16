@@ -47,7 +47,7 @@
               @if (count($statu['status']['campos2']) > 0 )
                 @foreach ($statu['status']['campos2'] as $campo )
                 <div>
-                   <li>{{$campo['nombre']}}</li>
+                   <h3>{{$campo['nombre']}}</h3>
                    @foreach ($valors  as $valor )
                     @if ($valor['campo_id'] == $campo['id']  )
                       <div>
