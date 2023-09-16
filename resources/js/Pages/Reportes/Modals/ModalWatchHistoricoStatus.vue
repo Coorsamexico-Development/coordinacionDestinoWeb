@@ -180,23 +180,25 @@
        </template>
        <template #content  >
           <div class="grid w-full grid-cols-2 gap-4">
-             <div class="flex flex-row justify-between" v-for="histori in infoModal" :key="histori.id">
-               <div class="flex flex-row">
-                  <div class="mx-2 mt-2">
-                     <span :style="{backgroundColor:histori.color}" class="block w-4 h-4 mx-2 rounded-full"></span>
-                  </div>
-                  <div class="flex flex-col ">
-                     <h1 class="text-lg" :style="{color:histori.color}">{{ histori.status }}</h1>
-                    <div class="flex flex-row items-center">
-                      <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                      <h1 class="text-[#9B9B9B] text-sm">{{ histori.updated_at.substring(0,10) +' '+histori.updated_at.substring(11,19) }}</h1>
+            <div>
+               <div class="flex flex-row justify-between" v-for="histori in infoModal" :key="histori.id">
+                 <div class="flex flex-row">
+                    <div class="mx-2 mt-2">
+                       <span :style="{backgroundColor:histori.color}" class="block w-4 h-4 mx-2 rounded-full"></span>
                     </div>
+                    <div class="flex flex-col ">
+                       <h1 class="text-lg" :style="{color:histori.color}">{{ histori.status }}</h1>
+                      <div class="flex flex-row items-center">
+                        <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
+                        <h1 class="text-[#9B9B9B] text-sm">{{ histori.updated_at.substring(0,10) +' '+histori.updated_at.substring(11,19) }}</h1>
+                      </div>
+                   </div>
                  </div>
-               </div>
-               <div>
-                  <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(histori)" />
-               </div>
+                 <div>
+                    <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(histori)" />
+                 </div>
              </div>
+            </div>
              <div style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 5 || statusActual.status_id !== 4 ">
