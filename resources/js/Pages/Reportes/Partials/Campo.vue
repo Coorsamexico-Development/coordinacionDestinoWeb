@@ -33,7 +33,7 @@ import 'swiper/css/pagination';
                           <h3>{{ valor.valor }}</h3>
                        </div>
                        <div v-if="campo.tipo_campo == 'image'">
-                          <img :src="valor.valor" />
+                          <img :src="valor.valor" data-fancybox />
                        </div>
                        <div v-if="campo.tipo_campo == 'file'">
                         <a :href="valor.valor" data-fancybox   data-type="pdf">
