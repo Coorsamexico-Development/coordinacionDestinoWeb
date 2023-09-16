@@ -21,12 +21,12 @@
   });
 
   const camposValores = ref([]);
-  const tamañoModal = ref('md')
+  const tamañoModal = ref('2xl')
   
   const close = () => { 
      emit('close');
      camposValores.value = [];
-     tamañoModal.value = 'md';
+     tamañoModal.value = '2xl';
      pdf.value = null;
   };
 
@@ -145,6 +145,7 @@
 <template>
    <DialogModal :maxWidth="tamañoModal" :show="show" @close="close()">
        <template #title>
+
          <div class="flex flex-row justify-between">
             <h1>Historial</h1>
             <span @click="close()">
@@ -153,6 +154,7 @@
          </div>
        </template>
        <template #content  >
+         {{ infoModal }}
           <div class="grid w-full grid-cols-2 gap-4">
              <div>
                <table>
