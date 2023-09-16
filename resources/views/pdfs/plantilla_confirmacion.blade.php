@@ -11,12 +11,14 @@
     <body style="font-family: Montserrat">
        <div class="container-sm">
         <div class="card" style="width: 18rem;">
-          <div>
-            <h1 class="">Confirmacion: {{$confirmacion}}</h1>
+          <div class="card-body">
+            <div class="card-body">
+              <h1 class="card-title">Confirmacion: {{$confirmacion}}</h1>
+            </div> 
             <span class=""></span>
               <div class="">
-                 <h2 class="">DT:{{$dt}}</h2>
-                 <h2 class="">Cita:{{$cita}}</h2>
+                 <h2 class="card-text">DT:{{$dt}}</h2>
+                 <h2 class="card-text">Cita:{{$cita}}</h2>
               </div>
           </div>
           <div>
