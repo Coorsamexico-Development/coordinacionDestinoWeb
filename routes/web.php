@@ -51,6 +51,7 @@ Route::post('/reportes',[ReporteController::class, 'store'])->name('reportes.sto
 Route::get('/downloadReport',[ReporteController::class, 'downloadReport'])->name('downloadReport');
 //Ruta pra consultar confirmaciones/dts por ubicacion y cliente
 Route::get('/getConfirmaciones',[ConfirmacionDtController::class, 'index'])->name('getConfirmacions');
+Route::get('/getConfirmacionByStatus',[ConfirmacionDtController::class,'getConfirmacionByStatus'])->name('getConfirmacionByStatus');
 //Cambio de status to riesgo
 Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
 Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');

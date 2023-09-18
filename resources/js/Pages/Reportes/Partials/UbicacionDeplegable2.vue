@@ -54,7 +54,7 @@ watch(params, (newParams) =>
   if(newParams.ubicacion_id !== -1)
   {
     //console.log(newParams)
-    axios.get(route('getConfirmacions',{
+    axios.get(route('getConfirmacionByStatus',{
       ubicacion_id: newParams.ubicacion_id,
       plataforma_id: newParams.plataforma_id,
       status_id: newParams.status_id,

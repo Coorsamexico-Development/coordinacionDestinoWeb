@@ -58,6 +58,42 @@ class ConfirmacionDtController extends Controller
       return  $confirmaciones->paginate(5);
     }
 
+    public function getConfirmacionByStatus (Request $request)
+    {
+          request()->validate([
+            'plataforma_id' => ['required'],
+            'ubicacion_id' => ['required'],
+            'status_id' => ['required'],
+        ]);
+     
+        
+       $confirmaciones =  ConfirmacionDt::select(
+            'confirmacion_dts.*',
+            'dts.referencia_dt',
+            'linea_transportes.nombre as linea_transporte',
+            'status.color',
+            'status.nombre as status'
+        )
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
+        ->join('status', 'confirmacion_dts.status_id', 'status.id')
+        ->where('status.id','=',$request['status_id'])
+        ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id'])
+        ->where('confirmacion_dts.plataforma_id','=',$request['plataforma_id']);
+     
+        if($request->has("busqueda"))
+        {
+          if($request['busqueda'] !== null)
+          {
+            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+            $confirmaciones->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+            ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+          }
+        }
+     
+      return  $confirmaciones->paginate(5);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
