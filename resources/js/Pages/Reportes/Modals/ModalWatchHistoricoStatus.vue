@@ -194,7 +194,7 @@
                       </div>
                    </div>
                  </div>
-                 <div>
+                 <div class="flex items-center justify-center">
                     <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(histori)" />
                  </div>
              </div>
