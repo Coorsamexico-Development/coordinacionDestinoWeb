@@ -44,7 +44,7 @@
   >
     <swiper-slide v-for="valor in valores" :key="valor.id" > 
         <div class="flex justify-center p-8">
-            <img class="w-32" :src="valor.valor" />
+            <img class="w-56" :src="valor.valor" :href="valor.valor" data-fancybox />
         </div>
     </swiper-slide>
   </swiper>
