@@ -181,7 +181,7 @@
        <template #content  >
           <div class="grid w-full grid-cols-2 gap-4">
             <div>
-               <div class="flex flex-row justify-between" v-for="histori in infoModal" :key="histori.id">
+               <div class="flex flex-row justify-between border-[#9B9B9B] border-b-2 pb-2" v-for="histori in infoModal" :key="histori.id">
                  <div class="flex flex-row">
                     <div class="mx-2 mt-2">
                        <span :style="{backgroundColor:histori.color}" class="block w-4 h-4 mx-2 rounded-full"></span>

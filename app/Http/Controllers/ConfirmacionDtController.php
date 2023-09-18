@@ -148,8 +148,8 @@ class ConfirmacionDtController extends Controller
             {
                 $query->select(
                     'confirmacion_dts.*',
-                )
-                ->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id']);
+                );
+                //->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id']);
             }]
             )
            ->get();

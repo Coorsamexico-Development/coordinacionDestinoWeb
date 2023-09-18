@@ -1,14 +1,9 @@
 <script setup>
 import InputLabel from '@/Components/InputLabel.vue';
 import ButtonWatch from '@/Components/ButtonWatch.vue';
-import Swiper from 'swiper';
-import { Navigation, Pagination } from 'swiper/modules';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
-// import Swiper and modules styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import Carrusel from './Carrusel.vue';
  const props = defineProps({
    camposValores:Object,
   });
@@ -16,28 +11,21 @@ import 'swiper/css/pagination';
   Fancybox.bind("[data-fancybox]", {
     // Your custom options
 });
+
+
+
 </script>
 <template>
     <div v-for="campo in camposValores">
-       <h1>{{ campo.campo }}</h1>
+       <h1 class="text-lg" style="font-family: 'Montserrat';">{{ campo.campo }}</h1>
+       <div v-if="campo.tipo_campo == 'file'">
+          <Carrusel />
+       </div>
        <div v-for="(valor,key) in campo.valores" :key="valor.id">
          <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-              <h3>{{ valor.valor }}</h3>
-         </div>
-         <div v-if="key == 0">
-           <div v-if="campo.tipo_campo == 'file'">
-            <a :href="valor.valor" data-fancybox="gallery"    >
-               <ButtonWatch :color="'#1D96F1'" />
-            </a>
-           </div>
-         </div>
-         <div v-if="key == 0">
-           <div v-if="campo.tipo_campo == 'image'">
-            <a :href="valor.valor" data-fancybox="gallery"    >
-               <ButtonWatch :color="'#1D96F1'" />
-            </a>
-           </div>
+              <h3 style="font-family: 'Montserrat';">{{ valor.valor }}</h3>
          </div>
        </div>
+       <!--Tipos de campo texto-->
     </div>
 </template>
