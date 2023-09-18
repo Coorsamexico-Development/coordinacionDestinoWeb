@@ -20,7 +20,7 @@ const params = reactive({
    //siempre consultara la primer plataforma
     ubicacion_id: -1,
     plataforma_id:1,
-    status_id:props.status.status_padre,
+    status_id:props.status.id,
     busqueda:''
 });
 const showClients = (ubicacion_id) =>  //funcion para desplegar
@@ -53,7 +53,7 @@ watch(params, (newParams) =>
 
   if(newParams.ubicacion_id !== -1)
   {
-    console.log(newParams)
+    //console.log(newParams)
     axios.get(route('getConfirmacions',{
       ubicacion_id: newParams.ubicacion_id,
       plataforma_id: newParams.plataforma_id,
