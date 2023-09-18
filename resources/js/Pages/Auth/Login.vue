@@ -33,10 +33,10 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-    <div class="grid min-h-screen grid-cols-2 bg-white" >
-       <div class="flex flex-col items-center justify-end py-16 mb-8">
-          <img style="width: 30%;" src="../../../assets/img/logo.png" />
-          <h1 class="mb-6 text-2xl tracking-widest text-center uppercase" style="font-family: 'Montserrat';">Bienvenido</h1>
+    <div class="grid min-h-screen grid-cols-3 bg-white" >
+       <div class="flex flex-col items-center justify-between py-16 mb-8">
+          <img style="width: 20%;" src="../../../assets/img/logo-azul.png" />
+          <h1 class="text-2xl tracking-widest text-center uppercase" style="font-family: 'Montserrat';">Bienvenido</h1>
           <div class="flex items-center justify-center">
             <form @submit.prevent="submit">
          <!--
@@ -92,7 +92,7 @@ const submit = () => {
             </form>
           </div>
        </div>
-       <div class="flex flex-col items-end justify-end px-20 py-16 bgImg">
+       <div class="flex flex-col items-end justify-end col-start-2 col-end-4 px-20 py-16 bgImg">
             <h1 class="text-[#A1DEFC] uppercase mr-4 mb-2"  style="font-family: 'Montserrat'; font-size: 33px;">Plataforma</h1>
             <div class="mb-4">
                 <h1 class="ml-10 text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">Coordinador</h1>
