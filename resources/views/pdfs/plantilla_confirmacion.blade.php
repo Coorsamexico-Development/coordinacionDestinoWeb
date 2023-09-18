@@ -13,8 +13,11 @@
     <body style="">
         <div class="" style="width: 18rem;">
           <div class="sombraBox">
-            <div class="">    
-              <h1 class="">Confirmacion: {{$confirmacion}}</h1>
+            <div class="">
+              <div>
+                <img src="../../assets/img/icono_hoja.png" />
+                <h1 class="">Confirmacion:{{$confirmacion}}</h1>
+              </div>  
               <span class="linea"></span>
             </div> 
               <div class="">
@@ -115,10 +118,11 @@
     }
     .sombraBox
     {
-      
       box-shadow:
       inset 0 -3em 3em rgba(0, 0, 0, 0.1),
       0 0 0 2px rgb(255, 255, 255),
       0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+      border-radius: 30%;
+      
     }
 </style>

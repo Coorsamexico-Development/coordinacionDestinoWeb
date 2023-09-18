@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 
+
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -32,18 +33,13 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <!--
+    <div class="grid min-h-screen grid-cols-2 bg-white" >
+       <div class="flex flex-col items-center justify-end py-16 mb-8">
+          <img style="width: 30%;" src="../../../assets/img/logo.png" />
+          <h1 class="mb-6 text-2xl tracking-widest text-center uppercase" style="font-family: 'Montserrat';">Bienvenido</h1>
+          <div class="flex items-center justify-center">
+            <form @submit.prevent="submit">
+         <!--
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput
@@ -88,9 +84,29 @@ const submit = () => {
                 </PrimaryButton>
             </div>
                 -->
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Acceder
-                </PrimaryButton>
-        </form>
-    </AuthenticationCard>
+               <button class="bg-[#1D96F1] py-2 px-44" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                 <h1 class="text-white" style="font-family: 'Montserrat';">
+                    Iniciar sesión
+                 </h1>
+               </button>
+            </form>
+          </div>
+       </div>
+       <div class="flex flex-col items-end justify-end px-20 py-16 bgImg">
+            <h1 class="text-[#A1DEFC] uppercase mr-4 mb-2"  style="font-family: 'Montserrat'; font-size: 33px;">Plataforma</h1>
+            <div class="mb-4">
+                <h1 class="ml-10 text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">Coordinador</h1>
+                <h1 class="text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">De Plataforma</h1>
+            </div>
+            <span class="bg-[#1D96F1] w-44 h-2 relative"></span>
+     </div>
+    </div>
 </template>
+<style>
+.bgImg 
+{
+    background-image: url('../../../assets/img/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+</style>
