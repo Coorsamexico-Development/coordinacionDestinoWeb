@@ -93,9 +93,9 @@ const submit = () => {
           </div>
        </div>
        <div class="flex flex-col items-end justify-end col-start-2 col-end-4 px-20 py-16 bgImg">
-            <h1 class="text-[#A1DEFC] uppercase mr-4 mb-2"  style="font-family: 'Montserrat'; font-size: 33px;">Plataforma</h1>
+            <h1 class="text-[#A1DEFC] uppercase mr-4"  style="font-family: 'Montserrat'; font-size: 33px;">Plataforma</h1>
             <div class="mb-4">
-                <h1 class="ml-10 text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">Coordinador</h1>
+                <h1 class="my-4 ml-10 text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">Coordinador</h1>
                 <h1 class="text-6xl font-semibold text-white uppercase"  style="font-family: 'Montserrat';">De Plataforma</h1>
             </div>
             <span class="bg-[#1D96F1] w-44 h-2 relative"></span>
