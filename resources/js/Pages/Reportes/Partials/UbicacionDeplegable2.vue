@@ -8,7 +8,8 @@ import DtBlock from './DtBlock.vue';
 var props = defineProps({
     ubicacion:Object,
     plataformas:Object,
-    status:Object
+    status:Object,
+    buscador:String
 });
 
 //console.log(props.status)
@@ -19,7 +20,8 @@ const params = reactive({
    //siempre consultara la primer plataforma
     ubicacion_id: -1,
     plataforma_id:1,
-    status_id:props.status.status_padre
+    status_id:props.status.status_padre,
+    busqueda:''
 });
 const showClients = (ubicacion_id) =>  //funcion para desplegar
 {
@@ -44,6 +46,11 @@ watch(params, (newParams) =>
     params.ubicacion_id = -1;
   }
 
+  if(props.buscador !== '')
+  {
+    params.busqueda = props.buscador
+  }
+
   if(newParams.ubicacion_id !== -1)
   {
     //console.log(newParams)
@@ -51,6 +58,7 @@ watch(params, (newParams) =>
       ubicacion_id: newParams.ubicacion_id,
       plataforma_id: newParams.plataforma_id,
       status_id: newParams.status_id,
+      busqueda: newParams.busqueda
     }))
       .then(response => {
           // Obtenemos los datos
@@ -59,6 +67,7 @@ watch(params, (newParams) =>
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
             status_id: newParams.status_id,
+            busqueda: newParams.busqueda
           }
           dts.value = response.data;
           dtsData.value = response.data.data;
@@ -77,7 +86,8 @@ const loadPage = async (page) =>
     params:{
       plataforma_id:nuevosParametros.value.plataforma_id,
       ubicacion_id:nuevosParametros.value.ubicacion_id,
-      status_id:nuevosParametros.value.status_id
+      status_id:nuevosParametros.value.status_id,
+      busqueda: nuevosParametros.value.busqueda,
     }
    })
     .then(response => {

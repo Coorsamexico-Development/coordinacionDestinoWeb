@@ -10,6 +10,7 @@ var props = defineProps({
     statu:Object,
     ubicaciones:Object,
     plataformas:Object,
+    buscador:String
 });
 </script>
 <template>
@@ -21,7 +22,7 @@ var props = defineProps({
        <!--Body-->
        <div class="px-4 py-4 rounded-lg snap-2 h-96" style="overflow-y: scroll;">
           <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-             <UbicacionDesplegable :ubicacion="ubicacion" :status="statu" :plataformas="plataformas" />
+             <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :status="statu" :plataformas="plataformas" />
           </div>
        </div>
     </div>
