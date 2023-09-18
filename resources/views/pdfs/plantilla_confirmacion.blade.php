@@ -12,11 +12,13 @@
       </head>
     <body style="">
         <div class="" style="width: 18rem;">
+          <div>
+            
+          </div>
           <div class="sombraBox">
             <div class="">
-              <div>
-                <img src="../../assets/img/icono_hoja.png" />
-                <h1 class="">Confirmacion:{{$confirmacion}}</h1>
+              <div>   
+                <h1 class="" style="">Confirmacion:{{$confirmacion}}</h1>
               </div>  
               <span class="linea"></span>
             </div> 
@@ -112,17 +114,20 @@
     {
         background-color:#0A0F2C;
         position: absolute;
-        height: 0.5rem;
-        width:7rem;
+        height: 0.3rem;
+        width:12.5rem;
         margin-top: -1rem;
     }
     .sombraBox
     {
-      box-shadow:
-      inset 0 -3em 3em rgba(0, 0, 0, 0.1),
-      0 0 0 2px rgb(255, 255, 255),
-      0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
-      border-radius: 30%;
-      
+     -webkit-box-shadow: 2px 3px 25px 0px rgba(0,0,0,0.75);
+     -moz-box-shadow: 2px 3px 25px 0px rgba(0,0,0,0.75);
+     box-shadow: 2px 3px 25px 0px rgba(0,0,0,0.75);
+     background-color: white;
+     border-radius: 5%;
+     border: 1px solid #000;
+     padding-left: 5rem;
+     padding-right: 10rem;
+     width: 90%
     }
 </style>

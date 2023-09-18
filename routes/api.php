@@ -9,7 +9,12 @@ use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
 use App\Models\ConfirmacionDt;
+use App\Models\StatusDt;
+use App\Models\Valor;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -87,6 +92,67 @@ Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberac
 
 //Prueba para la estructura del PDF
 
-Route::get('/pdf', function(){
-    return view('pdfs.plantilla_confirmacion')->render();
+Route::get('/pdf', function()
+{
+    $pdf = App::make('dompdf.wrapper');
+
+    $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+    ->where('confirmacion_dts.confirmacion','=','22680689')
+    ->first();
+
+    $statusByConfirmacion = StatusDt::select(
+        'status.id as status_id',
+        'status.status_padre as status_padre_id',
+        'status.nombre as status_name',
+        'status.color as color',
+        'status_dts.updated_at as status_dt_updated_at'
+      )
+      ->with([
+        'status' => function ($query) 
+          {
+            return  $query->select(
+              'status.*'
+            )
+            ->with([
+              'campos2' => function ($query1) 
+              {
+                 return $query1->select(
+                  'campos.*',
+                  'tipos_campos.nombre as tipo_campo'
+                 )
+                 ->join('tipos_campos','campos.tipo_campo_id','tipos_campos.id');
+              }
+            ]);
+          }
+        ])
+      ->join('status','status_dts.status_id','status.id')
+      ->where('confirmacion_dt_id','=', $confirmacion_dt['id'])
+      ->distinct('status.id')
+      ->get();
+  
+      //Consultamos valores
+      $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
+      ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+      ->join('dts','dt_campo_valors.dt_id','dts.id')
+      ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+      ->join('campos','dt_campo_valors.campo_id','campos.id')
+      ->join('status','campos.status_id','status.id')
+      ->where('valors.activo','=', 1)
+      ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
+      ->distinct('valors.id')
+      ->get();
+    $data = [
+        'confirmacion' =>  '654965',
+        'dt' =>  '645312',//$dt['referencia_dt'],
+        'status_dt' => $statusByConfirmacion,
+        'title' =>  '22680689'.'_'.date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
+        'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
+        'valors' => $valors,
+        'firmas' => []
+      ];
+
+      $options = new Options();
+      //$pdf->set_option('isRemoteEnabled', true);
+      $pdf->loadView('pdfs.plantilla_confirmacion', $data);
+      return $pdf->stream();
 });

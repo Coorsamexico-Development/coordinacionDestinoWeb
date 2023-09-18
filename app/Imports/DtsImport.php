@@ -30,9 +30,15 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
         ]);
 
 
-        $status =  Statu::updateOrCreate([
-           'nombre' => $row['status']
-        ]);
+        $status = Statu::select('status.*')
+        ->where('status.nombre','LIKE','%'.$row['status'].'%')
+        ->first();
+
+        if($status == null)
+        {
+          dd('no existe'. $row['status']);
+        }
+      
 
         $linea_transporte = LineaTransporte::updateOrCreate([
           'nombre' => $row['lt']
