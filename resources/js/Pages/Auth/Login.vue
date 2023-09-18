@@ -35,7 +35,7 @@ const submit = () => {
     <Head title="Log in" />
     <div class="grid min-h-screen grid-cols-3 bg-white" >
        <div class="flex flex-col items-center justify-between py-16 mb-8">
-          <img style="width: 20%;" src="../../../assets/img/logo-azul.png" />
+          <img style="width: 25%;" src="../../../assets/img/logo-azul.png" />
           <h1 class="text-2xl tracking-widest text-center uppercase" style="font-family: 'Montserrat';">Bienvenido</h1>
           <div class="flex items-center justify-center">
             <form @submit.prevent="submit">
