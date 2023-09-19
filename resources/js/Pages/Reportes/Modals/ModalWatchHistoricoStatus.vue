@@ -190,7 +190,7 @@
                        <h1 class="text-lg" :style="{color:histori.color}">{{ histori.status }}</h1>
                       <div class="flex flex-row items-center">
                         <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                        <h1 class="text-[#9B9B9B] text-sm">{{ histori.updated_at.substring(0,10) +' '+histori.updated_at.substring(11,19) }}</h1>
+                        <h1 class="text-[#9B9B9B] text-sm">{{ histori.created_at.substring(0,10) +' '+histori.created_at.substring(11,19) }}</h1>
                       </div>
                    </div>
                  </div>

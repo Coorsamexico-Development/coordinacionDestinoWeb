@@ -12,7 +12,7 @@
       </head>
     <body style="">
         <div class="" style="width: 18rem;">
-          <div>
+          <div class="bgSection">
             
           </div>
           <div class="sombraBox">
@@ -33,8 +33,7 @@
               echo 
               '<div style="display:flex; flex-direction: row;">
                    <div style="background-color:'.$statu['color'].';  display: flex; justify-content:center;  border-radius: 5%;text-transform: uppercase;">
-                    <h1 style="color:white; text-align: center;">'.$statu['status_name'].'</h1>
-                    
+                     <h1 style="color:white; text-align: center;">'.$statu['status_name'].'</h1>
                   </div>
                   <div>
                     <h1 style="font-family:Arial, Helvetica, sans-serif">'.$statu['status_name'].':'.$statu['status_dt_updated_at'].'</h1>
@@ -104,6 +103,11 @@
     -->
     </html>
 <style>
+  .bgSection{
+    background-size:cover ;
+    background-image: url('../../assets/img/banner_doc.jpg');
+    height: 5rem;
+  },
     .linea
     {
         background-color:#0A0F2C;
