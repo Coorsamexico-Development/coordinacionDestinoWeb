@@ -43,24 +43,46 @@
                    </span>
                    <div style="margin-left: 2rem; margin-right:2rem;">
                      @if (count($statu['status']['campos2']) > 0 )
-                      <table>
-                        <?php echo 
-                        '<thead style="border-bottom:1px solid '.$statu['color'].'">' 
-                        ?> 
-                           @foreach ($statu['status']['campos2'] as $campo )
-                             <tr>
-                                <th>
-                                  <p style="text-transform: uppercase; font-size:1rem; font-weight:bolder">
-                                    <?php echo $campo['nombre'] ?>
-                                  </p>
-                                </th>
-                             </tr>
+                     <table>
+                       <?php '<tr style="border-bottom:1px solid '.$statu['color'].'">' ?> 
+                       @foreach ($statu['status']['campos2'] as $campo ) 
+                        <th style="padding-left:1rem; padding-right:1rem; "><?php echo $campo['nombre'] ?></th>
+                       @endforeach
+                        </tr>
+                        @foreach ($valors  as $valor )
+                         <tr>
+                           @foreach ($statu['status']['campos2'] as $campo ) 
+                            <td style="padding-left:1rem; padding-right:1rem; ">
+                              @if ($valor['campo_id'] == $campo['id']  )
+                                @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
+                                  <div>
+                                     <p>{{$valor['valor']}}</p>
+                                  </div>
+                                @endif
+                                @if ($campo['tipo_campo'] == 'image')
+                                <div>
+                                  <?php 
+                                     echo
+                                      '<img style="width:10rem" src="'.$valor['valor'].'"/>'
+                                   ?>
+                                </div>
+                               @endif
+                               @if ($campo['tipo_campo'] == 'file')
+                                <div>
+                                  <?php 
+                                     echo
+                                      '<a href="'.$valor['valor'].'">
+                                         Ir a documento
+                                       </a>'
+                                   ?>
+                                </div>
+                               @endif
+                              @endif
+                            </td>
                             @endforeach
-                         </thead>
-                         <tbody>
-                          
-                         </tbody>
-                      </table>
+                         </tr>
+                        @endforeach
+                      </table> 
                      @endif
                    </div>
             </div>
