@@ -28,10 +28,10 @@
                  <h2 style="font-size: 1.5rem; margin-top: -1rem; width:20rem;">Cita:{{$cita}}</h2>
               </div>
           </div>
-          <div style="margin-top:1rem; margin-bottom:1rem">
+          <div style="margin-top:1rem;">
            @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
             <div style="display:flex; flex-direction: row;border: 0.1px solid #9B9B9B;border-radius: 5%;
-                  width:45rem;">
+                  width:45rem; margin-top:2rem; margin-bottom:2rem">
                   <h1 style="font-size:1.5rem; margin-left:3rem">
                     <?php 
                      echo '<span style="color:white;text-transform:uppercase;border-radius:3%; font-weight:900; padding-left:3rem;padding-right:3rem; text-align: center;background-color:'.$statu['color'].'">
