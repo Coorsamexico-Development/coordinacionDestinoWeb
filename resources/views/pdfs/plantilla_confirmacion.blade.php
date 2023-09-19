@@ -52,37 +52,13 @@
                                 <th>
                                   <p style="text-transform: uppercase; font-size:1rem; font-weight:bolder">
                                     <?php echo $campo['nombre'] ?>
-                                  </h3>
+                                  </p>
                                 </th>
                              </tr>
                             @endforeach
                          </thead>
                          <tbody>
-                           @foreach ( $valors  as $valor ) 
-                               <tr>
-                                @if ($valor['campo_id'] == $campo['id']  )
-                                  <td>
-                                    @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
-                                       <p>{{$valor['valor']}}</p>
-                                    @endif
-                                    @if ($campo['tipo_campo'] == 'image')
-                                    <?php 
-                                       echo
-                                        '<img style="width:10rem" src="'.$valor['valor'].'"/>'
-                                     ?>
-                                    @endif
-                                    @if ($campo['tipo_campo'] == 'file')
-                                      <?php 
-                                         echo
-                                          '<a href="'.$valor['valor'].'">
-                                             Ir a documento
-                                           </a>'
-                                       ?>
-                                   @endif
-                                  </td>
-                                 @endif
-                               </tr>
-                           @endforeach
+                          
                          </tbody>
                       </table>
                      @endif
