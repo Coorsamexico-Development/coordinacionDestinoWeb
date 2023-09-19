@@ -85,12 +85,40 @@
                       </table> 
                      @endif
                    </div>
+                   <!-- Firmas -->
+                   <div style="margin-top:1rem; ">
+                       <h4 style="text-transform: uppercase;">Firmas</h4>
+                       <div>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>Firma</th>
+                              <th>Evidencia</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($firmas as $firma )
+                            <tr>
+                              <td>
+                                <p><?php echo $firma['nombre']?></p>
+                              </td>
+                              <td>
+                                <?php'<img style="width:10rem"  src="'.$firma['firma'].'" />'?>
+                              </td>
+                              <td>
+                                <?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?>
+                              </td>
+                            </tr>
+                           @endforeach
+                          </tbody>
+                        </table>
+                       </div>
+                   </div>
             </div>
            @endforeach
          </div>
-         <div style="margin-top:1rem; ">
-            
-         </div>
+
     </body>
     <!--
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
