@@ -104,7 +104,7 @@
                                 <p><?php echo $firma['nombre']?></p>
                               </td>
                               <td>
-                                <?php'<img style="width:10rem"  src="'.$firma['firma'].'" />'?>
+                                <?php echo'<img style="width:10rem"  src="'.$firma['firma'].'" />'?>
                               </td>
                               <td>
                                 <?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?>
