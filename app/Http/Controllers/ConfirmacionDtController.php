@@ -195,9 +195,15 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo (Request $request)
     {
+          date_default_timezone_set('America/Mexico_City');
+          $fecha_actual = getdate();
+          $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+          $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
           ConfirmacionDt::where('id','=',$request['id'])
             ->update([
-               'confirmacion_dts.status_id' => 6
+               'confirmacion_dts.status_id' => 6,
+               'confirmacion_dts.updated_at' =>$newFecha,
             ]);
    
           StatusDt::where('id','=',$request['id'])
@@ -209,15 +215,24 @@ class ConfirmacionDtController extends Controller
            'confirmacion_dt_id' => $request['id'],
            'status_id' => 6,
            'activo' => 1,
+           'created_at' => $newFecha,
+           'updated_at' =>$newFecha,
          ]);
 
     }
 
     public function changePorRecibir (Request $request)
     {
+      
+          date_default_timezone_set('America/Mexico_City');
+          $fecha_actual = getdate();
+          $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+          $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
             ConfirmacionDt::where('id','=',$request['id'])
             ->update([
-               'confirmacion_dts.status_id' => 7
+               'confirmacion_dts.status_id' => 7,
+               'confirmacion_dts.updated_at' =>$newFecha,
             ]);
    
           StatusDt::where('id','=',$request['id'])
@@ -229,14 +244,22 @@ class ConfirmacionDtController extends Controller
            'confirmacion_dt_id' => $request['id'],
            'status_id' => 7,
            'activo' => 1,
+           'created_at' => $newFecha,
+           'updated_at' =>$newFecha,
          ]);
     }
 
     public function changeToEnEspera (Request $request) 
     {
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+      $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
           ConfirmacionDt::where('id','=',$request['id'])
           ->update([
-             'confirmacion_dts.status_id' => 9
+             'confirmacion_dts.status_id' => 9,
+             'confirmacion_dts.updated_at' =>$newFecha,
           ]);
 
         StatusDt::where('id','=',$request['id'])
@@ -248,15 +271,26 @@ class ConfirmacionDtController extends Controller
          'confirmacion_dt_id' => $request['id'],
          'status_id' => 9,
          'activo' => 1,
+         'created_at' => $newFecha,
+         'updated_at' =>$newFecha,
        ]);
     }
 
     public function changeToEnDocumentacion (Request $request) 
     {
+
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+      $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
           ConfirmacionDt::where('id','=',$request['id'])
           ->update([
-             'confirmacion_dts.status_id' => 8
+             'confirmacion_dts.status_id' => 8,
+             'confirmacion_dts.updated_at' =>$newFecha,
           ]);
+
+          
     
         StatusDt::where('id','=',$request['id'])
         ->update([
@@ -267,14 +301,22 @@ class ConfirmacionDtController extends Controller
          'confirmacion_dt_id' => $request['id'],
          'status_id' => 8,
          'activo' => 1,
+         'created_at' => $newFecha,
+         'updated_at' =>$newFecha,
        ]);
     }
 
     public function changeToDescarga (Request $request)
     {
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+      $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
       ConfirmacionDt::where('id','=',$request['id'])
           ->update([
-             'confirmacion_dts.status_id' => 11
+             'confirmacion_dts.status_id' => 11,
+             'confirmacion_dts.updated_at' =>$newFecha,
           ]);
     
         StatusDt::where('id','=',$request['id'])
@@ -286,14 +328,22 @@ class ConfirmacionDtController extends Controller
          'confirmacion_dt_id' => $request['id'],
          'status_id' => 11,
          'activo' => 1,
+         'created_at' => $newFecha,
+         'updated_at' =>$newFecha,
        ]);
     }
 
     public function changeEnrrampado(Request $request)
     {
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+      $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+
       ConfirmacionDt::where('id','=',$request['id'])
       ->update([
-         'confirmacion_dts.status_id' => 10
+         'confirmacion_dts.status_id' => 10,
+         'confirmacion_dts.updated_at' =>$newFecha,
       ]);
 
        StatusDt::where('id','=',$request['id'])
@@ -305,11 +355,9 @@ class ConfirmacionDtController extends Controller
         'confirmacion_dt_id' => $request['id'],
         'status_id' => 10,
         'activo' => 1,
+        'created_at' => $newFecha,
+        'updated_at' =>$newFecha,
       ]);
-
-      date_default_timezone_set('America/Mexico_City');
-      $fecha_actual = getdate();
-      $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
 
        HorasHistorico::create([
          'hora_id' => 5,
@@ -680,4 +728,6 @@ class ConfirmacionDtController extends Controller
 
     return 'ok';
   }
+
+  
 }

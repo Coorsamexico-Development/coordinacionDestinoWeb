@@ -241,10 +241,17 @@ class ValorController extends Controller
           $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
            where('confirmacion','=',$request['params']['confirmacion'])
            ->first();
+          
+           date_default_timezone_set('America/Mexico_City');
+           $fecha_actual = getdate();
+           $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+           $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+ 
 
            ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
            ->update([
-             'status_id' => 8
+             'status_id' => 8,
+             'updated_at' =>$newFecha,
             ]);
 
           StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
@@ -252,16 +259,15 @@ class ValorController extends Controller
             'activo' => 0
           ]);
 
+
           $newStatus = StatusDt::create([
               'confirmacion_dt_id' => $cofnirmacionDt['id'],
-              'status_id' => 8
+              'status_id' => 8,
+              'created_at' => $newFecha,
+              'updated_at' =>$newFecha,
             ]);
 
-                 
-          date_default_timezone_set('America/Mexico_City');
-          $fecha_actual = getdate();
-          $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-
+          
            HorasHistorico::create([
              'hora_id' => 1,
              'status_dts_id' => $newStatus['id'],
@@ -409,9 +415,16 @@ class ValorController extends Controller
               where('confirmacion','=',$request['params']['confirmacion'])
               ->first();
 
+              date_default_timezone_set('America/Mexico_City');
+              $fecha_actual = getdate();
+              $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+              $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+    
+
               ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
               ->update([
-                'status_id' => 9
+                'status_id' => 9,
+                'updated_at' =>$newFecha,
                ]);
 
              StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
@@ -419,15 +432,14 @@ class ValorController extends Controller
                'activo' => 0
              ]);
 
+
             $newStatus  = StatusDt::create([
                'confirmacion_dt_id' => $cofnirmacionDt['id'],
-               'status_id' => 9
+               'status_id' => 9,
+               'created_at' => $newFecha,
+               'updated_at' =>$newFecha,
              ]);
 
-             
-            date_default_timezone_set('America/Mexico_City');
-            $fecha_actual = getdate();
-            $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
 
              HorasHistorico::create([
                'hora_id' => 2,
@@ -736,10 +748,17 @@ class ValorController extends Controller
            $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
            where('confirmacion','=',$request['params']['confirmacion'])
            ->first();
+
+           date_default_timezone_set('America/Mexico_City');
+           $fecha_actual = getdate();
+           $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+           $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+ 
        
            ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
            ->update([
-             'status_id' => 11
+             'status_id' => 11,
+             'updated_at' =>$newFecha,
             ]);
        
           StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
@@ -749,13 +768,10 @@ class ValorController extends Controller
        
          $newStatus  = StatusDt::create([
             'confirmacion_dt_id' => $cofnirmacionDt['id'],
-            'status_id' => 11
+            'status_id' => 11,
+            'created_at' => $newFecha,
+            'updated_at' =>$newFecha,
           ]);
-       
-          
-         date_default_timezone_set('America/Mexico_City');
-         $fecha_actual = getdate();
-         $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
        
           HorasHistorico::create([
             'hora_id' => 2,

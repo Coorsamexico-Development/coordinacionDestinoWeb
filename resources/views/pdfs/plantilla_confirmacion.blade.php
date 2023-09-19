@@ -27,27 +27,21 @@
                  <h2 class="">Cita:{{$cita}}</h2>
               </div>
           </div>
-          <div>
+          <div style="margin-top:2rem; ">
             @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
-            <div>
-               <p style="font-size: 1.2rem"> 
-                   <?php 
-                   echo '
-                   <span style="
-                        height: 3px;
-                        margin-left: 0%;
-                        margin-right: 0%;
-                        width: 10%;
-                        padding-left:1.2rem;
-                        border-radius:100%;
-                        background-color:'.$statu['color'].'">
-                    </span>
-                   '    
-                  ?>
-                 <span style="font-style: italic;">{{$statu['status_name']}}</span>
-                 <br/> - Actualizado:    {{$statu['status_dt_updated_at']}} 
-               </p>
-            </div>
+            <?php 
+              echo 
+              '<div style="display:flex; flex-direction: row;">
+                   <div style="background-color:'.$statu['color'].';  display: flex; justify-content:center;  border-radius: 5%;text-transform: uppercase;">
+                    <h1 style="color:white; text-align: center;">'.$statu['status_name'].'</h1>
+                    
+                  </div>
+                  <div>
+                    <h1 style="font-family:Arial, Helvetica, sans-serif">'.$statu['status_name'].':'.$statu['status_dt_updated_at'].'</h1>
+                  </div>
+                </div>
+               '
+            ?> 
             <!-- CAMPOS POR STATUS-->
             <div style="margin-top:-0.5rem; "> 
               @if (count($statu['status']['campos2']) > 0 )
@@ -130,4 +124,7 @@
      padding-right: 10rem;
      width: 90%
     }
+
+
+
 </style>
