@@ -85,7 +85,28 @@
                       </table> 
                      @endif
                    </div>
-                  
+                  @if ($statu['status_id'] == 4 || $statu['status_id'] == 5)
+                    <div style="width:45rem;">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Nombre</th>
+                            <th>Firma</th>
+                            <th>Evidencia</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($firmas as $firma )
+                           <tr>
+                              <td><?php $firma['nombre'] ?></td>
+                              <td><?php echo '<img style="width:10rem"  src="'.$firma['firma'].'" />' ?></td>
+                              <td><?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?></td>
+                           </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  @endif
             </div>
            @endforeach
          </div>
