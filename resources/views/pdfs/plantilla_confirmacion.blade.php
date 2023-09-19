@@ -41,53 +41,24 @@
                    <span>
                     Actualizado: <?php echo $statu['status_dt_created_at'] ?>
                    </span>
+                   <!--Campos-->
                    <div style="margin-left: 2rem; margin-right:2rem;">
                      @if (count($statu['status']['campos2']) > 0 )
                      <table>
-                       <?php '<tr style="border-bottom:1px solid '.$statu['color'].'">' ?> 
-                       @foreach ($statu['status']['campos2'] as $campo ) 
-                        <th style="padding-left:1rem; padding-right:1rem; "><?php echo $campo['nombre'] ?></th>
-                       @endforeach
+                       <?php 
+                       '<tr style="border-bottom:1px solid '.$statu['color'].'">' ?> 
+                          @foreach ($statu['status']['campos2'] as $campo ) 
+                           <th style="padding-left:1rem; padding-right:1rem; "><?php echo $campo['nombre'] ?></th>
+                          @endforeach
                         </tr>
-                        @foreach ($valors  as $valor )
-                         <tr>
-                           @foreach ($statu['status']['campos2'] as $campo ) 
-                            <td style="padding-left:1rem; padding-right:1rem; ">
-                              @if ($valor['campo_id'] == $campo['id']  )
-                                @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
-                                  <div>
-                                     <p>{{$valor['valor']}}</p>
-                                  </div>
-                                @endif
-                                @if ($campo['tipo_campo'] == 'image')
-                                <div>
-                                  <?php 
-                                     echo
-                                      '<img style="width:10rem" src="'.$valor['valor'].'"/>'
-                                   ?>
-                                </div>
-                               @endif
-                               @if ($campo['tipo_campo'] == 'file')
-                                <div>
-                                  <?php 
-                                     echo
-                                      '<a href="'.$valor['valor'].'">
-                                         Ir a documento
-                                       </a>'
-                                   ?>
-                                </div>
-                               @endif
-                              @endif
-                            </td>
-                            @endforeach
-                         </tr>
-                        @endforeach
+
                       </table> 
                      @endif
                    </div>
+                   <!--Firmas -->
                   @if ($statu['status_id'] == 4 || $statu['status_id'] == 5)
-                    <div style="width:45rem;">
-                      <table>
+                    <div >
+                      <table style="width:23rem">
                         <thead>
                           <tr>
                             <th>Nombre</th>
@@ -98,7 +69,7 @@
                         <tbody>
                           @foreach ($firmas as $firma )
                            <tr>
-                              <td><?php $firma['nombre'] ?></td>
+                              <td><?php echo $firma['nombre'] ?></td>
                               <td><?php echo '<img style="width:10rem"  src="'.$firma['firma'].'" />' ?></td>
                               <td><?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?></td>
                            </tr>
