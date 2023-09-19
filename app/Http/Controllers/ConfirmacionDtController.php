@@ -13,6 +13,7 @@ use App\Models\Statu;
 use App\Models\StatusDt;
 use App\Models\Ubicacione;
 use App\Models\Valor;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
@@ -656,7 +657,8 @@ class ConfirmacionDtController extends Controller
       'status.status_padre as status_padre_id',
       'status.nombre as status_name',
       'status.color as color',
-      'status_dts.updated_at as status_dt_updated_at'
+      'status_dts.updated_at as status_dt_updated_at',
+      'status_dts.created_at as status_dt_created_at'
     )
     ->with([
       'status' => function ($query) 
@@ -707,6 +709,8 @@ class ConfirmacionDtController extends Controller
         'firmas' => $firmas
       ];
 
+      $options = new Options();
+      $pdf->set_option('isRemoteEnabled', true);
       $pdf->loadView('pdfs.plantilla_confirmacion', $data);
                  
       //guardamos en storage

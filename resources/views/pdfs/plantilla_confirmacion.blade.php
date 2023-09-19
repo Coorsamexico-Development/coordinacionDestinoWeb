@@ -13,90 +13,86 @@
     <body style="">
         <div class="" style="width: 18rem;">
           <div class="bgSection">
-            
+            <img style="width: 237%;" src="https://storage.googleapis.com/coorsamexico_coordinacion_destino/img/banner_doc.jpg" />
           </div>
           <div class="sombraBox">
             <div class="">
-              <div>   
-                <h1 class="" style="">Confirmacion:{{$confirmacion}}</h1>
+              <div style="display: flex; flex-direction:row;">   
+                <img style="width: 2.3rem; position: absolute;margin-left:-3.5rem; margin-top:2rem" src="https://storage.googleapis.com/coorsamexico_coordinacion_destino/img/icono_hoja.png" />
+                <h1 class="" style="font-weight:900">Confirmacion:{{$confirmacion}}</h1>
               </div>  
               <span class="linea"></span>
             </div> 
-              <div class="">
-                 <h2 class="">DT:{{$dt}}</h2>
-                 <h2 class="">Cita:{{$cita}}</h2>
+              <div style="margin-top: -1rem;">
+                 <h2 style="font-size: 1.5rem">DT:{{$dt}}</h2>
+                 <h2 style="font-size: 1.5rem; margin-top: -1rem; width:20rem;">Cita:{{$cita}}</h2>
               </div>
           </div>
-          <div style="margin-top:2rem; ">
-            @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
-            <?php 
-              echo 
-              '<div style="display:flex; flex-direction: row;">
-                   <div style="background-color:'.$statu['color'].';  display: flex; justify-content:center;  border-radius: 5%;text-transform: uppercase;">
-                     <h1 style="color:white; text-align: center;">'.$statu['status_name'].'</h1>
-                  </div>
-                  <div>
-                    <h1 style="font-family:Arial, Helvetica, sans-serif">'.$statu['status_name'].':'.$statu['status_dt_updated_at'].'</h1>
-                  </div>
-                </div>
-               '
-            ?> 
-            <!-- CAMPOS POR STATUS-->
-            <div style="margin-top:-0.5rem; "> 
-              @if (count($statu['status']['campos2']) > 0 )
-                @foreach ($statu['status']['campos2'] as $campo )
-                <div>
-                   <h3>{{$campo['nombre']}}</h3>
-                   @foreach ($valors  as $valor )
-                    @if ($valor['campo_id'] == $campo['id']  )
-                      <div>
-                        @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
-                          <div>
-                             <p>{{$valor['valor']}}</p>
-                          </div>
-                        @endif
-                        @if ($campo['tipo_campo'] == 'image')
-                         <div>
-                           <?php 
-                              echo
-                               '<img style="width:10rem" src="'.$valor['valor'].'"/>'
-                            ?>
-                         </div>
-                        @endif
-                        @if ($campo['tipo_campo'] == 'file')
-                         <div>
-                           <?php 
-                              echo
-                               '<a href="'.$valor['valor'].'">
-                                  Ir a documento
-                                </a>'
-                            ?>
-                         </div>
-                        @endif
-                      </div>
-                    @endif
-                   @endforeach
-                </div>
-                @endforeach
-              @endif
-            </div> 
-          @endforeach
-          </div>
-          <div class="firma">
-            <h3 class="confirmacion">Firmas</h3>
-            <div>
-              @foreach ($firmas as $firma )
-                <?php 
-                  echo '
-                    <p>'.$firma['nombre'].'</p>
-                    <img style="width:10rem"  src="'.$firma['firma'].'" />
-                    <img style="width:10rem"  src="'.$firma['foto'].'" />
-                   '
-                ?>
-              @endforeach
+          <div style="margin-top:1rem; ">
+           @foreach ($status_dt as $statu ) <!-- RECORREMOS TODO EL HISTORIAL DE CAMBIOS DE STATUS -->
+            <div style="display:flex; flex-direction: row;border: 0.1px solid #9B9B9B;border-radius: 5%;
+                  width:45rem;">
+                  <h1 style="font-size:1.5rem; margin-left:3rem">
+                    <?php 
+                     echo '<span style="color:white;text-transform:uppercase;border-radius:3%; font-weight:900; padding-left:3rem;padding-right:3rem; text-align: center;background-color:'.$statu['color'].'">
+                             '.$statu['status_name'].'
+                           </span>'
+                    ?>
+                   <span>
+                    Actualizado: <?php echo $statu['status_dt_created_at'] ?>
+                   </span>
+                   <div style="margin-left: 2rem; margin-right:2rem;">
+                     @if (count($statu['status']['campos2']) > 0 )
+                      <table>
+                        <?php echo 
+                        '<thead style="border-bottom:1px solid '.$statu['color'].'">' 
+                        ?> 
+                           @foreach ($statu['status']['campos2'] as $campo )
+                             <tr>
+                                <th>
+                                  <p style="text-transform: uppercase; font-size:1rem; font-weight:bolder">
+                                    <?php echo $campo['nombre'] ?>
+                                  </h3>
+                                </th>
+                             </tr>
+                            @endforeach
+                         </thead>
+                         <tbody>
+                           @foreach ( $valors  as $valor ) 
+                               <tr>
+                                @if ($valor['campo_id'] == $campo['id']  )
+                                  <td>
+                                    @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
+                                       <p>{{$valor['valor']}}</p>
+                                    @endif
+                                    @if ($campo['tipo_campo'] == 'image')
+                                    <?php 
+                                       echo
+                                        '<img style="width:10rem" src="'.$valor['valor'].'"/>'
+                                     ?>
+                                    @endif
+                                    @if ($campo['tipo_campo'] == 'file')
+                                      <?php 
+                                         echo
+                                          '<a href="'.$valor['valor'].'">
+                                             Ir a documento
+                                           </a>'
+                                       ?>
+                                   @endif
+                                  </td>
+                                 @endif
+                               </tr>
+                           @endforeach
+                         </tbody>
+                      </table>
+                     @endif
+                   </div>
             </div>
-        </div>
-       </div>
+           @endforeach
+         </div>
+         <div style="margin-top:1rem; ">
+            
+         </div>
     </body>
     <!--
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -104,9 +100,9 @@
     </html>
 <style>
   .bgSection{
-    background-size:cover ;
-    background-image: url('../../assets/img/banner_doc.jpg');
-    height: 5rem;
+    margin-top: -3rem;
+    margin-left: -3rem;
+    margin-bottom: 3rem;
   },
     .linea
     {
@@ -123,12 +119,16 @@
      box-shadow: 2px 3px 25px 0px rgba(0,0,0,0.75);
      background-color: white;
      border-radius: 5%;
-     border: 1px solid #000;
+     border: 0.1px solid #9B9B9B;
      padding-left: 5rem;
      padding-right: 10rem;
-     width: 90%
+     width: 90%;
+     font-family: 'Montserrat'
     }
-
+    @font-face {
+      font-family: 'Montserrat';
+      src: local('Montserrat Light'), local('Montserrat-Light'),format('truetype');
+    }
 
 
 </style>
