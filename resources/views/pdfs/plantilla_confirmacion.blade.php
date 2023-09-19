@@ -86,6 +86,7 @@
                      @endif
                    </div>
                    <!-- Firmas -->
+                   @if($statu['status_name'] == 'Liberada al 100' || statu['status_name'] == 'Liberada con incidencia')
                    <div style="margin-top:1rem; ">
                        <h4 style="text-transform: uppercase;">Firmas</h4>
                        <div>
@@ -115,6 +116,7 @@
                         </table>
                        </div>
                    </div>
+                   @endif
             </div>
            @endforeach
          </div>
