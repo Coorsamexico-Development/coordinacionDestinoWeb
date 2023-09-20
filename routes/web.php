@@ -56,8 +56,8 @@ Route::get('/getConfirmacionByStatus',[ConfirmacionDtController::class,'getConfi
 Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
 Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
 //Cambio de status to espera
-Route::get('/changeToEnEspera', [ConfirmacionDtController::class, 'changeToEnEspera'])->name('changeToEnEspera');
-Route::get('/changeToEnDocumentacion', [ConfirmacionDtController::class, 'changeToEnDocumentacion'])->name('changeToEnDocumentacion');
+//Route::get('/changeToEnEspera', [ConfirmacionDtController::class, 'changeToEnEspera'])->name('changeToEnEspera');
+//Route::get('/changeToEnDocumentacion', [ConfirmacionDtController::class, 'changeToEnDocumentacion'])->name('changeToEnDocumentacion');
 //Cambio de status to riesgo
 Route::get('/changeToDescarga', [ConfirmacionDtController::class, 'changeToDescarga'])->name('changeToDescarga');
 Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrrampado'])->name('changeEnrrampado');
