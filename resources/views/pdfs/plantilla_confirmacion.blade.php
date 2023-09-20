@@ -51,7 +51,39 @@
                            <th style="padding-left:1rem; padding-right:1rem; "><?php echo $campo['nombre'] ?></th>
                           @endforeach
                         </tr>
-
+                        @foreach ($valors  as $valor )
+                         <tr>
+                           @foreach ($statu['status']['campos2'] as $campo ) 
+                            <td style="padding-left:1rem; padding-right:1rem; ">
+                              @if ($valor['campo_id'] == $campo['id']  )
+                                @if ($campo['tipo_campo'] == 'text' || $campo['tipo_campo'] == 'number')
+                                  <div>
+                                     <p style="font-size:1rem">{{$valor['valor']}}</p>
+                                  </div>
+                                @endif
+                                @if ($campo['tipo_campo'] == 'image')
+                                <div>
+                                  <?php 
+                                     echo
+                                      '<img style="width:10rem" src="'.$valor['valor'].'"/>'
+                                   ?>
+                                </div>
+                               @endif
+                               @if ($campo['tipo_campo'] == 'file')
+                                <div>
+                                  <?php 
+                                     echo
+                                      '<a href="'.$valor['valor'].'">
+                                         Ir a documento
+                                       </a>'
+                                   ?>
+                                </div>
+                               @endif
+                              @endif
+                            </td>
+                            @endforeach
+                         </tr>
+                        @endforeach
                       </table> 
                      @endif
                    </div>
