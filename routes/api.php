@@ -89,9 +89,10 @@ Route::post('/valoresLiberacion',[ConfirmacionDtController::class, 'valoresLiber
 Route::post('/saveDocEnrrampe',[ConfirmacionDtController::class, 'saveDocEnrrampe'])->name('saveDocEnrrampe');
 //Valores de firmsas
 Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
+//Obtener telefono por viaje
+Route::get('/getTelephone',[ConfirmacionDtController::class,'getTelephone'])->name('getTelephone');
 
 //Prueba para la estructura del PDF
-
 Route::get('/pdf', function()
 {
     $pdf = App::make('dompdf.wrapper');

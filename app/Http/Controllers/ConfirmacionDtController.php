@@ -733,5 +733,24 @@ class ConfirmacionDtController extends Controller
     return 'ok';
   }
 
+  public function getTelephone (Request $request)
+  {
+     if($request['confirmacion'])
+     {
+       $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+       ->first(); 
+
+       //buscamos el campo del telefono
+       $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
+       ->where('dt_campo_valors.dt_id','=',$confirmacion_dt['dt_id'])
+       ->where('dt_campo_valors.campo_id','=',13)
+       ->first();
+
+       return  $telefono = Valor::select('valors.*')
+       ->where('valors.dt_campo_valor_id','=',$dt_campo_valor['id'])
+       ->first();
+     }
+  }
   
 }
