@@ -20,6 +20,8 @@
 
   const modalWatchIncidencias = ref(false);
 
+  const incidencias = ref([]);  
+
   const openModalIncidencias = (referencia) => 
   {
     //checar incidencias
@@ -31,16 +33,18 @@
     }).then(response =>
     {
       console.log(response.data);
-
+      incidencias.value = response.data[0].incidencias;
+      modalWatchIncidencias.value = true;
     }).catch(err => {
         console.log(err);
     })
 
-    modalWatchIncidencias.value = true;
+    
   }
 
   const closeModalIncidencias = () => 
   {
+    incidencias.value = [];
     modalWatchIncidencias.value = false;
   }
 
@@ -90,6 +94,6 @@
             </tbody>
          </table>
        </template>
-       <ModalIncidencias :show="modalWatchIncidencias" @close="closeModalIncidencias" />
+       <ModalIncidencias :show="modalWatchIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" />
      </DialogModal>
 </template>

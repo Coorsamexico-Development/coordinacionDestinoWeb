@@ -6,7 +6,8 @@
       show: {
           type: Boolean,
           default: false,
-      }
+      },
+      incidencias:Array
   });
 
  const close = () => 
@@ -25,7 +26,7 @@
          </div>
        </template>
        <template #content>
-
+          {{ incidencias }}
        </template>
    </DialogModal>
 </template>
