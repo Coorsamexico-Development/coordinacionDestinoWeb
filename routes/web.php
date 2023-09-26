@@ -95,3 +95,5 @@ Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
 Route::get('/getProductosExample', [ProductoController::class,'donwloadExportExample'])->name('donwloadExportExample');
 //Importacion de nuevos productos
 Route::post('/productos',[ProductoController::class, 'store'])->name('productos.store');
+//Consultar viajes con incidencias del producto a consutar
+Route::get('/viajesByProducto', [ProductoController::class,'viajesByProducto'])->name('viajesByProducto');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\ProductosExport;
 use App\Imports\ProductosImport;
+use App\Models\Incidencia;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -36,6 +37,17 @@ class ProductoController extends Controller
     public function donwloadExportExample () 
     {
         return Excel::download(new ProductosExport, 'productos_example.xlsx');
+    }
+
+    public function viajesByProducto (Request $request)
+    {
+        $producto = $request['producto'];
+
+      return  Incidencia::select('incidencias.*')
+        ->join('ocs','incidencias.ocs_id','ocs.id')
+        ->where('incidencias.ean_id','=',$producto['producto_id'])
+        ->groupBy('ocs.confirmacion_dt_id')
+        ->get();
     }
 
     /**

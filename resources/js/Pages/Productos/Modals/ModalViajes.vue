@@ -16,8 +16,6 @@
      emit('close');
   };
 
-  
-
 </script>
 <template>
      <DialogModal maxWidth="4xl"  :show="show" @close="close()">
@@ -30,7 +28,7 @@
          </div>
        </template>
        <template #content  >
-         
+         {{ producto }}
        </template>
      </DialogModal>
 </template>

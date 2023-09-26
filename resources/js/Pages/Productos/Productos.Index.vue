@@ -5,6 +5,7 @@ import { router, Link, useForm  } from '@inertiajs/vue3'
 import PaginationAxios from '@/Components/PaginationAxios.vue';
 import ButtonUploadProd from './Partials/ButtonUploadProd.vue'
 import ModalViajes from './Modals/ModalViajes.vue'
+import axios from 'axios';
 
 var props = defineProps({
     productos:Object,
@@ -64,16 +65,28 @@ watch(document, (documentoCargado) =>
 });
 
 const showModalViaje = ref(false);
-const productoActual = ref(null);
+const productoActual = ref({});
 const opennModalViaje = (prod) => 
 {
     productoActual.value = prod;
     showModalViaje.value = true;
+    //una vez con el producto consultamos
+    axios.get(route('viajesByProducto'),{
+        params:
+        {
+            producto:productoActual.value
+        }
+    }).then(response =>
+    {
+      console.log(response)
+    }).catch(err => {
+        console.log(err);
+    })
 }
 const closeModalViaje = () => 
 {
     showModalViaje.value = false;
-    productoActual.value = null;
+    productoActual.value = {};
 }
 </script>
 <template>
