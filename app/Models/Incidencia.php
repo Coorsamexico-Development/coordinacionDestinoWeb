@@ -15,4 +15,9 @@ class Incidencia extends Model
         'cantidad',
         'ean_id',
     ];
+
+    public function evidencias()
+    {
+        return $this->hasMany(Evidencia::class,'incidencia_id');
+    }
 }

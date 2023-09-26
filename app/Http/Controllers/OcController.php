@@ -102,7 +102,9 @@ class OcController extends Controller
                 'incidencias.*',
                 'tipo_incidencias.nombre as tipo_incidencia',
                 'productos.SKU as sku'
-              )->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+              )
+              ->with('evidencias')
+              ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
               ->join('productos','incidencias.ean_id','productos.id')
               ->get();
              }
