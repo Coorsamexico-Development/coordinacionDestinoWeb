@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dt;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DtController extends Controller
 {
@@ -13,6 +14,7 @@ class DtController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Viajes/Viajes.Index');
     }
 
     /**

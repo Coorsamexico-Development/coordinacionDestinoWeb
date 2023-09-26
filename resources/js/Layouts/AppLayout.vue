@@ -54,11 +54,17 @@ const logout = () => {
                                 <NavLink :href="route('reportes.index')" :active="route().current('reportes.index')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('manageUsers.index')" :active="route().current('manageUsers.index')">
-                                    Usuarios
-                                </NavLink>
                                 <NavLink :href="route('reportes.graficos.index')" :active="route().current('reportes.graficos.index')">
                                     Reportes
+                                </NavLink>
+                                <NavLink :href="route('productos.index')" :active="route().current('productos.index')">
+                                    Productos
+                                </NavLink>
+                                <NavLink :href="route('viajes.index')" :active="route().current('viajes.index')">
+                                    Viajes
+                                </NavLink>
+                                <NavLink :href="route('manageUsers.index')" :active="route().current('manageUsers.index')">
+                                    Usuarios
                                 </NavLink>
                                 <NavLink :href="route('rolesPermisosIndex')" :active="route().current('rolesPermisosIndex')">
                                     Roles y Permisos

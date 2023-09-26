@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProductoController extends Controller
 {
@@ -13,6 +14,20 @@ class ProductoController extends Controller
     public function index()
     {
         //
+
+        $productos = Producto::select(
+        'productos.id as producto_id',
+        'productos.SKU as producto_SKU',
+        'productos.descripcion as producto_descripcion',
+        'productos.DUN 14 as producto_dun14',
+        'productos.EAN as producto_ean',
+        'productos.activo as producto_activo', 
+        'productos.created_at as producto_creacion')
+        ->paginate(5);
+
+        return Inertia::render('Productos/Productos.Index',[
+            'productos' => $productos
+        ]);
     }
 
     /**

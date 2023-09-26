@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\DtController;
 use App\Http\Controllers\OcController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
@@ -85,3 +87,7 @@ Route::get('/saveOcs',[OcController::class, 'store'])->name('saveOcs');
 Route::get('/consultarOcs',[OcController::class, 'consultarOcs'])->name('consultarOcs');
 //Roles y permisos index
 Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');
+//Modulo de productos
+Route::get('/productos',[ProductoController::class,'index'])->name('productos.index');
+//Modulo de viajes
+Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
