@@ -1,15 +1,80 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref, watch, computed, reactive } from "vue";
-import { router } from '@inertiajs/vue3'
+import { router, Link, useForm  } from '@inertiajs/vue3'
 import PaginationAxios from '@/Components/PaginationAxios.vue';
+import ButtonUploadProd from './Partials/ButtonUploadProd.vue'
+import ModalViajes from './Modals/ModalViajes.vue'
 
 var props = defineProps({
     productos:Object,
 });
 
+const productosData = ref(props.productos.data);
+const productosChange = ref(props.productos);
+//Form
+const formNewProductos = useForm({
+  document: null,
+})
+const document = ref(null) 
 
+const loadPage = (page) => 
+{
+    axios.get(page)
+    .then(response => 
+    {
+       productosData.value = response.data.data; //seteamos la info
+       productosChange.value = response.data;
+    })
+    .catch(e => {
+        // Podemos mostrar los errores en la consola
+        console.log(e);
+    })
+}
 
+//Watcher para la carga del reporte
+watch(document, (documentoCargado) => 
+{
+    formNewProductos.document = documentoCargado
+   try 
+   {
+      if(formNewProductos.document !== null)
+      {
+         console.log(formNewProductos)
+         formNewProductos.post(route('productos.store'),
+         {
+            onSuccess: () => {
+               formNewProductos.reset();
+               document.value = null;
+            },
+            onError:(err) => 
+            {
+              console.log(err);
+              formNewProductos.reset();
+              document.value = null;
+            }
+         }
+         );
+      }
+   } 
+   catch (error) 
+   {
+     console.log(error)  
+   }
+});
+
+const showModalViaje = ref(false);
+const productoActual = ref(null);
+const opennModalViaje = (prod) => 
+{
+    productoActual.value = prod;
+    showModalViaje.value = true;
+}
+const closeModalViaje = () => 
+{
+    showModalViaje.value = false;
+    productoActual.value = null;
+}
 </script>
 <template>
   <AppLayout title="Productos">
@@ -21,24 +86,19 @@ var props = defineProps({
           <div class="mr-2">
             <button class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row">
                 <img class="w-4 mr-2" src="../../../assets/img/down_arrow.png" />
-                <p class="text-white">
+                <a :href="route('donwloadExportExample')" class="text-white">
                     Descargar ejemplo
-                </p>
+                </a>
             </button>
           </div>
           <div class="mx-4">
-             <button class="flex flex-row bg-[#1D96F1] px-8 py-2 rounded-2xl">
-                <img class="w-4 mr-2" src="../../../assets/img/DOCS.png" >
-                <p class="text-white">
-                    Subir nuevos productos 
-                </p>
-             </button>
+             <ButtonUploadProd v-model="document" />
           </div>
        </div>
     </template>
      <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
         <table class="w-full">
-            <thead>
+            <thead class="border-b-2">
                 <tr>
                     <th class="font-semibold">SKU</th>
                     <th class="font-semibold">Descripción</th>
@@ -50,8 +110,11 @@ var props = defineProps({
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="producto in productos.data" :key="producto.producto_id">
-                  <td class="text-center">
+                <tr class="" v-for="producto in productosData" :key="producto.producto_id">
+                  <td class="flex flex-row justify-center text-center align-middle">
+                    <button class="bg-[#F25B77] mr-2 px-2 py-1 rounded-full">
+                        <img class="w-4" src="../../../assets/img/eliminar.png" />
+                    </button>
                      {{ producto.producto_SKU }}
                   </td>
                   <td class="text-center">
@@ -75,13 +138,15 @@ var props = defineProps({
                     {{ producto.producto_creacion }}
                   </td>
                   <td class="text-center">
-                     <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+                     <button @click="opennModalViaje(producto)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                         <img class="w-8" src="../../../assets/img/eye.png" />
                      </button>
                   </td>
                 </tr>
             </tbody>
         </table>
+        <PaginationAxios :pagination="productosChange" @loadPage="loadPage($event)" />
      </div>
+     <ModalViajes :show="showModalViaje" :producto="productoActual" @close="closeModalViaje()" />
   </AppLayout>
 </template>

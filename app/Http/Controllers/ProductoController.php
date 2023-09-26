@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductosExport;
+use App\Imports\ProductosImport;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
@@ -30,6 +33,11 @@ class ProductoController extends Controller
         ]);
     }
 
+    public function donwloadExportExample () 
+    {
+        return Excel::download(new ProductosExport, 'productos_example.xlsx');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -44,6 +52,20 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'document' => ['required'],
+        ]);
+
+
+        try 
+        {
+            Excel::import(new ProductosImport, $request['document']);
+            return redirect()->back();
+        } 
+        catch (\Throwable $th)
+        {
+            //throw $th;
+        }
     }
 
     /**

@@ -31,11 +31,13 @@ watch(document, (documentoCargado) =>
          {
             onSuccess: () => {
                formNewDts.reset();
+               document.value = null;
             },
             onError:(err) => 
             {
               console.log(err);
               formNewDts.reset();
+              document.value = null;
             }
          }
          );

@@ -91,3 +91,7 @@ Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('
 Route::get('/productos',[ProductoController::class,'index'])->name('productos.index');
 //Modulo de viajes
 Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
+//Descarga de ejemplo de importacion de productos
+Route::get('/getProductosExample', [ProductoController::class,'donwloadExportExample'])->name('donwloadExportExample');
+//Importacion de nuevos productos
+Route::post('/productos',[ProductoController::class, 'store'])->name('productos.store');
