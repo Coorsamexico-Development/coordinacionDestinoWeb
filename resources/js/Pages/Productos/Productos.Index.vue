@@ -66,6 +66,7 @@ watch(document, (documentoCargado) =>
 
 const showModalViaje = ref(false);
 const productoActual = ref({});
+let viajes = ref([]);
 const opennModalViaje = (prod) => 
 {
     productoActual.value = prod;
@@ -78,7 +79,8 @@ const opennModalViaje = (prod) =>
         }
     }).then(response =>
     {
-      console.log(response)
+      console.log(response);
+      viajes.value = response.data;
     }).catch(err => {
         console.log(err);
     })
@@ -160,6 +162,6 @@ const closeModalViaje = () =>
         </table>
         <PaginationAxios :pagination="productosChange" @loadPage="loadPage($event)" />
      </div>
-     <ModalViajes :show="showModalViaje" :producto="productoActual" @close="closeModalViaje()" />
+     <ModalViajes :show="showModalViaje" :producto="productoActual" @close="closeModalViaje()" :viajes="viajes" />
   </AppLayout>
 </template>

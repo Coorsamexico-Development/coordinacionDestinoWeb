@@ -8,7 +8,8 @@
           type: Boolean,
           default: false,
       },
-      producto:Object
+      producto:Object,
+      viajes:Array
   });
 
   const close = () => 
@@ -28,7 +29,28 @@
          </div>
        </template>
        <template #content  >
-         {{ producto }}
+         <table class="w-full">
+            <thead>
+                <tr>
+                    <th>Confirmación</th>
+                    <th>No.Cajas</th>
+                    <th>Cerrado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="viaje in viajes" :key="viaje.id">
+                  <td>
+                     {{ viaje.confirmacion }}
+                  </td>
+                  <td>
+                    {{ viaje.numero_cajas }}
+                  </td>
+                  <td>
+                    {{ viaje.cerrado }}
+                  </td>
+                </tr>
+            </tbody>
+         </table>
        </template>
      </DialogModal>
 </template>
