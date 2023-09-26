@@ -1,6 +1,7 @@
 <script setup>
  import { ref, watch, reactive } from 'vue';
  import DialogModal from '@/Components/DialogModal.vue';
+ import ModalIncidencias from './ModalIncidencias.vue';
 
  const emit = defineEmits(["close"])
  const props = defineProps({
@@ -16,6 +17,32 @@
   { 
      emit('close');
   };
+
+  const modalWatchIncidencias = ref(false);
+
+  const openModalIncidencias = (referencia) => 
+  {
+    //checar incidencias
+    axios.get(route('consultarOcs'),{
+        params:
+        {
+            confirmacion:referencia
+        }
+    }).then(response =>
+    {
+      console.log(response.data);
+
+    }).catch(err => {
+        console.log(err);
+    })
+
+    modalWatchIncidencias.value = true;
+  }
+
+  const closeModalIncidencias = () => 
+  {
+    modalWatchIncidencias.value = false;
+  }
 
 </script>
 <template>
@@ -55,7 +82,7 @@
                     </div>
                   </td>
                   <td class="text-center">
-                     <button class="bg-[#697FEA] rounded-2xl px-2 py-1">
+                     <button @click="openModalIncidencias(viaje.confirmacion)"  class="bg-[#697FEA] rounded-2xl px-2 py-1">
                         <img class="w-4" src="../../../../assets/img/eye.png" />
                      </button>
                   </td>
@@ -63,5 +90,6 @@
             </tbody>
          </table>
        </template>
+       <ModalIncidencias :show="modalWatchIncidencias" @close="closeModalIncidencias" />
      </DialogModal>
 </template>
