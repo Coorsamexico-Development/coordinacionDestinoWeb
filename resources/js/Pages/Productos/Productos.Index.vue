@@ -47,14 +47,7 @@ watch(document, (documentoCargado) =>
             onSuccess: () => {
                formNewProductos.reset();
                document.value = null;
-
-                router.visit(route('productos.index'), {
-                 preserveScroll:true,
-                 preserveState:true,
-                 replace:true,
-                 only:['productos']
-               })
-
+               reconsultar();
             },
             onError:(err) => 
             {
@@ -71,6 +64,16 @@ watch(document, (documentoCargado) =>
      console.log(error)  
    }
 });
+
+
+const reconsultar  = () => 
+{
+  //console.log('reconsultando')
+  router.visit(route('productos.index'),
+  {
+    only:['productos']
+  })
+}
 
 const showModalViaje = ref(false);
 const productoActual = ref({});
