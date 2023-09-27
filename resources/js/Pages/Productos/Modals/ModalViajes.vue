@@ -33,7 +33,20 @@
     }).then(response =>
     {
       console.log(response.data);
-      incidencias.value = response.data[0].incidencias;
+      let incidenciasTemp = [];
+      //incidencias.value = response.data[0].incidencias;
+      for (let index = 0; index < response.data.length; index++) 
+      {
+        const oc = response.data[index];
+        for (let index2 = 0; index2 < oc.incidencias.length; index2++) 
+        {
+            const incidencia =  oc.incidencias[index2];
+            incidenciasTemp.push(incidencia);
+        }
+
+        incidencias.value = incidenciasTemp
+      }
+
       modalWatchIncidencias.value = true;
     }).catch(err => {
         console.log(err);
@@ -94,6 +107,6 @@
             </tbody>
          </table>
        </template>
-       <ModalIncidencias :show="modalWatchIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" />
      </DialogModal>
+     <ModalIncidencias :show="modalWatchIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" />
 </template>
