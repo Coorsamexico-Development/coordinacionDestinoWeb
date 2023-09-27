@@ -120,7 +120,6 @@ const closeModalViaje = () =>
                     <th class="font-semibold">DUN 14</th>
                     <th class="font-semibold">EAN</th>
                     <th class="font-semibold">Activo</th>
-                    <th class="font-semibold">Creación</th>
                     <th class="font-semibold">Viajes</th>
                 </tr>
             </thead>
@@ -150,11 +149,8 @@ const closeModalViaje = () =>
                       </div>
                   </td>
                   <td class="text-center">
-                    {{ producto.producto_creacion }}
-                  </td>
-                  <td class="text-center">
                      <button @click="opennModalViaje(producto)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
-                        <img class="w-8" src="../../../assets/img/eye.png" />
+                        <img class="w-6" src="../../../assets/img/eye.png" />
                      </button>
                   </td>
                 </tr>
