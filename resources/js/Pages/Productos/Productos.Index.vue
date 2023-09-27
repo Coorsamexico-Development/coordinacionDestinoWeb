@@ -47,6 +47,14 @@ watch(document, (documentoCargado) =>
             onSuccess: () => {
                formNewProductos.reset();
                document.value = null;
+
+                router.visit(route('productos.index'), {
+                 preserveScroll:true,
+                 preserveState:true,
+                 replace:true,
+                 only:['productos']
+               })
+
             },
             onError:(err) => 
             {
@@ -115,7 +123,7 @@ const closeModalViaje = () =>
         <table class="w-full">
             <thead class="border-b-2">
                 <tr>
-                    <th class="font-semibold">SKU</th>
+                    <th class="font-semibold text-center">SKU</th>
                     <th class="font-semibold">Descripción</th>
                     <th class="font-semibold">DUN 14</th>
                     <th class="font-semibold">EAN</th>
@@ -125,10 +133,12 @@ const closeModalViaje = () =>
             </thead>
             <tbody>
                 <tr class="" v-for="producto in productosData" :key="producto.producto_id">
-                  <td class="flex flex-row justify-center text-center align-middle">
+                  <td class="text-center">
+                    <!--
                     <button class="bg-[#F25B77] mr-2 px-2 py-1 rounded-full">
                         <img class="w-4" src="../../../assets/img/eliminar.png" />
                     </button>
+                    -->
                      {{ producto.producto_SKU }}
                   </td>
                   <td class="text-center">

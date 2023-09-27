@@ -26,11 +26,11 @@ class ProductoController extends Controller
         'productos.DUN 14 as producto_dun14',
         'productos.EAN as producto_ean',
         'productos.activo as producto_activo', 
-        'productos.created_at as producto_creacion')
-        ->paginate(5);
+        'productos.created_at as producto_creacion');
+        
 
         return Inertia::render('Productos/Productos.Index',[
-            'productos' => $productos
+            'productos' => fn () =>  $productos->paginate(5)
         ]);
     }
 
