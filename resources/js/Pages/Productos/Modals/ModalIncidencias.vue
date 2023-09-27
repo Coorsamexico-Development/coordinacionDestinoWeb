@@ -53,7 +53,7 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
                     <div v-if="incidencia.evidencias.length > 0">
                        <div v-for="(evidencia,key) in incidencia.evidencias" :key="evidencia.id">
                            <div> 
-                              <a :href="evidencia"  data-fancybox="gallery" >
+                              <a :href="evidencia.evidencia"  data-fancybox="gallery" >
                                 Ver
                               </a>
                            </div>
