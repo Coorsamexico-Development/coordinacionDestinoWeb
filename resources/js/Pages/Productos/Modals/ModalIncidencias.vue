@@ -33,6 +33,7 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
          </div>
        </template>
        <template #content>
+       
           <table class="w-full">
             <thead>
                 <tr>
@@ -51,13 +52,16 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
                    </td>
                    <td class="text-center"> 
                     <div v-if="incidencia.evidencias.length > 0">
-                       <div v-for="(evidencia,key) in incidencia.evidencias" :key="evidencia.id">
-                           <div> 
-                              <a :href="evidencia.evidencia"  data-fancybox="gallery" >
+                     <div v-for=" (evidencia, key) in incidencia.evidencias" :key="evidencia.id">
+                        <div >
+                             <a v-if="key == 0 "  :href="evidencia.evidencia"  :data-fancybox="'gallery'">
                                 Ver
-                              </a>
-                           </div>
-                       </div>
+                             </a>
+                             <a v-else class="hidden" :href="evidencia.evidencia"  :data-fancybox="'gallery'">
+                               Ver
+                             </a>
+                        </div>
+                     </div>
                     </div>
                    </td >
                 </tr>
