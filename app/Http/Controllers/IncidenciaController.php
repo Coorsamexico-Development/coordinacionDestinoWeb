@@ -96,7 +96,7 @@ class IncidenciaController extends Controller
     {
       $data = $request['params']['data'];
 
-      // return $data;
+       return $data;
 
        for ($i=0; $i < count($data) ; $i++) 
        { 
