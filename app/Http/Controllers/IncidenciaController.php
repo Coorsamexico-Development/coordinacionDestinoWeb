@@ -73,11 +73,7 @@ class IncidenciaController extends Controller
        ->get();
     }
 
-    public function saveIncidencias (Request $request)
-    {
-       
-      
-    }
+
 
     public function eraseIncidenciasWithEvidencias (Request $request)
     {
