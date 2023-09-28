@@ -75,9 +75,8 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias (Request $request)
     {
+      return $request['params']['data'];
       $data = $request['params']['data'];
-
-      return $data;
 
        for ($i=0; $i < count($data) ; $i++) 
        { 
@@ -123,7 +122,7 @@ class IncidenciaController extends Controller
         $incidenciaAEliminar = Incidencia::find($incidencia);
         $incidenciaAEliminar->delete();
 
-        
+
     }
 
 }
