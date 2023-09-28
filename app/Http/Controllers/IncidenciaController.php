@@ -58,23 +58,6 @@ class IncidenciaController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Incidencia $incidencia)
-    {
-        //
-    }
-
-    public function checkIncidencias(Request $request)
-    {
-       return TipoIncidencia::select('tipo_incidencias.*')
-       ->where('tipo_incidencias.activo','=',1)
-       ->get();
-    }
-
-
-
     public function eraseIncidenciasWithEvidencias (Request $request)
     {
         $incidencia = $request['id'];
@@ -92,8 +75,53 @@ class IncidenciaController extends Controller
 
         $incidenciaAEliminar = Incidencia::find($incidencia);
         $incidenciaAEliminar->delete();
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Incidencia $incidencia)
+    {
+        //
+    }
 
+    public function checkIncidencias(Request $request)
+    {
+       return TipoIncidencia::select('tipo_incidencias.*')
+       ->where('tipo_incidencias.activo','=',1)
+       ->get();
+    }
+
+    public function saveIncidencias(Request $request)
+    {
+      $data = $request['params']['data'];
+
+      // return $data;
+
+       for ($i=0; $i < count($data) ; $i++) 
+       { 
+         $producto = $data[$i];
+         $incidencia = Incidencia::updateOrCreate([
+           'ocs_id' => $producto['oc_id'],
+           'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
+           'cantidad' => $producto['cantidad'],
+           'ean_id' => $producto['id']
+         ]);
+
+         //Vamos a recorrer las evidencias
+         
+         for ($x=0; $x < count($producto['evidencias']) ; $x++) 
+         { 
+            $evidencia = $producto['evidencias'][$x];
+            Evidencia::updateOrCreate([
+              'evidencia' => $evidencia['foto'],
+              'incidencia_id' => $incidencia['id']
+            ]);
+         }
+         
+         
+       }
+      
     }
 
 }
