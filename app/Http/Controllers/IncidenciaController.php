@@ -75,29 +75,7 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias (Request $request)
     {
-       for ($i=0; $i < count($request['params']['data']) ; $i++) 
-       { 
-         $producto = $request['params']['data'][$i];
-         $incidencia = Incidencia::updateOrCreate([
-           'ocs_id' => $producto['oc_id'],
-           'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
-           'cantidad' => $producto['cantidad'],
-           'ean_id' => $producto['id']
-         ]);
-
-         //Vamos a recorrer las evidencias
-         
-         for ($x=0; $x < count($producto['evidencias']) ; $x++) 
-         { 
-            $evidencia = $producto['evidencias'][$x];
-            Evidencia::updateOrCreate([
-              'evidencia' => $evidencia['foto'],
-              'incidencia_id' => $incidencia['id']
-            ]);
-         }
-         
-         
-       }
+       
       
     }
 
