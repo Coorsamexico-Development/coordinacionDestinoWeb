@@ -75,7 +75,6 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias (Request $request)
     {
-      return $request['params']['data'];
       $data = $request['params']['data'];
 
        for ($i=0; $i < count($data) ; $i++) 
