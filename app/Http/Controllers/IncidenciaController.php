@@ -77,7 +77,7 @@ class IncidenciaController extends Controller
     {
       $data = $request['params']['data'];
 
-      // return $data;
+      return $data;
 
        for ($i=0; $i < count($data) ; $i++) 
        { 
@@ -103,6 +103,27 @@ class IncidenciaController extends Controller
          
        }
       
+    }
+
+    public function eraseIncidenciasWithEvidencias (Request $request)
+    {
+        $incidencia = $request['id'];
+        
+        $evidencias_de_incidencia = Evidencia::select('evidencias.*')
+        ->where('evidencias.incidencia_id','=', $incidencia)
+        ->get();
+
+        //Eliminamos las evidencias
+        for ($i=0; $i < count($evidencias_de_incidencia) ; $i++) 
+        { 
+            $evidencia = Evidencia::find($evidencias_de_incidencia[$i]['id']);
+            $evidencia->delete();
+        }
+
+        $incidenciaAEliminar = Incidencia::find($incidencia);
+        $incidenciaAEliminar->delete();
+
+        
     }
 
 }

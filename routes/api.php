@@ -79,6 +79,8 @@ Route::get('/checkIncidencias',[IncidenciaController::class, 'checkIncidencias']
 //Save incidencias
 Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias'])->name('saveIncidencias');
 Route::get('/checkIncidenciasByOc',[IncidenciaController::class, 'checkIncidenciasByOc'])->name('checkIncidenciasByOc');
+//Borrar incidencias con evidencias
+Route::get('/eraseIncidenciasWithEvidencias', IncidenciaController::class, 'eraseIncidenciasWithEvidencias')->name('eraseIncidenciasWithEvidencias');
 //Ruta para guardar ocs cuadradas
 Route::post('/saveCuadre',[OcController::class, 'saveCuadre'])->name('saveCuadre');
 //Ruta para cambiar y tomar la hr de folios
