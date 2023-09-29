@@ -43,15 +43,30 @@
                    </span>
                    <!--Campos-->
                    <div style="margin-left: 2rem; margin-right:2rem;">
+                    <?php 
+                    echo '<span style="color:white;text-transform:uppercase;
+                    margin-top:5rem;
+                    padding-left:3rem;padding-right:3rem;
+                    width:30rem; 
+                    padding-top:0.1rem;
+                    padding-bottom;0rem;
+                    text-align: center;background-color:'.$statu['color'].'; position:absolute;">
+                      
+                    </span>'
+                   ?>
                      @if (count($statu['status']['campos2']) > 0 )
                      <table>
                        <?php 
-                       '<tr style="border-bottom:1px solid '.$statu['color'].'">' ?> 
+                       '<tr style="">' ?> 
                           @foreach ($statu['status']['campos2'] as $campo ) 
-                           <th style="padding-left:1rem; padding-right:1rem; "><?php echo $campo['nombre'] ?></th>
+                           <th style="padding-left:1rem; padding-right:1rem; ">
+                            <p style="font-size: 16px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px"> 
+                              <?php echo $campo['nombre'] ?>
+                            </p>
+                           </th>
                           @endforeach
                         </tr>
-                        <tr>
+                        <tr style="">
                           @foreach ($statu['status']['campos2'] as $campo ) 
                             <td style="padding-left:1rem; padding-right:1rem; ">
                               @foreach ($valors  as $valor )
@@ -94,9 +109,9 @@
                       <table style="width:23rem">
                         <thead>
                           <tr>
-                            <th>Nombre</th>
-                            <th>Firma</th>
-                            <th>Evidencia</th>
+                            <th style="font-size: 14px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px">Nombre</th>
+                            <th style="font-size: 14px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px">Firma</th>
+                            <th style="font-size: 14px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px">Evidencia</th>
                           </tr>
                         </thead>
                         <tbody>
