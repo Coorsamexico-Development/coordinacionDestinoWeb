@@ -15,7 +15,11 @@ class DtController extends Controller
     public function index()
     {
         //
-        $viajes = ConfirmacionDt::select('confirmacion_dts.*');
+        $viajes = ConfirmacionDt::select('confirmacion_dts.*',
+        'dts.referencia_dt as dt')
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->where('confirmacion_dts.status_id','=',4)
+        ->orWhere('confirmacion_dts.status_id','=',5);
 
         return Inertia::render('Viajes/Viajes.Index',[
             'viajes' => fn () =>  $viajes->paginate(5)

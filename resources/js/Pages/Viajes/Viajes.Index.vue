@@ -1,5 +1,30 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import {ref, watch, computed, reactive } from "vue";
+import { router, Link, useForm  } from '@inertiajs/vue3'
+import PaginationAxios from '@/Components/PaginationAxios.vue';
+import axios from 'axios';
+
+var props = defineProps({
+    viajes:Object,
+});
+
+const viajesData = ref(props.viajes.data);
+const viajesChange = ref(props.viajes);
+
+const loadPage = (page) => 
+{
+    axios.get(page)
+    .then(response => 
+    {
+      viajesData.value = response.data.data; //seteamos la info
+      viajesChange.value = response.data;
+    })
+    .catch(e => {
+        // Podemos mostrar los errores en la consola
+        console.log(e);
+    })
+}
 
 </script>
 <template>
@@ -12,7 +37,31 @@ import AppLayout from '@/Layouts/AppLayout.vue';
        </div>
     </template>
     <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
-      
+      <table class="w-full">
+        <thead  >
+          <tr class="border-1 border-sky-500">
+             <th class="font-semibold">Confirmación</th>
+             <th class="font-semibold">DT</th>
+             <th class="font-semibold">Cita</th>
+             <th class="font-semibold">NO. Cajas</th>
+             <th class="font-semibold">Historial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="viaje in viajesData" :key="viaje.id">
+             <td class="text-center">{{ viaje.confirmacion }}</td>
+             <td class="text-center">{{ viaje.dt }}</td>
+             <td class="text-center">{{ viaje.cita }}</td>
+             <td class="text-center">{{ viaje.numero_cajas }}</td>
+             <td class="text-center">
+              <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+                <img class="w-6" src="../../../assets/img/eye.png" />
+              </button>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+      <PaginationAxios :pagination="viajesChange" @loadPage="loadPage($event)" />
     </div>
   </AppLayout>
 </template>
