@@ -21,7 +21,7 @@ const modalWatchOpen = () =>
    id:props.dt.id
   }}).then(response =>
   {
-    //console.log(response);
+    console.log(response);
     infoModal.value = response.data.historico;
     status.value = response.data.status;
   }).catch(err => 

@@ -38,7 +38,7 @@ const watchHistorico = (viaje) =>
   modalWatch.value=true;
   axios.get(route('showHistorico'), 
   {params:{
-   id:viaje.id
+   id:viaje
   }}).then(response =>
   {
     console.log(response);
