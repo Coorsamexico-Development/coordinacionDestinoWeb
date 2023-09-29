@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConfirmacionDt;
 use App\Models\Dt;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +15,11 @@ class DtController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Viajes/Viajes.Index');
+        $viajes = ConfirmacionDt::select('confirmacion_dts.*');
+
+        return Inertia::render('Viajes/Viajes.Index',[
+            'viajes' => fn () =>  $viajes->paginate(5)
+        ]);
     }
 
     /**
