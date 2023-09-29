@@ -100,7 +100,7 @@ Route::get('/pdf', function()
     $pdf = App::make('dompdf.wrapper');
 
     $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
-    ->where('confirmacion_dts.confirmacion','=','22680689')
+    ->where('confirmacion_dts.confirmacion','=','22680127')
     ->first();
 
     $statusByConfirmacion = StatusDt::select(
