@@ -5,10 +5,13 @@ import { router, Link, useForm  } from '@inertiajs/vue3'
 import PaginationAxios from '@/Components/PaginationAxios.vue';
 import axios from 'axios';
 import ModalWatchHistoricoStatus from '../Reportes/Modals/ModalWatchHistoricoStatus.vue';
+import TextInput from '@/Components/TextInput.vue';
 
 var props = defineProps({
     viajes:Object,
 });
+
+console.log(props.viajes)
 
 const viajesData = ref(props.viajes.data);
 const viajesChange = ref(props.viajes);
@@ -17,24 +20,25 @@ let status = ref([]);
 let infoModal = ref(null);
 let modalWatch = ref(false);
 
-const loadPage = (page) => 
+const buscador = ref('');
+
+watch(buscador, (newBusqueda) => 
 {
-    axios.get(page)
-    .then(response => 
-    {
-      viajesData.value = response.data.data; //seteamos la info
-      viajesChange.value = response.data;
-    })
-    .catch(e => {
-        // Podemos mostrar los errores en la consola
-        console.log(e);
-    })
-}
+  router.visit(route('viajes.index'), 
+  {
+    preserveScroll:true,
+    preserveState:true,
+    replace:true,
+    data:{busqueda:newBusqueda},
+    only:['viajes'],
+  })
+});
+
 
 
 const watchHistorico = (viaje) =>
 {
-  console.log(viaje)
+  //console.log(viaje)
   modalWatch.value=true;
   axios.get(route('showHistorico'), 
   {params:{
@@ -60,10 +64,13 @@ const modalWatchClose = () =>
 <template>
   <AppLayout title="Viajes">
     <template #header>
-       <div class="flex flex-row mt-2 align-middle" style="font-family: 'Montserrat';">
+       <div class="flex flex-row justify-between mt-2 align-middle" style="font-family: 'Montserrat';">
           <h2 class="mr-4 text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
               Viajes finalizados
           </h2>
+          <div>
+            <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
+          </div>
        </div>
     </template>
     <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
@@ -90,9 +97,9 @@ const modalWatchClose = () =>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="viaje in viajesData" :key="viaje.id">
+          <tr v-for="viaje in viajes.data" :key="viaje.id">
              <td class="text-center">{{ viaje.confirmacion }}</td>
-             <td class="text-center">{{ viaje.dt }}</td>
+             <td class="text-center">{{ viaje.referencia_dt }}</td>
              <td class="text-center">{{ viaje.cita }}</td>
              <td class="text-center">{{ viaje.numero_cajas }}</td>
              <td class="text-center">
@@ -103,7 +110,6 @@ const modalWatchClose = () =>
           </tr>
         </tbody>
       </table>
-      <PaginationAxios :pagination="viajesChange" @loadPage="loadPage($event)" />
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </AppLayout>

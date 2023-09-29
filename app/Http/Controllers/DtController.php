@@ -12,14 +12,25 @@ class DtController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $viajes = ConfirmacionDt::select('confirmacion_dts.*',
-        'dts.referencia_dt as dt')
-        ->join('dts','confirmacion_dts.dt_id','dts.id')
-        ->where('confirmacion_dts.status_id','=',4)
-        ->orWhere('confirmacion_dts.status_id','=',5);
+        'dts.referencia_dt')
+        ->join('dts','confirmacion_dts.dt_id','dts.id');
+
+        if ($request->has("busqueda")) 
+        {
+          if($request['busqueda'] !== null)
+          {
+            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+            $viajes->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+            ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+          }
+        }
+
+        $viajes->where('confirmacion_dts.status_id','=',4);
+        $viajes->orwhere('confirmacion_dts.status_id','=',5);
 
         return Inertia::render('Viajes/Viajes.Index',[
             'viajes' => fn () =>  $viajes->paginate(5)
