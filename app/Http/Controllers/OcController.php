@@ -134,7 +134,7 @@ class OcController extends Controller
           for ($i=0; $i < count($ocsCuadradas) ; $i++) 
           { 
              $oc = $ocsCuadradas[$i];
-             if($oc['pod'])
+             if($oc['pod'] !== null)
              {
                 Oc::where('id','=', $oc['id'])
                 ->update([
