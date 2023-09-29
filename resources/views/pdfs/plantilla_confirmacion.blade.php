@@ -102,9 +102,9 @@
                         <tbody>
                           @foreach ($firmas as $firma )
                            <tr>
-                              <td><?php echo $firma['nombre'] ?></td>
-                              <td><?php echo '<img style="width:10rem"  src="'.$firma['firma'].'" />' ?></td>
-                              <td><?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?></td>
+                              <td style="padding-left:1rem; padding-right:1rem; "><?php echo $firma['nombre'] ?></td>
+                              <td style="padding-left:1rem; padding-right:1rem; "> <?php echo '<img style="width:10rem"  src="'.$firma['firma'].'" />' ?></td>
+                              <td style="padding-left:1rem; padding-right:1rem; "><?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?></td>
                            </tr>
                           @endforeach
                         </tbody>
