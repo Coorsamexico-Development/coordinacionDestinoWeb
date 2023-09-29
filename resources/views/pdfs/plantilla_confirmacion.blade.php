@@ -19,7 +19,11 @@
             <div class="">
               <div style="display: flex; flex-direction:row;">   
                 <img style="width: 2.3rem; position: absolute;margin-left:-3.5rem; margin-top:2rem" src="https://storage.googleapis.com/coorsamexico_coordinacion_destino/img/icono_hoja.png" />
-                <h1 class="" style="font-weight:900">Confirmacion:{{$confirmacion}}</h1>
+                <p class="" style="font-weight:900; font-size:2rem">
+                  <strong>
+                    Confirmacion:{{$confirmacion}}
+                  </strong>
+                </p>
               </div>  
               <span class="linea"></span>
             </div> 
@@ -82,7 +86,7 @@
                                  <div>
                                    <?php 
                                       echo
-                                       '<img style="width:10rem" src="'.$valor['valor'].'"/>'
+                                       '<img style="width:6rem" src="'.$valor['valor'].'"/>'
                                     ?>
                                  </div>
                                 @endif
