@@ -60,9 +60,11 @@
                        '<tr style="">' ?> 
                           @foreach ($statu['status']['campos2'] as $campo ) 
                            <th style="padding-left:1rem; padding-right:1rem; ">
-                            <p style="font-size: 16px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px"> 
-                              <?php echo $campo['nombre'] ?>
-                            </p>
+                              <p style="font-size: 16px; text-transform:uppercase; font-weight:bolder;letter-spacing:1px"> 
+                                <strong>
+                                  <?php echo $campo['nombre'] ?>
+                                </strong>
+                              </p>
                            </th>
                           @endforeach
                         </tr>
