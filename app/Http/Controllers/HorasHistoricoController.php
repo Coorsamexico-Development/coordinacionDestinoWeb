@@ -88,9 +88,9 @@ class HorasHistoricoController extends Controller
  
 
        HorasHistorico::updateOrCreate([
-         'horas_historicos.hora_id' => 4, //es la hr de folios
-         'horas_historicos.status_dts_id' => $status_dt['id'],
-         'horas_historicos.hora' => $hora_actual
+         'hora_id' => 4, //es la hr de folios
+         'status_dts_id' => $status_dt['id'],
+         'hora' => $hora_actual
        ]);
 
     }
