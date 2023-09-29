@@ -4,6 +4,7 @@ import {ref, watch, computed, reactive } from "vue";
 import { router, Link, useForm  } from '@inertiajs/vue3'
 import PaginationAxios from '@/Components/PaginationAxios.vue';
 import axios from 'axios';
+import ModalWatchHistoricoStatus from '../Reportes/Modals/ModalWatchHistoricoStatus.vue';
 
 var props = defineProps({
     viajes:Object,
@@ -11,6 +12,10 @@ var props = defineProps({
 
 const viajesData = ref(props.viajes.data);
 const viajesChange = ref(props.viajes);
+//Infomracion del historico para el modal
+let status = ref([]);
+let infoModal = ref(null);
+let modalWatch = ref(false);
 
 const loadPage = (page) => 
 {
@@ -26,6 +31,31 @@ const loadPage = (page) =>
     })
 }
 
+
+const watchHistorico = (viaje) =>
+{
+  console.log(viaje)
+  modalWatch.value=true;
+  axios.get(route('showHistorico'), 
+  {params:{
+   id:viaje.id
+  }}).then(response =>
+  {
+    console.log(response);
+    infoModal.value = response.data.historico;
+    status.value = response.data.status;
+  }).catch(err => 
+  {
+   console.log(err)
+  })
+}
+
+
+const modalWatchClose = () => 
+{
+  modalWatch.value=false;
+}
+ 
 </script>
 <template>
   <AppLayout title="Viajes">
@@ -41,9 +71,21 @@ const loadPage = (page) =>
         <thead  >
           <tr class="border-1 border-sky-500">
              <th class="font-semibold">Confirmación</th>
-             <th class="font-semibold">DT</th>
-             <th class="font-semibold">Cita</th>
-             <th class="font-semibold">NO. Cajas</th>
+             <th class="font-semibold">
+                DT
+             </th>
+             <th class="font-semibold">
+              <div class="flex flex-row justify-center align-middle">
+                <img class="w-6 h-6 mr-2" src="../../../assets/img/calendario_blue.png"/>
+                <p>Cita</p>
+              </div>
+            </th>
+             <th class="font-semibold">
+              <div class="flex flex-row justify-center align-middle">
+                <img class="w-6 h-6 mr-2" src="../../../assets/img/cajas.png"/>
+                <p>NO. Cajas</p>
+              </div>
+            </th>
              <th class="font-semibold">Historial</th>
           </tr>
         </thead>
@@ -54,7 +96,7 @@ const loadPage = (page) =>
              <td class="text-center">{{ viaje.cita }}</td>
              <td class="text-center">{{ viaje.numero_cajas }}</td>
              <td class="text-center">
-              <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+              <button @click="watchHistorico(viaje.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                 <img class="w-6" src="../../../assets/img/eye.png" />
               </button>
              </td>
@@ -63,5 +105,6 @@ const loadPage = (page) =>
       </table>
       <PaginationAxios :pagination="viajesChange" @loadPage="loadPage($event)" />
     </div>
+    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </AppLayout>
 </template>

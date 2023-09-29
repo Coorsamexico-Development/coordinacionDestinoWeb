@@ -15,6 +15,7 @@ let status = ref([]);
 let modalWatch = ref(false);
 const modalWatchOpen = () => 
 {
+  console.log(props.dt.id)
   modalWatch.value=true;
   axios.get(route('showHistorico'), {params:{
    id:props.dt.id
