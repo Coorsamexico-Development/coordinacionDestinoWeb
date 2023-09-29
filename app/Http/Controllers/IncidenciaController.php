@@ -94,10 +94,8 @@ class IncidenciaController extends Controller
 
     public function saveIncidencias(Request $request)
     {
-      $data = $request['params']['data'];
-
+       $data = $request['params']['data'];
        //return $data;
-
        for ($i=0; $i < count($data) ; $i++) 
        { 
          $producto = $data[$i];
@@ -113,7 +111,7 @@ class IncidenciaController extends Controller
          for ($x=0; $x < count($producto['evidencias']) ; $x++) 
          { 
             $evidencia = $producto['evidencias'][$x];
-            Evidencia::updateOrCreate([
+            Evidencia::create([
               'evidencia' => $evidencia['foto'],
               'incidencia_id' => $incidencia['id']
             ]);
