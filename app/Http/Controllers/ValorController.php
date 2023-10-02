@@ -330,7 +330,7 @@ class ValorController extends Controller
                     $confirmacion_campo_foto = DtCampoValor::select(
                         'dt_campo_valors.*'
                         )
-                        ->where('dt_campo_valors.confirmacion_id','=', $request['params']['id'])
+                        ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
                         ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
                         ->first();
     
@@ -346,7 +346,7 @@ class ValorController extends Controller
                     {
                         $confirmacion_campo_foto = DtCampoValor::create(
                             [
-                               'confirmacion_id' => $request['params']['id'],
+                               'confirmacion_id' => $request['params']['confirmacion_id'],
                                'campo_id' => $foto['campo_id']
                             ]);
                         
@@ -368,7 +368,7 @@ class ValorController extends Controller
               $dt_campo = DtCampoValor::select(
               'dt_campo_valors.*'
               )
-              ->where('dt_campo_valors.confirmacion_id','=', $request['params']['id'])
+              ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
               ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
               ->first();
 
@@ -376,7 +376,7 @@ class ValorController extends Controller
               {
                  $dt_campo = DtCampoValor::create(
                   [
-                     'confirmacion_id' => $request['params']['id'],
+                     'confirmacion_id' => $request['params']['confirmacion_id'],
                      'campo_id' => $campo['campo_id']
                   ]);
 
