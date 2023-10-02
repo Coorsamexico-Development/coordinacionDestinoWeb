@@ -343,7 +343,7 @@ class ConfirmacionDtController extends Controller
 
       ConfirmacionDt::where('id','=',$request['id'])
       ->update([
-         'confirmacion_dts.status_id' => 10,
+         'confirmacion_dts.status_id' => 8,
          'confirmacion_dts.updated_at' =>$newFecha,
       ]);
 
@@ -354,7 +354,7 @@ class ConfirmacionDtController extends Controller
        //Creamos el primer registro en la tabla de historico
       $newStatus = StatusDt::updateOrCreate([
         'confirmacion_dt_id' => $request['id'],
-        'status_id' => 10,
+        'status_id' => 8,
         'activo' => 1,
         'created_at' => $newFecha,
         'updated_at' =>$newFecha,
@@ -743,7 +743,7 @@ class ConfirmacionDtController extends Controller
 
        //buscamos el campo del telefono
        $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
-       ->where('dt_campo_valors.dt_id','=',$confirmacion_dt['dt_id'])
+       ->where('dt_campo_valors.confirmacion_id','=',$confirmacion_dt['id'])
        ->where('dt_campo_valors.campo_id','=',5)
        ->first();
 
