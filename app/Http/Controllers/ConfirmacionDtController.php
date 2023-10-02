@@ -744,7 +744,7 @@ class ConfirmacionDtController extends Controller
        //buscamos el campo del telefono
        $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
        ->where('dt_campo_valors.dt_id','=',$confirmacion_dt['dt_id'])
-       ->where('dt_campo_valors.campo_id','=',13)
+       ->where('dt_campo_valors.campo_id','=',5)
        ->first();
 
        return  $telefono = Valor::select('valors.*')
