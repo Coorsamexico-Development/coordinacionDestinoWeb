@@ -69,7 +69,7 @@ class HorasHistoricoController extends Controller
     public function savehrFolios(Request $request)
     {
       $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
-       ->where('confirmacion_dts.confirmacion','=',[$request['confirmacion']])
+       ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
        ->first();
 
        $status = Statu::select('status.*')
