@@ -766,14 +766,14 @@ class ValorController extends Controller
             'activo' => 0
           ]);
        
-         $newStatus  = StatusDt::create([
+         $newStatus  = StatusDt::updateOrcreate([
             'confirmacion_dt_id' => $cofnirmacionDt['id'],
             'status_id' => 9,
             'created_at' => $newFecha,
             'updated_at' =>$newFecha,
           ]);
        
-          HorasHistorico::create([
+          HorasHistorico::updateOrcreate([
             'hora_id' => 7,
             'status_dts_id' => $newStatus['id'],
             'hora' => $hora_actual
