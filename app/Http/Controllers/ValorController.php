@@ -667,7 +667,7 @@ class ValorController extends Controller
             $dt_campo = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
             ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
             ->first();
 
@@ -675,7 +675,7 @@ class ValorController extends Controller
             {
                $dt_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['params']['dt'],
+                   'confirmacion_id' => $request['params']['confirmacion_id'],
                    'campo_id' => $campo['campo_id']
                 ]);
 
@@ -715,7 +715,7 @@ class ValorController extends Controller
               $dt_campo_foto = DtCampoValor::select(
                 'dt_campo_valors.*'
                 )
-                ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+                ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
                 ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
                 ->first();
 
@@ -731,7 +731,7 @@ class ValorController extends Controller
                 {
                     $dt_campo_foto = DtCampoValor::create(
                         [
-                           'dt_id' => $request['params']['dt'],
+                           'confirmacion_id' => $request['params']['confirmacion_id'],
                            'campo_id' => $foto['campo_id']
                         ]);
                     
@@ -757,7 +757,7 @@ class ValorController extends Controller
        
            ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
            ->update([
-             'status_id' => 11,
+             'status_id' => 9,
              'updated_at' =>$newFecha,
             ]);
        
@@ -768,13 +768,13 @@ class ValorController extends Controller
        
          $newStatus  = StatusDt::create([
             'confirmacion_dt_id' => $cofnirmacionDt['id'],
-            'status_id' => 11,
+            'status_id' => 9,
             'created_at' => $newFecha,
             'updated_at' =>$newFecha,
           ]);
        
           HorasHistorico::create([
-            'hora_id' => 2,
+            'hora_id' => 7,
             'status_dts_id' => $newStatus['id'],
             'hora' => $hora_actual
           ]);
