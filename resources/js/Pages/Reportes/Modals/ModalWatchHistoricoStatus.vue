@@ -211,7 +211,7 @@
                        <h3>No hay información</h3>
                      </div>
                  </div>
-                 <div v-if="statusActual.status_id">
+                 <div v-if="statusActual.status_id &&  statusActual.status_id == 10 ||statusActual.status_id  == 11 ">
                     <div v-if="pdf !== null">
                        <div class="flex flex-row">
                            <h1 class="mx-2">Ver documento final</h1>
