@@ -194,44 +194,44 @@ class ValorController extends Controller
           { 
             $campo = $data[$i]; //rescatamos el valor
 
-            $dt_campo = DtCampoValor::select(
+            $confirmacion_campo = DtCampoValor::select(
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+            ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
             ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
             ->first();
 
-            if($dt_campo == null)//sino lo encuentra lo creara
+            if($confirmacion_campo == null)//sino lo encuentra lo creara
             {
-               $dt_campo = DtCampoValor::create(
+               $confirmacion_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['params']['dt'],
+                   'confirmacion_id' => $request['params']['confirmacion_id'],
                    'campo_id' => $campo['campo_id']
                 ]);
 
                 //Hay que encontrar todos los valores anteriores para desactivarlos
                 //y crear uno nuevo
                 
-                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$confirmacion_campo['id'])
                 ->update(['activo' => 0]);
                 
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
-                    'dt_campo_valor_id' => $dt_campo->id,
+                    'dt_campo_valor_id' => $confirmacion_campo->id,
                     'user_id' => $request['params']['usuario']
                 ]);             
             }
             else
             {
               
-                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+                $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$confirmacion_campo['id'])
                 ->update(['activo' => 0]);
                 
                 //Crea nuevo valor en la tabla de valores
                 $newValor = Valor::create([
                     'valor' => $campo['value'],
-                    'dt_campo_valor_id' => $dt_campo->id,
+                    'dt_campo_valor_id' => $confirmacion_campo->id,
                     'user_id' => $request['params']['usuario']
                 ]);   
             }
@@ -247,10 +247,10 @@ class ValorController extends Controller
            $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
            $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
  
-
+           //Pasa a documentacion 
            ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
            ->update([
-             'status_id' => 8,
+             'status_id' => 6,
              'updated_at' =>$newFecha,
             ]);
 
@@ -262,7 +262,7 @@ class ValorController extends Controller
 
           $newStatus = StatusDt::create([
               'confirmacion_dt_id' => $cofnirmacionDt['id'],
-              'status_id' => 8,
+              'status_id' => 6,
               'created_at' => $newFecha,
               'updated_at' =>$newFecha,
             ]);
@@ -330,7 +330,7 @@ class ValorController extends Controller
                     $dt_campo_foto = DtCampoValor::select(
                         'dt_campo_valors.*'
                         )
-                        ->where('dt_campo_valors.dt_id','=', $request['params']['dt'])
+                        ->where('dt_campo_valors.confirmacion_id','=', $request['params']['id'])
                         ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
                         ->first();
     
@@ -795,8 +795,7 @@ class ValorController extends Controller
 
        $valors = Valor::select('valors.*','campos.id as campo_id',)
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-       ->join('dts','dt_campo_valors.dt_id','dts.id')
-       ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+       ->join('confirmacion_dts', 'dt_campo_valors.confirmacion_id','confirmacion_dts.id')
        ->join('campos','dt_campo_valors.campo_id','campos.id')
        ->where('campos.status_id','=', $status['id'])
        ->where('valors.activo','=', 1)
