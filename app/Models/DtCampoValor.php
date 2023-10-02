@@ -10,7 +10,7 @@ class DtCampoValor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dt_id',
+        'confirmacion_id',
         'campo_id'
     ];
 }
