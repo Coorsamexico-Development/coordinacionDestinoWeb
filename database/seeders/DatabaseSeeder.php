@@ -26,7 +26,12 @@ class DatabaseSeeder extends Seeder
          PlataformaSeeder::class,
          UbicacionesSeeder::class,
          LineasTransporteSeeder::class,
-         TipoCampoSeeder::class
+         TipoCampoSeeder::class,
+         TipoIncidenciasProductosSeeder::class,
+         RolesSeeder::class,
+         HorasSeeder::class,
+         CamposSeeder::class,
+         ProductosSeeder::class
         ]);
     }
 }

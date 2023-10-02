@@ -33,5 +33,12 @@ class TipoCampoSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('tipos_campos')->insert([
+            'nombre' => "file",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
     }
 }

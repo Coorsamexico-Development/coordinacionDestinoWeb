@@ -28,5 +28,26 @@ class UbicacionesSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Culiacan",
+            'abreviacion' => 'CLN',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Merida",
+            'abreviacion' => 'MRD',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Cuautitlan Izcalli",
+            'abreviacion' => 'CUI',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

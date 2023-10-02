@@ -25,32 +25,24 @@ class StatusSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
         DB::table('status')->insert([
-            'nombre' => "En rampa",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('status')->insert([
-            'nombre' => "Liberada",
+            'nombre' => "Liberacion",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
-        DB::table('status')->insert([
-            'nombre' => "Liberada al 100",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
       //Status hijos
         DB::table('status')->insert([
-          'nombre' => "En riesgo",
+          'nombre' => "A tiempo",
           'status_padre' => 1,
           'color' => '#FFAE3F',
           'created_at' => now(),
           'updated_at' => now(),
         ]);
+
         DB::table('status')->insert([
-            'nombre' => "Por recibir",
+            'nombre' => "En riesgo",
             'status_padre' => 1,
             'color' => '#56D0C1',
             'created_at' => now(),
@@ -66,7 +58,7 @@ class StatusSeeder extends Seeder
         ]);
 
         DB::table('status')->insert([
-            'nombre' => "En espera",
+            'nombre' => "En espera de rampa",
             'status_padre' => 2,
             'color' => '#56D0C1',
             'created_at' => now(),
@@ -75,16 +67,32 @@ class StatusSeeder extends Seeder
 
         DB::table('status')->insert([
             'nombre' => "Enrampado",
-            'status_padre' => 3,
+            'status_padre' => 2,
             'color' => '#697FEA',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('status')->insert([
-            'nombre' => "Descarga",
-            'status_padre' => 3,
+            'nombre' => "Desenrampado",
+            'status_padre' => 2,
             'color' => '#56D0C1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('status')->insert([
+            'nombre' => "Liberada al 100",
+            'status_padre' => 3,
+            'color' => '#1D96F1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('status')->insert([
+            'nombre' => "Liberada con incidencia",
+            'status_padre' => 3,
+            'color' => '#1D96F1',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

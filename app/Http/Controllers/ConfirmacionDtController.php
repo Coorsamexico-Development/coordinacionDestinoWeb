@@ -203,7 +203,7 @@ class ConfirmacionDtController extends Controller
 
           ConfirmacionDt::where('id','=',$request['id'])
             ->update([
-               'confirmacion_dts.status_id' => 6,
+               'confirmacion_dts.status_id' => 5,
                'confirmacion_dts.updated_at' =>$newFecha,
             ]);
    
@@ -214,7 +214,7 @@ class ConfirmacionDtController extends Controller
           //Creamos el primer registro en la tabla de historico
           StatusDt::updateOrCreate([
            'confirmacion_dt_id' => $request['id'],
-           'status_id' => 6,
+           'status_id' => 5,
            'activo' => 1,
            'created_at' => $newFecha,
            'updated_at' =>$newFecha,
@@ -222,7 +222,7 @@ class ConfirmacionDtController extends Controller
 
     }
 
-    public function changePorRecibir (Request $request)
+    public function changePorRecibir (Request $request) //o a tiempo
     {
       
           date_default_timezone_set('America/Mexico_City');
@@ -232,7 +232,7 @@ class ConfirmacionDtController extends Controller
 
             ConfirmacionDt::where('id','=',$request['id'])
             ->update([
-               'confirmacion_dts.status_id' => 7,
+               'confirmacion_dts.status_id' => 4,
                'confirmacion_dts.updated_at' =>$newFecha,
             ]);
    
@@ -243,7 +243,7 @@ class ConfirmacionDtController extends Controller
           //Creamos el primer registro en la tabla de historico
           StatusDt::updateOrCreate([
            'confirmacion_dt_id' => $request['id'],
-           'status_id' => 7,
+           'status_id' => 4,
            'activo' => 1,
            'created_at' => $newFecha,
            'updated_at' =>$newFecha,

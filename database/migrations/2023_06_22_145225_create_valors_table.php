@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('valors', function (Blueprint $table) {
             $table->id();
-            $table->string('valor');
+            $table->longText('valor');
             $table->foreignId('dt_campo_valor_id')->constrained('dt_campo_valors');
             $table->foreignId('user_id')->constrained('users');
             $table->boolean('activo')->default(1);
