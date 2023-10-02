@@ -480,20 +480,20 @@ class ConfirmacionDtController extends Controller
        //->where('status_dts.activo','=',1)
        ->first();
 
-
+/*
        HorasHistorico::updateOrCreate([
          'hora_id' => 6, //es la hr de folios
          'status_dts_id' => $status_dt['id'],
          'hora' => $request['params']['horaImpresion']
        ]);
-
+*/
        //Creamos el guardado de los valores
        for ($i=0; $i < count($request['params']['valores']) ; $i++)
        { 
           $valor = $request['params']['valores'][$i];
           //Buscamos el dt_campo_valor
           $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
-          ->where('dt_campo_valors.dt_id','=',$confirmacion_Dt['dt_id'])
+          ->where('dt_campo_valors.confirmacion_id','=',$confirmacion_Dt['id'])
           ->where('dt_campo_valors.campo_id','=', $valor['campo_id'])
           ->first();
 
@@ -509,7 +509,7 @@ class ConfirmacionDtController extends Controller
           else
           {
             $newDt_campo_valor = DtCampoValor::create([
-              'dt_id' =>  $confirmacion_Dt['dt_id'],
+              'confirmacion_id' =>  $confirmacion_Dt['id'],
               'campo_id' => $valor['campo_id']
             ]);
 
@@ -540,7 +540,7 @@ class ConfirmacionDtController extends Controller
           {
              ConfirmacionDt::where('id','=',$confirmacion_Dt['id'])
              ->update([
-                'confirmacion_dts.status_id' => 4 //se libera con incidencia
+                'confirmacion_dts.status_id' => 11 //se libera con incidencia
              ]);
      
               StatusDt::where('confirmacion_dt_id','=',$confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
@@ -550,7 +550,7 @@ class ConfirmacionDtController extends Controller
               //Creamos el primer registro en la tabla de historico
              $newStatus = StatusDt::updateOrCreate([
                'confirmacion_dt_id' => $confirmacion_Dt['id'],
-               'status_id' => 4,
+               'status_id' => 11,
                'activo' => 1,
              ]);
           }
@@ -558,7 +558,7 @@ class ConfirmacionDtController extends Controller
           {
               ConfirmacionDt::where('id','=',$confirmacion_Dt['id'])
               ->update([
-                 'confirmacion_dts.status_id' => 5 //se libera con incidencia
+                 'confirmacion_dts.status_id' => 10 //se libera con incidencia
               ]);
    
                StatusDt::where('confirmacion_dt_id','=',$confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
@@ -568,7 +568,7 @@ class ConfirmacionDtController extends Controller
                //Creamos el primer registro en la tabla de historico
               $newStatus = StatusDt::updateOrCreate([
                 'confirmacion_dt_id' => $confirmacion_Dt['id'],
-                'status_id' => 5,
+                'status_id' => 10,
                 'activo' => 1,
               ]);
           }
@@ -591,7 +591,7 @@ class ConfirmacionDtController extends Controller
           $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
             'dt_campo_valors.*'
             )
-            ->where('dt_campo_valors.dt_id','=', $request['dt'])
+            ->where('dt_campo_valors.confirmacion_id','=', $request['confirmacion_id'])
             ->where('dt_campo_valors.campo_id','=', $request['tipo_campo_file'])
             ->first();
 
@@ -599,7 +599,7 @@ class ConfirmacionDtController extends Controller
             {
                 $dt_campo = DtCampoValor::create(
                 [
-                   'dt_id' => $request['dt'],
+                   'confirmacion_id' => $request['confirmacion_id'],
                    'campo_id' =>$request['tipo_campo_file']
                 ]);
 
