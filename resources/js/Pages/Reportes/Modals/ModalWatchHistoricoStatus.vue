@@ -90,7 +90,7 @@
  const pdf = ref(null);
  watch(statusActual, (newStatus) => 
  {
-    if(newStatus.status_id == 5 || newStatus.status_id == 4)
+    if(newStatus.status_id == 10 || newStatus.status_id == 11)
     {
        axios.get('/getPDF', {params:
        {
@@ -199,19 +199,16 @@
                  </div>
              </div>
             </div>
-             <div style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
+             <div style="overflow-y: scroll; overflow-x: hidden;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
-                    <div v-if="camposValores !== 0">
+                    <div v-if="camposValores.length !== 0">
                        <div>
                         <Campo :camposValores="camposValores" />
                        </div>
                      </div>
-                     <div v-else>
-                       <h3>No hay información</h3>
-                     </div>
                  </div>
-                 <div v-if="statusActual.status_id &&  statusActual.status_id == 10 ||statusActual.status_id  == 11 ">
+                 <div v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
                        <div class="flex flex-row">
                            <h1 class="mx-2">Ver documento final</h1>

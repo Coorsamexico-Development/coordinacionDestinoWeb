@@ -49,7 +49,7 @@
                    <div style="margin-left: 2rem; margin-right:2rem;">
                     <?php 
                     echo '<span style="color:white;text-transform:uppercase;
-                    margin-top:5rem;
+                    margin-top:2rem;
                     padding-left:3rem;padding-right:3rem;
                     width:30rem; 
                     padding-top:0.1rem;
@@ -110,7 +110,7 @@
                      @endif
                    </div>
                    <!--Firmas -->
-                  @if ($statu['status_id'] == 4 || $statu['status_id'] == 5)
+                  @if ($statu['status_id'] == 10 || $statu['status_id'] == 11)
                     <div >
                       <table style="width:23rem">
                         <thead>

@@ -14,7 +14,7 @@ import Carrusel from '../Partials/Carrusel.vue'
 });
 </script>
 <template>
-    <div v-for="campo in camposValores">
+    <div v-for="campo in camposValores" :key="campo.id">
        <h1 class="text-lg" style="font-family: 'Montserrat';">{{ campo.campo }}</h1>
        <div v-for="(valor,key) in campo.valores" :key="valor.id">
          <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
