@@ -201,7 +201,7 @@
             </div>
              <div style="overflow-y: scroll; overflow-x: hidden; height: 20rem;">
                <div v-if="statusActual !== null">
-                  <div v-if="statusActual.status_id !== 5 || statusActual.status_id !== 4 ">
+                  <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores !== 0">
                        <div>
                         <Campo :camposValores="camposValores" />
