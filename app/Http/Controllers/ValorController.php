@@ -464,27 +464,51 @@ class ValorController extends Controller
 
         if(count($confirmacionesConMismoDT) > 0)
         {
-          $camposAInsertar = DtCampoValor::select('campos.*')
+          $camposAInsertar = DtCampoValor::select('dt_campo_valors.*',
+          'campos.id as campo_id',
+          'campos.nombre as campo')
           ->join('campos','dt_campo_valors.campo_id','campos.id')
           ->with('valores')
           ->where([
-            ['dt_campo_valors.confirmacion_id', $request['params']['confirmacion_id']],
+            ['dt_campo_valors.confirmacion_id', 1],
             ['campos.status_id',4] //a tiempo
           ])
           ->orWhere('campos.status_id','=', 6) //documetar
           ->get();
-
+      
+          //return $camposAInsertar[0]['valores'];
+      
           for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
           { 
-             $confirmacionConDt = $confirmacionesConMismoDT[$i];
-
-
+             //Por confirmacion hay que crear el dt campo valor y luego crear el valor y relacionarlo
+             $confirmacionActual = $confirmacionesConMismoDT[$i];
+             //recorremos los campos
+             for ($x=0; $x < count($camposAInsertar) ; $x++) 
+             { 
+                $campoActual = $camposAInsertar[$x];
+                //creamos o sustituimos el dt campo a crear con la confirmacion y el campo actual
+                $newDtCampoValor = DtCampoValor::updateOrCreate([
+                  'campo_id' => $campoActual['campo_id'],
+                  'confirmacion_id' => $confirmacionActual['id']
+                ]);
+                //Una vez creado el dt creamos el valor igual pero lo asignamos a ese dt campo valor
+                for ($t=0; $t < count($camposAInsertar[$x]['valores']) ; $t++) 
+                { 
+                   $valorActual = $camposAInsertar[$x]['valores'][$t];
+                   $newValor = Valor::updateOrCreate([
+                      'valor' => $valorActual['valor'],
+                      'dt_campo_valor_id' => $newDtCampoValor['id'],
+                      'user_id' => $valorActual['user_id']
+                   ]);
+                }
+                 
+             }
+           
+             //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
+             
           }
-
-
-
         }
-        
+           
     }
 
     public function valoresEnrrampe (Request $request)
