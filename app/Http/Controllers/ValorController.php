@@ -521,6 +521,16 @@ class ValorController extends Controller
                   'status_id' => $historia_status['status_id']
                 ]);
              }
+
+             ConfirmacionDt::where('confirmacion_dts.id','=',$confirmacionActual['id'])
+             ->update([
+               'status_id' => 7
+             ]);
+
+             StatusDt::updateOrCreate([
+                 'confirmacion_dt_id' => $confirmacionActual['id'],
+                 'status_id' => 7
+             ]);
           }
         }
            
