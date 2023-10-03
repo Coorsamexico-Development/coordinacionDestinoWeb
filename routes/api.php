@@ -123,6 +123,18 @@ Route::get('/pdf', function()
 
     //return $camposAInsertar[0]['valores'];
 
+    //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
+    $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
+    ->where([
+      ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
+      ['status_dts.status_id',4] //a tiempo
+    ])
+    ->orWhere('status_dts.status_id','=', 6) //documetar
+    ->get();
+
+    //Falta replicar historico de horas
+
+
     for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
     { 
        //Por confirmacion hay que crear el dt campo valor y luego crear el valor y relacionarlo
@@ -148,9 +160,16 @@ Route::get('/pdf', function()
           }
            
        }
+
+       for ($s=0; $s < count($historico_de_status) ; $s++) 
+       { 
+          $historia_status = $historico_de_status[$s];
+          $newHistorica = StatusDt::updateOrCreate([
+            'confirmacion_dt_id' => $confirmacionActual['id'],
+            'status_id' => $historia_status['status_id']
+          ]);
+       }
      
-       //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
-       
     }
   }
    

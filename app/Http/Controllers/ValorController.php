@@ -475,6 +475,14 @@ class ValorController extends Controller
           ])
           ->orWhere('campos.status_id','=', 6) //documetar
           ->get();
+
+          $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
+          ->where([
+            ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
+            ['status_dts.status_id',4] //a tiempo
+          ])
+          ->orWhere('status_dts.status_id','=', 6) //documetar
+          ->get();
       
           //return $camposAInsertar[0]['valores'];
       
@@ -505,7 +513,14 @@ class ValorController extends Controller
              }
            
              //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
-             
+             for ($s=0; $s < count($historico_de_status) ; $s++) 
+             { 
+                $historia_status = $historico_de_status[$s];
+                $newHistorica = StatusDt::updateOrCreate([
+                  'confirmacion_dt_id' => $confirmacionActual['id'],
+                  'status_id' => $historia_status['status_id']
+                ]);
+             }
           }
         }
            
