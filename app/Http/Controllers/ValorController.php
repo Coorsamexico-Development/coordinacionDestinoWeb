@@ -448,6 +448,34 @@ class ValorController extends Controller
              ]);
 
         }
+
+
+        //Al hacer el guardado de documentacion comprobaremos si alguna otra confirmacion tiene 
+        //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
+        //hasta documentar
+
+        $confirmacionAll = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.id','=',$request['params']['confirmacion_id'])
+        ->first();
+
+        $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.dt_id','=',$confirmacionAll['dt_id'])
+        ->get();
+
+        if(count($confirmacionesConMismoDT) > 0)
+        {
+          $camposAInsertar = DtCampoValor::select('campos.*')
+          ->join('campos','dt_campo_valors.campo_id','campos.id')
+          ->where([
+            ['dt_campo_valors.confirmacion_id', $request['params']['confirmacion_id']],
+            ['campos.status_id',4]
+          ])
+          ->orWhere('campos.status_id','=', 6) //documetar
+          ->get();
+
+          
+        }
+        
     }
 
     public function valoresEnrrampe (Request $request)
