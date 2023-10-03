@@ -466,14 +466,23 @@ class ValorController extends Controller
         {
           $camposAInsertar = DtCampoValor::select('campos.*')
           ->join('campos','dt_campo_valors.campo_id','campos.id')
+          ->with('valores')
           ->where([
             ['dt_campo_valors.confirmacion_id', $request['params']['confirmacion_id']],
-            ['campos.status_id',4]
+            ['campos.status_id',4] //a tiempo
           ])
           ->orWhere('campos.status_id','=', 6) //documetar
           ->get();
 
-          
+          for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
+          { 
+             $confirmacionConDt = $confirmacionesConMismoDT[$i];
+
+
+          }
+
+
+
         }
         
     }

@@ -13,4 +13,10 @@ class DtCampoValor extends Model
         'confirmacion_id',
         'campo_id'
     ];
+
+    public function valores()
+    {
+        return $this->hasMany(Valor::class,'dt_campo_valor_id');
+    }
+
 }
