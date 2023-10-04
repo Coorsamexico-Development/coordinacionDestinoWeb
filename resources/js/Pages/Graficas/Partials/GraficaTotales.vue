@@ -104,7 +104,7 @@ onMounted(() =>
 
          series.columns.template.events.on("hit", function(ev)
          {
-            //console.log(ev.target.dataItem.component.dataFields.valueY);
+            //console.log(ev.target.dataItem.component.dataFields.valueY + '-'+ev.target.dataItem.categoryX);
             consultar(ev.target.dataItem.categoryX, ev.target.dataItem.component.dataFields.valueY)
          })
          
@@ -140,7 +140,8 @@ onMounted(() =>
  let viajes = ref([]);
  const consultar = async (ubicacion, status) => 
  {
-   //console.log(ubicacion +' - ' + status)
+   console.log(ubicacion +' - ' + status)
+   console.log();
     try 
     {
       await axios.get('/consultarConfirmaciones', {params:
@@ -150,7 +151,7 @@ onMounted(() =>
         status: status
         }}).then(response => 
         {
-            //console.log(response.data)
+            console.log(response.data)
             viajes.value = response.data;
             openModalInfo();
 

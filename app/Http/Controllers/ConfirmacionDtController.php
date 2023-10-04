@@ -386,6 +386,8 @@ class ConfirmacionDtController extends Controller
       ->where('status.nombre','=',$request['status'])
       ->first();
 
+       //return $request;
+
       if($request['fecha'])
       {
         return $confirmaciones = 
@@ -432,7 +434,8 @@ class ConfirmacionDtController extends Controller
       }
       else
       {
-        $hoy = date("Y-m-d");  
+        $hoy = date("Y-m");  
+        //return $hoy;
         return $confirmaciones = 
         StatusDt::select( 'confirmacion_dts.id',
         'confirmacion_dts.confirmacion',
