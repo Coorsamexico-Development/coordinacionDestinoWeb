@@ -280,6 +280,7 @@ class ValorController extends Controller
     public function documentacionValores(Request $request) //pantalla de documentacion
     {
         $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
+        return $fotos;
         $data = $request['params']['data'];
         if($request['params']['tipo'] == 'guardar')
         {
@@ -881,11 +882,10 @@ class ValorController extends Controller
 
        $valors = Valor::select('valors.*','campos.id as campo_id',)
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-       ->join('confirmacion_dts', 'dt_campo_valors.confirmacion_id','confirmacion_dts.id')
        ->join('campos','dt_campo_valors.campo_id','campos.id')
        ->where('campos.status_id','=', $status['id'])
        ->where('valors.activo','=', 1)
-       ->where('confirmacion_dts.id','=',  $request['confirmacion_dt_id'])
+       ->where('dt_campo_valors.confirmacion_id','=',  $request['confirmacion_dt_id'])
        ->get();
 
        /*

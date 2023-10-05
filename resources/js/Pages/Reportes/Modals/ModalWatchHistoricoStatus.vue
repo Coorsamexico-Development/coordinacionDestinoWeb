@@ -34,7 +34,7 @@
 
   const consultarHistoria = async (historiaIndividual) => 
   {
-   //console.log(historiaIndividual)
+   console.log(historiaIndividual)
    statusActual.value = historiaIndividual;
    try 
    {
@@ -44,7 +44,7 @@
       confirmacion_dt_id: historiaIndividual.confirmacion_dt_id
    }}).then(response => 
       {
-         //console.log(response);
+         console.log(response);
          tamañoModal.value = '4xl'
          let camposWithValors = [];
          if(response.data.valors.length > 0)
