@@ -282,19 +282,13 @@ class ValorController extends Controller
         //RECORRIDO DE PRUEBA
         $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
 
-        $arreglo = [];
-        for ($i=0; $i < count($fotos) ; $i++) 
-        { 
-          # code...
-          $file = $fotos[$i];
-          $rutaImage = $file->store('politics/img', 'gcs');
-          $urlImage = Storage::disk('gcs')->url($rutaImage);
 
-          array_push($arreglo,$urlImage);
-        }
+        $file = $fotos;
+        $rutaImage = $file->store('politics/img', 'gcs');
+        $urlImage = Storage::disk('gcs')->url($rutaImage);
 
-        return  $arreglo;
 
+        return 'ok';
 
         //RECORRIDO VIEJO
         $data = $request['params']['data'];
