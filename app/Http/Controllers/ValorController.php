@@ -279,8 +279,24 @@ class ValorController extends Controller
 
     public function documentacionValores(Request $request) //pantalla de documentacion
     {
+        //RECORRIDO DE PRUEBA
         $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
-        return $fotos;
+
+        $arreglo = [];
+        for ($i=0; $i < count($fotos) ; $i++) 
+        { 
+          # code...
+          $file = $fotos[$i];
+          $rutaImage = $file->store('politics/img', 'gcs');
+          $urlImage = Storage::disk('gcs')->url($rutaImage);
+
+          array_push($arreglo,$urlImage);
+        }
+
+        return  $arreglo;
+
+
+        //RECORRIDO VIEJO
         $data = $request['params']['data'];
         if($request['params']['tipo'] == 'guardar')
         {
