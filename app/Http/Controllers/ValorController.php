@@ -342,7 +342,7 @@ class ValorController extends Controller
          $dt_campo_foto = DtCampoValor::select(
           'dt_campo_valors.*'
           )
-          ->where('dt_campo_valors.dt_id','=', $request['dt'])
+          ->where('dt_campo_valors.confirmacion_id','=', $request['confirmacion_id'])
           ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
           ->first();
 
@@ -361,7 +361,7 @@ class ValorController extends Controller
           {
               $dt_campo_foto = DtCampoValor::create(
                   [
-                     'dt_id' => $request['dt'],
+                     'confirmacion_id' => $request['confirmacion_id'],
                      'campo_id' => $foto['campo_id']
                   ]);
               
