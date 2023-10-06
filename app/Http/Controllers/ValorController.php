@@ -279,7 +279,214 @@ class ValorController extends Controller
 
     public function documentacionValores(Request $request) //pantalla de documentacion
     {
-         return $request;
+         $valores = $request['params']['valores'];
+
+         for ($i=0; $i < count($valores) ; $i++) 
+         { 
+           $campo = $valores[$i]; //rescatamos el valor
+
+           $dt_campo = DtCampoValor::select(
+           'dt_campo_valors.*'
+           )
+           ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
+           ->where('dt_campo_valors.campo_id','=', $campo['campo_id'])
+           ->first();
+
+           if($dt_campo == null)//sino lo encuentra lo creara
+           {
+              $dt_campo = DtCampoValor::create(
+               [
+                  'confirmacion_id' => $request['params']['confirmacion_id'],
+                  'campo_id' => $campo['campo_id']
+               ]);
+
+               //Hay que encontrar todos los valores anteriores para desactivarlos
+               //y crear uno nuevo
+               
+               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+               ->update(['activo' => 0]);
+               
+               //Crea nuevo valor en la tabla de valores
+               $newValor = Valor::create([
+                   'valor' => $campo['value'],
+                   'dt_campo_valor_id' => $dt_campo->id,
+                   'user_id' => $request['params']['usuario']
+               ]);             
+           }
+           else
+           {
+             
+               $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo['id'])
+               ->update(['activo' => 0]);
+               
+               //Crea nuevo valor en la tabla de valores
+               $newValor = Valor::create([
+                   'valor' => $campo['value'],
+                   'dt_campo_valor_id' => $dt_campo->id,
+                   'user_id' => $request['params']['usuario']
+               ]);   
+           }
+         }
+    }
+
+    public function documentacionFotos (Request $request)
+    {
+       //RECORRIDO DE PRUEBA
+       $fotos = $request['fotos']; //tenemos el arreglo de fotos
+       
+       for ($i=0; $i < count($fotos) ; $i++)
+       { 
+         # code...
+         $foto = $fotos[$i];
+         $dt_campo_foto = DtCampoValor::select(
+          'dt_campo_valors.*'
+          )
+          ->where('dt_campo_valors.dt_id','=', $request['dt'])
+          ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
+          ->first();
+
+          $rutaImage = $foto->store('politics/img', 'gcs');
+          $urlImage = Storage::disk('gcs')->url($rutaImage);
+
+          if($dt_campo_foto !== null)
+          {
+              $newValor = Valor::create([
+                  'valor' => $urlImage,
+                  'dt_campo_valor_id' => $dt_campo_foto['id'],
+                  'user_id' => $request['usuario']
+                ]);
+          }
+          else
+          {
+              $dt_campo_foto = DtCampoValor::create(
+                  [
+                     'dt_id' => $request['dt'],
+                     'campo_id' => $foto['campo_id']
+                  ]);
+              
+             $newValor = Valor::create([
+                 'valor' => $urlImage,
+                 'dt_campo_valor_id' => $dt_campo_foto['id'],
+                 'user_id' => $request['usuario']
+               ]);
+          }
+       }
+
+       //cambiaremos de status
+       $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
+        where('confirmacion','=',$request['confirmacion'])
+      ->first();
+
+      date_default_timezone_set('America/Mexico_City');
+      $fecha_actual = getdate();
+      $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+      $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+    
+
+       ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
+       ->update([
+         'status_id' => 7,
+         'updated_at' =>$newFecha,
+        ]);
+ 
+      StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
+      ->update([
+        'activo' => 0
+      ]);
+
+      $newStatus  = StatusDt::create([
+        'confirmacion_dt_id' => $cofnirmacionDt['id'],
+        'status_id' => 7,
+        'created_at' => $newFecha,
+        'updated_at' =>$newFecha,
+      ]);
+
+
+      HorasHistorico::create([
+        'hora_id' => 2,
+        'status_dts_id' => $newStatus['id'],
+        'hora' => $hora_actual
+      ]);
+       //Al hacer el guardado de documentacion comprobaremos si alguna otra confirmacion tiene 
+      //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
+      //hasta documentar
+      $confirmacionAll = ConfirmacionDt::select('confirmacion_dts.*')
+      ->where('confirmacion_dts.id','=',$request['confirmacion_id'])
+      ->first();
+      
+      $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
+      ->where('confirmacion_dts.dt_id','=',$confirmacionAll['dt_id'])
+      ->get();
+
+      if(count($confirmacionesConMismoDT) > 0)
+      {
+        $camposAInsertar = DtCampoValor::select('dt_campo_valors.*',
+        'campos.id as campo_id',
+        'campos.nombre as campo')
+        ->join('campos','dt_campo_valors.campo_id','campos.id')
+        ->with('valores')
+        ->where([
+          ['dt_campo_valors.confirmacion_id', $confirmacionAll['id']],
+          ['campos.status_id',4] //a tiempo
+        ])
+        ->orWhere('campos.status_id','=', 6) 
+        ->get();//documetar
+
+        $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
+        ->where([
+          ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
+          ['status_dts.status_id',4] //a tiempo
+        ])
+        ->orWhere('status_dts.status_id','=', 6) //documetar
+        ->get();
+
+        for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
+        {
+           //Por confirmacion hay que crear el dt campo valor y luego crear el valor y relacionarlo
+           $confirmacionActual = $confirmacionesConMismoDT[$i];
+           //recorremos los campos
+           for ($x=0; $x < count($camposAInsertar) ; $x++) 
+           { 
+                $campoActual = $camposAInsertar[$x];
+                //creamos o sustituimos el dt campo a crear con la confirmacion y el campo actual
+                $newDtCampoValor = DtCampoValor::updateOrCreate([
+                  'campo_id' => $campoActual['campo_id'],
+                  'confirmacion_id' => $confirmacionActual['id']
+                ]);
+                //Una vez creado el dt creamos el valor igual pero lo asignamos a ese dt campo valor
+                for ($t=0; $t < count($camposAInsertar[$x]['valores']) ; $t++) 
+                { 
+                   $valorActual = $camposAInsertar[$x]['valores'][$t];
+                   $newValor = Valor::updateOrCreate([
+                      'valor' => $valorActual['valor'],
+                      'dt_campo_valor_id' => $newDtCampoValor['id'],
+                      'user_id' => $valorActual['user_id']
+                   ]);
+                }
+
+                //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
+                for ($s=0; $s < count($historico_de_status) ; $s++) 
+                { 
+                   $historia_status = $historico_de_status[$s];
+                   $newHistorica = StatusDt::updateOrCreate([
+                     'confirmacion_dt_id' => $confirmacionActual['id'],
+                     'status_id' => $historia_status['status_id']
+                   ]);
+                }
+
+                ConfirmacionDt::where('confirmacion_dts.id','=',$confirmacionActual['id'])
+                ->update([
+                  'status_id' => 7
+                ]);
+
+                StatusDt::updateOrCreate([
+                    'confirmacion_dt_id' => $confirmacionActual['id'],
+                    'status_id' => 7
+                ]);
+          }
+       }
+     }
+       return 'ok fotos';
     }
 
     public function valoresEnrrampe (Request $request)

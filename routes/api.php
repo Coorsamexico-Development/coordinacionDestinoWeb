@@ -57,6 +57,7 @@ Route::get('/camposByStatus',[CampoController::class,'camposByStatus']);
 Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
 //Guardar fotos segunda pantalla
 Route::post('/valoresDeDocumentacion',[ValorController::class, 'documentacionValores']);
+Route::post('/fotosDocumentacion',[ValorController::class,'documentacionFotos']);
 //Guardar valores 3era pantalla
 Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
 //Guardar docs de la espera de ennrampe
