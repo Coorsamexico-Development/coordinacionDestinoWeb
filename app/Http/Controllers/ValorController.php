@@ -332,8 +332,7 @@ class ValorController extends Controller
     public function documentacionFotos (Request $request)
     {
        //RECORRIDO DE PRUEBA
-       return $request;
-       $fotos = $request['fotos']; //tenemos el arreglo de fotos
+       $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
        
        for ($i=0; $i < count($fotos) ; $i++)
        { 
@@ -342,7 +341,7 @@ class ValorController extends Controller
          $dt_campo_foto = DtCampoValor::select(
           'dt_campo_valors.*'
           )
-          ->where('dt_campo_valors.confirmacion_id','=', $request['confirmacion_id'])
+          ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
           ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
           ->first();
 
@@ -354,28 +353,28 @@ class ValorController extends Controller
               $newValor = Valor::create([
                   'valor' => $urlImage,
                   'dt_campo_valor_id' => $dt_campo_foto['id'],
-                  'user_id' => $request['usuario']
+                  'user_id' => $request['params']['usuario']
                 ]);
           }
           else
           {
               $dt_campo_foto = DtCampoValor::create(
                   [
-                     'confirmacion_id' => $request['confirmacion_id'],
+                     'confirmacion_id' => $request['params']['confirmacion_id'],
                      'campo_id' => $foto['campo_id']
                   ]);
               
              $newValor = Valor::create([
                  'valor' => $urlImage,
                  'dt_campo_valor_id' => $dt_campo_foto['id'],
-                 'user_id' => $request['usuario']
+                 'user_id' => $request['params']['usuario']
                ]);
           }
        }
 
        //cambiaremos de status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
-        where('confirmacion','=',$request['confirmacion'])
+        where('confirmacion','=',$request['params']['confirmacion'])
       ->first();
 
       date_default_timezone_set('America/Mexico_City');
@@ -384,7 +383,7 @@ class ValorController extends Controller
       $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
     
 
-       ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
+       ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
        ->update([
          'status_id' => 7,
          'updated_at' =>$newFecha,
@@ -412,7 +411,7 @@ class ValorController extends Controller
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
       //hasta documentar
       $confirmacionAll = ConfirmacionDt::select('confirmacion_dts.*')
-      ->where('confirmacion_dts.id','=',$request['confirmacion_id'])
+      ->where('confirmacion_dts.id','=',$request['params']['confirmacion_id'])
       ->first();
       
       $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
