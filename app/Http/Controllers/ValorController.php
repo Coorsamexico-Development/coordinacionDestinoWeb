@@ -332,6 +332,7 @@ class ValorController extends Controller
     public function documentacionFotos (Request $request)
     {
        //RECORRIDO DE PRUEBA
+       return $request;
        $fotos = $request['fotos']; //tenemos el arreglo de fotos
        
        for ($i=0; $i < count($fotos) ; $i++)
