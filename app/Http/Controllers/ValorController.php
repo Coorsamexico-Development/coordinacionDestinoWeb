@@ -335,12 +335,11 @@ class ValorController extends Controller
        $fotos = $request['fotos']; //tenemos el arreglo de fotos
        $newFotos = json_decode($fotos);
 
-       return count($newFotos);
-      // $fotoTemp =$fotos[0];
+        $fotoTemp =$fotos[0];
        //return $fotoTemp;
-       //$rutaImage = $fotoTemp->store('img/fotos', 'gcs');
-       //$urlImage = Storage::disk('gcs')->url($rutaImage);
-       //return $urlImage;
+       $rutaImage = $fotoTemp->store('img/fotos', 'gcs');
+       $urlImage = Storage::disk('gcs')->url($rutaImage);
+       return $urlImage;
 
        for ($i=0; $i < count($fotos) ; $i++)
        { 
