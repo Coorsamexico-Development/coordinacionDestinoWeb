@@ -333,7 +333,7 @@ class ValorController extends Controller
     {
        //RECORRIDO DE PRUEBA
        $fotos = $request['fotos']; //tenemos el arreglo de fotos
-       return $fotos;
+       return json_decode($fotos);
       // $fotoTemp =$fotos[0];
        //return $fotoTemp;
        //$rutaImage = $fotoTemp->store('img/fotos', 'gcs');
