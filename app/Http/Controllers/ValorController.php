@@ -337,39 +337,44 @@ class ValorController extends Controller
        for ($i=0; $i < count($fotos) ; $i++)
        { 
          # code...
-         $foto = $fotos[$i];
-         $dt_campo_foto = DtCampoValor::select(
-          'dt_campo_valors.*'
-          )
-          ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
-          ->where('dt_campo_valors.campo_id','=', $foto['campo_id'])
-          ->first();
+         $fotoObject = $fotos[$i]; //trae todo el objeto con sus fotos
 
-          $rutaImage = $foto->store('politics/img', 'gcs');
-          $urlImage = Storage::disk('gcs')->url($rutaImage);
-
-          if($dt_campo_foto !== null)
-          {
-              $newValor = Valor::create([
-                  'valor' => $urlImage,
-                  'dt_campo_valor_id' => $dt_campo_foto['id'],
-                  'user_id' => $request['params']['usuario']
-                ]);
-          }
-          else
-          {
-              $dt_campo_foto = DtCampoValor::create(
-                  [
-                     'confirmacion_id' => $request['params']['confirmacion_id'],
-                     'campo_id' => $foto['campo_id']
-                  ]);
-              
-             $newValor = Valor::create([
-                 'valor' => $urlImage,
-                 'dt_campo_valor_id' => $dt_campo_foto['id'],
-                 'user_id' => $request['params']['usuario']
-               ]);
-          }
+         for ($s=0; $s < count($fotoObject['fotos']) ; $s++) 
+         { 
+            $foto = $fotoObject['fotos'][$s];
+            $dt_campo_foto = DtCampoValor::select(
+              'dt_campo_valors.*'
+              )
+              ->where('dt_campo_valors.confirmacion_id','=', $request['params']['confirmacion_id'])
+              ->where('dt_campo_valors.campo_id','=', $fotoObject['campo_id'])
+              ->first();
+    
+              $rutaImage = $foto->store('politics/img', 'gcs');
+              $urlImage = Storage::disk('gcs')->url($rutaImage);
+    
+              if($dt_campo_foto !== null)
+              {
+                  $newValor = Valor::create([
+                      'valor' => $urlImage,
+                      'dt_campo_valor_id' => $dt_campo_foto['id'],
+                      'user_id' => $request['params']['usuario']
+                    ]);
+              }
+              else
+              {
+                  $dt_campo_foto = DtCampoValor::create(
+                      [
+                         'confirmacion_id' => $request['params']['confirmacion_id'],
+                         'campo_id' => $fotoObject['campo_id']
+                      ]);
+                  
+                 $newValor = Valor::create([
+                     'valor' => $urlImage,
+                     'dt_campo_valor_id' => $dt_campo_foto['id'],
+                     'user_id' => $request['params']['usuario']
+                   ]);
+              }
+         }
        }
 
        //cambiaremos de status
