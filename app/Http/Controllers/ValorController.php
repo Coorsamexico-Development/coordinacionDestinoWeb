@@ -333,7 +333,9 @@ class ValorController extends Controller
     {
        //RECORRIDO DE PRUEBA
        $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
-       return $fotos[0];
+       $fotoTemp =$fotos[0]['fotos'][0];
+       $rutaImage = $fotoTemp->store('img/fotos', 'gcs');
+       $urlImage = Storage::disk('gcs')->url($rutaImage);
        
        for ($i=0; $i < count($fotos) ; $i++)
        { 
@@ -350,7 +352,7 @@ class ValorController extends Controller
               ->where('dt_campo_valors.campo_id','=', $fotoObject['campo_id'])
               ->first();
     
-              $rutaImage = $foto->store('politics/img', 'gcs');
+              $rutaImage = $foto->store('img/fotos', 'gcs');
               $urlImage = Storage::disk('gcs')->url($rutaImage);
     
               if($dt_campo_foto !== null)
