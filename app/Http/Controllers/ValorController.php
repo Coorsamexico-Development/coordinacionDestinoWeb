@@ -339,7 +339,7 @@ class ValorController extends Controller
        { 
           $newFotoStorage = $request['fotos'][$i];
           $nombre =  $newFotoStorage->getClientOriginalName();
-          $rutaImage = $newFotoStorage->store('img/fotos', $nombre ,'gcs');
+          $rutaImage = $newFotoStorage->storeAs('img/fotos', $nombre ,'gcs');
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
