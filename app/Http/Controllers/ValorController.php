@@ -332,11 +332,13 @@ class ValorController extends Controller
     public function documentacionFotos (Request $request)
     {
        //RECORRIDO DE PRUEBA
+       return $request;
        $fotos = $request['fotos']; //tenemos el arreglo de fotos
        $newFotos = json_decode($fotos);
 
         $fotoTemp =$fotos[0];
        //return $fotoTemp;
+       $nombre =  $fotoTemp->getClientOriginalName();
        $rutaImage = $fotoTemp->store('img/fotos', 'gcs');
        $urlImage = Storage::disk('gcs')->url($rutaImage);
        return $urlImage;
