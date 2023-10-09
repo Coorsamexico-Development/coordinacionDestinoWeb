@@ -334,7 +334,6 @@ class ValorController extends Controller
        //RECORRIDO DE PRUEBA
        $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
        //Primero guardamos las fotos
-       $newFotos = json_decode($fotosNames);
        for ($i=0; $i < count($request['fotos']) ; $i++) 
        { 
           $newFotoStorage = $request['fotos'][$i];
@@ -343,15 +342,21 @@ class ValorController extends Controller
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
-       
+       $newFotosName = json_decode($fotosNames);
+       //return $newFotosName[0];
+       $url = Storage::url($newFotosName[0]['nombre_foto'],'gcs');
+       return $url;
+       for ($i=0; $i < count($newFotosName) ; $i++)
+       {
+          
+       }
+
        //$fotoTemp =$fotosNames[0];
        //return $fotoTemp;
        //$nombre =  $fotoTemp->getClientOriginalName();
        //$rutaImage = $fotoTemp->store('img/fotos', $nombre ,'gcs');
        //$urlImage = Storage::disk('gcs')->url($rutaImage);
        //return $urlImage;
-
-
        return 'ok fotos';
     }
 
