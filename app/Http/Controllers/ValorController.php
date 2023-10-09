@@ -343,7 +343,7 @@ class ValorController extends Controller
        }
 
        $newFotosName = json_decode($fotosNames);
-       //return $newFotosName[0];
+       return $newFotosName[0];
        $url = Storage::url($newFotosName[0]['nombre_foto'],'gcs');
        return $url;
        for ($i=0; $i < count($newFotosName) ; $i++)
