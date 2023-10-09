@@ -333,7 +333,7 @@ class ValorController extends Controller
     {
        //RECORRIDO DE PRUEBA
        $fotos = $request['params']['fotos']; //tenemos el arreglo de fotos
-       return $request;
+       return $fotos[0];
        
        for ($i=0; $i < count($fotos) ; $i++)
        { 
