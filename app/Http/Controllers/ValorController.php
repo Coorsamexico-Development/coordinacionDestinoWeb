@@ -343,13 +343,14 @@ class ValorController extends Controller
        }
 
        $newFotosName = json_decode($fotosNames);
-       return count($newFotosName);
-       $url = Storage::url($newFotosName[0]['nombre_foto'],'gcs');
-       return $url;
+       $array = [];
        for ($i=0; $i < count($newFotosName) ; $i++)
        {
-          
+          $url = Storage::url($newFotosName[$i]['nombre_foto'],'gcs');
+          array_push($array, $url);
        }
+
+       return $array;
 
        //$fotoTemp =$fotosNames[0];
        //return $fotoTemp;
