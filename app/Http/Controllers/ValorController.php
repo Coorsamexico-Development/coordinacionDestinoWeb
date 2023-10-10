@@ -343,7 +343,7 @@ class ValorController extends Controller
        }
 
       
-       return $fotosNames;
+       return json_decode($fotosNames);
 
        //$fotoTemp =$fotosNames[0];
        //return $fotoTemp;
