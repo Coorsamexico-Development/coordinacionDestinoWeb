@@ -344,9 +344,9 @@ class ValorController extends Controller
 
        return count($fotosNames);
 
-       for ($i=0; $i < count($fotosNames); $i++) 
+       for ($x=0; $x < count($fotosNames); $x++) 
        { 
-          $fotoObject = $fotosNames[$i];
+          $fotoObject = $fotosNames[$x];
           $url = Storage::disk('gcs')->url($fotoObject['nombre_foto']);
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
