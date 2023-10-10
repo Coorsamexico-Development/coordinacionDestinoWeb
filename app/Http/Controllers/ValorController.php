@@ -343,7 +343,7 @@ class ValorController extends Controller
        }
 
       
-       return json_decode($fotosNames);
+       return count($fotosNames);
 
        //$fotoTemp =$fotosNames[0];
        //return $fotoTemp;
