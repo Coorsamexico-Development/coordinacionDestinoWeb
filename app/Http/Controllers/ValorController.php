@@ -342,11 +342,12 @@ class ValorController extends Controller
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
-       $newFotosName = json_decode($fotosNames);
        $array = [];
-       for ($i=0; $i < count($newFotosName) ; $i++)
+       for ($i=0; $i < count($fotosNames) ; $i++)
        {
-          $url = Storage::url($newFotosName[$i]['nombre_foto'],'gcs');
+          $ObjetoFoto = json_decode($fotosNames[$i]);
+
+          $url = Storage::url($ObjetoFoto['nombre_foto'],'gcs');
           array_push($array, $url);
        }
 
