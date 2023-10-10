@@ -332,7 +332,7 @@ class ValorController extends Controller
     public function documentacionFotos (Request $request)
     {
        //RECORRIDO DE PRUEBA
-       return $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
+       $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
        //Primero guardamos las fotos
        for ($i=0; $i < count($request['fotos']) ; $i++) 
        { 
@@ -342,7 +342,7 @@ class ValorController extends Controller
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
-      
+       count($fotosNames);
       
        for ($i=0; $i < count($fotosNames); $i++) 
        { 
