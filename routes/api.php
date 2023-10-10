@@ -58,13 +58,11 @@ Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
 //Guardar fotos segunda pantalla
 Route::post('/valoresDeDocumentacion',[ValorController::class, 'documentacionValores']);
 Route::post('/fotosDocumentacion',[ValorController::class,'documentacionFotos']);
-//Guardar valores 3era pantalla
-Route::post('/valoresEnrrampe',[ValorController::class, 'valoresEnrrampe'])->name('valoresEnrrampe');
-//Guardar docs de la espera de ennrampe
-
-Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
 //Ruta de guardado global de enrrampe
 Route::post('/valoresEnrrampado',[ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
+//Guardar docs de la espera de ennrampe
+Route::post('/fotosEnrrampe',[ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
+
 
 Route::get('artisan', function () {
     Artisan::call('migrate', [
