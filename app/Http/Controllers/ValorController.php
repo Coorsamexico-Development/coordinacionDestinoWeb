@@ -609,7 +609,7 @@ class ValorController extends Controller
        $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
      
            
-       ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
+       ConfirmacionDt::where('confirmacion','=',$request['confirmacion'])
        ->update([
          'status_id' => 9,
          'updated_at' =>$newFecha,
