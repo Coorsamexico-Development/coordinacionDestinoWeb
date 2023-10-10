@@ -348,11 +348,37 @@ class ValorController extends Controller
           $fotoObject = $fotosNames[$x];
           $url = Storage::disk('gcs')->url($fotoObject['nombre_foto']);
 
-          array_push($array, $url);
+          $dt_campo_foto = DtCampoValor::select(
+            'dt_campo_valors.*'
+            )
+            ->where('dt_campo_valors.confirmacion_id','=', $request['confirmacion_id'])
+            ->where('dt_campo_valors.campo_id','=', $fotoObject['campo_id'])
+            ->first();
 
+            if($dt_campo_foto !== null)
+            {
+                $newValor = Valor::create([
+                    'valor' => $url,
+                    'dt_campo_valor_id' => $dt_campo_foto['id'],
+                    'user_id' => $request['usuario']
+                  ]);
+            }
+            else
+            {
+                $dt_campo_foto = DtCampoValor::create(
+                    [
+                       'confirmacion_id' => $request['confirmacion_id'],
+                       'campo_id' => $fotoObject['campo_id']
+                    ]);
+                
+               $newValor = Valor::create([
+                   'valor' => $url,
+                   'dt_campo_valor_id' => $dt_campo_foto['id'],
+                   'user_id' => $request['usuario']
+                 ]);
+            }
        }
 
-       return $array;
        //cambiaremos de status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion','=',$request['confirmacion'])
@@ -554,7 +580,7 @@ class ValorController extends Controller
             if($dt_campo_foto !== null)
             {
                 $newValor = Valor::updateOrcreate([
-                    'valor' => $urlImage,
+                    'valor' => $url,
                     'dt_campo_valor_id' => $dt_campo_foto['id'],
                     'user_id' => $request['usuario']
                   ]);
@@ -568,7 +594,7 @@ class ValorController extends Controller
                     ]);
                 
                $newValor = Valor::updateOrcreate([
-                   'valor' => $urlImage,
+                   'valor' => $url,
                    'dt_campo_valor_id' => $dt_campo_foto['id'],
                    'user_id' => $request['usuario']
                  ]);
