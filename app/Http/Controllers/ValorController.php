@@ -342,7 +342,8 @@ class ValorController extends Controller
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
-       return json_decode($fotosNames[0]);
+       $valorTemp = json_decode($fotosNames[0]);
+      return  $valorTemp['nombre_foto'];
       
        for ($i=0; $i < count($fotosNames); $i++) 
        { 
