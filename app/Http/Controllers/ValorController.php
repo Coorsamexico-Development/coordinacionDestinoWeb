@@ -346,7 +346,7 @@ class ValorController extends Controller
        for ($x=0; $x < count($fotosNames); $x++) 
        { 
           $fotoObject = $fotosNames[$x];
-          $url = Storage::disk('gcs')->url('img/fotos'.$fotoObject['nombre_foto']);
+          $url = Storage::disk('gcs')->url('img/fotos/'.$fotoObject['nombre_foto']);
 
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
@@ -569,7 +569,7 @@ class ValorController extends Controller
       for ($i=0; $i < count($fotosNames); $i++) 
        { 
           $fotoObject = $fotosNames[$i];
-          $url = Storage::disk('gcs')->url('img/fotos'.$fotoObject['nombre_foto']);
+          $url = Storage::disk('gcs')->url('img/fotos/'.$fotoObject['nombre_foto']);
           $dt_campo_foto = DtCampoValor::select(
             'dt_campo_valors.*'
             )
