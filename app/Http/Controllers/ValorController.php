@@ -576,7 +576,7 @@ class ValorController extends Controller
 
             if($dt_campo_foto !== null)
             {
-                $newValor = Valor::create([
+                $newValor = Valor::updateOrcreate([
                     'valor' => $urlImage,
                     'dt_campo_valor_id' => $dt_campo_foto['id'],
                     'user_id' => $request['usuario']
@@ -584,13 +584,13 @@ class ValorController extends Controller
             }
             else
             {
-                $dt_campo_foto = DtCampoValor::create(
+                $dt_campo_foto = DtCampoValor::updateOrcreate(
                     [
                        'confirmacion_id' => $request['confirmacion_id'],
                        'campo_id' => $fotoObject['campo_id']
                     ]);
                 
-               $newValor = Valor::create([
+               $newValor = Valor::updateOrcreate([
                    'valor' => $urlImage,
                    'dt_campo_valor_id' => $dt_campo_foto['id'],
                    'user_id' => $request['usuario']
