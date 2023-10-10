@@ -342,7 +342,7 @@ class ValorController extends Controller
           $urlImage = Storage::disk('gcs')->url($rutaImage);
        }
 
-       return $fotosNames[0];
+       return $fotosNames[0]['nombre_foto'];
       
        for ($i=0; $i < count($fotosNames); $i++) 
        { 
