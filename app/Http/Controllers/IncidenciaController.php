@@ -95,7 +95,7 @@ class IncidenciaController extends Controller
     public function saveIncidencias(Request $request)
     {
        $data = $request['data'];
-       return $data;
+       return $data['evidencias'];
        for ($i=0; $i < count($data) ; $i++) 
        { 
          $producto = $data[$i];
