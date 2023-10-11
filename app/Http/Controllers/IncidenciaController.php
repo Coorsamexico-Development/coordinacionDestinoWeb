@@ -108,19 +108,21 @@ class IncidenciaController extends Controller
          ]);
 
          //Vamos a recorrer las evidencias
-         
-         for ($x=0; $x < count($producto['evidencias']) ; $x++) 
-         { 
-            $evidencia = $producto['evidencias'][$x];
-
-            $nombre =  $evidencia->getClientOriginalName();
-            $rutaImage = $evidencia->storeAs('img/fotos', $nombre ,'gcs');
-            $urlImage = Storage::disk('gcs')->url($rutaImage);
-
-            Evidencia::create([
-              'evidencia' => $urlImage,
-              'incidencia_id' => $incidencia['id']
-            ]);
+         if($producto['tipo_incidencia_id'] !== 1 )
+         {
+            for ($x=0; $x < count($producto['evidencias']) ; $x++) 
+            { 
+               $evidencia = $producto['evidencias'][$x];
+   
+               $nombre =  $evidencia->getClientOriginalName();
+               $rutaImage = $evidencia->storeAs('img/fotos', $nombre ,'gcs');
+               $urlImage = Storage::disk('gcs')->url($rutaImage);
+   
+               Evidencia::create([
+                 'evidencia' => $urlImage,
+                 'incidencia_id' => $incidencia['id']
+               ]);
+            }
          }
        }
 
