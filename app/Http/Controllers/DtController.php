@@ -29,8 +29,8 @@ class DtController extends Controller
           }
         }
 
-        $viajes->where('confirmacion_dts.status_id','=',4);
-        $viajes->orwhere('confirmacion_dts.status_id','=',5);
+        $viajes->where('confirmacion_dts.status_id','=',10);
+        $viajes->orwhere('confirmacion_dts.status_id','=',11);
 
         return Inertia::render('Viajes/Viajes.Index',[
             'viajes' => fn () =>  $viajes->paginate(5)
