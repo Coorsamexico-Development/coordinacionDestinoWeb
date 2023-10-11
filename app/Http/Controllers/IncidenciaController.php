@@ -122,9 +122,9 @@ class IncidenciaController extends Controller
               'incidencia_id' => $incidencia['id']
             ]);
          }
-         
-         
        }
+
+       return 'save all ok';
       
     }
 
