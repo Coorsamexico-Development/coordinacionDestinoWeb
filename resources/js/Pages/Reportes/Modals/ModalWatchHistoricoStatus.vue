@@ -199,7 +199,7 @@
                  </div>
              </div>
             </div>
-             <div style="overflow-y: scroll; overflow-x: hidden;">
+             <div style="overflow-y: scroll; overflow-x: hidden; height: 40%;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
