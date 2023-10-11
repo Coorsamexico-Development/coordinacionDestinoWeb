@@ -14,11 +14,13 @@ import Carrusel from '../Partials/Carrusel.vue'
 });
 </script>
 <template>
-    <div v-for="campo in camposValores" :key="campo.id">
-       <h1 class="text-lg" style="font-family: 'Montserrat';">{{ campo.campo }}</h1>
+    <div class="mt-2" v-for="campo in camposValores" :key="campo.id">
+       <h1 class="text-lg" style="font-family: 'Montserrat';"> - {{ campo.campo }}</h1>
        <div v-for="(valor,key) in campo.valores" :key="valor.id">
          <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-              <h3 style="font-family: 'Montserrat';">{{ valor.valor }}</h3>
+              <h3 style="font-family: 'Montserrat';">
+                {{ valor.valor }}
+              </h3>
          </div>
          <div v-if="key == 0">
            <div v-if="campo.tipo_campo == 'file'">
@@ -29,8 +31,8 @@ import Carrusel from '../Partials/Carrusel.vue'
          </div>
        </div>
        <!--Carruseles-->
-       <div v-if="campo.tipo_campo == 'image'">
-           <Carrusel :valores="campo.valores" />
+       <div class="" v-if="campo.tipo_campo == 'image'">
+          <Carrusel :valores="campo.valores" />
       </div>
     </div>
 </template>

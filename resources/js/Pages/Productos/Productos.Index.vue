@@ -33,6 +33,7 @@ const loadPage = (page) =>
     })
 }
 
+
 //Watcher para la carga del reporte
 watch(document, (documentoCargado) => 
 {
