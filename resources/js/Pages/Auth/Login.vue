@@ -15,8 +15,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: 'admin@coorsamexico.com',
-    password: 'admin123',
+    email: '',
+    password: '',
     remember: false,
 });
 
@@ -39,7 +39,6 @@ const submit = () => {
           <h1 class="text-2xl tracking-widest text-center uppercase" style="font-family: 'Montserrat';">Bienvenido</h1>
           <div class="flex items-center justify-center">
             <form @submit.prevent="submit">
-         <!--
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput
@@ -78,12 +77,13 @@ const submit = () => {
                 <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Forgot your password?
                 </Link>
-         
+            <!--
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>
+            -->
             </div>
-                -->
+               
                <button class="bg-[#1D96F1] py-2 px-44" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                  <h1 class="text-white" style="font-family: 'Montserrat';">
                     Iniciar sesión
