@@ -7,6 +7,7 @@ use App\Models\Incidencia;
 use App\Models\Oc;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class IncidenciaController extends Controller
 {
@@ -95,7 +96,7 @@ class IncidenciaController extends Controller
     public function saveIncidencias(Request $request)
     {
        $data = $request['data'];
-       return $data[0]['evidencias'];
+       //return $data[0]['evidencias'];
        for ($i=0; $i < count($data) ; $i++) 
        { 
          $producto = $data[$i];
@@ -111,8 +112,13 @@ class IncidenciaController extends Controller
          for ($x=0; $x < count($producto['evidencias']) ; $x++) 
          { 
             $evidencia = $producto['evidencias'][$x];
+
+            $nombre =  $evidencia->getClientOriginalName();
+            $rutaImage = $evidencia->storeAs('img/fotos', $nombre ,'gcs');
+            $urlImage = Storage::disk('gcs')->url($rutaImage);
+
             Evidencia::create([
-              'evidencia' => $evidencia['foto'],
+              'evidencia' => $urlImage,
               'incidencia_id' => $incidencia['id']
             ]);
          }
