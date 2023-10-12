@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('incidencias', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ocs_id')->constrained('ocs');
-            $table->foreignId('tipo_incidencia_id')->constrained('tipos_incidencias');
+            $table->foreignId('tipo_incidencia_id')->constrained('tipo_incidencias');
             $table->bigInteger('cantidad');
-            $table->foreignId('ean_id')->constrained('eans');
+            $table->foreignId('ean_id')->constrained('productos');
             $table->timestamps();
         });
     }
