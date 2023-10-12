@@ -21,4 +21,8 @@ class ConfirmacionDt extends Model
     'status_id'
      ];
 
+     public function ocs()
+     {
+         return $this->hasMany(Oc::class,'confirmacion_dt_id');
+     }
 }

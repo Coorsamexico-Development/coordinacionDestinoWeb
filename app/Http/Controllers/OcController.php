@@ -113,6 +113,15 @@ class OcController extends Controller
         ->get();
     }
 
+    public function getOcsApi (Request $request)
+    {
+        return ConfirmacionDt::select(
+            'confirmacion_dts.*'
+        )->where('confirmacion_dts.dt_id','=', $request['id'])
+        ->with('ocs')
+        ->get();
+    }
+
     public function saveFacturados (Request $request)
     {
        $ocs = $request['ocs'];

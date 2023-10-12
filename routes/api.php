@@ -93,6 +93,8 @@ Route::post('/saveDocEnrrampe',[ConfirmacionDtController::class, 'saveDocEnrramp
 Route::post('/firmasLiberacion',[ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
 //Obtener telefono por viaje
 Route::get('/getTelephone',[ConfirmacionDtController::class,'getTelephone'])->name('getTelephone');
+//Consultar OCS por dt y verificar las ocs
+Route::get('/getOcsApi',[OcController::class, 'getOcsApi'] )->name('getOcsApi');
 
 //Prueba para la estructura del PDF
 Route::get('/pdf', function()
