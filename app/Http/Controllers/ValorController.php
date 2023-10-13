@@ -430,7 +430,16 @@ class ValorController extends Controller
         'campos.id as campo_id',
         'campos.nombre as campo')
         ->join('campos','dt_campo_valors.campo_id','campos.id')
-        ->with('valores')
+        ->with(['valores' => function ($query) use ($confirmacionAll)
+        {
+            $query->select('valors.*')
+            ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+            ->where([
+              ['dt_campo_valors.confirmacion_id', $confirmacionAll['id']],
+              ['campos.status_id',4] //a tiempo
+            ])
+            ->orWhere('campos.status_id','=', 6) ;
+        }])
         ->where([
           ['dt_campo_valors.confirmacion_id', $confirmacionAll['id']],
           ['campos.status_id',4] //a tiempo
