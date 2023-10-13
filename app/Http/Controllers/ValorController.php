@@ -334,7 +334,6 @@ class ValorController extends Controller
        //RECORRIDO DE PRUEBA
        $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
        //Primero guardamos las fotos
-       
        for ($i=0; $i < count($request['fotos']) ; $i++) 
        { 
           $newFotoStorage = $request['fotos'][$i];
@@ -379,7 +378,6 @@ class ValorController extends Controller
                  ]);
             }
        }
-     
 
        //cambiaremos de status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
@@ -414,7 +412,6 @@ class ValorController extends Controller
          'status_dts_id' => $newStatus['id'],
          'hora' => $hora_actual
        ]);
-     
 
       //Al hacer el guardado de documentacion comprobaremos si alguna otra confirmacion tiene 
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
