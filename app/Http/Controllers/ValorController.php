@@ -332,8 +332,9 @@ class ValorController extends Controller
     public function documentacionFotos (Request $request)
     {
        //RECORRIDO DE PRUEBA
-       $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
+       //$fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
        //Primero guardamos las fotos
+       /*
        for ($i=0; $i < count($request['fotos']) ; $i++) 
        { 
           $newFotoStorage = $request['fotos'][$i];
@@ -378,6 +379,7 @@ class ValorController extends Controller
                  ]);
             }
        }
+     
 
        //cambiaremos de status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
@@ -412,6 +414,7 @@ class ValorController extends Controller
          'status_dts_id' => $newStatus['id'],
          'hora' => $hora_actual
        ]);
+     */
 
       //Al hacer el guardado de documentacion comprobaremos si alguna otra confirmacion tiene 
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
@@ -423,6 +426,8 @@ class ValorController extends Controller
       $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
       ->where('confirmacion_dts.dt_id','=',$confirmacionAll['dt_id'])
       ->get();
+
+      return $confirmacionesConMismoDT;
 
       if(count($confirmacionesConMismoDT) > 0)
       {
