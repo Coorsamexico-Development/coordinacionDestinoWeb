@@ -434,6 +434,7 @@ class ValorController extends Controller
         {
             $query->select('valors.*')
             ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
+            ->join('campos','dt_campo_valors.campo_id','campos.id')
             ->where([
               ['dt_campo_valors.confirmacion_id', $confirmacionAll['id']],
               ['campos.status_id',4] //a tiempo
