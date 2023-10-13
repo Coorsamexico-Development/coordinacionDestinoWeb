@@ -25,7 +25,7 @@
   const openModalIncidencias = (referencia) => 
   {
     //checar incidencias
-    console.log(props.producto.producto_id)
+    //console.log(props.producto.producto_id)
     axios.get(route('consultarOcs'),{
         params:
         {
@@ -34,7 +34,7 @@
         }
     }).then(response =>
     {
-      console.log(response.data);
+      //console.log(response.data);
       let incidenciasTemp = [];
       //incidencias.value = response.data[0].incidencias;
       for (let index = 0; index < response.data.length; index++) 
