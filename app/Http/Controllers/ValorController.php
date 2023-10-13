@@ -334,7 +334,7 @@ class ValorController extends Controller
        //RECORRIDO DE PRUEBA
        //$fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
        //Primero guardamos las fotos
-       /*
+       
        for ($i=0; $i < count($request['fotos']) ; $i++) 
        { 
           $newFotoStorage = $request['fotos'][$i];
@@ -414,7 +414,7 @@ class ValorController extends Controller
          'status_dts_id' => $newStatus['id'],
          'hora' => $hora_actual
        ]);
-     */
+     
 
       //Al hacer el guardado de documentacion comprobaremos si alguna otra confirmacion tiene 
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
@@ -427,9 +427,7 @@ class ValorController extends Controller
       ->where('confirmacion_dts.dt_id','=',$confirmacionAll['dt_id'])
       ->get();
 
-      return $confirmacionesConMismoDT;
-
-      if(count($confirmacionesConMismoDT) > 0)
+      if(count($confirmacionesConMismoDT) > 1)
       {
         $camposAInsertar = DtCampoValor::select('dt_campo_valors.*',
         'campos.id as campo_id',
