@@ -96,21 +96,45 @@ class OcController extends Controller
 
         //return $confirmacion['id'];
 
-        return Oc::select('ocs.*')
-        ->with(['incidencias'  => function ($query) {
-            $query->select(
-                'incidencias.*',
-                'tipo_incidencias.nombre as tipo_incidencia',
-                'productos.SKU as sku'
-              )
-              ->with('evidencias')
-              ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
-              ->join('productos','incidencias.ean_id','productos.id')
-              ->get();
-             }
-            ])
-        ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
-        ->get();
+        if($request->has('producto_id'))
+        {
+            return Oc::select('ocs.*')
+            ->with(['incidencias'  => function ($query) use ($request) 
+            {
+                $query->select(
+                    'incidencias.*',
+                    'tipo_incidencias.nombre as tipo_incidencia',
+                    'productos.SKU as sku'
+                  )
+                  ->with('evidencias')
+                  ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+                  ->join('productos','incidencias.ean_id','productos.id')
+                  ->where('incidencias.ean_id','=',$request['producto_id'])
+                  ->get();
+                 }
+                ])
+            ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
+            ->get();
+        }
+        else
+        {
+            return Oc::select('ocs.*')
+            ->with(['incidencias'  => function ($query) {
+                $query->select(
+                    'incidencias.*',
+                    'tipo_incidencias.nombre as tipo_incidencia',
+                    'productos.SKU as sku'
+                  )
+                  ->with('evidencias')
+                  ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+                  ->join('productos','incidencias.ean_id','productos.id')
+                  ->get();
+                 }
+                ])
+            ->where('ocs.confirmacion_dt_id','=', $confirmacion['id'])
+            ->get();
+        }
+
     }
 
     public function getOcsApi (Request $request)

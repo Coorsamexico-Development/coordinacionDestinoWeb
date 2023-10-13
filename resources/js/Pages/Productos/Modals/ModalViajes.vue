@@ -25,10 +25,12 @@
   const openModalIncidencias = (referencia) => 
   {
     //checar incidencias
+    console.log(props.producto.producto_id)
     axios.get(route('consultarOcs'),{
         params:
         {
-            confirmacion:referencia
+            confirmacion:referencia,
+            producto_id: props.producto.producto_id
         }
     }).then(response =>
     {
