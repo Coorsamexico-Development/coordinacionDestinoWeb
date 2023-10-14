@@ -431,11 +431,13 @@ class ValorController extends Controller
          'campos.id as campo_id',
          'campos.nombre as campo')
           ->join('campos','dt_campo_valors.campo_id','campos.id')
-          ->where([
-           ['dt_campo_valors.confirmacion_id',$confirmacionAll['id']],
-           ['campos.status_id',4] //a tiempo
-         ])
-         ->orWhere('campos.status_id','=', 6) //documetar
+          ->with('valores')
+          ->where('dt_campo_valors.confirmacion_id','=',$confirmacionAll['id'])
+          ->where(function($query) 
+          {
+            $query->where('campos.status_id','=',4)
+              ->orWhere('campos.status_id','=',6);
+         })
          ->get();
 
          return $camposAInsertar;
@@ -457,7 +459,23 @@ class ValorController extends Controller
             {
               for ($x=0; $x < count($camposAInsertar) ; $x++) 
               { 
-                 
+                $campoActual = $camposAInsertar[$x];
+                //creamos o sustituimos el dt campo a crear con la confirmacion y el campo actual
+                $newDtCampoValor = DtCampoValor::updateOrCreate([
+                  'campo_id' => $campoActual['campo_id'],
+                  'confirmacion_id' => $confirmacionActual['id']
+                ]);
+
+                  //Una vez creado el dt creamos el valor igual pero lo asignamos a ese dt campo valor
+                  for ($t=0; $t < count($camposAInsertar[$x]['valores']) ; $t++) 
+                  { 
+                     $valorActual = $camposAInsertar[$x]['valores'][$t];
+                     $newValor = Valor::updateOrCreate([
+                        'valor' => $valorActual['valor'],
+                        'dt_campo_valor_id' => $newDtCampoValor['id'],
+                        'user_id' => $valorActual['user_id']
+                     ]);
+                  }
               }
             }
 
