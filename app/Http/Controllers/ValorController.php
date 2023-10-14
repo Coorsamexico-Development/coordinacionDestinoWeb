@@ -432,10 +432,10 @@ class ValorController extends Controller
          'campos.nombre as campo')
           ->join('campos','dt_campo_valors.campo_id','campos.id')
           ->where([
-           ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
-           ['status_dts.status_id',4] //a tiempo
+           ['dt_campo_valors.confirmacion_id',$confirmacionAll['id']],
+           ['campos.status_id',4] //a tiempo
          ])
-         ->orWhere('status_dts.status_id','=', 6) //documetar
+         ->orWhere('campos.status_id','=', 6) //documetar
          ->get();
 
          return $camposAInsertar;
