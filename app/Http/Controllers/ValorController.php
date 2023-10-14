@@ -424,6 +424,69 @@ class ValorController extends Controller
       ->where('confirmacion_dts.dt_id','=',$confirmacionAll['dt_id'])
       ->get();
 
+      if(count($confirmacionesConMismoDT) > 1 )
+      {
+         $camposAInsertar = DtCampoValor::select(
+         'dt_campo_valors.*',
+         'campos.id as campo_id',
+         'campos.nombre as campo')
+          ->join('campos','dt_campo_valors.campo_id','campos.id')
+          ->where([
+           ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
+           ['status_dts.status_id',4] //a tiempo
+         ])
+         ->orWhere('status_dts.status_id','=', 6) //documetar
+         ->get();
+
+         return $camposAInsertar;
+
+         $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
+         ->where([
+           ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
+           ['status_dts.status_id',4] //a tiempo
+         ])
+         ->orWhere('status_dts.status_id','=', 6) //documetar
+         ->get();
+
+         for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
+         {
+            //Por confirmacion hay que crear el dt campo valor y luego crear el valor y relacionarlo
+            $confirmacionActual = $confirmacionesConMismoDT[$i];
+            //Hay que guardar los campo_valor
+            if(count($camposAInsertar) > 0)
+            {
+              for ($x=0; $x < count($camposAInsertar) ; $x++) 
+              { 
+                 
+              }
+            }
+
+            if(count($historico_de_status)> 0)
+            {
+            //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
+            for ($s=0; $s < count($historico_de_status) ; $s++) 
+            { 
+               $historia_status = $historico_de_status[$s];
+               $newHistorica = StatusDt::updateOrCreate([
+                 'confirmacion_dt_id' => $confirmacionActual['id'],
+                 'status_id' => $historia_status['status_id']
+               ]);
+            }
+            }
+
+             //Cambiamos status del viaje
+             ConfirmacionDt::where('confirmacion_dts.id','=',$confirmacionActual['id'])
+             ->update([
+               'status_id' => 7
+             ]);
+
+             StatusDt::updateOrCreate([
+                 'confirmacion_dt_id' => $confirmacionActual['id'],
+                 'status_id' => 7
+             ]);
+         }
+
+      }
 
        return 'ok fotos';
     }
