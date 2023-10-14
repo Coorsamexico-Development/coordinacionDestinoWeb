@@ -440,7 +440,7 @@ class ValorController extends Controller
          })
          ->get();
 
-         return $camposAInsertar;
+         //return $camposAInsertar;
 
          $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
          ->where([
