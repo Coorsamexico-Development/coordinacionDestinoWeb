@@ -443,11 +443,13 @@ class ValorController extends Controller
          //return $camposAInsertar;
 
          $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
-         ->where([
-           ['status_dts.confirmacion_dt_id',$confirmacionAll['id']],
-           ['status_dts.status_id',4] //a tiempo
-         ])
-         ->orWhere('status_dts.status_id','=', 6) //documetar
+         ->where(
+           'status_dts.confirmacion_dt_id','=',$confirmacionAll['id'])
+         ->where(function($query)
+          {
+            $query->where('status_dts.status_id','=',4)
+            ->orWhere('status_dts.status_id','=',6);
+          })
          ->get();
 
          for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
