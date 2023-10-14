@@ -170,8 +170,7 @@
 <template>
    <DialogModal :maxWidth="tamañoModal" :show="show" @close="close()">
        <template #title>
-
-         <div class="flex flex-row justify-between">
+         <div class="flex flex-row justify-between" style="font-family: 'Montserrat';">
             <h1>Historial</h1>
             <span @click="close()">
                Cerrar
@@ -179,26 +178,34 @@
          </div>
        </template>
        <template #content  >
-          <div class="grid w-full grid-cols-2 gap-4">
-            <div>
-               <div class="flex flex-row justify-between border-[#9B9B9B] border-b-2 pb-2" v-for="histori in infoModal" :key="histori.id">
-                 <div class="flex flex-row">
-                    <div class="mx-2 mt-2">
-                       <span :style="{backgroundColor:histori.color}" class="block w-4 h-4 mx-2 rounded-full"></span>
-                    </div>
-                    <div class="flex flex-col ">
-                       <h1 class="text-lg" :style="{color:histori.color}">{{ histori.status }}</h1>
-                      <div class="flex flex-row items-center">
-                        <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                        <h1 class="text-[#9B9B9B] text-sm">{{ histori.created_at.substring(0,10) +' '+histori.created_at.substring(11,19) }}</h1>
-                      </div>
+         <div class="grid w-full grid-cols-2" style="font-family: 'Montserrat';">
+           <div class="">
+             <h1 class="text-center">Histórico de status</h1>
+             <!--TimeLine-->
+             <div id="timeline" class="border-b-2" v-for="historia in infoModal" :key="historia.id">
+                <div  id="timeline-item" >
+                   <div id="timeline-icon" :style="{backgroundColor:historia.color}" >
+                   </div> 
+                   <div id="timeline-content">
+                     <div class="flex flex-row justify-between">
+                        <div>
+                           <h2 class="text-md" :style="{color:historia.color}">{{ historia.status }}</h2>
+                           <div class="flex flex-row items-center">
+                              <img class="w-3 h-3 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
+                              <h1 class="text-[#9B9B9B] text-xs">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
+                            </div>
+                        </div>
+                         <div class="flex items-center justify-center">
+                           <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
+                        </div>
+                     </div>
                    </div>
-                 </div>
-                 <div class="flex items-center justify-center">
-                    <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(histori)" />
-                 </div>
+                </div>
              </div>
-            </div>
+               <!--TimeLine-->
+           </div>
+           <div class="">
+             <h1 class="" style="text-align: center;">Información</h1>
              <div style="overflow-y: scroll; overflow-x: hidden; height: 70%;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
@@ -251,8 +258,60 @@
                  </div>  
                </div>          
              </div>
-          </div>
+           </div>
+         </div>
        </template>
    </DialogModal>
 </template>
+<style>
+  #timeline{
+   width: 90%;
+   margin: 30px auto;
+   line-height: 1.5em;
+   position: relative;
+   transition: all 0.3s;
+   
+  }
+
+  #timeline,
+  #timeline *,
+  #timeline *::before
+  #timeline *::after{
+   box-sizing: border-box;
+  }
+
+  #timeline::before{
+   content: "";
+   width: 6px;
+   height: 190%;
+   left: 0%;
+   top:0;
+   position: absolute;
+   background-color: #9B9B9B ;
+  }
+
+  #timeline #timeline-item{
+   position: relative;
+  }
+
+  #timeline #timeline-item #timeline-icon
+  {
+   width: 25px;
+   height: 25px;
+   position: absolute;
+   top:0;
+   left:-3.5%;
+   right: 0%;
+   border-radius: 50%;
+   justify-content: center;
+  }
+
+  #timeline #timeline-item #timeline-content
+  {
+    width: 100%;
+    padding-left:10%;
+    position: relative;
+    border-radius: 5px;
+  }
+</style>
     

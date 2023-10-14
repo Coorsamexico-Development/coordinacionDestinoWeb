@@ -5,6 +5,7 @@ import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import Carrusel from '../Partials/Carrusel.vue'
 
+
  const props = defineProps({
    camposValores:Object,
   });
