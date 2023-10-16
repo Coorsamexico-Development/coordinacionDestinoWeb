@@ -206,7 +206,7 @@
            </div>
            <div class="">
              <h1 class="" style="text-align: center;">Información</h1>
-             <div style="overflow-y: scroll; overflow-x: hidden; height: 70%;">
+             <div style="overflow-y: scroll; overflow-x: hidden;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
@@ -300,7 +300,7 @@
    height: 25px;
    position: absolute;
    top:0;
-   left:-3.5%;
+   left:-2.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;

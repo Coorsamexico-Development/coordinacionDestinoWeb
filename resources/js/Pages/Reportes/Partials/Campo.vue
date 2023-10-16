@@ -33,7 +33,7 @@ import Carrusel from '../Partials/Carrusel.vue'
        </div>
        <!--Carruseles-->
        <div class="" v-if="campo.tipo_campo == 'image'">
-          <Carrusel :valores="campo.valores" />
+         <Carrusel :valores="campo.valores" />
       </div>
     </div>
 </template>
