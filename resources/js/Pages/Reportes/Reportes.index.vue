@@ -31,15 +31,14 @@ watch(buscador, (newBusqueda) =>
 </script>
 <template>
    <AppLayout title="Dashboard">
-    <!--
+   
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
-       <div>
-       </div>
        <div class="grid grid-cols-3 gap-4 px-4 py-2">
+         <!--
          <div v-for="statu in status_padre" :key="statu.id">
             <div v-if="statu.id !==3 || statu.id !== 3">
                 <ScrollableStatus :buscador="buscador" :statu="statu" :ubicaciones="ubicaciones" :plataformas="plataformas" :contadores = 'contadores' />
@@ -49,8 +48,9 @@ watch(buscador, (newBusqueda) =>
                     <Scrollable :buscador="buscador" :statu="statu_hijo" :ubicaciones="ubicaciones" :plataformas="plataformas"  />
                 </div>
             </div>
-        </div>
+          </div>
+        -->
        </div>
-       -->
+
     </AppLayout>
 </template>
