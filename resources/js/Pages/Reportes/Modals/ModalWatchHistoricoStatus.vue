@@ -31,10 +31,11 @@
   };
 
   const statusActual = ref(null);
+  const ocs = ref([]);
 
   const consultarHistoria = async (historiaIndividual) => 
   {
-   console.log(historiaIndividual)
+   //console.log(historiaIndividual)
    statusActual.value = historiaIndividual;
    try 
    {
@@ -218,14 +219,14 @@
                         <Campo :camposValores="camposValores" />
                        </div>
                        <div class="border-t-2 mt-2" v-if="statusActual.status_id == 9">
-                           <h1 class="text-lg ">OC's</h1>
-                           
+                           <h1 class="text-lg mx-16 mt-2">OC's</h1>
+
                        </div>
                      </div>
                  </div>
-                 <div v-if="statusActual.status_id">
+                 <div class="mt-8" v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
-                       <div class="flex flex-row">
+                       <div class="flex flex-row justify-center">
                            <h1 class="mx-2">Ver documento final</h1>
                            <a :href="pdf.pdf" data-fancybox   data-type="pdf">
                               <ButtonWatch :color="'#1D96F1'" />
@@ -234,7 +235,7 @@
                        <div class="grid grid-rows-3 mx-2">
                         <div class="w-full row-start-1 px-2">
                            <InputLabel>
-                              Para
+                              Para:
                            </InputLabel>
                             <TextInput v-model="email" class="w-full h-8">
                             </TextInput>
@@ -252,7 +253,7 @@
                         </div>
                         <div class="row-start-2 mt-4">
                            <InputLabel>
-                              Asunto
+                              Asunto:
                            </InputLabel>
                            <textarea v-model="asunto" class="w-full"></textarea>
                         </div>
