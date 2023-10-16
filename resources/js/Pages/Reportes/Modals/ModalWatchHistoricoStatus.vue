@@ -210,7 +210,7 @@
            </div>
            <div >
              <h1 class="" style="text-align: center;">Información</h1>
-             <div style="overflow-y: visible; overflow-x: hidden; height: 50%;">
+             <div style="overflow-y: visible; overflow-x: hidden; height: 50%;" class="">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
