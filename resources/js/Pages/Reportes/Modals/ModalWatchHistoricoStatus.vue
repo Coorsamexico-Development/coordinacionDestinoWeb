@@ -43,40 +43,43 @@
    {
       status_id: historiaIndividual.status_id,
       confirmacion_dt_id: historiaIndividual.confirmacion_dt_id
-   }}).then(response => 
-      {
-         console.log(response);
-         tamañoModal.value = '4xl'
-         let camposWithValors = [];
-         if(response.data.valors.length > 0)
+      }}).then(response => 
          {
-            for (let index = 0; index < response.data.campos.length; index++) 
-            {
-               const campo = response.data.campos[index];
-               let campoWithValors = {
-                  campo_id: campo.campo_id,
-                  campo: campo.campo,
-                  tipo_campo: campo.tipo_campo,
-                  valores: []
-               }
-               for (let index2 = 0; index2 < response.data.valors.length; index2++) 
-               {
-                  const valor = response.data.valors[index2];
-                  if(valor.campo_id == campo.campo_id)
-                  {
-                     campoWithValors.valores.push(valor);
-                  }
-               }
-               camposWithValors.push(campoWithValors)
-            }
-         }
-         console.log(camposWithValors)
-          camposValores.value = camposWithValors;
-         //camposValores.value= response.data;
+              console.log(historiaIndividual.status_id)
+              console.log(response);
+              tamañoModal.value = '4xl'
+              let camposWithValors = [];
+              if(response.data.valors.length > 0)
+              {
+                 for (let index = 0; index < response.data.campos.length; index++) 
+                 {
+                    const campo = response.data.campos[index];
+                    let campoWithValors = {
+                       campo_id: campo.campo_id,
+                       campo: campo.campo,
+                       tipo_campo: campo.tipo_campo,
+                       valores: []
+                    }
+                    for (let index2 = 0; index2 < response.data.valors.length; index2++) 
+                    {
+                       const valor = response.data.valors[index2];
+                       if(valor.campo_id == campo.campo_id)
+                       {
+                          campoWithValors.valores.push(valor);
+                       }
+                    }
+                    camposWithValors.push(campoWithValors)
+                 }
+              }
+              console.log(camposWithValors)
+               camposValores.value = camposWithValors;
+              //camposValores.value= response.data;
       }).catch(err => 
       {
         console.log(err)
       });
+
+      
    }
   catch(err)
   {

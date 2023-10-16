@@ -184,4 +184,10 @@ class OcController extends Controller
           }
         }
     }
+
+
+    public function ocsByViaje (Request $request) 
+    {
+
+    }
 }
