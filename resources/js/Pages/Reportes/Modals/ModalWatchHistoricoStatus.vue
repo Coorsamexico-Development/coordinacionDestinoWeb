@@ -282,7 +282,7 @@
 
   #timeline::before{
    content: "";
-   width: 6px;
+   width: 7px;
    height: 190%;
    left: 0%;
    top:0;
@@ -300,7 +300,7 @@
    height: 25px;
    position: absolute;
    top:0;
-   left:-2.5%;
+   left:-3%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;

@@ -1,5 +1,5 @@
 <script >
-  import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+  import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
  // Import Swiper Vue.js components
  import { Swiper, SwiperSlide } from 'swiper/vue';
   // Import Swiper styles
@@ -7,6 +7,7 @@
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
   import 'swiper/css/scrollbar';
+  import 'swiper/css/autoplay';
 
   export default {
     components: {
@@ -26,7 +27,7 @@
       return {
         onSwiper,
         onSlideChange,
-        modules: [Navigation, Pagination, Scrollbar, A11y],
+        modules: [Navigation, Pagination, Scrollbar, A11y, Autoplay],
       };
     },
   };
@@ -36,9 +37,11 @@
     :modules="modules"
     :slides-per-view="1"
     :space-between="50"
- 
     :pagination="{ clickable: true }"
-
+    :autoplay='{
+               "delay": 6000,
+              "disableOnInteraction": false
+     }'
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
