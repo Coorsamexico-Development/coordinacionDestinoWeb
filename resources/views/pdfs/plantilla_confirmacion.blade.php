@@ -49,8 +49,9 @@
                    <div style="margin-left: 2rem; margin-right:2rem;">
                     <?php 
                     echo '<span style="color:white;text-transform:uppercase;
-                    margin-top:2rem;
-                    padding-left:3rem;padding-right:3rem;
+                    margin-top:1rem;
+                    padding-left:3rem;
+                    padding-right:3rem;
                     width:30rem; 
                     padding-top:0.1rem;
                     padding-bottom;0rem;

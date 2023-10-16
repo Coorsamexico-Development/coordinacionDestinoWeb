@@ -187,7 +187,7 @@
              <div v-for="historia in infoModal" :key="historia.id">
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]" class="border-b-2"  >
                   <div  id="timeline-item" >
-                     <div id="timeline-icon" :style="{backgroundColor:historia.color}" >
+                     <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
                      </div> 
                      <div id="timeline-content">
                        <div class="flex flex-row justify-between">
@@ -216,6 +216,10 @@
                     <div v-if="camposValores.length !== 0">
                        <div class="">
                         <Campo :camposValores="camposValores" />
+                       </div>
+                       <div class="border-t-2 mt-2" v-if="statusActual.status_id == 9">
+                           <h1 class="text-lg ">OC's</h1>
+                           
                        </div>
                      </div>
                  </div>
@@ -292,6 +296,7 @@
    top:0;
    position: absolute;
    background-color: #9B9B9B ;
+   opacity: 0.61;
   }
 
   .timeline #timeline-item{
@@ -300,14 +305,16 @@
 
   .timeline #timeline-item #timeline-icon
   {
-   width: 25px;
-   height: 25px;
+   width: 30px;
+   height: 30px;
    position: absolute;
    top:0;
-   left:-3%;
+   left:-3.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
+   border-color: white;
+   border-width: 2px;
   }
 
   .timeline #timeline-item #timeline-content
@@ -352,14 +359,16 @@
 
   .timeline2 #timeline-item #timeline-icon
   {
-   width: 25px;
-   height: 25px;
+   width: 30px;
+   height: 30px;
    position: absolute;
    top:0;
-   left:-3%;
+   left:-3.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
+   border-color: white;
+   border-width: 2px;
   }
 
   .timeline2 #timeline-item #timeline-content
