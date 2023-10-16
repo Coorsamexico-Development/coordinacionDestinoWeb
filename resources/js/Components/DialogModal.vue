@@ -16,6 +16,9 @@ defineProps({
         type: Boolean,
         default: true,
     },
+    altura:{
+        type:String
+    }
 });
 
 const close = () => {
@@ -29,6 +32,7 @@ const close = () => {
         :max-width="maxWidth"
         :closeable="closeable"
         @close="close"
+        :altura="altura"
     >
         <div class="px-6 py-4">
             <div class="text-lg font-medium text-gray-900">

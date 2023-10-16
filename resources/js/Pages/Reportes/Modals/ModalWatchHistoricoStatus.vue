@@ -168,7 +168,7 @@
     */
 </script>
 <template>
-   <DialogModal :maxWidth="tamañoModal" :show="show" @close="close()">
+   <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
        <template #title>
          <div class="flex flex-row justify-between" style="font-family: 'Montserrat';">
             <h1>Historial</h1>
@@ -204,9 +204,9 @@
              </div>
                <!--TimeLine-->
            </div>
-           <div class="">
+           <div >
              <h1 class="" style="text-align: center;">Información</h1>
-             <div style="overflow-y: scroll; overflow-x: hidden;">
+             <div style="overflow-y: visible; overflow-x: hidden; height: 50%;">
                <div v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
