@@ -166,6 +166,8 @@
      formDoc.post(route('valoresEnrrampe'));
  });
     */
+   const activeClass = ref('timeline');
+   const errorClas = ref('timeline2');
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -182,25 +184,27 @@
            <div class="">
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
-             <div id="timeline" class="border-b-2" v-for="historia in infoModal" :key="historia.id">
-                <div  id="timeline-item" >
-                   <div id="timeline-icon" :style="{backgroundColor:historia.color}" >
-                   </div> 
-                   <div id="timeline-content">
-                     <div class="flex flex-row justify-between">
-                        <div>
-                           <h2 class="text-md" :style="{color:historia.color}">{{ historia.status }}</h2>
-                           <div class="flex flex-row items-center">
-                              <img class="w-3 h-3 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                              <h1 class="text-[#9B9B9B] text-xs">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
-                            </div>
-                        </div>
-                         <div class="flex items-center justify-center">
-                           <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
-                        </div>
+             <div v-for="historia in infoModal" :key="historia.id">
+               <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]" class="border-b-2"  >
+                  <div  id="timeline-item" >
+                     <div id="timeline-icon" :style="{backgroundColor:historia.color}" >
+                     </div> 
+                     <div id="timeline-content">
+                       <div class="flex flex-row justify-between">
+                          <div>
+                             <h2 class="text-md" :style="{color:historia.color}">{{ historia.status }} </h2>
+                             <div class="flex flex-row items-center">
+                                <img class="w-3 h-3 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
+                                <h1 class="text-[#9B9B9B] text-xs">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
+                              </div>
+                          </div>
+                           <div class="flex items-center justify-center">
+                             <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
+                          </div>
+                       </div>
                      </div>
-                   </div>
-                </div>
+                  </div>
+               </div>
              </div>
                <!--TimeLine-->
            </div>
@@ -264,7 +268,7 @@
    </DialogModal>
 </template>
 <style>
-  #timeline{
+  .timeline{
    width: 90%;
    margin: 30px auto;
    line-height: 1.5em;
@@ -273,14 +277,14 @@
    
   }
 
-  #timeline,
-  #timeline *,
-  #timeline *::before
-  #timeline *::after{
+  .timeline,
+  .timeline *,
+  .timeline *::before
+  .timeline *::after{
    box-sizing: border-box;
   }
 
-  #timeline::before{
+  .timeline::before{
    content: "";
    width: 7px;
    height: 190%;
@@ -290,11 +294,11 @@
    background-color: #9B9B9B ;
   }
 
-  #timeline #timeline-item{
+  .timeline #timeline-item{
    position: relative;
   }
 
-  #timeline #timeline-item #timeline-icon
+  .timeline #timeline-item #timeline-icon
   {
    width: 25px;
    height: 25px;
@@ -306,7 +310,59 @@
    justify-content: center;
   }
 
-  #timeline #timeline-item #timeline-content
+  .timeline #timeline-item #timeline-content
+  {
+    width: 100%;
+    padding-left:10%;
+    position: relative;
+    border-radius: 5px;
+  }
+
+
+  /**/
+  .timeline2{
+   width: 90%;
+   margin: 30px auto;
+   line-height: 1.5em;
+   position: relative;
+   transition: all 0.3s;
+   
+  }
+
+  .timeline2,
+  .timeline2 *,
+  .timeline2 *::before
+  .timeline2 *::after{
+   box-sizing: border-box;
+  }
+
+  .timeline2::before{
+   content: "";
+   width: 7px;
+   height: 60%;
+   left: 0%;
+   top:0;
+   position: absolute;
+   background-color: #9B9B9B ;
+  }
+
+  .timeline2 #timeline-item{
+   position: relative;
+  }
+
+  .timeline2 #timeline-item #timeline-icon
+  {
+   width: 25px;
+   height: 25px;
+   position: absolute;
+   top:0;
+   left:-3%;
+   right: 0%;
+   border-radius: 50%;
+   justify-content: center;
+  }
+
+  .timeline2 #timeline-item #timeline-content
   {
     width: 100%;
     padding-left:10%;
