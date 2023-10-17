@@ -2,7 +2,6 @@
   import {ref, watch, computed, reactive } from "vue";
   import ButtonWatch from '@/Components/ButtonWatch.vue'
   import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
-  import ModalAddOCS from "../Modals/ModalAddOCS.vue";
 
   import axios from "axios";
     //Props
@@ -114,8 +113,9 @@
       </div>
     </div>
   </div>
+  {{ ocs }}
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
-     <ModalAddOCS :show="modalOcs" @close="modalOcsClose()" />
+
 </template>
