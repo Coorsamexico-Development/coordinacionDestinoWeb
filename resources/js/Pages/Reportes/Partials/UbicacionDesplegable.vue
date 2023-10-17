@@ -157,7 +157,13 @@ const valores = computed(() =>
         <div v-if="show" >
           <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
           <div v-if="dts !== null">
-            {{ dts }}
+             <!--SON CONFIRMACIONES las que se listan-->
+             <div class="py-2" v-for="dt in dtsData" :key="dt.id">
+                <DtBlock :dt="dt"  />
+             </div>
+                  <!--
+               <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
+               --->
           </div>
         </div>
      </Transition>
