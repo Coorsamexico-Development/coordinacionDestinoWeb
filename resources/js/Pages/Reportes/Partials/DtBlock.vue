@@ -119,4 +119,7 @@
       </div>
     </div>
   </div>
+  <div v-if="infoModal !== null">
+     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+  </div>
 </template>
