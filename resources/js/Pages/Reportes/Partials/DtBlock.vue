@@ -52,22 +52,7 @@
 
   const consultarOcs = () => 
   {
-    try 
-      {
-          axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
-          {
-             console.log(response.data)
-             ocs.value = response.data;
-          })
-          .catch(err=> 
-          {
-              
-          })   
-      } 
-      catch (error) 
-      {
-          
-      }
+  
   }
   
 </script>
@@ -117,7 +102,5 @@
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
-  <div v-if="ocs.length !== 0">
      <ModalAddOCS :show="modalOcs" @close="modalOcsClose()" />
-  </div>
 </template>
