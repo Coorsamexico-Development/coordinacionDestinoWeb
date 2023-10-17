@@ -1,19 +1,79 @@
 <script setup>
- import {ref, watch, computed, reactive } from "vue";
- import ButtonWatch from '@/Components/ButtonWatch.vue'
- import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
- import ModalAddOcs from "../Modals/ModalAddOcs.vue";
- import axios from "axios";
-  //Props
- var props = defineProps({
+  import {ref, watch, computed, reactive } from "vue";
+  import ButtonWatch from '@/Components/ButtonWatch.vue'
+  import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
+  import ModalAddOcs from "../Modals/ModalAddOcs.vue";
+  import axios from "axios";
+    //Props
+  var props = defineProps({
       dt:Object,
   });
-
+  
   let infoModal = ref(null);
   let status = ref([]);
   //Funcion modales
   let modalWatch = ref(false);
+  
+  const modalWatchOpen = () => 
+  {
+    console.log(props.dt.id)
+    modalWatch.value=true;
+    axios.get(route('showHistorico'), {params:{
+     id:props.dt.id
+    }}).then(response =>
+    {
+      console.log(response);
+      infoModal.value = response.data.historico;
+      status.value = response.data.status;
+    }).catch(err => 
+    {
+     console.log(err)
+    })
+  }
+  const modalWatchClose = () => 
+  {
+    modalWatch.value=false;
+  }
+  
   let modalOcs = ref(false);
+  
+  const modalOcsOpen = () => 
+  {
+    modalOcs.value = true;
+    try {
+       consultarOcs();
+    } 
+    catch (error) 
+    {
+      
+    }
+  }
+  
+  const modalOcsClose = () => 
+  {
+     modalOcs.value = false;
+  }
+  
+  let ocs = ref([]);
+  const consultarOcs = () => 
+  {
+    try 
+      {
+          axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
+          {
+             //console.log(response.data)
+             ocs.value = response.data;
+          })
+          .catch(err=> 
+          {
+              
+          })   
+      } 
+      catch (error) 
+      {
+          
+      }
+  }
   
 </script>
 <template>
