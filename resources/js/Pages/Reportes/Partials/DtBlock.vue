@@ -96,8 +96,8 @@
     </div>
     <div class="justify-center col-start-7 col-end-13 px-2 py-2">
       <div class="flex flex-row-reverse flex-end">
-        <ButtonWatch  :color="dt.color" />
-        <button  :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 mx-2" >
+        <ButtonWatch  @click="modalWatchOpen()"  :color="dt.color" />
+        <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 mx-2" >
               <p class="text-sm text-white">OCS</p>
         </button>
       </div>
@@ -119,4 +119,8 @@
       </div>
     </div>
   </div>
+  <div v-if="infoModal !== null">
+    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+  </div>
+  <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" :confirmacion="dt.confirmacion" :ocsAxios="ocs" @reconsultar="consultarOcs()" />
 </template>
