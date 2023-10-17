@@ -2,6 +2,7 @@
   import {ref, watch, computed, reactive } from "vue";
   import ButtonWatch from '@/Components/ButtonWatch.vue'
   import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
+  import ModalAddOCS from "../Modals/ModalAddOCS.vue";
 
   import axios from "axios";
     //Props
@@ -36,11 +37,11 @@
   }
   
   let modalOcs = ref(false);
-  
+  let ocs = ref([]);
   const modalOcsOpen = () => 
   {
-    modalOcs.value = true;
-    try {
+    try 
+    {
        consultarOcs();
     } 
     catch (error) 
@@ -54,7 +55,7 @@
      modalOcs.value = false;
   }
   
-  let ocs = ref([]);
+
   const consultarOcs = () => 
   {
     try 
@@ -63,6 +64,7 @@
           {
              console.log(response.data)
              ocs.value = response.data;
+             modalOcs.value = true;
           })
           .catch(err=> 
           {
@@ -123,6 +125,6 @@
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
   <div v-if="ocs.length !== 0">
-     
+     <ModalAddOCS :show="modalOcs" @close="modalOcsClose()" />
   </div>
 </template>
