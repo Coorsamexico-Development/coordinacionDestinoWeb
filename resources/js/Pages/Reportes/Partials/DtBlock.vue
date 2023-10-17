@@ -13,6 +13,7 @@ let infoModal = ref(null);
 let status = ref([]);
 //Funcion modales
 let modalWatch = ref(false);
+/*
 const modalWatchOpen = () => 
 {
   console.log(props.dt.id)
@@ -73,7 +74,7 @@ const consultarOcs = () =>
         
     }
 }
-
+*/
 </script>
 <template>
    <div class="grid grid-cols-12 m-3 border rounded-lg drop-shadow-2xl" >
@@ -96,7 +97,7 @@ const consultarOcs = () =>
       <div class="justify-center col-start-7 col-end-13 px-2 py-2">
          <div class="flex flex-row-reverse flex-end">
            <ButtonWatch  @click="modalWatchOpen()" :color="dt.color" />
-           <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 " >
+           <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 mx-2" >
             <p class="text-sm text-white">OCS</p>
            </button>
          </div>
