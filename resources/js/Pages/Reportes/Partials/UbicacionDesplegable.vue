@@ -1,7 +1,9 @@
 <script setup>
 import axios from "axios";
 import {ref, watch, computed, reactive } from "vue";
-
+import SwitchButton from './SwitchButton.vue';
+import DtBlock from './DtBlock.vue';
+import { pickBy } from 'lodash';
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -27,6 +29,58 @@ const showClients = (ubicacion_id) =>  //funcion para desplegar
     params.ubicacion_id = ubicacion_id
     show.value = !show.value ;
 }
+
+//El id viene de la emicion de switchButtons
+const setPlataforma = (id) => 
+{
+   params.plataforma_id = id;
+}
+
+//DTS
+let dts = ref(null);
+let nuevosParametros = ref({});
+let dtsData = ref([]);
+//Watcher para parametros
+watch(params, (newParams) => 
+{
+  if(newParams.ubicacion_id == undefined)
+  {
+    params.ubicacion_id = -1;
+  }
+
+  if(props.buscador !== '')
+  {
+    params.busqueda = props.buscador
+  }
+
+
+  if(newParams.ubicacion_id !== -1)
+  {
+    axios.get(route('getConfirmacions',{
+      ubicacion_id: newParams.ubicacion_id,
+      plataforma_id: newParams.plataforma_id,
+      status_id: newParams.status_id,
+      busqueda: newParams.busqueda
+    }))
+      .then(response => {
+          // Obtenemos los datos
+          //console.log(response.data)
+          nuevosParametros.value = {
+            ubicacion_id: newParams.ubicacion_id,
+            plataforma_id: newParams.plataforma_id,
+            status_id: newParams.status_id,
+            busqueda: newParams.busqueda
+          }
+          dts.value = response.data;
+          dtsData.value = response.data.data;
+      })
+      .catch(e => {
+          // Capturamos los errores
+      })
+  }
+
+});
+
 
 const valores = computed(() => 
 {
@@ -76,6 +130,15 @@ const valores = computed(() =>
           </div>
         </div>
      </div>
+     <!--Contenido-->
+     <Transition name="slide-fade">
+        <div v-if="show" >
+          <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
+          <div v-if="dts !== null">
+            {{ dts }}
+          </div>
+        </div>
+     </Transition>
    </div>
 </template>
 <style>
