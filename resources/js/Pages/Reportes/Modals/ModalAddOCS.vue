@@ -11,9 +11,13 @@
       },
   });
 
+  const close = () => { 
+     emit('close');
+  };
+
 </script>
 <template>
-    <DialogModal  :show="show" @close="close()">
+    <DialogModal :maxWidth="'2xl'" :show="show" @close="close()">
         <template #title>
           <div class="flex flex-row justify-between">
              <h1>OCS</h1>

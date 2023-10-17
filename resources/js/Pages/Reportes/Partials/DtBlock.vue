@@ -50,9 +50,24 @@
   }
   
 
-  const consultarOcs = () => 
+  const consultarOcs = async () => 
   {
-  
+    try 
+      {
+         await axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
+          {
+             console.log(response.data)
+             ocs.value = response.data;
+          })
+          .catch(err=> 
+          {
+              
+          })   
+      } 
+      catch (error) 
+      {
+          
+      }
   }
   
 </script>
