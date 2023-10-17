@@ -5,13 +5,13 @@
   import InputLabel from '@/Components/InputLabel.vue';
   import TextInput from '@/Components/TextInput.vue';
   import axios from 'axios';
+
   const props = defineProps({
        show: {
            type: Boolean,
            default: false,
        },
-       confirmacion:String,
-       ocsAxios:Object
+
    });
 
    const close = () => { 
@@ -29,7 +29,7 @@
        </div>
      </template>
      <template #content>
-       {{ ocsAxios }}
+
      </template>
    </DialogModal>
 </template>

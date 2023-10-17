@@ -123,6 +123,6 @@
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
   <div v-if="ocs.length !== 0">
-    <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" :confirmacion="dt.confirmacion" :ocsAxios="ocs" @reconsultar="consultarOcs()" />
+    <ModalAddOcs :show="modalOcs" @close="modalOcsClose()"  />
   </div>
 </template>
