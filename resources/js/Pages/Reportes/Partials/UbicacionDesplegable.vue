@@ -161,7 +161,9 @@ const valores = computed(() =>
                <div v-for="dt in dtsData" :key="dt.id">
                   <DtBlock :dt="dt"  />
                </div>
+               <!--
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
+               --->
             </div>
           </div>
        </Transition>
