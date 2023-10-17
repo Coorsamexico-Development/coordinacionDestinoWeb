@@ -46,9 +46,9 @@ watch(buscador, (newBusqueda) =>
             
             <div v-else>
                 <div v-for="statu_hijo in statu.status_hijos" :key="statu_hijo.id">
-                  <!--
+                  
                     <Scrollable :buscador="buscador" :statu="statu_hijo" :ubicaciones="ubicaciones" :plataformas="plataformas"  />   
-                    -->
+                    
                 </div>
             </div>
             
