@@ -50,3 +50,25 @@ const contadorIndividual = computed(() =>
       </div>
    </div>
 </template>
+<style>
+  ::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px #c6c6c6; 
+  border-radius: 1px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #C5C5C5; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #C5C5C5; 
+}
+</style>
