@@ -11,7 +11,6 @@ var props = defineProps({
     status:Object,
     buscador:String
 });
-
 //Show para mostrar los hijos
 let show = ref(false)
 //Parametros de busqueda o filtros
@@ -81,6 +80,28 @@ watch(params, (newParams) =>
 
 });
 
+//Reconsulta al paginado
+/*
+const loadPage = async (page) =>
+{
+   axios.get(page,{
+    params:{
+      plataforma_id:nuevosParametros.value.plataforma_id,
+      ubicacion_id:nuevosParametros.value.ubicacion_id,
+      status_id:nuevosParametros.value.status_id,
+      busqueda: nuevosParametros.value.busqueda,
+    }
+   })
+    .then(response => {
+       dts.value = response.data
+       dtsData.value = response.data.data;
+    })
+    .catch(e => {
+        // Podemos mostrar los errores en la consola
+        console.log(e);
+    })
+}
+*/
 
 const valores = computed(() => 
 {
@@ -103,6 +124,7 @@ const valores = computed(() =>
 
   return contadorGeneral
 });
+
 </script>
 <template>
    <div class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
