@@ -214,16 +214,16 @@
            </div>
            <div>
              <h1 class="" style="text-align: center;">Información</h1>
-             <div class="overflow-y-auto h-96 flex my-12">   
+             <div class="overflow-y-auto h-96 ">   
                <div class="snap-center" v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
                        <div class="">
                         <Campo :camposValores="camposValores" />
                        </div>
-                       <div class="border-t-2 mt-2" v-if="statusActual.status_id == 9">
-                           <h1 class="text-lg mx-16 mt-2">OC's</h1>
-
+                       <div class="border-t-2 mt-2 ml-16 " v-if="statusActual.status_id == 9">
+                           <h1 class="text-lg mt-2">OC's</h1>
+                           
                        </div>
                      </div>
                  </div>
