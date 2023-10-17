@@ -214,8 +214,7 @@
            </div>
            <div>
              <h1 class="" style="text-align: center;">Información</h1>
-             <div class="overflow-y-auto h-96">
-                 
+             <div class="overflow-y-auto h-96 flex my-12">   
                <div class="snap-center" v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
