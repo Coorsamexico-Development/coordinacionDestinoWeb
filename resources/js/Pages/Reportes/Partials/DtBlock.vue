@@ -8,6 +8,13 @@
  var props = defineProps({
       dt:Object,
   });
+
+  let infoModal = ref(null);
+  let status = ref([]);
+  //Funcion modales
+  let modalWatch = ref(false);
+  let modalOcs = ref(false);
+  
 </script>
 <template>
  <div class="grid grid-cols-12 m-3 border rounded-lg drop-shadow-2xl" >
@@ -26,6 +33,30 @@
           <h1 class="text-xs font-bold uppercase">LT: </h1>
           <p class="text-xs">{{ dt.linea_transporte }}</p>
        </div>
+    </div>
+    <div class="justify-center col-start-7 col-end-13 px-2 py-2">
+      <div class="flex flex-row-reverse flex-end">
+        <ButtonWatch  :color="dt.color" />
+        <button  :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 mx-2" >
+              <p class="text-sm text-white">OCS</p>
+        </button>
+      </div>
+      <div class="flex flex-row-reverse items-center" :style="{color:dt.color}">
+         <h1 class="text-sm">{{ dt.status }}</h1>
+         <span class="w-2 h-2 mr-2 rounded-full" :style="{backgroundColor:dt.color}"></span>
+      </div>
+      <div class="flex flex-row items-center justify-center mt-1">
+         <div class="flex flex-row mr-2">
+           <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
+           <div>
+             <p class="" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
+           </div>
+         </div>
+         <div class="flex flex-row"> 
+           <img class="w-3 h-3 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
+           <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+         </div>
+      </div>
     </div>
   </div>
 </template>
