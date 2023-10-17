@@ -79,7 +79,7 @@
         console.log(err)
       });
 
-      
+
    }
   catch(err)
   {
@@ -212,10 +212,11 @@
              </div>
                <!--TimeLine-->
            </div>
-           <div >
+           <div>
              <h1 class="" style="text-align: center;">Información</h1>
-             <div style="overflow-y: visible; overflow-x: hidden; height: 50%;" class="">
-               <div v-if="statusActual !== null">
+             <div class="overflow-y-auto h-96">
+                 
+               <div class="snap-center" v-if="statusActual !== null">
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
                        <div class="">
@@ -227,7 +228,8 @@
                        </div>
                      </div>
                  </div>
-                 <div class="mt-8" v-if="statusActual.status_id">
+               </div>
+               <div class="mt-8 snap-center" v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
                        <div class="flex flex-row justify-center">
                            <h1 class="mx-2">Ver documento final</h1>
@@ -268,7 +270,6 @@
                        </div>
                     </div>
                  </div>  
-               </div>          
              </div>
            </div>
          </div>
