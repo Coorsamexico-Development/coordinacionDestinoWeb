@@ -38,18 +38,20 @@ watch(buscador, (newBusqueda) =>
            </div>
        </div>
        <div class="grid grid-cols-3 gap-4 px-4 py-2">
-         <!--
+        
          <div v-for="statu in status_padre" :key="statu.id">
             <div v-if="statu.id !==3 || statu.id !== 3">
                 <ScrollableStatus :buscador="buscador" :statu="statu" :ubicaciones="ubicaciones" :plataformas="plataformas" :contadores = 'contadores' />
             </div>
+             <!--
             <div v-else>
                 <div v-for="statu_hijo in statu.status_hijos" :key="statu_hijo.id">
                     <Scrollable :buscador="buscador" :statu="statu_hijo" :ubicaciones="ubicaciones" :plataformas="plataformas"  />
                 </div>
             </div>
+             -->
           </div>
-        -->
+       
        </div>
 
     </AppLayout>
