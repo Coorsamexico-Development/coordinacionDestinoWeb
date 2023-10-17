@@ -13,7 +13,7 @@ let infoModal = ref(null);
 let status = ref([]);
 //Funcion modales
 let modalWatch = ref(false);
-/*
+
 const modalWatchOpen = () => 
 {
   console.log(props.dt.id)
@@ -74,7 +74,7 @@ const consultarOcs = () =>
         
     }
 }
-*/
+
 </script>
 <template>
    <div class="grid grid-cols-12 m-3 border rounded-lg drop-shadow-2xl" >
@@ -119,12 +119,9 @@ const consultarOcs = () =>
          </div>
       </div>
    </div>
-       <!--
-   <div v-if="infoModal !== null">
 
+   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-   
    </div>
    <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" :confirmacion="dt.confirmacion" :ocsAxios="ocs" @reconsultar="consultarOcs()" />
-     -->
 </template>

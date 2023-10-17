@@ -69,11 +69,6 @@ const contadorIndividual = computed(() =>
         </div>
         <div v-if="statu.id == 1">
            <ButtonDropZone v-model="document" />
-           <div v-if="formNewDts.hasErrors ">
-                <span class="text-sm text-red-500">
-                   {{ formNewDts.errors.errors }}
-                </span>
-           </div>
         </div>
      </div>
      <div class="grid grid-cols-2 gap-1">
@@ -89,7 +84,9 @@ const contadorIndividual = computed(() =>
      <!--body-->
      <div class="h-full px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
+            <!--
             <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
+          -->
          </div>
      </div> 
   </div>
