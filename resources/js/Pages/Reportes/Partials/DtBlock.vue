@@ -40,14 +40,8 @@
   let ocs = ref([]);
   const modalOcsOpen = () => 
   {
-    try 
-    {
-       consultarOcs();
-    } 
-    catch (error) 
-    {
-      
-    }
+    modalOcs.value = true;
+
   }
   
   const modalOcsClose = () => 
@@ -64,7 +58,6 @@
           {
              console.log(response.data)
              ocs.value = response.data;
-             modalOcs.value = true;
           })
           .catch(err=> 
           {
