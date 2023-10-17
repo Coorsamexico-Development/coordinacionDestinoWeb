@@ -2,7 +2,7 @@
   import {ref, watch, computed, reactive } from "vue";
   import ButtonWatch from '@/Components/ButtonWatch.vue'
   import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
-  import ModalAddOcs from "../Modals/ModalAddOcs.vue";
+
   import axios from "axios";
     //Props
   var props = defineProps({
@@ -61,7 +61,7 @@
       {
           axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
           {
-             //console.log(response.data)
+             console.log(response.data)
              ocs.value = response.data;
           })
           .catch(err=> 
@@ -123,6 +123,6 @@
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
   <div v-if="ocs.length !== 0">
-    <ModalAddOcs :show="modalOcs" @close="modalOcsClose()"  />
+     
   </div>
 </template>

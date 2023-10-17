@@ -727,7 +727,7 @@ class ConfirmacionDtController extends Controller
       $setPDF = ConfirmacionDt::where('confirmacion','=',$request['params']['confirmacion'])
       ->update([
         'pdf' => $urlPdf,
-        //'cerrado' => 1
+        'cerrado' => 1
       ]);
       
 
