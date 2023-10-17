@@ -22,6 +22,7 @@ const formNewDts = useForm({
 //Watcher para la carga del reporte
 watch(document, (documentoCargado) => 
 {
+   /*
    formNewDts.document = documentoCargado
    try 
    {
@@ -46,7 +47,7 @@ watch(document, (documentoCargado) =>
    catch (error) 
    {
      console.log(error)  
-   }
+   }*/
 });
 
 //filtro
