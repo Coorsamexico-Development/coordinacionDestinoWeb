@@ -119,8 +119,4 @@
       </div>
     </div>
   </div>
-  <div v-if="infoModal !== null">
-    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-  </div>
-  <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" :confirmacion="dt.confirmacion" :ocsAxios="ocs" @reconsultar="consultarOcs()" />
 </template>
