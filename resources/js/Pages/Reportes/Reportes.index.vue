@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
-import {ref, watch, computed, reactive } from "vue";
+import {ref, watch } from "vue";
 import { router } from '@inertiajs/vue3'
 
 var props = defineProps({
