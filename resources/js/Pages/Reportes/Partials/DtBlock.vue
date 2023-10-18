@@ -45,9 +45,10 @@
   }
   
 
-  const consultarOcs = async () => 
+  const consultarOcs =  () => 
   {
     modalOcs.value = true;
+    /*
     try 
       {
          await axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
@@ -65,6 +66,7 @@
       {
           
       }
+      */
   }
   
 </script>
