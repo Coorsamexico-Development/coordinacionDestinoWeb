@@ -73,8 +73,12 @@
   
 </script>
 <template>
- <div class="grid grid-cols-12 mx-2 my-1 border rounded-lg drop-shadow-2xl " >
-    <div class="w-4 col-start-1 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
+ <div class="grid grid-cols-12 mx-6 my-1  rounded-lg drop-shadow-lg" 
+   style="
+     box-shadow:
+    -0em 0.2em 0em 0.2em rgba(0, 0, 0, 0.1);
+    " >
+    <div class="w-6 col-start-1 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
     </div>
     <div class="col-start-2 col-end-7 py-2">
       <div class="flex flex-row my-1">
@@ -103,14 +107,14 @@
       </div>
       <div class="flex flex-row items-center justify-center mt-1">
          <div class="flex flex-row mr-2">
-           <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
+           <img class="w-4 h-4 mx-1" src="../../../../assets/img/calendario.png" />
            <div>
-             <p class="" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
+             <p  class="text-[#9B9B9B]"  style="font-size: 0.8rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
            </div>
          </div>
          <div class="flex flex-row"> 
-           <img class="w-3 h-3 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
-           <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+           <img class="w-4 h-4 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
+           <p  class="text-[#9B9B9B]" style="font-size: 0.8rem;">{{ dt.cita.substring(10,16) }}</p>
          </div>
       </div>
     </div>
