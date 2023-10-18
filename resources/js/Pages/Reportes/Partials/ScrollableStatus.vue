@@ -2,9 +2,15 @@
   import {ref, watch, computed } from "vue";
   import ButtonDropZone from '@/Components/ButtonDropZone.vue'
   import { Link, useForm } from '@inertiajs/vue3'
+  import UbicacionDesplegable from "./UbicacionDesplegable.vue";
+
   var props = defineProps({
     statu:Object,
     contadores:Object,
+    ubicaciones:Object,
+    plataformas:Object,
+    contadores:Object,
+    buscador:String
   });
 
  //Formulario para subir excel
@@ -69,6 +75,12 @@ const contadorIndividual = computed(() =>
          <p class="text-3xl font-bold text-white">
             {{ contador.confirmaciones_dts.length }}
          </p>
+      </div>
+   </div>
+   <!--body-->
+   <div class="h-full px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
+      <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
+         <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
       </div>
    </div>
 </template>

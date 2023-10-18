@@ -31,7 +31,6 @@ watch(buscador, (newBusqueda) =>
 </script>
 <template>
    <AppLayout title="Dashboard">
-   
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
@@ -39,12 +38,7 @@ watch(buscador, (newBusqueda) =>
        </div>
        <div class="grid grid-cols-3 gap-4 px-8 py-2 w-full">
           <div v-for="statu_padre in status_padre" :key="statu_padre.id">
-             <ScrollableStatus :statu="statu_padre" :contadores="contadores" />
-             <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
-                <div class="bg-white rounded-xl drop-shadow-lg my-4 p-4" v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-                   {{ ubicacion.nombre_ubicacion }} 
-                </div>   
-             </div>
+             <ScrollableStatus :statu="statu_padre" :contadores="contadores" :ubicaciones="ubicaciones" :plataformas="plataformas" :buscador="buscador" />
           </div>
        </div>
     </AppLayout>
