@@ -4,6 +4,7 @@ import {ref, watch, computed, reactive } from "vue";
 import SwitchButton from './SwitchButton.vue';
 import DtBlock from './DtBlock.vue';
 import { pickBy } from 'lodash';
+import PaginationAxios from "@/Components/PaginationAxios.vue";
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -81,7 +82,7 @@ watch(params, (newParams) =>
 });
 
 //Reconsulta al paginado
-/*
+
 const loadPage = async (page) =>
 {
    axios.get(page,{
@@ -101,7 +102,7 @@ const loadPage = async (page) =>
         console.log(e);
     })
 }
-*/
+
 
 const valores = computed(() => 
 {
@@ -127,7 +128,7 @@ const valores = computed(() =>
 
 </script>
 <template>
-   <div class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
+   <div @click="showClients(ubicacion.id)" class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
      <div> <!--Header-->
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
@@ -142,10 +143,10 @@ const valores = computed(() =>
               </div>
             </div>
             <div>
-               <svg @click="showClients(ubicacion.id)" v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+               <svg  v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                  <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
                </svg>    
-               <svg @click="showClients(ubicacion.id)" v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+               <svg  v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                  <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
                </svg>
             </div>
@@ -161,9 +162,7 @@ const valores = computed(() =>
              <div class="py-2" v-for="dt in dtsData" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
-                  <!--
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
-               --->
           </div>
         </div>
      </Transition>
