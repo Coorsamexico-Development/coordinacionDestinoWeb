@@ -116,7 +116,7 @@
 
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-     <ModalAddOCS />
+     <ModalAddOCS :show="modalOcs" @close="modalOcsClose" />
   </div>
 
 </template>
