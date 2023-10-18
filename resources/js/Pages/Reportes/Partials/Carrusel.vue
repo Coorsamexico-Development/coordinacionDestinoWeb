@@ -60,7 +60,7 @@
 </template>
 <style >
 .swiper {
-  width: 100%;
+  width: 70%%;
   height: 100%;
 }
 
