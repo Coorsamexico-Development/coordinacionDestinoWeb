@@ -40,7 +40,33 @@ watch(buscador, (newBusqueda) =>
        <div class="grid grid-cols-3 gap-4 px-8 py-2 w-full">
           <div v-for="statu_padre in status_padre" :key="statu_padre.id">
              <ScrollableStatus :statu="statu_padre" :contadores="contadores" />
+             <div class="h-full px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
+                <div v-for="ubicacion in ubicaciones" :key="ubicacion.id"> 
+                 </div>   
+             </div>
           </div>
        </div>
     </AppLayout>
 </template>
+<style>
+  ::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px #c6c6c6; 
+  border-radius: 1px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #C5C5C5; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #C5C5C5; 
+}
+</style>
