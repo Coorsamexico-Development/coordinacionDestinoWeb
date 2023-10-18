@@ -113,7 +113,7 @@
       </div>
     </div>
   </div>
-  {{ ocs }}
+
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
      <ModalAddOCS />
