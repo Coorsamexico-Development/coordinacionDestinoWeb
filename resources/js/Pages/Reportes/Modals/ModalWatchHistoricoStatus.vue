@@ -8,7 +8,7 @@
  import Campo from '../Partials/Campo.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
  import '@fancyapps/ui/dist/fancybox/fancybox.css';
- import ModalIncidencias from '@/Pages/Productos/Modals/ModalIncidencias.vue';
+ import ModalIncidencias from '../Modals/ModalIncidencias.vue';
 
   const emit = defineEmits(["close"])
   const props = defineProps({
