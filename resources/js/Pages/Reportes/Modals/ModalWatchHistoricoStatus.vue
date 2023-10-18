@@ -7,7 +7,8 @@
  import axios from 'axios';
  import Campo from '../Partials/Campo.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
-  import '@fancyapps/ui/dist/fancybox/fancybox.css';
+ import '@fancyapps/ui/dist/fancybox/fancybox.css';
+ import ModalIncidencias from '@/Pages/Productos/Modals/ModalIncidencias.vue';
 
   const emit = defineEmits(["close"])
   const props = defineProps({
@@ -167,6 +168,20 @@
          alert(err);  
        });
  }
+
+ const modalIncidencias = ref(false);
+ const incidencias = ref(null);
+ const openModalIncidencias = (oc) => 
+ {
+   modalIncidencias.value = true;
+   incidencias.value = oc.incidencias
+ }
+
+ const closeModalIncidencias = () =>
+ {
+   modalIncidencias.value = false;
+ }
+
   /*
   Prueba para subida de archivos 
   let file = ref(null)
@@ -248,7 +263,7 @@
                                    <td class="text-center py-2">{{ oc.facturado }}</td>
                                    <td class="text-center py-2">{{ oc.enPOD }}</td>
                                    <td class="flex justify-center py-2">
-                                      <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" />
+                                      <ButtonWatch @click="openModalIncidencias(oc)" class="w-8 h-6" :color="'#44BFFC'" />
                                    </td>
                                  </tr>
                               </tbody>
@@ -301,6 +316,7 @@
              </div>
            </div>
          </div>
+         <ModalIncidencias :show="modalIncidencias" @close="closeModalIncidencias()" />
        </template>
    </DialogModal>
 </template>

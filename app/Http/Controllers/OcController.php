@@ -190,6 +190,7 @@ class OcController extends Controller
     {
        return   Oc::select('ocs.*')
           ->where('ocs.confirmacion_dt_id','=',$request['confirmacion_dt_id'])
+          ->with('incidencias')
           ->get();
     }
 }
