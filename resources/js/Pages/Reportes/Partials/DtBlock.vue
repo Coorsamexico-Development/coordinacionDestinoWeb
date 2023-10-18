@@ -73,7 +73,7 @@
   
 </script>
 <template>
- <div class="grid grid-cols-12 m-2 border rounded-lg drop-shadow-2xl" >
+ <div class="grid grid-cols-12 mx-2 my-1 border rounded-lg drop-shadow-2xl " >
     <div class="w-4 col-start-1 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
     </div>
     <div class="col-start-2 col-end-7 py-2">
