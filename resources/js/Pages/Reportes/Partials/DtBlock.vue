@@ -37,12 +37,8 @@
   
   let modalOcs = ref(false);
   let ocs = ref([]);
-  const modalOcsOpen = () => 
-  {
-    modalOcs.value = true;
-
-  }
-  
+ 
+ 
   const modalOcsClose = () => 
   {
      modalOcs.value = false;
@@ -51,13 +47,14 @@
 
   const consultarOcs = async () => 
   {
+    modalOcs.value = true;
     try 
       {
          await axios.get(route('consultarOcs', {confirmacion:props.dt.confirmacion})).then(response => 
           {
              console.log(response.data)
              ocs.value = response.data;
-             modalOcs.value = true;
+           
           })
           .catch(err=> 
           {
@@ -117,7 +114,6 @@
 
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-     <ModalAddOCS :show="modalOcs" @close="modalOcsClose" />
   </div>
-
+  <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" />
 </template>
