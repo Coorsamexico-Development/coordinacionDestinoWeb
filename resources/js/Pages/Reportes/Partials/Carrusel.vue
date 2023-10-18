@@ -47,20 +47,19 @@
     :slides-per-view="1"
     :progressbarOpposite="true"
     :pagination="pagination"
-
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
     <swiper-slide v-for="valor in valores" :key="valor.id" > 
         <div class="flex justify-center">
-            <img class="rounded-md w-96" :src="valor.valor" :href="valor.valor" data-fancybox />
+            <img class="rounded-md" :src="valor.valor" :href="valor.valor" data-fancybox />
         </div>
     </swiper-slide>
   </swiper>
 </template>
 <style >
 .swiper {
-  width: 70%;
+  width: 25rem;
   height: 100%;
 }
 
@@ -77,7 +76,7 @@
 
 .swiper-slide img {
   display: block;
-  width: 70%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }

@@ -15,11 +15,11 @@ import Carrusel from '../Partials/Carrusel.vue'
 });
 </script>
 <template>
-    <div class="mt-6" v-for="campo in camposValores" :key="campo.id">
-       <h1 class="text-lg mx-16 mb-4" style="font-family: 'Montserrat';"> - {{ campo.campo }}</h1>
+    <div class="mt-4" v-for="campo in camposValores" :key="campo.id">
+       <h1 class="text-lg  mb-4" style="font-family: 'Montserrat';"> - {{ campo.campo }}</h1>
        <div v-for="(valor,key) in campo.valores" :key="valor.id">
          <div v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-              <h3 class="mx-16" style="font-family: 'Montserrat';">
+              <h3 class="" style="font-family: 'Montserrat';">
                 {{ valor.valor }}
               </h3>
          </div>
