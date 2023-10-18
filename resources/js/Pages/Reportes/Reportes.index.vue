@@ -40,9 +40,10 @@ watch(buscador, (newBusqueda) =>
        <div class="grid grid-cols-3 gap-4 px-8 py-2 w-full">
           <div v-for="statu_padre in status_padre" :key="statu_padre.id">
              <ScrollableStatus :statu="statu_padre" :contadores="contadores" />
-             <div class="h-full px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
-                <div v-for="ubicacion in ubicaciones" :key="ubicacion.id"> 
-                 </div>   
+             <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
+                <div class="bg-white rounded-xl drop-shadow-lg my-4 p-4" v-for="ubicacion in ubicaciones" :key="ubicacion.id">
+                   {{ ubicacion.nombre_ubicacion }} 
+                </div>   
              </div>
           </div>
        </div>
