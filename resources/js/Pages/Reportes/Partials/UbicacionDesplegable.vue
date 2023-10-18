@@ -128,8 +128,8 @@ const valores = computed(() =>
 
 </script>
 <template>
-   <div @click="showClients(ubicacion.id)" class="bg-white rounded-xl drop-shadow-lg pb-2"> <!--main-->
-     <div> <!--Header-->
+   <div class="bg-white rounded-xl drop-shadow-lg pb-2"> <!--main-->
+     <div @click="showClients(ubicacion.id)" > <!--Header-->
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
           <div class="flex flex-row items-center">

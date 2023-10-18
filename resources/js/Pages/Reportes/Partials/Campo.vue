@@ -24,7 +24,7 @@ import Carrusel from '../Partials/Carrusel.vue'
               </h3>
          </div>
          <div v-if="key == 0">
-           <div class="mx-16" v-if="campo.tipo_campo == 'file'">
+           <div class="" v-if="campo.tipo_campo == 'file'">
             <a class="" :href="valor.valor" data-fancybox    >
                <ButtonWatch :color="'#1D96F1'" />
             </a>

@@ -80,7 +80,7 @@ const contadorIndividual = computed(() =>
       </div>
    </div>
    <!--body-->
-   <div class=" px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
+   <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
             <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
          </div>

@@ -78,6 +78,17 @@
         console.log(err)
       });
 
+      //Consulta para las OCS
+      axios.get('/ocsByViaje',{
+         params:{
+            confirmacion_dt_id: historiaIndividual.confirmacion_dt_id
+         }
+      }).then(response => {
+         console.log(response)
+         ocs.value = response.data;
+      }).catch(err => {
+         console.log(err)
+      })
 
    }
   catch(err)
@@ -213,7 +224,7 @@
            </div>
            <div>
              <h1 class="" style="text-align: center;">Información</h1>
-             <div class="overflow-y-auto h-96 flex my-12 overflow-x-hidden" v-if="statusActual !== null">   
+             <div class="overflow-y-auto h-96" v-if="statusActual !== null">   
                <div class="snap-center" >
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
@@ -222,6 +233,26 @@
                        </div>
                        <div class="border-t-2 mt-2  " v-if="statusActual.status_id == 9">
                            <h1 class="text-lg mt-2">OC's</h1>
+                           <table class="w-full">
+                              <thead class="border-b-2 border-[#44BFFC]">
+                                 <tr>
+                                    <td class="text-center">Referencia</td>
+                                    <td class="text-center">Facturado</td>
+                                    <td class="text-center">En POD</td>
+                                    <td class="text-center">Incidencias</td>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="" v-for="oc in ocs" :key="oc.id">
+                                   <td class="text-center py-2"># {{ oc.referencia }}</td>
+                                   <td class="text-center py-2">{{ oc.facturado }}</td>
+                                   <td class="text-center py-2">{{ oc.enPOD }}</td>
+                                   <td class="flex justify-center py-2">
+                                      <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" />
+                                   </td>
+                                 </tr>
+                              </tbody>
+                           </table>
                        </div>
                      </div>
                  </div>

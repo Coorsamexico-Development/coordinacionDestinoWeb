@@ -188,6 +188,8 @@ class OcController extends Controller
 
     public function ocsByViaje (Request $request) 
     {
-
+       return   Oc::select('ocs.*')
+          ->where('ocs.confirmacion_dt_id','=',$request['confirmacion_dt_id'])
+          ->get();
     }
 }
