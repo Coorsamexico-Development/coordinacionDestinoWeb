@@ -1,5 +1,4 @@
 <script >
- import Icon from './Icon.vue'; 
  import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
  // Import Swiper Vue.js components
  import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -14,7 +13,6 @@
     components: {
       Swiper,
       SwiperSlide,
-      Icon
     },
     props: {
        valores:Object
