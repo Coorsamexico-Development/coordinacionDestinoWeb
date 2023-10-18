@@ -3,6 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import {ref, watch } from "vue";
 import { router } from '@inertiajs/vue3'
+//Importaciones
+import ScrollableStatus from './Partials/ScrollableStatus.vue'
 
 var props = defineProps({
     status_padre:Object,
@@ -35,8 +37,10 @@ watch(buscador, (newBusqueda) =>
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
-       <div class="grid grid-cols-3 gap-4 px-4 py-2">
-        
+       <div class="grid grid-cols-3 gap-4 px-8 py-2 w-full">
+          <div v-for="statu_padre in status_padre" :key="statu_padre.id">
+             <ScrollableStatus :statu="statu_padre" :contadores="contadores" />
+          </div>
        </div>
     </AppLayout>
 </template>
