@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import {ref, watch, computed, reactive } from "vue";
+import DtBlock from "./DtBlock.vue";
 
 //Props
 var props = defineProps({
@@ -104,7 +105,7 @@ const valores = computed(() =>
 
 </script>
 <template>
-    <div>
+    <div class="bg-white rounded-xl drop-shadow-lg">
       <div> <!--Header-->
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
@@ -129,6 +130,20 @@ const valores = computed(() =>
           </div>
         </div>
      </div>
+     <Transition name="slide-fade">
+        <div v-if="show" >
+          <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
+          <div v-if="dts !== null">
+             <!--SON CONFIRMACIONES las que se listan-->
+             <div class="py-2" v-for="dt in dtsData" :key="dt.id">
+                <DtBlock :dt="dt" />
+             </div>
+                  <!--
+               <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
+               --->
+          </div>
+        </div>
+     </Transition>
     </div>
 </template>
 <style>
