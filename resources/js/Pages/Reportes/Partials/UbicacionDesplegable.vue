@@ -1,8 +1,9 @@
 <script setup>
 import axios from "axios";
 import {ref, watch, computed, reactive } from "vue";
-import DtBlock from "./DtBlock.vue";
-
+import SwitchButton from './SwitchButton.vue';
+import DtBlock from './DtBlock.vue';
+import { pickBy } from 'lodash';
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -10,7 +11,6 @@ var props = defineProps({
     status:Object,
     buscador:String
 });
-
 //Show para mostrar los hijos
 let show = ref(false)
 //Parametros de busqueda o filtros
@@ -80,6 +80,28 @@ watch(params, (newParams) =>
 
 });
 
+//Reconsulta al paginado
+/*
+const loadPage = async (page) =>
+{
+   axios.get(page,{
+    params:{
+      plataforma_id:nuevosParametros.value.plataforma_id,
+      ubicacion_id:nuevosParametros.value.ubicacion_id,
+      status_id:nuevosParametros.value.status_id,
+      busqueda: nuevosParametros.value.busqueda,
+    }
+   })
+    .then(response => {
+       dts.value = response.data
+       dtsData.value = response.data.data;
+    })
+    .catch(e => {
+        // Podemos mostrar los errores en la consola
+        console.log(e);
+    })
+}
+*/
 
 const valores = computed(() => 
 {
@@ -105,8 +127,8 @@ const valores = computed(() =>
 
 </script>
 <template>
-    <div class="bg-white rounded-xl drop-shadow-lg">
-      <div> <!--Header-->
+   <div class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
+     <div> <!--Header-->
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
           <div class="flex flex-row items-center">
@@ -130,13 +152,14 @@ const valores = computed(() =>
           </div>
         </div>
      </div>
+     <!--Contenido-->
      <Transition name="slide-fade">
         <div v-if="show" >
           <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
              <div class="py-2" v-for="dt in dtsData" :key="dt.id">
-                <DtBlock :dt="dt" />
+                <DtBlock :dt="dt"  />
              </div>
                   <!--
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
@@ -144,7 +167,7 @@ const valores = computed(() =>
           </div>
         </div>
      </Transition>
-    </div>
+   </div>
 </template>
 <style>
 .slide-fade-enter-active {
