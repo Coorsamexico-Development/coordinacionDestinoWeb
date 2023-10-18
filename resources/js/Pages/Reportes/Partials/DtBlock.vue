@@ -38,7 +38,6 @@
   let modalOcs = ref(false);
   let ocs = ref([]);
  
- 
   const modalOcsClose = () => 
   {
      modalOcs.value = false;
@@ -117,5 +116,8 @@
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
   </div>
+  <!--
   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" />
+  -->
+
 </template>
