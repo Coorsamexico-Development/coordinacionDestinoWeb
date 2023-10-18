@@ -1,5 +1,5 @@
 <script setup>
- import { ref, watch, reactive } from 'vue';
+ import { ref, watch } from 'vue';
  import DialogModal from '@/Components/DialogModal.vue';
  import ButtonWatch from '@/Components/ButtonWatch.vue';
  import InputLabel from '@/Components/InputLabel.vue';
@@ -8,8 +8,7 @@
  import Campo from '../Partials/Campo.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
   import '@fancyapps/ui/dist/fancybox/fancybox.css';
- import DropFile from '@/Components/DropFile.vue';
- import { useForm } from '@inertiajs/vue3'
+
   const emit = defineEmits(["close"])
   const props = defineProps({
       show: {
