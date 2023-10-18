@@ -57,6 +57,7 @@
           {
              console.log(response.data)
              ocs.value = response.data;
+             modalOcs.value = true;
           })
           .catch(err=> 
           {
