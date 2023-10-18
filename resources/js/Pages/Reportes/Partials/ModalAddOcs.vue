@@ -1,11 +1,5 @@
 <script setup>
-  import {ref, watch, computed, reactive } from "vue";
   import DialogModal from '@/Components/DialogModal.vue';
-  import ButtonWatch from '@/Components/ButtonWatch.vue';
-  import InputLabel from '@/Components/InputLabel.vue';
-  import TextInput from '@/Components/TextInput.vue';
-  import axios from 'axios';
-
   const emit = defineEmits(["close","reconsultar"])
 
   const props = defineProps({
