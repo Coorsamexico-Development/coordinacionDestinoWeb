@@ -1,4 +1,5 @@
 <script setup>
+  import { ref, watch } from 'vue';
   import DialogModal from '@/Components/DialogModal.vue';
   const emit = defineEmits(["close"])
   const props = defineProps({
@@ -6,6 +7,8 @@
           type: Boolean,
           default: false,
       }
+    ,
+    incidencias:Object
   });
 
   const tamañoModal = ref('2xl')
@@ -23,6 +26,10 @@
                Cerrar
             </span>
          </div>
+       </template>
+       <template #content  >
+          {{ incidencias }}
+          
        </template>
    </DialogModal>
 </template>

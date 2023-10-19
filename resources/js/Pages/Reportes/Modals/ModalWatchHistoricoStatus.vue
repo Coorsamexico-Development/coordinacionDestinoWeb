@@ -248,7 +248,7 @@
                        </div>
                        <div class="border-t-2 mt-2  " v-if="statusActual.status_id == 9">
                            <h1 class="text-lg mt-2">OC's</h1>
-                           <table class="w-full">
+                           <table class="w-full mt-2">
                               <thead class="border-b-2 border-[#44BFFC]">
                                  <tr>
                                     <td class="text-center">Referencia</td>
@@ -316,7 +316,7 @@
              </div>
            </div>
          </div>
-         <ModalIncidencias :show="modalIncidencias" @close="closeModalIncidencias()" />
+         <ModalIncidencias :incidencias="incidencias" :show="modalIncidencias" @close="closeModalIncidencias()" />
        </template>
    </DialogModal>
 </template>

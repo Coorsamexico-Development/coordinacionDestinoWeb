@@ -188,9 +188,20 @@ class OcController extends Controller
 
     public function ocsByViaje (Request $request) 
     {
-       return   Oc::select('ocs.*')
+          return Oc::select('ocs.*')
+          ->with(['incidencias'  => function ($query) {
+              $query->select(
+                  'incidencias.*',
+                  'tipo_incidencias.nombre as tipo_incidencia',
+                  'productos.SKU as sku'
+                )
+                ->with('evidencias')
+                ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+                ->join('productos','incidencias.ean_id','productos.id')
+                ->get();
+               }
+              ])
           ->where('ocs.confirmacion_dt_id','=',$request['confirmacion_dt_id'])
-          ->with('incidencias')
           ->get();
     }
 }
