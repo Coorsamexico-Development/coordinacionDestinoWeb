@@ -1,5 +1,5 @@
 <script >
-
+ import Icon from './Icon.vue'; 
  import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from 'swiper/modules';
  // Import Swiper Vue.js components
  import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -14,6 +14,7 @@
     components: {
       Swiper,
       SwiperSlide,
+      Icon
     },
     props: {
        valores:Object
@@ -47,6 +48,7 @@
     :slides-per-view="1"
     :progressbarOpposite="true"
     :pagination="pagination"
+
     @swiper="onSwiper"
     @slideChange="onSlideChange"
   >
@@ -59,7 +61,7 @@
 </template>
 <style >
 .swiper {
-  width: 25rem;
+  width: 100%;
   height: 100%;
 }
 
@@ -76,7 +78,7 @@
 
 .swiper-slide img {
   display: block;
-  width: 100%;
+  width: 70%;
   height: 100%;
   object-fit: cover;
 }

@@ -249,7 +249,7 @@
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
                        <div class="">
-                        <Campo :camposValores="camposValores" />
+                        <Campo :camposValores="camposValores" :status="statusActual" />
                        </div>
                        <div class="border-t-2 mt-2  " v-if="statusActual.status_id == 9">
                            <h1 class="text-lg mt-2">Oc's</h1>
@@ -378,7 +378,7 @@
    height: 30px;
    position: absolute;
    top:0;
-   left:-3.5%;
+   left:-3.1%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
@@ -432,7 +432,7 @@
    height: 30px;
    position: absolute;
    top:0;
-   left:-3.5%;
+   left:-3%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
