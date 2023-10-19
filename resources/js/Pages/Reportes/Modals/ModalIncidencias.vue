@@ -28,8 +28,22 @@
          </div>
        </template>
        <template #content  >
-          {{ incidencias }}
-          
+          <table class="w-full" style="font-family: 'Montserrat';">
+            <thead>
+                <tr>
+                    <th class="text-center">Tipo de incidencia</th>
+                    <th>Cantidad</th>
+                    <th>Evidencias</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="incidencia in incidencias" :key="incidencia.id">
+                    <td class="text-center">
+                        {{ incidencia.tipo_incidencia }}
+                    </td>
+                </tr>
+            </tbody>
+          </table>
        </template>
    </DialogModal>
 </template>

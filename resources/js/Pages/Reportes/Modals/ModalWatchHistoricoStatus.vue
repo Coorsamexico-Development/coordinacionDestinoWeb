@@ -197,6 +197,7 @@
     */
    const activeClass = ref('timeline');
    const errorClas = ref('timeline2');
+   let show = ref(false)
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -239,7 +240,7 @@
            </div>
            <div>
              <h1 class="" style="text-align: center;">Información</h1>
-             <div class="overflow-y-auto h-96" v-if="statusActual !== null">   
+             <div class="overflow-y-auto" style="height:30rem;" v-if="statusActual !== null">   
                <div class="snap-center" >
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">
@@ -247,8 +248,27 @@
                         <Campo :camposValores="camposValores" />
                        </div>
                        <div class="border-t-2 mt-2  " v-if="statusActual.status_id == 9">
-                           <h1 class="text-lg mt-2">OC's</h1>
-                           <table class="w-full mt-2">
+                           <h1 class="text-lg mt-2">Oc's</h1>
+                           <div class="bg-white drop-shadow-lg my-4 mx-2 p-4 rounded-lg" v-for="oc in ocs" :key="oc.id">
+                              <div class="flex justify-between">
+                                 <h1 class="text-lg">{{ oc.referencia }}</h1>
+                                 <div>
+                                    <svg  v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                                      <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
+                                    </svg>    
+                                    <svg  v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                                      <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
+                                    </svg>
+                                 </div>
+                              </div>
+                              <Transition name="slide-fade">
+                                 <div v-if="show" >
+                                    hola
+                                 </div>
+                              </Transition>
+                           </div>
+                           <!--
+                                                         <table class="w-full mt-2">
                               <thead class="border-b-2 border-[#44BFFC]">
                                  <tr>
                                     <td class="text-center">Referencia</td>
@@ -268,6 +288,7 @@
                                  </tr>
                               </tbody>
                            </table>
+                           -->
                        </div>
                      </div>
                  </div>
@@ -427,5 +448,21 @@
     position: relative;
     border-radius: 5px;
   }
+
+  /*Transicion*/ 
+  .slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translatey(-20px);
+  opacity: 0;
+}
+
 </style>
     
