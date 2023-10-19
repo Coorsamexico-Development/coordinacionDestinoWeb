@@ -183,10 +183,10 @@
  }
 
  let showThings = ref(false)
- let ocActual = ref(null);
+ let ocActual = ref(-1);
  const mostrar = (oc) => 
  {
-   ocActual.vaue = oc
+   ocActual.value = oc
    showThings.value = !showThings.value
  }
   /*
@@ -220,24 +220,26 @@
            <div class="">
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
-             <div v-for="historia in infoModal" :key="historia.id">
-               <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]" class="border-b-2"  >
+             <div  v-for="historia in infoModal" :key="historia.id">
+               <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
                      </div> 
                      <div id="timeline-content">
                        <div class="flex flex-row justify-between">
                           <div>
-                             <h2 class="text-md" :style="{color:historia.color}">{{ historia.status }} </h2>
+                             <h2 class="text-lg" :style="{color:historia.color}">{{ historia.status }} </h2>
                              <div class="flex flex-row items-center">
-                                <img class="w-3 h-3 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                                <h1 class="text-[#9B9B9B] text-xs">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
+                                <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
+                                <h1 class="text-[#9B9B9B] text-base">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
                               </div>
                           </div>
                            <div class="flex items-center justify-center">
                              <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
                           </div>
                        </div>
+                     </div>
+                     <div class="absolute bg-[#9B9B9B] w-11/12 opacity-25 ml-9 mt-2" style="height: 2px;">
                      </div>
                   </div>
                </div>
@@ -267,9 +269,9 @@
                                     </svg>
                                  </div>
                               </div>
-                              <div v-if="ocActual">
+                              <div >
                                  <Transition name="slide-fade" class="mt-2 border-t-2">
-                                  <div v-if="showThings" >
+                                  <div v-if="showThings && (oc.id == ocActual.id)" >
                                      <table class="w-full mt-2">
                                         <thead>
                                            <tr>
@@ -369,7 +371,7 @@
    top:0;
    position: absolute;
    background-color: #9B9B9B ;
-   opacity: 0.61;
+   opacity: 0.50;
   }
 
   .timeline #timeline-item{
