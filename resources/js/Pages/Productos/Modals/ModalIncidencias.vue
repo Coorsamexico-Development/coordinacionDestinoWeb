@@ -1,6 +1,7 @@
 <script setup>
  import { ref, watch, reactive } from 'vue';
  import DialogModal from '@/Components/DialogModal.vue';
+ import ButtonWatch from '@/Components/ButtonWatch.vue';
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
@@ -55,10 +56,10 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
                      <div v-for=" (evidencia, key) in incidencia.evidencias" :key="evidencia.id">
                         <div >
                              <a v-if="key == 0 "  :href="evidencia.evidencia"  :data-fancybox="'gallery'">
-                                Ver
+                              <ButtonWatch class="w-8 h-6" :color="'#44BFFC'"  />
                              </a>
                              <a v-else class="hidden" :href="evidencia.evidencia"  :data-fancybox="'gallery'">
-                               Ver
+                              <ButtonWatch class="w-8 h-6" :color="'#44BFFC'"  />
                              </a>
                         </div>
                      </div>
