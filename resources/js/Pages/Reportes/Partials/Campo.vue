@@ -23,13 +23,13 @@ import Carrusel from '../Partials/Carrusel.vue'
              <img class="w-7" src="../../../../assets/img/cajas.png" />
           </div>
           <div v-if="campo.campo == 'Tracto'">
-             <img class="w-9" src="../../../../assets/img/camion-carga.png" />
+             <img class="w-10" src="../../../../assets/img/camion-carga.png" />
           </div>
           <div v-if="campo.campo == 'Remolque'">
              <img class="w-8" src="../../../../assets/img/remolque.png" />
           </div>
           <div v-if="campo.campo == 'Nombre operador'">
-             <img class="w-6" src="../../../../assets/img/user_perfil.png" />
+             <img class="w-5" src="../../../../assets/img/user_perfil.png" />
           </div>
           <div v-if="campo.campo == 'Teléfono'">
              <img class="w-6" src="../../../../assets/img/telephone_2.png" />
@@ -37,9 +37,9 @@ import Carrusel from '../Partials/Carrusel.vue'
        </div>
        <div>
           <div class="" v-for="(valor,key) in campo.valores" :key="valor.id">
-            <h1 class="text-[#9B9B9B] text-xl">{{campo.campo}}</h1>
+            <h1 class="text-[#9B9B9B] text-base">{{campo.campo}}</h1>
             <div  v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-                 <h3 class="text-base  font-semibold" style="font-family: 'Montserrat';">
+                 <h3 class="text-xl  font-semibold" style="font-family: 'Montserrat';">
                    {{ valor.valor }}
                  </h3>
             </div>
@@ -68,9 +68,9 @@ import Carrusel from '../Partials/Carrusel.vue'
               </div>
            </div>
             <div>
-              <h1 v-if="key==0" class="text-[#9B9B9B] text-xl">{{campo.campo}}</h1>
+              <h1 v-if="key==0" class="text-[#9B9B9B] text-base">{{campo.campo}}</h1>
               <div  v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-                   <h3 class="text-base  font-semibold" style="font-family: 'Montserrat';">
+                   <h3 class="text-lg  font-semibold" style="font-family: 'Montserrat';">
                      {{ valor.valor }}
                    </h3>
               </div>
@@ -100,9 +100,9 @@ import Carrusel from '../Partials/Carrusel.vue'
               </div>
            </div>
             <div>
-              <h1 v-if="key==0" class="text-[#9B9B9B] text-xl">{{campo.campo}}</h1>
+              <h1 v-if="key==0" class="text-[#9B9B9B] text-base">{{campo.campo}}</h1>
               <div  v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-                   <h3 class="text-base  font-semibold" style="font-family: 'Montserrat';">
+                   <h3 class="text-lg  font-semibold" style="font-family: 'Montserrat';">
                      {{ valor.valor }}
                    </h3>
               </div>
@@ -134,9 +134,9 @@ import Carrusel from '../Partials/Carrusel.vue'
        </div>
        <div>
           <div class="" v-for="(valor,key) in campo.valores" :key="valor.id">
-            <h1 class="text-[#9B9B9B] text-xl">{{campo.campo}}</h1>
+            <h1 class="text-[#9B9B9B] text-base">{{campo.campo}}</h1>
             <div  v-if="campo.tipo_campo == 'number' || campo.tipo_campo=='text'">
-                 <h3 class="text-base  font-semibold" style="font-family: 'Montserrat';">
+                 <h3 class="text-lg  font-semibold" style="font-family: 'Montserrat';">
                    {{ valor.valor }}
                  </h3>
             </div>
