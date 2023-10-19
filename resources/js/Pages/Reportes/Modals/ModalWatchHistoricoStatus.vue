@@ -197,7 +197,7 @@
     */
    const activeClass = ref('timeline');
    const errorClas = ref('timeline2');
-   let show = ref(false)
+   let showThings = ref(false)
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -253,16 +253,16 @@
                               <div class="flex justify-between">
                                  <h1 class="text-lg">{{ oc.referencia }}</h1>
                                  <div>
-                                    <svg  v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                                    <svg  v-if="showThings" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                                       <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
                                     </svg>    
-                                    <svg  v-if="!show" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
+                                    <svg  v-if="!showThings" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                                       <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
                                     </svg>
                                  </div>
                               </div>
                               <Transition name="slide-fade">
-                                 <div v-if="show" >
+                                 <div v-if="showThings" >
                                     hola
                                  </div>
                               </Transition>
