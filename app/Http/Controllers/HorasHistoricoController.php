@@ -82,6 +82,14 @@ class HorasHistoricoController extends Controller
        ->where('status_dts.activo','=',1)
        ->first();
 
+       if($status_dt == null)
+       {
+        $status_dt = StatusDt::create([
+            'status_id' =>  $status['id'],
+            'confirmacion_dt_id' => $confirmacion_Dt['id']
+         ]);
+       }
+
        date_default_timezone_set('America/Mexico_City');
        $fecha_actual = getdate();
        $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
