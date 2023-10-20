@@ -151,11 +151,14 @@ class ConfirmacionDtController extends Controller
             'dts.referencia_dt',
             'linea_transportes.nombre as linea_transporte',
             'status.nombre as status',
-            'status.color'
+            'status.color',
+            'plataformas.nombre as plataforma'
            )
            ->join('dts','confirmacion_dts.dt_id','dts.id')
            ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
            ->join('status', 'confirmacion_dts.status_id', 'status.id')
+           ->join('plataformas', 'confirmacion_dts.plataforma_id','plataformas.id')
+
            ->where('confirmacion_dts.cerrado','=',0);
            
            if($request->has('ubicacion_id'))
