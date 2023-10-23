@@ -426,6 +426,7 @@
    top:0;
    position: absolute;
    background-color: #9B9B9B ;
+   opacity: 0.50;
   }
 
   .timeline2 #timeline-item{

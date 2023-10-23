@@ -38,6 +38,7 @@
           <table class="w-full" style="font-family: 'Montserrat';">
             <thead>
                 <tr>
+                    <td class="text-center font-semibold">Producto</td>
                     <td class="text-center font-semibold">Tipo de incidencia</td>
                     <td class="text-center font-semibold">Cantidad</td>
                     <td class="text-center font-semibold">Evidencias</td>
@@ -45,6 +46,9 @@
             </thead>
             <tbody>
                 <tr v-for="incidencia in incidencias" :key="incidencia.id">
+                    <td class="text-center text-sm">
+                      {{ incidencia.producto }}
+                    </td>
                     <td class="text-center">
                         {{ incidencia.tipo_incidencia }}
                     </td>

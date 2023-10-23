@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('status', function (Blueprint $table) {
+        Schema::table('confirmacion_dts', function (Blueprint $table) {
             //
-            $table->string('icon')->nullable();
+            $table->string('documetoPOD')->nullable();
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('status', function (Blueprint $table) {
+        Schema::table('confirmacion_dts', function (Blueprint $table) {
             //
         });
     }

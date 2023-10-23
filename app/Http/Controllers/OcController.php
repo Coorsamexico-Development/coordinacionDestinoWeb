@@ -193,6 +193,7 @@ class OcController extends Controller
               $query->select(
                   'incidencias.*',
                   'tipo_incidencias.nombre as tipo_incidencia',
+                  'productos.descripcion as producto',
                   'productos.SKU as sku'
                 )
                 ->with('evidencias')
