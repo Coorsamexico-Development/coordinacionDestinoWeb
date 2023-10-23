@@ -5,13 +5,14 @@ import { router, Link, useForm  } from '@inertiajs/vue3'
 import PaginationAxios from '@/Components/PaginationAxios.vue';
 import axios from 'axios';
 import ModalWatchHistoricoStatus from '../Reportes/Modals/ModalWatchHistoricoStatus.vue';
+import ModalShowOcs from './Partials/ModalShowOcs.vue';
 import TextInput from '@/Components/TextInput.vue';
 
 var props = defineProps({
     viajes:Object,
 });
 
-console.log(props.viajes)
+//console.log(props.viajes)
 
 const viajesData = ref(props.viajes.data);
 const viajesChange = ref(props.viajes);
@@ -19,6 +20,7 @@ const viajesChange = ref(props.viajes);
 let status = ref([]);
 let infoModal = ref(null);
 let modalWatch = ref(false);
+let modalOcs = ref(false);
 
 const buscador = ref('');
 
@@ -54,10 +56,36 @@ const watchHistorico = (viaje) =>
   })
 }
 
-
+const ocs = ref([]);
 const modalWatchClose = () => 
 {
   modalWatch.value=false;
+}
+
+const modalOcsOpen = (id) => 
+{
+  try 
+      {
+         axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
+          {
+             ocs.value = response.data;
+             modalOcs.value = true
+          })
+          .catch(err=> 
+          {
+              
+          })   
+      } 
+      catch (error) 
+      {
+          
+      }
+}
+
+const modalOcsClose = () => 
+{
+  modalOcs.value = false;
+  ocs.value = [];
 }
  
 </script>
@@ -73,10 +101,10 @@ const modalWatchClose = () =>
           </div>
        </div>
     </template>
-    <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
+    <div class="py-4 m-8 bg-white rounded-2xl pb-6" style="font-family: 'Montserrat';">
       <table class="w-full">
-        <thead  >
-          <tr class="border-1 border-sky-500">
+        <thead class="border-1 border-sky-500" >
+          <tr >
              <th class="font-semibold">Confirmación</th>
              <th class="font-semibold">
                 DT
@@ -94,6 +122,7 @@ const modalWatchClose = () =>
               </div>
             </th>
              <th class="font-semibold">Historial</th>
+             <th class="font-semibold">POD</th>
           </tr>
         </thead>
         <tbody>
@@ -107,10 +136,16 @@ const modalWatchClose = () =>
                 <img class="w-6" src="../../../assets/img/eye.png" />
               </button>
              </td>
+             <td class="text-center">
+               <button @click="modalOcsOpen(viaje.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+                <img class="w-6" src="../../../assets/img/eye.png" />
+               </button>
+             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+    <ModalShowOcs  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs"/>
   </AppLayout>
 </template>
