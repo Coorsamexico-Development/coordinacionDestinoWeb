@@ -60,20 +60,20 @@
      <template #content>
       <div class="overflow-y-auto h-5/6">
          <table class="w-full mt-2">
-             <thead>
+             <thead class="border-b-2">
                 <tr>
-                   <td class="text-center font-semibold">Referencia</td>
-                   <td class="text-center font-semibold">Facturado</td>
-                   <td class="text-center font-semibold">En POD</td>
-                   <td class="text-center font-semibold">Incidencias</td>
+                   <td class="text-center font-semibold pb-2">Referencia</td>
+                   <td class="text-center font-semibold pb-2">Facturado</td>
+                   <td class="text-center font-semibold pb-2">En POD</td>
+                   <td class="text-center font-semibold pb-2">Incidencias</td>
                 </tr>
              </thead>
              <tbody>
                 <tr v-for="oc in ocs" :key="oc.id">
-                  <td class="text-center">{{ oc.referencia }}</td>
-                  <td class="text-center">{{oc.facturado}}</td>
-                  <td class="text-center">{{oc.enPOD}}</td>
-                  <td class="text-center">
+                  <td class="text-center py-2">{{ oc.referencia }}</td>
+                  <td class="text-center py-2">{{oc.facturado}}</td>
+                  <td class="text-center py-2">{{oc.enPOD}}</td>
+                  <td class="text-center py-2">
                      <div class="flex justify-center" v-if="oc.incidencias.length > 0"> 
                         <ButtonWatch @click="openModalIncidencias(oc)" class="w-8 h-6" :color="'#44BFFC'" />
                      </div>

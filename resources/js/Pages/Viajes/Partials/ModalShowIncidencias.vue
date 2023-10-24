@@ -2,6 +2,8 @@
   import {ref, watch, computed, reactive } from "vue";
   import DialogModal from '@/Components/DialogModal.vue';
   import ButtonWatch from '@/Components/ButtonWatch.vue';
+  import TextInput from '@/Components/TextInput.vue';
+
   const props = defineProps({
        show: {
            type: Boolean,
@@ -24,7 +26,7 @@
 
 </script>
 <template>
-  <DialogModal :maxWidth="'4xl'"  :show="show" @close="close()">
+  <DialogModal :maxWidth="'5xl'"  :show="show" @close="close()">
      <template #title>
        <div class="flex flex-row justify-between">
           <h1>Incidencias</h1>
@@ -35,18 +37,21 @@
      </template>
      <template #content>
         <table class="w-full" style="font-family: 'Montserrat';">
-            <thead>
-                <tr>
-                    <td class="text-center font-semibold">SKU</td>
-                    <td class="text-center font-semibold">Producto</td>
-                    <td class="text-center font-semibold">Tipo de incidencia</td>
-                    <td class="text-center font-semibold">Cantidad</td>
-                    <td class="text-center font-semibold">Evidencias</td>
-                    <td class="text-center font-semibold">Reporte POD</td>
+            <thead class="border-b-2">
+                <tr >
+                    <td class="text-center font-semibold pb-2">SKU</td>
+                    <td class="text-center font-semibold pb-2">Producto</td>
+                    <td class="text-center font-semibold pb-2">Tipo de incidencia</td>
+                    <td class="text-center font-semibold pb-2">Cantidad</td>
+                    <td class="text-center font-semibold pb-2">Evidencias</td>
+                    <td class="text-center font-semibold pb-2">Reporte POD</td>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="incidencia in incidencias" :key="incidencia.id">
+                    <td class="text-center text-sm py-2 px-4">
+                      {{ incidencia.sku }}
+                    </td>
                     <td class="text-center text-sm py-2 px-4">
                       {{ incidencia.producto }}
                     </td>
@@ -69,6 +74,9 @@
                            </div>
                          </div>
                       </div>
+                    </td>
+                    <td class="text-center">
+                       <TextInput class="border-2  rounded-full" />
                     </td>
                 </tr>
             </tbody>
