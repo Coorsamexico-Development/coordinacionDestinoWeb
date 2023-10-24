@@ -37,6 +37,7 @@
         <table class="w-full" style="font-family: 'Montserrat';">
             <thead>
                 <tr>
+                    <td class="text-center font-semibold">SKU</td>
                     <td class="text-center font-semibold">Producto</td>
                     <td class="text-center font-semibold">Tipo de incidencia</td>
                     <td class="text-center font-semibold">Cantidad</td>

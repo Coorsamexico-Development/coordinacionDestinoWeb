@@ -59,43 +59,28 @@
      </template>
      <template #content>
       <div class="overflow-y-auto h-5/6">
-       <div  class="bg-white drop-shadow-lg my-4 mx-2 p-4 rounded-lg" v-for="oc in ocs" :key="oc.id">
-          <div  @click="mostrar(oc)" class="flex justify-between py-1">
-             <h1 class="text-lg font-semibold">{{ oc.referencia }}</h1>
-             <div>
-                <svg  v-if="showThings" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
-                  <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
-                </svg>    
-                <svg  v-if="!showThings" class="mx-2 rotate-180" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
-                  <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
-                </svg>
-             </div>
-          </div>
-          <div class="" >
-             <Transition name="slide-fade" class="mt-2 border-t-2">
-              <div v-if="showThings && (oc.id == ocActual.id)" >
-                 <table class="w-full mt-2">
-                    <thead>
-                       <tr>
-                          <td class="text-center">Facturado</td>
-                          <td class="text-center">En POD</td>
-                          <td class="text-center">Incidencias</td>
-                       </tr>
-                    </thead>
-                    <tbody>
-                       <tr>
-                          <td class="text-center">{{oc.facturado}}</td>
-                          <td class="text-center">{{oc.enPOD}}</td>
-                          <td class="flex justify-center">
-                             <ButtonWatch @click="openModalIncidencias(oc)" class="w-8 h-6" :color="'#44BFFC'" />
-                          </td>
-                       </tr> 
-                    </tbody>
-                 </table>
-              </div>
-            </Transition>
-          </div>
-       </div>
+         <table class="w-full mt-2">
+             <thead>
+                <tr>
+                   <td class="text-center font-semibold">Referencia</td>
+                   <td class="text-center font-semibold">Facturado</td>
+                   <td class="text-center font-semibold">En POD</td>
+                   <td class="text-center font-semibold">Incidencias</td>
+                </tr>
+             </thead>
+             <tbody>
+                <tr v-for="oc in ocs" :key="oc.id">
+                  <td class="text-center">{{ oc.referencia }}</td>
+                  <td class="text-center">{{oc.facturado}}</td>
+                  <td class="text-center">{{oc.enPOD}}</td>
+                  <td class="text-center">
+                     <div class="flex justify-center" v-if="oc.incidencias.length > 0"> 
+                        <ButtonWatch @click="openModalIncidencias(oc)" class="w-8 h-6" :color="'#44BFFC'" />
+                     </div>
+                  </td>
+                </tr> 
+             </tbody>
+          </table>
       </div>
       <div class="flex justify-end">
          <ButtonUploadDoc v-model="document" />
