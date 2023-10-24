@@ -99,3 +99,5 @@ Route::post('/productos',[ProductoController::class, 'store'])->name('productos.
 Route::get('/viajesByProducto', [ProductoController::class,'viajesByProducto'])->name('viajesByProducto');
 //Consultar ocs con incidencias y evidencias por viaje
 Route::get('/ocsByViaje',[OcController::class, 'ocsByViaje'])->name('ocsByViaje');
+//Ruta paara guardar documento POD de la confirmacion
+Route::post('/saveDocPOD',[ConfirmacionDtController::class, 'saveDocPOD'])->name('saveDocPOD');

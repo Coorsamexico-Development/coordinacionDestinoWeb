@@ -7,12 +7,19 @@ import axios from 'axios';
 import ModalWatchHistoricoStatus from '../Reportes/Modals/ModalWatchHistoricoStatus.vue';
 import ModalShowOcs from './Partials/ModalShowOcs.vue';
 import TextInput from '@/Components/TextInput.vue';
+import ButtonWatch from '@/Components/ButtonWatch.vue';
+import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 var props = defineProps({
     viajes:Object,
 });
 
 //console.log(props.viajes)
+
+Fancybox.bind("[data-fancybox]", {
+    // Your custom options
+ });
 
 const viajesData = ref(props.viajes.data);
 const viajesChange = ref(props.viajes);
@@ -62,8 +69,10 @@ const modalWatchClose = () =>
   modalWatch.value=false;
 }
 
+const viajeActual = ref(-1);
 const modalOcsOpen = (id) => 
 {
+  viajeActual.value = id;
   try 
       {
          axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
@@ -86,6 +95,7 @@ const modalOcsClose = () =>
 {
   modalOcs.value = false;
   ocs.value = [];
+  viajeActual.value = -1;
 }
  
 </script>
@@ -123,6 +133,7 @@ const modalOcsClose = () =>
             </th>
              <th class="font-semibold">Historial</th>
              <th class="font-semibold">POD</th>
+             <th class="font-semibold">Documento POD</th>
           </tr>
         </thead>
         <tbody>
@@ -141,11 +152,18 @@ const modalOcsClose = () =>
                 <img class="w-6" src="../../../assets/img/eye.png" />
                </button>
              </td>
+             <td class="text-center flex justify-center">
+                <a :href="viaje.documetoPOD" data-fancybox   data-type="pdf">
+                  <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+                     <img class="w-6" src="../../../assets/img/eye.png" />
+                   </button>
+                </a>
+             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-    <ModalShowOcs  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs"/>
+    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs"/>
   </AppLayout>
 </template>

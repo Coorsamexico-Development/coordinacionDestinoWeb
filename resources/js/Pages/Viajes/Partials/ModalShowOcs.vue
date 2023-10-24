@@ -1,5 +1,6 @@
 <script setup>
   import {ref, watch, computed, reactive } from "vue";
+  import { router, Link, useForm  } from '@inertiajs/vue3'
   import DialogModal from '@/Components/DialogModal.vue';
   import ButtonWatch from '@/Components/ButtonWatch.vue';
   import axios from 'axios';
@@ -11,7 +12,8 @@
            type: Boolean,
            default: false,
        },
-       ocs:Object
+       ocs:Object,
+       viaje:Number
 
    });
 
@@ -31,7 +33,53 @@
     showThings.value = !showThings.value
   }
 
-  const document = ref(null) 
+  //Form
+  const formDocumento = useForm({
+    confirmacion:-1,
+    document: null,
+  })
+  const document = ref(null);
+
+  //Watcher para la carga del reporte
+watch(document, (documentoCargado) => 
+{
+   formDocumento.document = documentoCargado
+   formDocumento.confirmacion = props.viaje;
+   try 
+   {
+      if(formDocumento.document !== null)
+      {
+         //console.log(formDocumento)
+         formDocumento.post(route('saveDocPOD'),
+         {
+            onSuccess: () => 
+            {
+               formDocumento.reset();
+               document.value = null;
+               router.visit(route('viajes.index'), 
+               {
+                 preserveScroll:true,
+                 preserveState:true,
+                 replace:true,
+                 only:['viajes'],
+               })
+            },
+            onError:(err) => 
+            {
+              console.log(err);
+              formDocumento.reset();
+              document.value = null;
+            }
+         }
+         );
+         
+      }
+   } 
+   catch (error) 
+   {
+     console.log(error)  
+   }
+});
 
   const modalIncidencias = ref(false);
   const incidencias = ref([]);
@@ -82,7 +130,7 @@
              </tbody>
           </table>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-2">
          <ButtonUploadDoc v-model="document" />
       </div>
      </template>

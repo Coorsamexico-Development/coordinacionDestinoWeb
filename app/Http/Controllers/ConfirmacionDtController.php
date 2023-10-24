@@ -758,5 +758,23 @@ class ConfirmacionDtController extends Controller
        ->first();
      }
   }
+
+  public function saveDocPOD (Request $request)
+  {
+
+    if($request->has('document'))
+    {
+      $nombre =  $request['document']->getClientOriginalName();
+      $rutaDoc = $request['document']->storeAs('documentosPOD', $nombre ,'gcs');
+      $urlDoc = Storage::disk('gcs')->url($rutaDoc);
+
+      ConfirmacionDt::where(
+        'id','=', $request['confirmacion']
+      )
+      ->update([
+         'documetoPOD' => $urlDoc
+      ]);
+    }
+  }
   
 }
