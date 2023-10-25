@@ -25,7 +25,7 @@ const props = defineProps({
     },
     'nameOption': {
         type: String,
-        default: 'SKU'
+        default: 'descripcion'
     },
     'value': {
         default: ''
@@ -43,9 +43,12 @@ const changeText = (text) => {
 
 const error = computed(() => {
     if (valueText.value !== "" || props.modelValue != "") {
-        if (valueText.value !== "") {
-            const selectOpcion = props.options.find(opcion => {
-                return opcion[props.nameOption] == valueText.value
+        if (valueText.value !== "") 
+        {
+            console.log(valueText.value)
+            const selectOpcion = props.options.find(opcion => 
+            {
+                return (opcion[props.keyOption] + ' - ' + opcion[props.nameOption] ) == valueText.value
             });
             if (selectOpcion !== undefined) {
                 emit('update:modelValue', selectOpcion[props.keyOption]);
@@ -86,12 +89,12 @@ defineExpose({ focus: () => inputlist.value.focus() });
 <template>
     <div class="">
         <input type="text" :list="list"
-            class=" border-indigo-300 rounded-full shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 read-only:bg-gray-300"
+            class=" border-indigo-300 rounded-full shadow-sm w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 read-only:bg-gray-300"
             :class="{ 'border-red-400': error, 'text-red-400': error }" :value="valueText" @keyup="emit('value', valueText)"
             @input="changeText($event.target.value)" ref="inputlist" :disabled="disabled">
         <datalist :id="list">
             <option v-for="opcion in props.options" :key="opcion[props.keyOption]">
-                {{ opcion[props.nameOption] }}
+               {{ opcion[props.keyOption] + ' - ' + opcion[props.nameOption]}} 
             </option>
         </datalist>
     </div>

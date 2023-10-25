@@ -32,6 +32,7 @@
    {
        newIncidencias.value.push({
          sku: '',
+         producto:'',
          tipo_incidencia_id:-1,
          reportePOD:0
        });
@@ -73,6 +74,7 @@
       valor: e
     })).then(response => {
       console.log(response.data)
+      emit('reconsultar')
     })
     .catch(err => 
     {
@@ -141,11 +143,8 @@
                     </td>
                 </tr>
                 <tr class="border-t-2" v-for="(newIncidencia, key) in newIncidencias" :key="key" >
-                  <td class="w-2 text-center py-2">
-                     <ListInput :options="productos" v-model="newIncidencia.sku"  list="listaProductos"/>
-                  </td>
-                  <td class="text-center py-2">
-                    -
+                  <td class="w-2 text-center py-2" colspan="2">
+                     <ListInput :options="productos" v-model="newIncidencia.sku"   list="listaProductos"/>
                   </td>
                   <td class="text-center py-2">
                      <SelectComponent v-model="newIncidencia.tipo_incidencia_id">
