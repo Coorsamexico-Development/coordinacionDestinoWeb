@@ -5,7 +5,7 @@
   import TextInput from '@/Components/TextInput.vue';
   import ListInput from '@/Components/ListInput.vue';
   import SelectComponent from '@/Components/SelectComponent.vue'
-import axios from "axios";
+  import axios from "axios";
 
   const props = defineProps({
        show: {
@@ -18,7 +18,7 @@ import axios from "axios";
        oc: Object
    });
 
-   const emit = defineEmits(["close"])
+   const emit = defineEmits(["close",'reconsultar'])
 
    let newIncidencias = ref([]);
    const close = () => 
@@ -50,6 +50,8 @@ import axios from "axios";
        {
         //console.log(response.data)
         newIncidencias.value = [];
+        emit('reconsultar')
+        close();
        }).catch(
         err => {
           console.log(err)

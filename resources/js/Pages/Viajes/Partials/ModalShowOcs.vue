@@ -18,7 +18,7 @@
        tipos_incidencias:Object
    });
 
-   const emit = defineEmits(["close"])
+   const emit = defineEmits(["close", "reconsultar"])
 
    const close = () => 
    { 
@@ -100,6 +100,11 @@ watch(document, (documentoCargado) =>
     incidencias.value = [];
   }
 
+  const reconsultar = () => 
+  {
+     emit('reconsultar', props.viaje)
+  }
+
 </script>
 <template>
    <DialogModal  :show="show" @close="close()">
@@ -141,5 +146,5 @@ watch(document, (documentoCargado) =>
       </div>
      </template>
    </DialogModal>
-   <ModalShowIncidencias  :oc="ocToModal" :productos="productos" :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" :tipos_incidencias="tipos_incidencias" />
+   <ModalShowIncidencias  :oc="ocToModal" :productos="productos" :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar()" />
 </template>

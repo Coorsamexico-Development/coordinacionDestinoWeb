@@ -99,6 +99,26 @@ const modalOcsClose = () =>
   ocs.value = [];
   viajeActual.value = -1;
 }
+
+const reconsultar = (id) => 
+{
+   try 
+      {
+         axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
+          {
+             ocs.value = response.data;
+             modalOcs.value = true
+          })
+          .catch(err=> 
+          {
+              
+          })   
+      } 
+      catch (error) 
+      {
+          
+      }
+}
  
 </script>
 <template>
@@ -166,6 +186,6 @@ const modalOcsClose = () =>
       </table>
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" />
+    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />
   </AppLayout>
 </template>
