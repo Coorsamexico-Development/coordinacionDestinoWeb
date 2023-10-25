@@ -104,3 +104,5 @@ Route::get('/ocsByViaje',[OcController::class, 'ocsByViaje'])->name('ocsByViaje'
 Route::post('/saveDocPOD',[ConfirmacionDtController::class, 'saveDocPOD'])->name('saveDocPOD');
 //Ruta para guardar nuevas incidencias referentes a la confirnacion
 Route::post('/saveNewIncidencias',[IncidenciaController::class, 'saveNewIncidencias'])->name('saveNewIncidencias');
+//RUta para guardar el reportePOD 
+Route::post('/reportePOD',[IncidenciaController::class, 'reportePOD'])->name('reportePOD');

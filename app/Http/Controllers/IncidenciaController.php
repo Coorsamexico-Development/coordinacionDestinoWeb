@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evidencia;
 use App\Models\Incidencia;
 use App\Models\Oc;
+use App\Models\Producto;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -140,11 +141,27 @@ class IncidenciaController extends Controller
        {
           for ($i=0; $i < count($request['incidencias']) ; $i++) 
           { 
+
+            $incidencia = $request['incidencias'][$i];
+
+            $producto = Producto::select('productos.*')
+            ->where('SKU','=',$incidencia['sku'])
+            ->first();
+
             Incidencia::create([
-                
+                'ocs_id' => $request['oc_id'],
+                'tipo_incidencia_id' => $incidencia['tipo_incidencia_id'],
+                'cantidadPOD' => $incidencia['reportePOD'],
+                'ean_id' => $producto['id']
             ]);
           }
        }
+    }
+
+    public function reportePOD (Request $request)
+    {
+       Incidencia::where('id','=',$request['incidencia_id'])
+       ->update(['cantidadPOD' => $request['valor']]);
     }
 
 }

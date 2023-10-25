@@ -14,6 +14,7 @@ class Producto extends Model
      'descripcion',
      'DUN 14',
      'EAN',
-     'activo'
+     'activo',
+     'cantidadPOD'
      ];
 }

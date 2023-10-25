@@ -39,7 +39,7 @@
     confirmacion:-1,
     document: null,
   })
-  const document = ref(null);
+  let document = ref(null);
 
   //Watcher para la carga del reporte
 watch(document, (documentoCargado) => 
@@ -82,9 +82,10 @@ watch(document, (documentoCargado) =>
    }
 });
 
-  const modalIncidencias = ref(false);
-  const incidencias = ref([]);
-  const ocToModal = ref(null);
+  let modalIncidencias = ref(false);
+  let incidencias = ref([]);
+  let ocToModal = ref(null);
+
   const openModalIncidencias = (oc) => 
   {
     ocToModal.value = oc;
@@ -94,7 +95,7 @@ watch(document, (documentoCargado) =>
 
   const closeModalIncidencias = () => 
   {
-    ocToModal = null;
+    ocToModal.value = null;
     modalIncidencias.value = false;
     incidencias.value = [];
   }

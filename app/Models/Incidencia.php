@@ -14,6 +14,7 @@ class Incidencia extends Model
         'tipo_incidencia_id',
         'cantidad',
         'ean_id',
+        'cantidadPOD'
     ];
 
     public function evidencias()

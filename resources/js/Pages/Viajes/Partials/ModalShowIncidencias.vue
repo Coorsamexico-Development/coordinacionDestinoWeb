@@ -48,7 +48,8 @@ import axios from "axios";
        })).
        then(response =>
        {
-        console.log(response.data)
+        //console.log(response.data)
+        newIncidencias.value = [];
        }).catch(
         err => {
           console.log(err)
@@ -61,6 +62,22 @@ import axios from "axios";
      }
    }
 
+   const inputChange = (e, incidencia_id) => 
+   {
+    // console.log(e);
+    // console.log(incidencia_id)
+    axios.post(route('reportePOD',{
+      incidencia_id: incidencia_id,
+      valor: e
+    })).then(response => {
+      console.log(response.data)
+    })
+    .catch(err => 
+    {
+      console.log(err)
+    })
+   }
+ 
 </script>
 <template>
   <DialogModal :maxWidth="'5xl'"  :show="show" @close="close()">
@@ -113,7 +130,12 @@ import axios from "axios";
                       </div>
                     </td>
                     <td class="text-center">
-                       <TextInput  />
+                       <div v-if="incidencia.cantidadPOD">
+                          {{ incidencia.cantidadPOD }}
+                       </div>
+                       <div v-else>
+                         <TextInput @input="inputChange($event.target.value, incidencia.id)" />
+                       </div>
                     </td>
                 </tr>
                 <tr class="border-t-2" v-for="(newIncidencia, key) in newIncidencias" :key="key" >
