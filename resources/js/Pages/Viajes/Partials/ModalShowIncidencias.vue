@@ -131,10 +131,10 @@ import axios from "axios";
                     </td>
                     <td class="text-center">
                        <div v-if="incidencia.cantidadPOD">
-                          {{ incidencia.cantidadPOD }}
+                          <TextInput  :value="incidencia.cantidadPOD" @input="inputChange($event.target.value, incidencia.id)"  />
                        </div>
                        <div v-else>
-                         <TextInput @input="inputChange($event.target.value, incidencia.id)" />
+                         <TextInput @input="inputChange($event.target.value, incidencia.id)"  />
                        </div>
                     </td>
                 </tr>
