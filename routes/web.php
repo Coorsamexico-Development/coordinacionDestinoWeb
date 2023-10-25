@@ -106,3 +106,5 @@ Route::post('/saveDocPOD',[ConfirmacionDtController::class, 'saveDocPOD'])->name
 Route::post('/saveNewIncidencias',[IncidenciaController::class, 'saveNewIncidencias'])->name('saveNewIncidencias');
 //RUta para guardar el reportePOD 
 Route::post('/reportePOD',[IncidenciaController::class, 'reportePOD'])->name('reportePOD');
+//Ruta para borrar incidencias
+Route::post('/borrarIncidencia',[IncidenciaController::class,'borrarIncidencia'])->name('borrarIncidencia');

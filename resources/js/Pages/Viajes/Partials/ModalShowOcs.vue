@@ -95,7 +95,6 @@ watch(document, (documentoCargado) =>
 
   const closeModalIncidencias = () => 
   {
-    ocToModal.value = null;
     modalIncidencias.value = false;
     incidencias.value = [];
   }
@@ -103,6 +102,7 @@ watch(document, (documentoCargado) =>
   const reconsultar = () => 
   {
      emit('reconsultar', props.viaje)
+     openModalIncidencias(ocToModal.value)
   }
 
 </script>
@@ -146,5 +146,5 @@ watch(document, (documentoCargado) =>
       </div>
      </template>
    </DialogModal>
-   <ModalShowIncidencias  :oc="ocToModal" :productos="productos" :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar()" />
+   <ModalShowIncidencias  :oc="ocToModal" :productos="productos" :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />
 </template>

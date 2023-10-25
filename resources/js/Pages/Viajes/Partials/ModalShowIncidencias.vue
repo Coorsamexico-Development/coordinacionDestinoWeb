@@ -50,9 +50,10 @@
        then(response =>
        {
         //console.log(response.data)
+        console.log(props.oc)
         newIncidencias.value = [];
         emit('reconsultar')
-        close();
+        //close();
        }).catch(
         err => {
           console.log(err)
@@ -63,6 +64,24 @@
      {
       
      }
+   }
+
+   const borrarIncidencia = (id) => 
+   {
+    //console.log(props.incidencias.length)
+    axios.post(route('borrarIncidencia',{
+      incidencia_id: id,
+
+    })).then(response => {
+      //console.log(response.data)
+      props.incidencias.filter(incidencia => incidencia.id !== id)
+      //console.log(props.incidencias.length)
+      emit('reconsultar')
+    })
+    .catch(err => 
+    {
+      console.log(err)
+    })
    }
 
    const inputChange = (e, incidencia_id) => 
@@ -97,6 +116,7 @@
         <table class="w-full" style="font-family: 'Montserrat';">
             <thead class="border-b-2">
                 <tr >
+                    <td class="text-center font-semibold pb-2"></td>
                     <td class="text-center font-semibold pb-2">SKU</td>
                     <td class="text-center font-semibold pb-2">Producto</td>
                     <td class="text-center font-semibold pb-2">Tipo de incidencia</td>
@@ -107,6 +127,11 @@
             </thead>
             <tbody>
                 <tr v-for="incidencia in incidencias" :key="incidencia.id">
+                    <td class="text-center text-sm py-2 px-4">
+                      <button class="bg-[#E86881] px-2 py-1 rounded-full" @click="borrarIncidencia(incidencia.id)" v-if="incidencia.cantidad == 0 || incidencia.evidencias.length ==0 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                      </button>
+                    </td>
                     <td class="text-center text-sm py-2 px-4">
                       {{ incidencia.sku }}
                     </td>

@@ -164,4 +164,9 @@ class IncidenciaController extends Controller
        ->update(['cantidadPOD' => $request['valor']]);
     }
 
+    public function borrarIncidencia (Request $request)
+    {
+       Incidencia::where('id','=',$request['incidencia_id'])
+       ->delete();
+    }
 }
