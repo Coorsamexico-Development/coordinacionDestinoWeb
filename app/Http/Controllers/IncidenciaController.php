@@ -169,4 +169,17 @@ class IncidenciaController extends Controller
        Incidencia::where('id','=',$request['incidencia_id'])
        ->delete();
     }
+
+    public function getIncidenciasByOc (Request $request)
+    {
+       return Incidencia::select('incidencias.*',
+       'tipo_incidencias.nombre as tipo_incidencia',
+       'productos.descripcion as producto',
+       'productos.SKU as sku')
+       ->with('evidencias')
+       ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
+       ->join('productos','incidencias.ean_id','productos.id')
+       ->where('ocs_id','=',$request['oc_id'])
+       ->get();
+    }
 }

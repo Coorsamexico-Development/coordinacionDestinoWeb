@@ -74,7 +74,6 @@
 
     })).then(response => {
       //console.log(response.data)
-      props.incidencias.filter(incidencia => incidencia.id !== id)
       //console.log(props.incidencias.length)
       emit('reconsultar')
     })

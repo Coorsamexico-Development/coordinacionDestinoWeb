@@ -89,7 +89,7 @@ watch(document, (documentoCargado) =>
   const openModalIncidencias = (oc) => 
   {
     ocToModal.value = oc;
-    incidencias.value = oc.incidencias;
+    consultarIncidencias(oc)
     modalIncidencias.value = true;
   }
 
@@ -97,6 +97,18 @@ watch(document, (documentoCargado) =>
   {
     modalIncidencias.value = false;
     incidencias.value = [];
+  }
+
+  const consultarIncidencias = (oc) => 
+  {
+     axios.get(route('getIncidenciasByOc',{
+      oc_id:oc.id
+     })).then(response => {
+       console.log(response.data)
+       incidencias.value = response.data
+     }).catch(err=>{
+      console.log(err)
+     })
   }
 
   const reconsultar = () => 

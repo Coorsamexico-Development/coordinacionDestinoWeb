@@ -108,3 +108,4 @@ Route::post('/saveNewIncidencias',[IncidenciaController::class, 'saveNewIncidenc
 Route::post('/reportePOD',[IncidenciaController::class, 'reportePOD'])->name('reportePOD');
 //Ruta para borrar incidencias
 Route::post('/borrarIncidencia',[IncidenciaController::class,'borrarIncidencia'])->name('borrarIncidencia');
+Route::get('/getIncidenciasByOc',[IncidenciaController::class,'getIncidenciasByOc'])->name('getIncidenciasByOc');
