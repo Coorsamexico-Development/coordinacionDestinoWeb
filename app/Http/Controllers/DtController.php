@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
+use App\Models\Producto;
+use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -32,8 +34,14 @@ class DtController extends Controller
         $viajes->where('confirmacion_dts.status_id','=',10);
         $viajes->orwhere('confirmacion_dts.status_id','=',11);
 
-        return Inertia::render('Viajes/Viajes.Index',[
-            'viajes' => fn () =>  $viajes->paginate(5)
+        $productos = Producto::all();
+        $tipos_incidencias = TipoIncidencia::all();
+
+        return Inertia::render('Viajes/Viajes.Index',
+        [
+            'viajes' => fn () =>  $viajes->paginate(5),
+            'productos' => $productos,
+            'tipos_incidencias' => $tipos_incidencias
         ]);
     }
 

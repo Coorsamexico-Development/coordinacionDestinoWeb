@@ -13,8 +13,9 @@
            default: false,
        },
        ocs:Object,
-       viaje:Number
-
+       viaje:Number,
+       productos:Object,
+       tipos_incidencias:Object
    });
 
    const emit = defineEmits(["close"])
@@ -83,15 +84,19 @@ watch(document, (documentoCargado) =>
 
   const modalIncidencias = ref(false);
   const incidencias = ref([]);
+  const ocToModal = ref(null);
   const openModalIncidencias = (oc) => 
   {
+    ocToModal.value = oc;
     incidencias.value = oc.incidencias;
     modalIncidencias.value = true;
   }
 
   const closeModalIncidencias = () => 
   {
+    ocToModal = null;
     modalIncidencias.value = false;
+    incidencias.value = [];
   }
 
 </script>
@@ -135,5 +140,5 @@ watch(document, (documentoCargado) =>
       </div>
      </template>
    </DialogModal>
-   <ModalShowIncidencias :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" />
+   <ModalShowIncidencias  :oc="ocToModal" :productos="productos" :show="modalIncidencias" @close="closeModalIncidencias()" :incidencias="incidencias" :tipos_incidencias="tipos_incidencias" />
 </template>

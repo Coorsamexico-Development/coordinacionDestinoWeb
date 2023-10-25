@@ -134,4 +134,17 @@ class IncidenciaController extends Controller
       
     }
 
+    public function saveNewIncidencias(Request $request)
+    {
+       if(count($request['incidencias']) > 0)
+       {
+          for ($i=0; $i < count($request['incidencias']) ; $i++) 
+          { 
+            Incidencia::create([
+                
+            ]);
+          }
+       }
+    }
+
 }

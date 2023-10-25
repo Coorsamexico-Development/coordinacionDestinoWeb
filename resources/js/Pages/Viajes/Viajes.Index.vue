@@ -13,6 +13,8 @@ import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
 var props = defineProps({
     viajes:Object,
+    productos:Object,
+    tipos_incidencias:Object
 });
 
 //console.log(props.viajes)
@@ -164,6 +166,6 @@ const modalOcsClose = () =>
       </table>
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs"/>
+    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" />
   </AppLayout>
 </template>

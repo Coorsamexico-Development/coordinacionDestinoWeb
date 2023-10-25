@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\DtController;
+use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReporteController;
@@ -101,3 +102,5 @@ Route::get('/viajesByProducto', [ProductoController::class,'viajesByProducto'])-
 Route::get('/ocsByViaje',[OcController::class, 'ocsByViaje'])->name('ocsByViaje');
 //Ruta paara guardar documento POD de la confirmacion
 Route::post('/saveDocPOD',[ConfirmacionDtController::class, 'saveDocPOD'])->name('saveDocPOD');
+//Ruta para guardar nuevas incidencias referentes a la confirnacion
+Route::post('/saveNewIncidencias',[IncidenciaController::class, 'saveNewIncidencias'])->name('saveNewIncidencias');
