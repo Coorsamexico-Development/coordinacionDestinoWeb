@@ -167,7 +167,7 @@
                     </td>
                 </tr>
                 <tr class="border-t-2" v-for="(newIncidencia, key) in newIncidencias" :key="key" >
-                  <td class="w-2 text-center py-2" colspan="2">
+                  <td class="w-2 text-center py-2" colspan="3">
                      <ListInput :options="productos" v-model="newIncidencia.sku"   list="listaProductos"/>
                   </td>
                   <td class="text-center py-2">
