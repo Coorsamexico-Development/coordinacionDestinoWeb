@@ -19,7 +19,11 @@ class DtController extends Controller
         //
         $viajes = ConfirmacionDt::select('confirmacion_dts.*',
         'dts.referencia_dt')
-        ->join('dts','confirmacion_dts.dt_id','dts.id');
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->where(function($query) {
+            $query->where('confirmacion_dts.status_id','=',10)
+                ->orWhere('confirmacion_dts.status_id','=',11);
+          });
 
         if ($request->has("busqueda")) 
         {
@@ -31,9 +35,7 @@ class DtController extends Controller
           }
         }
 
-        $viajes->where('confirmacion_dts.status_id','=',10);
-        $viajes->orwhere('confirmacion_dts.status_id','=',11);
-
+      
         $productos = Producto::all();
         $tipos_incidencias = TipoIncidencia::all();
 

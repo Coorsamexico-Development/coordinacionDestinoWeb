@@ -15,7 +15,7 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
@@ -27,6 +27,16 @@ class ProductoController extends Controller
         'productos.EAN as producto_ean',
         'productos.activo as producto_activo', 
         'productos.created_at as producto_creacion');
+
+        if ($request->has("busqueda")) 
+        {
+          if($request['busqueda'] !== null)
+          {
+            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+            $productos->where("productos.SKU", "LIKE", "%" . $search . "%")
+            ->orWhere("productos.descripcion", "LIKE", "%" . $search . "%");
+          }
+        }
         
 
         return Inertia::render('Productos/Productos.Index',[

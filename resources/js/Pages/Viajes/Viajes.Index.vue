@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput.vue';
 import ButtonWatch from '@/Components/ButtonWatch.vue';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
+import PaginationInertia from '@/Components/PaginationInertia.vue';
 
 var props = defineProps({
     viajes:Object,
@@ -23,8 +24,6 @@ Fancybox.bind("[data-fancybox]", {
     // Your custom options
  });
 
-const viajesData = ref(props.viajes.data);
-const viajesChange = ref(props.viajes);
 //Infomracion del historico para el modal
 let status = ref([]);
 let infoModal = ref(null);
@@ -44,8 +43,6 @@ watch(buscador, (newBusqueda) =>
     only:['viajes'],
   })
 });
-
-
 
 const watchHistorico = (viaje) =>
 {
@@ -184,6 +181,7 @@ const reconsultar = (id) =>
           </tr>
         </tbody>
       </table>
+      <PaginationInertia :pagination="viajes" />
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
     <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />

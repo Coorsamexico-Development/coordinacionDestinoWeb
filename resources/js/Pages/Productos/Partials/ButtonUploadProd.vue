@@ -6,7 +6,7 @@
                 @input="$emit('update:modelValue', $event.target.files[0])"
                 class="hidden" :accept="accept"
                 @change="setFile"/>
-     <span class="block text-white" :class="{'hidden':withFile}">
+     <span class="block text-white text-sm" :class="{'hidden':withFile}">
          Subir nuevos productos
      </span>
       <div class="flex flex-col" v-if="withFile">

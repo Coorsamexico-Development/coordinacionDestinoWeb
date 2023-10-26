@@ -2,36 +2,24 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import {ref, watch, computed, reactive } from "vue";
 import { router, Link, useForm  } from '@inertiajs/vue3'
-import PaginationAxios from '@/Components/PaginationAxios.vue';
+//import PaginationAxios from '@/Components/PaginationAxios.vue';
+import PaginationInertia from '@/Components/PaginationInertia.vue'
 import ButtonUploadProd from './Partials/ButtonUploadProd.vue'
 import ModalViajes from './Modals/ModalViajes.vue'
 import axios from 'axios';
+import { Pagination } from 'swiper/modules';
+import TextInput from '@/Components/TextInput.vue';
 
 var props = defineProps({
     productos:Object,
 });
 
-const productosData = ref(props.productos.data);
-const productosChange = ref(props.productos);
+
 //Form
 const formNewProductos = useForm({
   document: null,
 })
 const document = ref(null) 
-
-const loadPage = (page) => 
-{
-    axios.get(page)
-    .then(response => 
-    {
-       productosData.value = response.data.data; //seteamos la info
-       productosChange.value = response.data;
-    })
-    .catch(e => {
-        // Podemos mostrar los errores en la consola
-        console.log(e);
-    })
-}
 
 
 //Watcher para la carga del reporte
@@ -97,16 +85,32 @@ const opennModalViaje = (prod) =>
         console.log(err);
     })
 }
+
 const closeModalViaje = () => 
 {
     showModalViaje.value = false;
     productoActual.value = {};
 }
+
+const buscador = ref('');
+
+watch(buscador, (newBusqueda) => 
+{
+  router.visit(route('productos.index'), 
+  {
+    preserveScroll:true,
+    preserveState:true,
+    replace:true,
+    data:{busqueda:newBusqueda},
+    only:['productos'],
+  })
+});
+
 </script>
 <template>
   <AppLayout title="Productos">
     <template #header>
-       <div class="flex flex-row mt-2 align-middle" style="font-family: 'Montserrat';">
+       <div class="grid grid-cols-4" style="font-family: 'Montserrat';">
           <h2 class="mr-4 text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
               Productos
           </h2>
@@ -121,8 +125,12 @@ const closeModalViaje = () =>
           <div class="mx-4">
              <ButtonUploadProd v-model="document" />
           </div>
+          <div>
+            <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
+          </div>
        </div>
     </template>
+    
      <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
         <table class="w-full">
             <thead class="border-b-2">
@@ -136,7 +144,7 @@ const closeModalViaje = () =>
                 </tr>
             </thead>
             <tbody>
-                <tr class="" v-for="producto in productosData" :key="producto.producto_id">
+                <tr class="" v-for="producto in productos.data" :key="producto.producto_id">
                   <td class="text-center">
                     <!--
                     <button class="bg-[#F25B77] mr-2 px-2 py-1 rounded-full">
@@ -170,7 +178,7 @@ const closeModalViaje = () =>
                 </tr>
             </tbody>
         </table>
-        <PaginationAxios :pagination="productosChange" @loadPage="loadPage($event)" />
+        <PaginationInertia :pagination="productos" />
      </div>
      <ModalViajes :show="showModalViaje" :producto="productoActual" @close="closeModalViaje()" :viajes="viajes" />
   </AppLayout>
