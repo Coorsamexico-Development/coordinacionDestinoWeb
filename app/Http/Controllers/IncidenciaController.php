@@ -188,6 +188,6 @@ class IncidenciaController extends Controller
 
     public function dowloadIncidenciasByOc (Request $request)
     {
-        return Excel::download(new IncidenciasExport($request['oc']), 'Reporte_Incidencias.xlsx');
+        return Excel::download(new IncidenciasExport($request['viaje']), 'Reporte_Incidencias.xlsx');
     }
 }

@@ -123,6 +123,16 @@ watch(document, (documentoCargado) =>
      <template #title>
        <div class="flex flex-row justify-between">
           <h1>Oc's</h1>
+          <a class="flex justify-center" :href="route('downloadIncidenciasReport', {viaje:viaje})">
+             <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl ">
+               <img class="w-3" src="../../../../assets/img/down_arrow.png" />
+                   <!--
+                    <a :href="route('donwloadExportExample')" class="text-white">
+                       Descargar ejemplo
+                   </a>
+                   -->
+             </button>
+          </a>
           <span @click="close()">
              Cerrar
           </span>
