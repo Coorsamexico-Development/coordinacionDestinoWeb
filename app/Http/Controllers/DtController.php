@@ -26,8 +26,11 @@ class DtController extends Controller
           if($request['busqueda'] !== null)
           {
             $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
-            $viajes->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
-            ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+            $viajes->where(function($query) use ($search)
+               {
+                 $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+                     ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+               });
           }
         }
 
