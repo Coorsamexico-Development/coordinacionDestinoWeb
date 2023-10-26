@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\IncidenciasExport;
 use App\Models\Evidencia;
 use App\Models\Incidencia;
 use App\Models\Oc;
@@ -9,6 +10,7 @@ use App\Models\Producto;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IncidenciaController extends Controller
 {
@@ -180,7 +182,12 @@ class IncidenciaController extends Controller
        ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
        ->join('productos','incidencias.ean_id','productos.id')
        ->where('ocs_id','=',$request['oc_id'])
-       ->orderBy('id','DESC')
+       ->orderBy('incidencias.id','ASC')
        ->get();
+    }
+
+    public function dowloadIncidenciasByOc (Request $request)
+    {
+        return Excel::download(new IncidenciasExport($request['oc']), 'Reporte_Incidencias.xlsx');
     }
 }

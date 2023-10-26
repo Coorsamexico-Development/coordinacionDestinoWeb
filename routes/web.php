@@ -109,3 +109,5 @@ Route::post('/reportePOD',[IncidenciaController::class, 'reportePOD'])->name('re
 //Ruta para borrar incidencias
 Route::post('/borrarIncidencia',[IncidenciaController::class,'borrarIncidencia'])->name('borrarIncidencia');
 Route::get('/getIncidenciasByOc',[IncidenciaController::class,'getIncidenciasByOc'])->name('getIncidenciasByOc');
+//Ruta para descargar reportes de incidencia
+Route::get('/downloadIncidenciasReport',[IncidenciaController::class, 'dowloadIncidenciasByOc'])->name('downloadIncidenciasReport');
