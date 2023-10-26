@@ -180,6 +180,7 @@ class IncidenciaController extends Controller
        ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
        ->join('productos','incidencias.ean_id','productos.id')
        ->where('ocs_id','=',$request['oc_id'])
+       ->orderBy('id','DESC')
        ->get();
     }
 }
