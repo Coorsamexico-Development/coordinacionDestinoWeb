@@ -15,7 +15,7 @@ class UserUbicacioneController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $users = User::select('users.*',
@@ -24,14 +24,24 @@ class UserUbicacioneController extends Controller
         'roles.nombre as role_name')
         ->leftJoin('user_ubicaciones','user_ubicaciones.user_id','users.id')
         ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id','ubicaciones.id')
-        ->leftJoin('roles', 'users.role_id', 'roles.id')
-        ->get();
+        ->leftJoin('roles', 'users.role_id', 'roles.id');
+
+        if ($request->has("busqueda")) 
+        {
+          if($request['busqueda'] !== null)
+          {
+            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+            $users->where("users.name", "LIKE", "%" . $search . "%")
+            ->orWhere("users.apellido_paterno", "LIKE", "%" . $search . "%")
+            ->orWhere("users.apellido_materno", "LIKE", "%" . $search . "%");
+          }
+        }
 
         $roles = Role::all();
         $ubicaciones = Ubicacione::all();
 
         return Inertia::render('ManageUsers/ManageUsers',[
-           'users' => $users,
+           'users'=> fn () =>  $users->paginate(5),
            'roles' => $roles,
            'ubicaciones' => $ubicaciones
         ]);
