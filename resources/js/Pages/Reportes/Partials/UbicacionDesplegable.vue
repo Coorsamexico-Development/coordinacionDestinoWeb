@@ -4,6 +4,7 @@ import {ref, watch, computed, reactive } from "vue";
 import SwitchButton from './SwitchButton.vue';
 import DtBlock from './DtBlock.vue';
 import { pickBy } from 'lodash';
+import PaginationAxios from '@/Components/PaginationAxios.vue';
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -19,7 +20,7 @@ const params = reactive({
     ubicacion_id: -1,
     plataforma_id:1,
     status_id:props.status.id,
-    busqueda:''
+    busqueda:props.buscador
 });
 
 const showClients = (ubicacion_id) =>  //funcion para desplegar
@@ -42,17 +43,18 @@ let dtsData = ref([]);
 //Watcher para parametros
 watch(params, (newParams) => 
 {
+  console.log(newParams)
   if(newParams.ubicacion_id == undefined)
   {
     params.ubicacion_id = -1;
   }
 
-  if(props.buscador !== '')
+  if(newParams.buscador !== '')
   {
-    params.busqueda = props.buscador
+    
   }
 
-
+ 
   if(newParams.ubicacion_id !== -1)
   {
     axios.get(route('getConfirmacions',{
@@ -71,7 +73,7 @@ watch(params, (newParams) =>
             busqueda: newParams.busqueda
           }
           dts.value = response.data;
-          dtsData.value = response.data.data;
+          //dtsData.value = response.data.data;
       })
       .catch(e => {
           // Capturamos los errores
@@ -81,7 +83,6 @@ watch(params, (newParams) =>
 });
 
 //Reconsulta al paginado
-/*
 const loadPage = async (page) =>
 {
    axios.get(page,{
@@ -101,7 +102,7 @@ const loadPage = async (page) =>
         console.log(e);
     })
 }
-*/
+
 
 const valores = computed(() => 
 {
@@ -158,12 +159,10 @@ const valores = computed(() =>
           <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
-             <div class="py-2" v-for="dt in dtsData" :key="dt.id">
+             <div class="py-2" v-for="dt in dts.data" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
-                  <!--
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
-               --->
           </div>
         </div>
      </Transition>

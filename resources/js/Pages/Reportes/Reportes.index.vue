@@ -27,7 +27,6 @@ watch(buscador, (newBusqueda) =>
 
 });
 
-
 </script>
 <template>
    <AppLayout title="Dashboard">
