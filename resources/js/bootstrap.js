@@ -23,9 +23,9 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 1697241,
     cluster: 'us2',
-    wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-    wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-    wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-    forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
+    wsHost: `ws-us2.pusher.com`,
+    wsPort: 443,
+    wssPort: 443,
+    forceTLS: 'https',
     enabledTransports: ['ws', 'wss'],
 });
