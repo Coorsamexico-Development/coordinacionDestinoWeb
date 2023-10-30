@@ -85,6 +85,8 @@ watch(params, (newParams) =>
 //Reconsulta al paginado
 const loadPage = async (page) =>
 {
+  console.log(page);
+  /*
    axios.get(page,{
     params:{
       plataforma_id:nuevosParametros.value.plataforma_id,
@@ -101,6 +103,7 @@ const loadPage = async (page) =>
         // Podemos mostrar los errores en la consola
         console.log(e);
     })
+    */
 }
 
 
@@ -159,12 +162,10 @@ const valores = computed(() =>
           <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
-             <div class="py-2" v-for="dt in dts.data" :key="dt.id">
+             <div class="pb-1" v-for="dt in dts.data" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
-             <!--
-                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
-                -->
+             <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
           </div>
         </div>
      </Transition>
