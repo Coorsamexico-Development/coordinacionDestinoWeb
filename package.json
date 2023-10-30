@@ -21,7 +21,9 @@
     "dependencies": {
         "@amcharts/amcharts4": "^4.10.37",
         "@fancyapps/ui": "^5.0.20",
+        "laravel-echo": "^1.15.3",
         "lodash": "^4.17.21",
+        "pusher-js": "^8.3.0",
         "swiper": "^10.2.0"
     }
 }

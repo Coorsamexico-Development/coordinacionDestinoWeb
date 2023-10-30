@@ -17,6 +17,7 @@ use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use App\Events\NewNotification;
 
 class ConfirmacionDtController extends Controller
 {
@@ -206,7 +207,7 @@ class ConfirmacionDtController extends Controller
           $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
           $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
 
-          ConfirmacionDt::where('id','=',$request['id'])
+        $confrimacionDt = ConfirmacionDt::where('id','=',$request['id'])
             ->update([
                'confirmacion_dts.status_id' => 5,
                'confirmacion_dts.updated_at' =>$newFecha,
@@ -224,6 +225,8 @@ class ConfirmacionDtController extends Controller
            'created_at' => $newFecha,
            'updated_at' =>$newFecha,
          ]);
+
+         broadcast(new NewNotification($confrimacionDt))->toOthers();
 
     }
 
