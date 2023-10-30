@@ -85,12 +85,9 @@ watch(params, (newParams) =>
 //Reconsulta al paginado
 const loadPage = async (page) =>
 {
-  console.log(page);
-  let newPage = 'https'+ page.substring(3);
-  console.log(newPage);
-  console.log(dts.value)
-  /*
-   axios.get(page,{
+   //console.log(page);
+  let newPage = 'https'+ page.substring(4);
+  await axios.get(newPage,{
     params:{
       plataforma_id:nuevosParametros.value.plataforma_id,
       ubicacion_id:nuevosParametros.value.ubicacion_id,
@@ -106,7 +103,7 @@ const loadPage = async (page) =>
         // Podemos mostrar los errores en la consola
         console.log(e);
     })
-    */
+    
 }
 
 
