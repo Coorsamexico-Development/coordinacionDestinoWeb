@@ -226,8 +226,7 @@ class ConfirmacionDtController extends Controller
            'updated_at' =>$newFecha,
          ]);
 
-         broadcast(new NewNotification($confrimacionDt))->toOthers();
-
+         broadcast(new NewNotification($confrimacionDt->id))->toOthers();
     }
 
     public function changePorRecibir (Request $request) //o a tiempo
