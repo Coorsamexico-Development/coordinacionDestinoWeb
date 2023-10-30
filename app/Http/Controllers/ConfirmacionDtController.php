@@ -207,7 +207,7 @@ class ConfirmacionDtController extends Controller
           $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
           $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
 
-        $confrimacionDt = ConfirmacionDt::where('id','=',$request['id'])
+          ConfirmacionDt::where('id','=',$request['id'])
             ->update([
                'confirmacion_dts.status_id' => 5,
                'confirmacion_dts.updated_at' =>$newFecha,
@@ -225,6 +225,9 @@ class ConfirmacionDtController extends Controller
            'created_at' => $newFecha,
            'updated_at' =>$newFecha,
          ]);
+
+         $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+         ->where('confirmacion_dts.id',$request['id'])->first();
 
          broadcast(new NewNotification($confrimacionDt->id))->toOthers();
     }

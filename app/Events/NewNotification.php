@@ -33,7 +33,7 @@ class NewNotification implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('confirmacion.'.$this->confirmacionDt->id),
+            new Channel('confirmacion.'.$this->confirmacionDt->id),
         ];
     }
 }
