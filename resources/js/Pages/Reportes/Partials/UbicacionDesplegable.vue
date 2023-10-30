@@ -86,6 +86,7 @@ watch(params, (newParams) =>
 const loadPage = async (page) =>
 {
   console.log(page);
+  console.log(dts.value)
   /*
    axios.get(page,{
     params:{
