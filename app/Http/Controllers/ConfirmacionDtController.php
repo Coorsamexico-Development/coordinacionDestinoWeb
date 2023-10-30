@@ -57,7 +57,7 @@ class ConfirmacionDtController extends Controller
           }
         }
 
-      return  $confirmaciones->paginate(1);
+      return  $confirmaciones->paginate(5);
     }
 
     public function getConfirmacionByStatus (Request $request)
