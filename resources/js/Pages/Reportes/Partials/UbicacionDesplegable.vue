@@ -86,6 +86,8 @@ watch(params, (newParams) =>
 const loadPage = async (page) =>
 {
   console.log(page);
+  let newPage = 'https'+ page.substring(3);
+  console.log(newPage);
   console.log(dts.value)
   /*
    axios.get(page,{
