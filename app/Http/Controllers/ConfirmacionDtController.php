@@ -381,6 +381,9 @@ class ConfirmacionDtController extends Controller
          'hora' => $hora_actual
        ]);
       
+       $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('confirmacion_dts.id',$request['id'])->first();
+       broadcast(new NewNotification($confrimacionDt))->toOthers();
     }
 
   public function getPDF (Request $request)
@@ -746,7 +749,7 @@ class ConfirmacionDtController extends Controller
         'cerrado' => 1
       ]);
       
-
+    broadcast(new NewNotification($confirmacion_dt))->toOthers();
     return 'ok';
   }
 

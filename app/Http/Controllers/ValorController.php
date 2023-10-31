@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewNotification;
 use App\Models\Campo;
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
@@ -363,6 +364,7 @@ class ValorController extends Controller
                'status_id' => 6
            ]);
        }
+       broadcast(new NewNotification($cofnirmacionDt))->toOthers();
       }
     }
 
@@ -514,6 +516,7 @@ class ValorController extends Controller
            'status_id' => 7
        ]);
 
+       broadcast(new NewNotification($cofnirmacionDt))->toOthers();
        return 'ok fotos';
     }
 
@@ -651,6 +654,8 @@ class ValorController extends Controller
         'status_dts_id' => $newStatus['id'],
         'hora' => $hora_actual
       ]);
+
+      broadcast(new NewNotification($cofnirmacionDt))->toOthers();
     }
 
 
