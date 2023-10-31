@@ -59,7 +59,7 @@ const connect = () =>
      setTimeout(function() 
      {
         reconect()
-     },30000)
+     },40000)
 }
 
 
