@@ -37,7 +37,7 @@ let pusher = new Pusher('ec1646c4d112ae02864d', {
 
 const reconect = () => 
 {
-   console.log('hola')
+   //console.log('hola')
    connect();
 }
 
@@ -54,11 +54,22 @@ const connect = () =>
           replace:true,
           only:['contadores','ubicaciones']
         })
-     }) 
+     }); 
 
      setTimeout(function() 
      {
         reconect()
+        pusher.bind('notification', data => 
+        {
+           console.log(data)
+           router.visit(route('reportes.index'), 
+           {
+             preserveScroll:true,
+             preserveState:true,
+             replace:true,
+             only:['contadores','ubicaciones']
+           })
+        }); 
      },40000)
 }
 
