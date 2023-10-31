@@ -31,7 +31,7 @@ watch(buscador, (newBusqueda) =>
 
 let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
 pusher.subscribe('confirmacion')
- pusher.bind('notification', data => 
+pusher.bind('notification', data => 
  {
     router.visit(route('reportes.index'), {
       preserveScroll:true,
