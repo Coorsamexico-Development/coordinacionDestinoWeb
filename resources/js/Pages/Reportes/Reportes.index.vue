@@ -37,8 +37,19 @@ let pusher = new Pusher('ec1646c4d112ae02864d', {
 
 const reconect = () => 
 {
-   //console.log('hola')
-   connect();
+  setTimeout(function() 
+     {
+       console.log(pusher.connection.state);
+       if(pusher.connection.state == 'disconnected')
+       {
+         pusher.subscribe('confirmacion')
+         connect();
+       }
+       else
+       {
+        console.log('its ok')
+       }
+     },30000)
 }
 
 const connect = () => 
@@ -56,22 +67,13 @@ const connect = () =>
         })
      }); 
 
+
      setTimeout(function() 
      {
-        reconect()
-        pusher.bind('notification', data => 
-        {
-           console.log(data)
-           router.visit(route('reportes.index'), 
-           {
-             preserveScroll:true,
-             preserveState:true,
-             replace:true,
-             only:['contadores','ubicaciones']
-           })
-        }); 
-     },40000)
+       reconect();
+     },30000)
 }
+
 
 
 
