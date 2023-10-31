@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
-import {ref, watch } from "vue";
+import {ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
@@ -31,24 +31,44 @@ watch(buscador, (newBusqueda) =>
 
 let pusher = new Pusher('ec1646c4d112ae02864d', { 
   cluster: 'us2', 
-  activityTimeout:500000000,
+  activityTimeout:123,
   pongTimeout:456
  });
 
+const reconect = () => 
+{
+   console.log('hola')
+   connect();
+}
 
-pusher.subscribe('confirmacion')
-pusher.bind('notification', data => 
- {
-    console.log(data)
-    router.visit(route('reportes.index'), 
-    {
-      preserveScroll:true,
-      preserveState:true,
-      replace:true,
-      only:['contadores','ubicaciones']
-    })
- })
- 
+const connect = () => 
+{
+    pusher.subscribe('confirmacion')
+    pusher.bind('notification', data => 
+     {
+        console.log(data)
+        router.visit(route('reportes.index'), 
+        {
+          preserveScroll:true,
+          preserveState:true,
+          replace:true,
+          only:['contadores','ubicaciones']
+        })
+     }) 
+
+     setTimeout(function() 
+     {
+        reconect()
+     },30000)
+}
+
+
+
+onMounted(() => 
+{
+  connect();
+
+})
 /*
  window.Echo = new Echo({
     broadcaster: 'pusher',
