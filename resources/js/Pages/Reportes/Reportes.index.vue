@@ -5,6 +5,7 @@ import {ref, watch } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
+import Pusher from 'pusher-js' 
 
 var props = defineProps({
     status_padre:Object,
@@ -27,7 +28,15 @@ watch(buscador, (newBusqueda) =>
 
 });
 
+let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
+    pusher.subscribe('confirmacion.4');
+    pusher.bind('review_added', data => {
+        this.mockReviews.unshift(data.review)
+      })
+
+
 </script>
+
 <template>
    <AppLayout title="Dashboard">
        <div class="grid grid-cols-4 gap-4 ">

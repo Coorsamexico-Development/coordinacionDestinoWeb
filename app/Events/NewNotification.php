@@ -36,4 +36,9 @@ class NewNotification implements ShouldBroadcast
             new Channel('confirmacion.'.$this->confirmacionDt->id),
         ];
     }
+
+    public function broadcastAs()
+    {
+        return 'notification';
+    }
 }

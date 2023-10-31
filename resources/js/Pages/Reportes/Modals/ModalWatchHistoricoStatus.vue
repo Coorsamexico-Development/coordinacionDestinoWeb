@@ -202,6 +202,16 @@
      formDoc.post(route('valoresEnrrampe'));
  });
     */
+   const cambio = (id) => 
+   {
+      axios.get(route('changeToRiesgo'),{params:{id:id}}).then(response=>{
+        console.log(response.data)
+       }).catch(err => 
+        {
+          console.log(err.response.data)
+        });
+   }
+
    const activeClass = ref('timeline');
    const errorClas = ref('timeline2');
 </script>
@@ -221,6 +231,9 @@
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
              <div  v-for="historia in infoModal" :key="historia.id">
+               <button @click="cambio(historia.confirmacion_dt_id)">
+                  Cambio
+               </button>
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
