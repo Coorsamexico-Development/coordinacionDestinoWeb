@@ -34,11 +34,11 @@ pusher.subscribe('confirmacion')
 pusher.bind('notification', data => 
  {
     console.log(data)
-    router.visit(route('reportes.index'), {
+    router.visit(route('reportes.index'), 
+    {
       preserveScroll:true,
       preserveState:true,
       replace:true,
-      data:{busqueda:buscador.value},
       only:['contadores','ubicaciones']
     })
  })
