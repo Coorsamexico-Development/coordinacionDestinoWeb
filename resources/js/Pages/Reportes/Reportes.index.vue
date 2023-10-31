@@ -49,7 +49,7 @@ const reconect = () =>
        {
         console.log('its ok')
        }
-     },30000)
+     },1000)
 }
 
 const connect = () => 
