@@ -25,6 +25,7 @@
         "laravel-echo": "^1.15.3",
         "lodash": "^4.17.21",
         "pusher-js": "^8.3.0",
-        "swiper": "^10.2.0"
+        "swiper": "^10.2.0",
+        "vue-izitoast": "^1.2.1"
     }
 }

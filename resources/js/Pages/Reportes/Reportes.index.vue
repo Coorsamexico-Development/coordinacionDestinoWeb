@@ -7,6 +7,8 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 import Pusher from 'pusher-js' 
 import Echo from 'laravel-echo';
+import VueIziToast from 'vue-izitoast';
+import 'izitoast/dist/css/iziToast.css';
 
 var props = defineProps({
     status_padre:Object,
@@ -29,29 +31,30 @@ watch(buscador, (newBusqueda) =>
 
 });
 
+/*
 let pusher = new Pusher('ec1646c4d112ae02864d', { 
   cluster: 'us2', 
   activityTimeout:123,
   pongTimeout:456
  });
-
+*/
+ /*
 const reconect = () => 
 {
-  setTimeout(function() 
-     {
-       console.log(pusher.connection.state);
-       if(pusher.connection.state == 'disconnected')
-       {
-         pusher.subscribe('confirmacion')
-         connect();
-       }
-       else
-       {
-        console.log('its ok')
-       }
-     },1000)
+    console.log(pusher.connection.state);
+    if(pusher.connection.state === 'disconnected')
+    {
+      //pusher.subscribe('confirmacion')
+      connect();
+    }
+    else
+    {
+     console.log('its ok')
+    }
 }
 
+*/
+/*
 const connect = () => 
 {
     pusher.subscribe('confirmacion')
@@ -71,34 +74,43 @@ const connect = () =>
      setTimeout(function() 
      {
        reconect();
-     },30000)
+     },3000)
 }
+*/
 
-
-
-
-onMounted(() => 
-{
-  connect();
-
-})
-/*
  window.Echo = new Echo({
     broadcaster: 'pusher',
     key: 'ec1646c4d112ae02864d',
     encrypted: true,
     cluster:'us2',
-    activityTimeout:50000
+    wsHost: `ws-us2.pusher.com`,
+    wsPort: 443,
+    wssPort: 443,
+    forceTLS: 'https' === 'https',
+    enabledTransports: ['ws', 'wss'],
+    //activityTimeout:50000
 });
 window.Echo.channel('confirmacion')
     .listen('notification', (e) => {
         console.log(e);
     });
-*/
+
+
+const show = () => 
+{
+  VueIziToast.show({
+    title: 'Hey',
+    message: 'What would you like to add?'
+});
+}
+
 </script>
 
 <template>
    <AppLayout title="Dashboard">
+      <button @click="show()">
+        click
+      </button>
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
