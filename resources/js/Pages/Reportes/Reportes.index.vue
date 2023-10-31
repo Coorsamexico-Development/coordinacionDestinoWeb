@@ -33,6 +33,7 @@ let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
 pusher.subscribe('confirmacion')
 pusher.bind('notification', data => 
  {
+    console.log(data)
     router.visit(route('reportes.index'), {
       preserveScroll:true,
       preserveState:true,

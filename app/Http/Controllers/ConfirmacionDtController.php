@@ -258,6 +258,11 @@ class ConfirmacionDtController extends Controller
            'created_at' => $newFecha,
            'updated_at' =>$newFecha,
          ]);
+
+         $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+         ->where('confirmacion_dts.id',$request['id'])->first();
+
+         broadcast(new NewNotification($confrimacionDt))->toOthers();
     }
 
     public function changeToEnEspera (Request $request) 
