@@ -6,6 +6,7 @@ import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 import Pusher from 'pusher-js' 
+import Echo from 'laravel-echo';
 
 var props = defineProps({
     status_padre:Object,
@@ -29,11 +30,17 @@ watch(buscador, (newBusqueda) =>
 });
 
 let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
-    pusher.subscribe('confirmacion.4');
-    pusher.bind('review_added', data => {
-        this.mockReviews.unshift(data.review)
-      })
-
+pusher.subscribe('confirmacion')
+ pusher.bind('notification', data => 
+ {
+    router.visit(route('reportes.index'), {
+      preserveScroll:true,
+      preserveState:true,
+      replace:true,
+      data:{busqueda:buscador.value},
+      only:['contadores','ubicaciones']
+    })
+ })
 
 </script>
 
@@ -44,7 +51,7 @@ let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
-       <div class="grid grid-cols-3 gap-4 px-8 py-2 w-full">
+       <div class="grid w-full grid-cols-3 gap-4 px-8 py-2">
           <div v-for="statu_padre in status_padre" :key="statu_padre.id">
              <ScrollableStatus :statu="statu_padre" :contadores="contadores" :ubicaciones="ubicaciones" :plataformas="plataformas" :buscador="buscador" />
           </div>
