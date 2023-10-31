@@ -231,9 +231,11 @@
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
              <div  v-for="historia in infoModal" :key="historia.id">
+               <!--
                <button @click="cambio(historia.confirmacion_dt_id)">
                   Cambio
                </button>
+               -->
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
@@ -268,9 +270,9 @@
                        <div class="">
                         <Campo :camposValores="camposValores" :status="statusActual" />
                        </div>
-                       <div class="border-t-2 mt-2  " v-if="statusActual.status_id == 9">
-                           <h1 class="text-lg mt-2">Oc's</h1>
-                           <div  class="bg-white drop-shadow-lg my-4 mx-2 p-4 rounded-lg" v-for="oc in ocs" :key="oc.id">
+                       <div class="mt-2 border-t-2 " v-if="statusActual.status_id == 9">
+                           <h1 class="mt-2 text-lg">Oc's</h1>
+                           <div  class="p-4 mx-2 my-4 bg-white rounded-lg drop-shadow-lg" v-for="oc in ocs" :key="oc.id">
                               <div @click="mostrar(oc)" class="flex justify-between py-1">
                                  <h1 class="text-lg font-semibold">{{ oc.referencia }}</h1>
                                  <div>

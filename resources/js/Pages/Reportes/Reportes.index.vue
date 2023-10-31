@@ -30,6 +30,8 @@ watch(buscador, (newBusqueda) =>
 });
 
 let pusher = new Pusher('ec1646c4d112ae02864d', { cluster: 'us2' });
+
+/*
 pusher.subscribe('confirmacion')
 pusher.bind('notification', data => 
  {
@@ -42,6 +44,19 @@ pusher.bind('notification', data =>
       only:['contadores','ubicaciones']
     })
  })
+ */
+
+ window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'ec1646c4d112ae02864d',
+    encrypted: true,
+    cluster:'us2',
+    activityTimeout:50000
+});
+window.Echo.channel('confirmacion')
+    .listen('notification', (e) => {
+        console.log(e);
+    });
 
 </script>
 
