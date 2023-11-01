@@ -1,3 +1,4 @@
+
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
@@ -5,6 +6,9 @@ import {ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
+import 'izitoast/dist/css/iziToast.min.css';
+import iziToast from 'izitoast';
+
 
 var props = defineProps({
     status_padre:Object,
@@ -26,6 +30,7 @@ watch(buscador, (newBusqueda) =>
   })
 
 });
+
 
 onMounted(() => 
 {
@@ -51,6 +56,13 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
+      iziToast.show({ 
+      title: 'Hey',
+      backgroundColor: '#56D0C1',
+      theme: 'light',
+      icon:'../../../assets/img/comentarios.png',
+      message: data.confirmacionDt.confirmacion})
+       
       router.visit(route('reportes.index'), 
         {
           preserveScroll:true,
@@ -64,67 +76,17 @@ onMounted(() =>
 
   });
 
-/*
-let pusher = new Pusher('ec1646c4d112ae02864d', { 
-  cluster: 'us2', 
-  activityTimeout:123,
-  pongTimeout:456
- });
-*/
- /*
-const reconect = () => 
-{
-    console.log(pusher.connection.state);
-    if(pusher.connection.state === 'disconnected')
-    {
-      //pusher.subscribe('confirmacion')
-      connect();
-    }
-    else
-    {
-     console.log('its ok')
-    }
-}
-
-*/
-/*
-const connect = () => 
-{
-    pusher.subscribe('confirmacion')
-    pusher.bind('notification', data => 
-     {
-        console.log(data)
-        router.visit(route('reportes.index'), 
-        {
-          preserveScroll:true,
-          preserveState:true,
-          replace:true,
-          only:['contadores','ubicaciones']
-        })
-     }); 
 
 
-     setTimeout(function() 
-     {
-       reconect();
-     },3000)
-}
-*/
-const showItem = () => 
-{
-  VueIziToast.show({
-    title: 'Hey',
-    message: 'What would you like to add?'
-});
-}
 
 </script>
 
 <template>
    <AppLayout title="Dashboard">
-      <button @click="showItem()">
+      <button @click="success()">
         click
       </button>
+
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />

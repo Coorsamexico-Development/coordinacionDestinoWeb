@@ -23,8 +23,12 @@
     "dependencies": {
         "@amcharts/amcharts4": "^4.10.37",
         "@fancyapps/ui": "^5.0.20",
+        "@incuca/vue3-toaster": "^1.1.1",
+        "@kyvg/vue3-notification": "^3.0.2",
         "izitoast": "^1.4.0",
         "lodash": "^4.17.21",
-        "swiper": "^10.2.0"
+        "swiper": "^10.2.0",
+        "vue-izitoast": "^1.2.1",
+        "vue-toastification": "^2.0.0-rc.5"
     }
 }
