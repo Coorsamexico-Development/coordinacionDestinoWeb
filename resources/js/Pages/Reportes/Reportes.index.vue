@@ -51,6 +51,13 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
+      router.visit(route('reportes.index'), 
+        {
+          preserveScroll:true,
+          preserveState:true,
+          replace:true,
+          only:['contadores','ubicaciones']
+        })
       //app.messages.push(JSON.stringify(data));
     });
 
