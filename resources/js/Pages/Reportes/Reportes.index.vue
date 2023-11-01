@@ -8,7 +8,7 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 import 'izitoast/dist/css/iziToast.min.css';
 import iziToast from 'izitoast';
-
+const icon = '../../../assets/img/tracto.png'
 
 var props = defineProps({
     status_padre:Object,
@@ -57,11 +57,12 @@ onMounted(() =>
     {
       console.log(data)
       iziToast.show({ 
-      title: 'Hey',
+      position:'topRight',
+      title: 'Confirmacion: '+ data.confirmacionDt.confirmacion,
       backgroundColor: '#56D0C1',
       theme: 'light',
-      icon:'../../../assets/img/comentarios.png',
-      message: data.confirmacionDt.confirmacion})
+      iconUrl:'https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-png-rss-short-for-real-pictures-22.png',
+      message: 'Cambio al status'})
        
       router.visit(route('reportes.index'), 
         {
