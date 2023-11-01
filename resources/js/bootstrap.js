@@ -21,11 +21,15 @@ import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: 1697241,
+    key: '3fdfa63c24d55954bcee',
     cluster: 'us2',
     wsHost: `ws-us2.pusher.com`,
     wsPort: 443,
     wssPort: 443,
-    forceTLS: 'https',
+    forceTLS: 'https' === 'https',
     enabledTransports: ['ws', 'wss'],
 });
+
+
+
+

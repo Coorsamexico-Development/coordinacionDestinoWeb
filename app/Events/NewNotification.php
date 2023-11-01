@@ -11,10 +11,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\ConfirmacionDt;
 
+
 class NewNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    //protected
     public $confirmacionDt;
     /**
      * Create a new event instance.

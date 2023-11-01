@@ -5,10 +5,6 @@ import {ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
-import Pusher from 'pusher-js' 
-import Echo from 'laravel-echo';
-import VueIziToast from 'vue-izitoast';
-import 'izitoast/dist/css/iziToast.css';
 
 var props = defineProps({
     status_padre:Object,
@@ -30,6 +26,36 @@ watch(buscador, (newBusqueda) =>
   })
 
 });
+
+onMounted(() => 
+{
+  // connect();
+    // Echo.channel(`confirmacion`)
+    // .listen('notification', (e) => {
+    //     console.log(e);
+    // });
+
+    Echo.channel(`orders.1`)
+    .listen('OrderShipmentStatusUpdated', (data) => 
+    {
+        console.log(data);
+    });
+
+
+    // var pusher = new Pusher('3fdfa63c24d55954bcee', 
+    // {
+    //   cluster: 'us2'
+    // });
+
+    // var channel = pusher.subscribe('orders.1');
+    // channel.bind('OrderShipmentStatusUpdated', function(data) 
+    // {
+    //   console.log(data)
+    //   //app.messages.push(JSON.stringify(data));
+    // });
+
+
+  });
 
 /*
 let pusher = new Pusher('ec1646c4d112ae02864d', { 
@@ -77,26 +103,7 @@ const connect = () =>
      },3000)
 }
 */
-
- window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'ec1646c4d112ae02864d',
-    encrypted: true,
-    cluster:'us2',
-    wsHost: `ws-us2.pusher.com`,
-    wsPort: 443,
-    wssPort: 443,
-    forceTLS: 'https' === 'https',
-    enabledTransports: ['ws', 'wss'],
-    //activityTimeout:50000
-});
-window.Echo.channel('confirmacion')
-    .listen('notification', (e) => {
-        console.log(e);
-    });
-
-
-const show = () => 
+const showItem = () => 
 {
   VueIziToast.show({
     title: 'Hey',
@@ -108,7 +115,7 @@ const show = () =>
 
 <template>
    <AppLayout title="Dashboard">
-      <button @click="show()">
+      <button @click="showItem()">
         click
       </button>
        <div class="grid grid-cols-4 gap-4 ">
