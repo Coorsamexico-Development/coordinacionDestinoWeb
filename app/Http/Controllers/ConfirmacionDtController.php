@@ -230,7 +230,7 @@ class ConfirmacionDtController extends Controller
          ->join('dts','confirmacion_dts.dt_id','dts.id')
          ->where('confirmacion_dts.id',$request['id'])->first();
 
-         broadcast(new NewNotification($confrimacionDt->id))->toOthers();
+         broadcast(new NewNotification($confrimacionDt))->toOthers();
     }
 
     public function changePorRecibir (Request $request) //o a tiempo
