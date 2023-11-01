@@ -8,7 +8,6 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 import 'izitoast/dist/css/iziToast.min.css';
 import iziToast from 'izitoast';
-const icon = '../../../assets/img/tracto.png'
 
 var props = defineProps({
     status_padre:Object,
