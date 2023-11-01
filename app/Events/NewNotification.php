@@ -30,7 +30,7 @@ class NewNotification implements ShouldBroadcast
         ->join('dts','confirmacion_dts.dt_id','dts.id')
         ->join('status', 'confirmacion_dts.status_id','status.id')
         ->where('confirmacion_dts.id','=', $confirmacionDt->id)
-        ->get(); 
+        ->first(); 
     }
 
     /**
