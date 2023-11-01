@@ -35,24 +35,24 @@ onMounted(() =>
     //     console.log(e);
     // });
 
+    /*
     Echo.channel(`orders.1`)
     .listen('OrderShipmentStatusUpdated', (data) => 
     {
         console.log(data);
     });
+*/
+    var pusher = new Pusher('3fdfa63c24d55954bcee', 
+    {
+      cluster: 'us2'
+    });
 
-
-    // var pusher = new Pusher('3fdfa63c24d55954bcee', 
-    // {
-    //   cluster: 'us2'
-    // });
-
-    // var channel = pusher.subscribe('orders.1');
-    // channel.bind('OrderShipmentStatusUpdated', function(data) 
-    // {
-    //   console.log(data)
-    //   //app.messages.push(JSON.stringify(data));
-    // });
+    var channel = pusher.subscribe('confirmacion');
+    channel.bind('notification', function(data) 
+    {
+      console.log(data)
+      //app.messages.push(JSON.stringify(data));
+    });
 
 
   });
