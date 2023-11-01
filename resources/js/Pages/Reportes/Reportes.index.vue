@@ -56,25 +56,26 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
-      iziToast.show({ 
-      position:'topRight',
-      title: 'Confirmacion: '+ data.confirmacionDt.confirmacion +'</br>'+'Referencia: ',
-      backgroundColor: '#56D0C1',
-      theme: 'light',
-      iconUrl:'https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-png-rss-short-for-real-pictures-22.png',
-      message: 'Cambio al status'})
-       
-      router.visit(route('reportes.index'), 
-        {
-          preserveScroll:true,
-          preserveState:true,
-          replace:true,
-          only:['contadores','ubicaciones']
-        })
+      if(data.confirmacionDt)
+      {
+        iziToast.show({ 
+        position:'topRight',
+        title: 'Confirmacion: '+ data.confirmacionDt.confirmacion +'</br>'+'Referencia: '+data.confirmacionDt.dt,
+        backgroundColor: '#56D0C1',
+        theme: 'light',
+        iconUrl:'https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-png-rss-short-for-real-pictures-22.png',
+        message: 'Cambio al status ' + data.confirmacionDt.status})
+         
+        router.visit(route('reportes.index'), 
+          {
+            preserveScroll:true,
+            preserveState:true,
+            replace:true,
+            only:['contadores','ubicaciones']
+          })
+      }
       //app.messages.push(JSON.stringify(data));
     });
-
-
   });
 
 
