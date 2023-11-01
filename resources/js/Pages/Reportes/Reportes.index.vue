@@ -58,7 +58,7 @@ onMounted(() =>
       console.log(data)
       iziToast.show({ 
       position:'topRight',
-      title: 'Confirmacion: '+ data.confirmacionDt.confirmacion,
+      title: 'Confirmacion: '+ data.confirmacionDt.confirmacion +'</br>'+'Referencia: ',
       backgroundColor: '#56D0C1',
       theme: 'light',
       iconUrl:'https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-png-rss-short-for-real-pictures-22.png',
@@ -84,10 +84,6 @@ onMounted(() =>
 
 <template>
    <AppLayout title="Dashboard">
-      <button @click="success()">
-        click
-      </button>
-
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />

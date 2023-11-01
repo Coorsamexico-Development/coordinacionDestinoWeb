@@ -24,7 +24,7 @@ class NewNotification implements ShouldBroadcast
     public function __construct(ConfirmacionDt $confirmacionDt)
     {
         //
-        //$this-> confirmacionDt = $confirmacionDt->id;
+        $this-> confirmacionDt = $confirmacionDt->id;
 
     }
 
