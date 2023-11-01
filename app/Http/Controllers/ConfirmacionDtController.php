@@ -226,8 +226,7 @@ class ConfirmacionDtController extends Controller
            'updated_at' =>$newFecha,
          ]);
 
-         $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*','dts.referencia as dt')
-         ->join('dts','confirmacion_dts.dt_id','dts.id')
+         $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
          ->where('confirmacion_dts.id',$request['id'])->first();
 
          broadcast(new NewNotification($confrimacionDt))->toOthers();

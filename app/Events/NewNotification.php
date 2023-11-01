@@ -21,16 +21,16 @@ class NewNotification implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(ConfirmacionDt $confirmacionDt)
+    public function __construct($confirmacionDt)
     {
         //
-        $this-> confirmacionDt = $confirmacionDt->id;
-
-    }
-
-    public function broadcastWith(): array
-    {
-        return ['id' => $this->confirmacionDt->id];
+        $this-> confirmacionDt = ConfirmacionDt::
+        select('confirmacion_dts.*',
+        'dts.referencia_dt as dt'
+        )
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->where('confirmacion_dts.id',$confirmacionDt->id)
+        ->first();
     }
 
     /**

@@ -231,11 +231,11 @@
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
              <div  v-for="historia in infoModal" :key="historia.id">
-               <!--
+               
                <button @click="cambio(historia.confirmacion_dt_id)">
                   Cambio
                </button>
-               -->
+               
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
