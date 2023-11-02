@@ -8,6 +8,7 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 //import 'izitoast/dist/css/iziToast.min.css';
 //import iziToast from 'izitoast';
+import VueNotifications from 'vue-notifications'
 
 var props = defineProps({
     status_padre:Object,
@@ -86,6 +87,9 @@ onMounted(() =>
 
 <template>
    <AppLayout title="Dashboard">
+       <div>
+
+       </div>
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
