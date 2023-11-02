@@ -55,6 +55,7 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
+      /*
       if(data.confirmacionDt)
       {
         iziToast.show({ 
@@ -73,6 +74,7 @@ onMounted(() =>
             only:['contadores','ubicaciones']
           })
       }
+      */
       //app.messages.push(JSON.stringify(data));
     });
   });
