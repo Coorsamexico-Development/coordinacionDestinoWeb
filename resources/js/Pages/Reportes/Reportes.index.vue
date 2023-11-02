@@ -98,7 +98,6 @@ onMounted(() =>
   
    <AppLayout title="Dashboard">
        <div ref ="toastBox" id="toastBox">
-           
        </div>
        <button @click="mostrarNoti()">
           mostrat
@@ -147,4 +146,12 @@ onMounted(() =>
     overflow: hidden;
     padding: 20px;
   }
+
+.toast{
+  width: 400px;
+  height: 80px;
+  font-weight: 500;
+  margin: 2px 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
 </style>
