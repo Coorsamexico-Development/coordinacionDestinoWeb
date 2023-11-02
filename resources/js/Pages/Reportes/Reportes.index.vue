@@ -10,6 +10,7 @@ import ScrollableStatus from './Partials/ScrollableStatus.vue'
 //import iziToast from 'izitoast';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import Element from './Partials/Elements.vue'
 
 
 var props = defineProps({
@@ -70,10 +71,11 @@ onMounted(() =>
         message: 'Cambio al status ' + data.confirmacionDt.status})
          */
          toast.info(
-          '<strong>Confirmacion:</strong>'+ data.confirmacionDt.confirmacion +'</br>'+'<strong>Referencia:</strong>'+data.confirmacionDt.dt+'</br>'+'Cambio al status: ' + '<strong>'+data.confirmacionDt.status+'</strong>', 
+           Element,
          {
-            autoClose: 3000,
+            autoClose: 5000,
             dangerouslyHTMLString: true,
+            data:data.confirmacionDt
          }); // ToastOptions
         router.visit(route('reportes.index'), 
           {
