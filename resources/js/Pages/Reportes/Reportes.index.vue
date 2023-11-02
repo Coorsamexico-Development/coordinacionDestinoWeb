@@ -8,6 +8,8 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 //import 'izitoast/dist/css/iziToast.min.css';
 //import iziToast from 'izitoast';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 
 var props = defineProps({
@@ -81,6 +83,12 @@ onMounted(() =>
     });
   });
 
+  const mostrarNoti = () => 
+  {
+    toast("Wow so easy !", {
+        autoClose: 1000,
+      }); // ToastOptions
+  }
 
 </script>
 
