@@ -6,8 +6,8 @@ import {ref, watch, onMounted } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
-import 'izitoast/dist/css/iziToast.min.css';
-import iziToast from 'izitoast';
+//import 'izitoast/dist/css/iziToast.min.css';
+//import iziToast from 'izitoast';
 
 var props = defineProps({
     status_padre:Object,
