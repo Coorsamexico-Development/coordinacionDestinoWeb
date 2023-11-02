@@ -81,24 +81,13 @@ onMounted(() =>
     });
   });
 
-  let toastBox = ref.toastBox;
-  const mostrarNoti = () => 
-  {
-    let toast = document.createElement('div');
-    toast.classList.add('toast');
-    toast.innerHTML = 'success';
-    toastBox.appendChild(toast);
-    //console.log(toast)
-    //console.log(toastBox)
-  }
 
 </script>
 
 <template> 
   
    <AppLayout title="Dashboard">
-       <div ref ="toastBox" id="toastBox">
-       </div>
+
        <button @click="mostrarNoti()">
           mostrat
        </button>
@@ -136,25 +125,5 @@ onMounted(() =>
   background: #C5C5C5; 
 }
 
-#toastBox
-  {
-    position: absolute;
-    right:  30px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 20px;
-    z-index: 5;
-  }
 
-.toast{
-  width: 300px;
-  height: 50px;
-  font-weight: 500;
-  margin: 2px 0;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  z-index: 2;
-  background-color: white;
-}
 </style>
