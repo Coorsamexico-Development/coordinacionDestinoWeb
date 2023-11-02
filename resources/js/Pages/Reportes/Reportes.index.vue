@@ -8,7 +8,7 @@ import { router } from '@inertiajs/vue3'
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
 //import 'izitoast/dist/css/iziToast.min.css';
 //import iziToast from 'izitoast';
-import VueNotifications from 'vue-notifications'
+
 
 var props = defineProps({
     status_padre:Object,
@@ -56,6 +56,7 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
+
       /*
       if(data.confirmacionDt)
       {
@@ -80,16 +81,28 @@ onMounted(() =>
     });
   });
 
-
-
+  let toastBox = ref.toastBox;
+  const mostrarNoti = () => 
+  {
+    let toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.innerHTML = 'success';
+    toastBox.appendChild(toast);
+    //console.log(toast)
+    //console.log(toastBox)
+  }
 
 </script>
 
-<template>
+<template> 
+  
    <AppLayout title="Dashboard">
-       <div>
-
+       <div ref ="toastBox" id="toastBox">
+           
        </div>
+       <button @click="mostrarNoti()">
+          mostrat
+       </button>
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
@@ -123,4 +136,15 @@ onMounted(() =>
 ::-webkit-scrollbar-thumb:hover {
   background: #C5C5C5; 
 }
+
+#toastBox
+  {
+    position: absolute;
+    right:  30px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 20px;
+  }
 </style>
