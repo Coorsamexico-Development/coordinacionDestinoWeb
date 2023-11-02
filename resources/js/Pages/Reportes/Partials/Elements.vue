@@ -1,19 +1,27 @@
 <script setup>
 import ToastOptions  from 'vue3-toastify';
+import { router } from '@inertiajs/vue3'
+
 var props = defineProps({
     toastProps: Object
 });
 
-const watch = (id) => 
+const watch = (confirmacion) => 
 {
-  console.log(id)
+    router.visit(route('reportes.index'), {
+    preserveScroll:true,
+    preserveState:true,
+    replace:true,
+    data:{busqueda:confirmacion},
+    only:['contadores','ubicaciones']
+  })
 }
 </script>
 <template>
     <h1><strong>El DT : </strong>{{ props.toastProps.data.dt }}</h1>
     <h1><strong>Con confirmación :</strong> {{ props.toastProps.data.confirmacion }}</h1>
     <h1>Ha cambiado al status <strong>{{ props.toastProps.data.status }}</strong></h1>
-    <button @click="watch(props.toastProps.data.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+    <button @click="watch(props.toastProps.data.confirmacion)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
          <img class="w-6" src="../../../../assets/img/eye.png" />
     </button>
 </template>
