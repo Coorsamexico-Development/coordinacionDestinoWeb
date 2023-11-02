@@ -145,13 +145,16 @@ onMounted(() =>
     flex-direction: column;
     overflow: hidden;
     padding: 20px;
+    z-index: 5;
   }
 
 .toast{
-  width: 400px;
-  height: 80px;
+  width: 300px;
+  height: 50px;
   font-weight: 500;
   margin: 2px 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+  background-color: white;
 }
 </style>
