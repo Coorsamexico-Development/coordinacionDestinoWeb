@@ -58,10 +58,9 @@ onMounted(() =>
     channel.bind('notification', function(data) 
     {
       console.log(data)
-
-      /*
       if(data.confirmacionDt)
       {
+        /*
         iziToast.show({ 
         position:'topRight',
         title: 'Confirmacion: '+ data.confirmacionDt.confirmacion +'</br>'+'Referencia: '+data.confirmacionDt.dt,
@@ -69,7 +68,13 @@ onMounted(() =>
         theme: 'light',
         iconUrl:'https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-png-rss-short-for-real-pictures-22.png',
         message: 'Cambio al status ' + data.confirmacionDt.status})
-         
+         */
+         toast.info(
+          '<strong>Confirmacion:</strong>'+ data.confirmacionDt.confirmacion +'</br>'+'<strong>Referencia:</strong>'+data.confirmacionDt.dt+'</br>'+'Cambio al status: ' + '<strong>'+data.confirmacionDt.status+'</strong>', 
+         {
+            autoClose: 3000,
+            dangerouslyHTMLString: true,
+         }); // ToastOptions
         router.visit(route('reportes.index'), 
           {
             preserveScroll:true,
@@ -78,27 +83,16 @@ onMounted(() =>
             only:['contadores','ubicaciones']
           })
       }
-      */
+      
       //app.messages.push(JSON.stringify(data));
     });
   });
-
-  const mostrarNoti = () => 
-  {
-    toast("Wow so easy !", {
-        autoClose: 1000,
-      }); // ToastOptions
-  }
 
 </script>
 
 <template> 
   
    <AppLayout title="Dashboard">
-
-       <button @click="mostrarNoti()">
-          mostrat
-       </button>
        <div class="grid grid-cols-4 gap-4 ">
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
