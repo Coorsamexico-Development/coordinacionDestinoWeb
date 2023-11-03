@@ -73,7 +73,7 @@ onMounted(() =>
          toast.info(
            Element,
          {
-            autoClose: 5000000000000,
+            autoClose: 60000,
             dangerouslyHTMLString: true,
             data:data.confirmacionDt
          }); // ToastOptions
