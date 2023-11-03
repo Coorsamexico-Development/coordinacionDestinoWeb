@@ -16,7 +16,7 @@ import Carrusel from '../Partials/Carrusel.vue'
 });
 </script>
 <template>
-  <div v-if="status.status_id == 4 || status.status_id == 5">
+  <div v-if="status.status_id == 4">
     <div class="flex flex-row py-2 mt-2 border-b" v-for="campo in camposValores" :key="campo.id">
        <div class="flex flex-row items-center mx-4">
           <div v-if="campo.campo == 'Cajas'">
