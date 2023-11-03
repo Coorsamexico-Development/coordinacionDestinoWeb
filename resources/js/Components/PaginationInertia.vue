@@ -11,8 +11,8 @@ const pageUse = usePage();
 
 const loadPage = (newPage) => 
  {
-   //console.log('https'+newPage.substring(4))
-   router.get('https'+newPage.substring(4), {
+   console.log(newPage)
+   router.get(newPage, {
         replace: true,
         preserveScroll: true,
         preserveState: true
