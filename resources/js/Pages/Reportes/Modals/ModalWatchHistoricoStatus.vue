@@ -239,7 +239,9 @@
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"  class="flex items-center"  :style="{backgroundColor:historia.color}" >
-                        <img class="w-6" :src="historia.icon" />
+                        <img class="w-8" :src="historia.icon" v-if="historia.status == 'Enrampado'" />
+                        <img class="w-4" :src="historia.icon" v-else-if="historia.status == 'Documentado'" />
+                        <img class="w-5" :src="historia.icon" v-else />
                      </div> 
                      <div id="timeline-content">
                        <div class="flex flex-row justify-between">
