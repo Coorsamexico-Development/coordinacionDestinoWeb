@@ -90,7 +90,7 @@ import Carrusel from '../Partials/Carrusel.vue'
        </div>
     </div>
   </div>
-  <div v-if="status.status_id == 7 || status.status_id"> 
+  <div v-if="status.status_id == 7 || status.status_id == 8"> 
     <div class="py-3 border-b" v-for="campo in camposValores" :key="campo.id">
        <div>
           <div class="flex " v-for="(valor,key) in campo.valores" :key="valor.id">
