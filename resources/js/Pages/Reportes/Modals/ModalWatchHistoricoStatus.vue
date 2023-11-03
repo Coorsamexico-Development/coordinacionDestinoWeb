@@ -238,7 +238,8 @@
                -->
                <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
-                     <div id="timeline-icon"   :style="{backgroundColor:historia.color}" >
+                     <div id="timeline-icon"  class="flex items-center"  :style="{backgroundColor:historia.color}" >
+                        <img class="w-6" :src="historia.icon" />
                      </div> 
                      <div id="timeline-content">
                        <div class="flex flex-row justify-between">
@@ -395,11 +396,11 @@
 
   .timeline #timeline-item #timeline-icon
   {
-   width: 30px;
-   height: 30px;
+   width: 38px;
+   height: 38px;
    position: absolute;
    top:0;
-   left:-3.1%;
+   left:-5.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
@@ -450,11 +451,11 @@
 
   .timeline2 #timeline-item #timeline-icon
   {
-   width: 30px;
-   height: 30px;
+   width: 38px;
+   height: 38px;
    position: absolute;
    top:0;
-   left:-3%;
+   left:-5.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
