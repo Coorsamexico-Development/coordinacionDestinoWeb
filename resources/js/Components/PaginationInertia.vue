@@ -11,7 +11,7 @@ const pageUse = usePage();
 
 const loadPage = (newPage) => 
  {
-   console.log(newPage)
+   //console.log(props.pagination)
    router.get(newPage, {
         replace: true,
         preserveScroll: true,
