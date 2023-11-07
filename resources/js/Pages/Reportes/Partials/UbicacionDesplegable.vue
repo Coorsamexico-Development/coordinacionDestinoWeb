@@ -137,20 +137,22 @@ const valores = computed(() =>
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
           <div class="flex flex-row items-center">
             <div class="flex flex-row mr-2">    
-              <div class="mx-2 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
+              <div class="mx-4 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
                 <div v-for="(valor, key) in valores" :key="key">
                    <div v-if="valor.status == statuChild.id">
-                      <div v-if="valor.status"> 
-                        {{ valor.total }}
-                        <span class="bg-[#9B9B9B] absolute h-7 ml-2 mt-1" style="width:2px" v-if="valor.status == 4">
+                      <div class="flex flex-row" v-if="valor.status"> 
+                        <p class="ml-0">
+                          {{ valor.total }}
+                        </p>
+                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-if="valor.status == 4">
                         </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 ml-2 mt-1" style="width:2px" v-else-if="valor.status == 6">
+                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 6">
                         </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 ml-2 mt-1" style="width:2px" v-else-if="valor.status == 7">
+                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 7">
                         </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 ml-2 mt-1" style="width:2px" v-else-if="valor.status == 8">
+                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 8">
                         </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 ml-2 mt-1" style="width:2px" v-else-if="valor.status == 10">
+                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 10">
                         </span>
                       </div>
                    </div>
