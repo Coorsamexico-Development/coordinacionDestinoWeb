@@ -82,19 +82,19 @@
          <p class="text-xl ">{{ dt.referencia_dt }} </p>
        </div>
        <div class="flex flex-row my-1"> 
-          <h1 class="text-sm font-semibold uppercase">Conf: </h1>
+          <h1 class="text-sm font-semibold uppercase" style="letter-spacing: 2px;">Conf: </h1>
           <p class="text-sm ">{{ dt.confirmacion }}</p>
        </div>
        <div class="flex flex-row my-1"> 
-          <h1 class="text-xs font-bold uppercase">LT: </h1>
-          <p class="text-xs">{{ dt.linea_transporte }}</p>
+          <h1 class="text-xs font-bold uppercase text-[#9B9B9B]">LT: </h1>
+          <p class="text-xs text-[#9B9B9B]">{{ dt.linea_transporte }}</p>
        </div>
     </div>
     <div class="justify-center col-start-7 col-end-13 px-2 py-2">
       <div class="flex flex-row-reverse flex-end">
-        <ButtonWatch  @click="modalWatchOpen()"  :color="dt.color" />
-        <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-2 py-1 rounded-full w-9 mx-2" >
-              <p class="text-sm text-white">OCS</p>
+        <ButtonWatch class=""  @click="modalWatchOpen()"  :color="dt.color" />
+        <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-3 py-1 mx-2 rounded-full w-9" >
+              <p class="text-sm text-white">Oc's</p>
         </button>
       </div>
       <div class="flex flex-row-reverse items-center" :style="{color:dt.color}">
@@ -105,12 +105,12 @@
          <div class="flex flex-row mr-2">
            <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
            <div>
-             <p class="" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
+             <p class="text-[#9B9B9B]" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
            </div>
          </div>
          <div class="flex flex-row"> 
            <img class="w-3 h-3 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
-           <p class="text-xs">{{ dt.cita.substring(10,16) }}</p>
+           <p class="text-xs text-[#9B9B9B]">{{ dt.cita.substring(10,16) }}</p>
          </div>
       </div>
     </div>

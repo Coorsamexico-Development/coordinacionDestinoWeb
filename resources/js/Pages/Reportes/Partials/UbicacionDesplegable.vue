@@ -171,7 +171,7 @@ const valores = computed(() =>
      <!--Contenido-->
      <Transition name="slide-fade">
         <div v-if="show" >
-          <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" />
+          <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" :ubicacion="ubicacion" :status="status" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
              <div class="pb-1" v-for="dt in dts.data" :key="dt.id">

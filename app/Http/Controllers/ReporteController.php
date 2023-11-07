@@ -60,7 +60,28 @@ class ReporteController extends Controller
        ->get();
 
 
-        $plataformas = Plataforma::all();
+        $plataformas = Plataforma::select('plataformas.*')
+        ->with(
+          [
+           'confirmacionesDts'  =>  function ($query) use ($request) 
+           {
+             $query->select(
+               'confirmacion_dts.*',
+               'dts.referencia_dt',
+               'status.status_padre as status_padre'
+             )->join('dts','confirmacion_dts.dt_id','dts.id')
+             ->join('status','confirmacion_dts.status_id','status.id');
+  
+             if ($request->has("busqueda")) 
+             {
+               $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+               $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
+               ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
+             }
+           }
+          ]
+         )
+         ->get();
 
         //Contadores
 
@@ -71,7 +92,7 @@ class ReporteController extends Controller
               {
                 $query->select(
                   'confirmacion_dts.*',
-                  'dts.referencia_dt'
+                  'dts.referencia_dt',
                 )->join('dts','confirmacion_dts.dt_id','dts.id');
 
                 if ($request->has("busqueda")) 
