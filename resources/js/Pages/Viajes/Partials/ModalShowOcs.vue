@@ -6,6 +6,8 @@
   import axios from 'axios';
   import ButtonUploadDoc from "./ButtonUploadDoc.vue";
   import ModalShowIncidencias from './ModalShowIncidencias.vue'
+  import SpinProgress from "@/Components/SpinProgress.vue";
+  import TextInput from '@/Components/TextInput.vue';
 
   const props = defineProps({
        show: {
@@ -117,9 +119,29 @@ watch(document, (documentoCargado) =>
      openModalIncidencias(ocToModal.value)
   }
 
+  const inputChange = (e, oc_id, tipo) => 
+   {
+     //console.log(e);
+     //console.log(oc_id);
+     //console.log(tipo)
+       axios.post(route('saveFacturas',{
+        oc_id: oc_id,
+        valor: e,
+        tipo: tipo
+      })).then(response => 
+      {
+        console.log(response.data)
+
+      })
+      .catch(err => 
+      {
+        console.log(err)
+      })
+   }
+
 </script>
 <template>
-   <DialogModal  :show="show" @close="close()">
+   <DialogModal :maxWidth="'4xl'" :show="show" @close="close()">
      <template #title>
        <div class="flex flex-row justify-between">
           <h1>Oc's</h1>
@@ -143,28 +165,56 @@ watch(document, (documentoCargado) =>
          <table class="w-full mt-2">
              <thead class="border-b-2">
                 <tr>
-                   <td class="text-center font-semibold pb-2">Referencia</td>
-                   <td class="text-center font-semibold pb-2">Facturado</td>
-                   <td class="text-center font-semibold pb-2">En POD</td>
-                   <td class="text-center font-semibold pb-2">Incidencias</td>
+                   <td class="pb-2 font-semibold text-center">Referencia</td>
+                   <td class="pb-2 font-semibold text-center">Facturado</td>
+                   <td class="pb-2 font-semibold text-center">En POD</td>
+                   <td class="pb-2 font-semibold text-center">Incidencias</td>
+                   <td class="pb-2 font-semibold text-center">FAC MI</td>
+                   <td class="pb-2 font-semibold text-center">FAC SAD</td>
+                   <td class="pb-2 font-semibold text-center">Folio recibidor</td>
                 </tr>
              </thead>
              <tbody>
-                <tr v-for="oc in ocs" :key="oc.id">
-                  <td class="text-center py-2">{{ oc.referencia }}</td>
-                  <td class="text-center py-2">{{oc.facturado}}</td>
-                  <td class="text-center py-2">{{oc.enPOD}}</td>
-                  <td class="text-center py-2">
+                <tr v-for="(oc) in ocs" :key="oc.id">
+                  <td class="py-2 text-center">{{ oc.referencia }}</td>
+                  <td class="py-2 text-center">{{oc.facturado}}</td>
+                  <td class="py-2 text-center">{{oc.enPOD}}</td>
+                  <td class="py-2 text-center">
                      <div class="flex justify-center" v-if="oc.incidencias.length > 0"> 
                         <ButtonWatch @click="openModalIncidencias(oc)" class="w-8 h-6" :color="'#44BFFC'" />
                      </div>
+                  </td>
+                  <td class="text-center">
+                   <div v-if="oc.FACMI">
+                       <TextInput  class="w-8/12" :value="oc.FACMI" @input="inputChange($event.target.value, oc.id , 'FACMI')"  />
+                    </div>
+                    <div v-else>
+                      <TextInput class="w-8/12" @input="inputChange($event.target.value, oc.id, 'FACMI')"  />
+                    </div>
+                  </td>
+                  <td class="text-center">
+                   <div v-if="oc.FACSAD">
+                       <TextInput class="w-8/12"  :value="oc.FACSAD" @input="inputChange($event.target.value, oc.id, 'FACSAD')"  />
+                    </div>
+                    <div v-else>
+                      <TextInput class="w-8/12" @input="inputChange($event.target.value, oc.id,'FACSAD')"  />
+                    </div>
+                  </td>
+                  <td class="text-center">
+                   <div v-if="oc.folio_recibidor">
+                       <TextInput class="w-8/12"  :value="oc.folio_recibidor" @input="inputChange($event.target.value, oc.id,'folio_recibidor')"  />
+                    </div>
+                    <div v-else>
+                      <TextInput class="w-8/12" @input="inputChange($event.target.value, oc.id,'folio_recibidor')"  />
+                    </div>
                   </td>
                 </tr> 
              </tbody>
           </table>
       </div>
       <div class="flex justify-end mt-2">
-         <ButtonUploadDoc v-model="document" />
+         <ButtonUploadDoc  v-model="document" />
+         <SpinProgress v-if="formDocumento.processing" :inprogress="formDocumento.processing" />
       </div>
      </template>
    </DialogModal>

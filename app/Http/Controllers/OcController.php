@@ -205,4 +205,31 @@ class OcController extends Controller
           ->where('ocs.confirmacion_dt_id','=',$request['confirmacion_dt_id'])
           ->get();
     }
+
+    public function saveFacturas(Request $request)
+    {
+       switch ($request['tipo']) 
+       {
+         case 'FACMI':
+              Oc::where('id','=',$request['oc_id'])
+              ->update([
+                'FACMI' => $request['valor']
+              ]);
+            break;
+         case 'FACSAD':
+               Oc::where('id','=',$request['oc_id'])
+               ->update([
+                 'FACSAD' => $request['valor']
+               ]);
+             break;
+         case 'folio_recibidor':
+              Oc::where('id','=',$request['oc_id'])
+              ->update([
+                'folio_recibidor' => $request['valor']
+              ]);
+            break;
+       }
+
+       return 'ok';
+    }
 }

@@ -111,3 +111,5 @@ Route::post('/borrarIncidencia',[IncidenciaController::class,'borrarIncidencia']
 Route::get('/getIncidenciasByOc',[IncidenciaController::class,'getIncidenciasByOc'])->name('getIncidenciasByOc');
 //Ruta para descargar reportes de incidencia
 Route::get('/downloadIncidenciasReport',[IncidenciaController::class, 'dowloadIncidenciasByOc'])->name('downloadIncidenciasReport');
+//Ruta para guardar datos de facturas
+Route::post('/saveFacturas',[OcController::class, 'saveFacturas'])->name('saveFacturas');
