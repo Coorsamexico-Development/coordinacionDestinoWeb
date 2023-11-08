@@ -2,6 +2,7 @@
   import AppLayout from '@/Layouts/AppLayout.vue';
   import {ref, watch, computed, reactive } from "vue";
   import TableRoles from './Partials/TableRoles.vue';
+  import TablePermissions from './Partials/TablePermissions.vue';
 
   var props = defineProps({
       roles:Object,
@@ -18,13 +19,14 @@
         </template>
         <div class="grid grid-cols-2 gap-4 mx-6 mt-8" style="font-family: 'Montserrat';">
             <!--Roles-->
-            <div class="bg-white rounded-lg">
+            <div class="py-2 bg-white rounded-lg">
                <h1 class="text-center">Roles para usuario</h1>
                <TableRoles :roles="roles" />
             </div>
             <!--Permisos-->
-            <div>
-
+            <div class="py-2 bg-white rounded-lg">
+              <h1 class="text-center">Permisos asignables</h1>
+              <TablePermissions :permisos="permisos" />
             </div>
         </div>
      </AppLayout>

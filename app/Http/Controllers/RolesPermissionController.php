@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolesPermission;
 use Illuminate\Http\Request;
@@ -19,8 +20,12 @@ class RolesPermissionController extends Controller
         $roles = Role::select('roles.*')
         ->get();
 
+        $permisos = Permission::select('permissions.*')
+        ->get();
+
         return Inertia::render('RolesPermisos/RolesPermisos',[
-          'roles' => $roles
+          'roles' => $roles,
+          'permisos' => $permisos
         ]);
     }
 

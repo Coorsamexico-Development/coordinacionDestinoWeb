@@ -8,15 +8,15 @@ var props = defineProps({
      <div class="w-full">
         <table class="w-full">
             <thead class="">
-                <tr>
+                <tr class="border-b-2">
                     <th class="font-semibold">Nombre</th>
                     <th class="font-semibold">Activo</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr v-for="rol in roles" :key="rol.id">
-                  <td class="text-center">{{ rol.nombre }}</td>
-                  <td class="text-center">
+            <tbody class="">
+                <tr class="" v-for="rol in roles" :key="rol.id">
+                  <td class="py-2 text-center">{{ rol.nombre }}</td>
+                  <td class="py-2 text-center">
                      <div class="" v-if="rol.activo">
                         <svg class="w-6 h-6 m-auto text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                      </div>
