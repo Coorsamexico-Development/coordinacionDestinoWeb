@@ -28,7 +28,7 @@ const noNextPage = computed(() =>
        <div class="inline-flex items-center justify-center px-10">
         <div class="hidden mr-2 text-sm text-gray-500 lg:block">{{ pagination.total }} elementos</div>
         <div class="flex space-x-1 items-top" v-if="pagination.last_page > 1">
-            <button :disabled="noPreviousPage" :class="{'opacity-50': noPreviousPage}" @click="$emit('loadPage', pagination.first_page_url)"
+            <button :disabled="noPreviousPage" :class="{'opacity-50': noPreviousPage}" @click="$emit('loadPage', 1)"
                 class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-200 rounded shadow-sm outline-none w-11 h-11 hover:bg-gray-50 lg:h-9 lg:w-9 lg:text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -37,7 +37,7 @@ const noNextPage = computed(() =>
                 </svg>
             </button>
             <button :disabled="noPreviousPage" :class="{'opacity-50': noPreviousPage}"
-                @click="$emit('loadPage',pagination.prev_page_url)"
+                @click="$emit('loadPage', pagination.current_page - 1)"
                 class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-200 rounded shadow-sm outline-none w-11 h-11 hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -54,7 +54,7 @@ const noNextPage = computed(() =>
             
 
             <button :disabled="noNextPage" :class="{'opacity-50': noNextPage}"
-                @click="$emit('loadPage',pagination.next_page_url)"
+                @click="$emit('loadPage',pagination.current_page + 1)"
                 class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-300 rounded shadow-sm outline-none w-11 h-11 hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -63,7 +63,7 @@ const noNextPage = computed(() =>
             </button>
 
             <button :disabled="noNextPage" :class="{'opacity-50': noNextPage}"
-                @click="$emit('loadPage',pagination.last_page_url)"
+                @click="$emit('loadPage',pagination.last_page)"
                 class="inline-flex items-center justify-center text-gray-500 bg-white border border-gray-300 rounded shadow-sm outline-none w-11 h-11 hover:bg-gray-50 lg:h-9 lg:w-9 focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 lg:h-3 lg:w-3" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">

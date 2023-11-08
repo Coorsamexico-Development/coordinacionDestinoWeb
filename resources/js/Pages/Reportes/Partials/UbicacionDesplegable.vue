@@ -85,7 +85,8 @@ watch(params, (newParams) =>
 //Reconsulta al paginado
 const loadPage = async (page) =>
 {
-   //console.log(page);
+   console.log(page);
+   /*
   let newPage = 'https'+ page.substring(4);
   await axios.get(newPage,{
     params:{
@@ -103,6 +104,7 @@ const loadPage = async (page) =>
         // Podemos mostrar los errores en la consola
         console.log(e);
     })
+    */
     
 }
 
@@ -179,9 +181,9 @@ const valores = computed(() =>
              <div class="pb-1" v-for="dt in dts.data" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
-             <!--
+             
              <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
-             -->
+             
           </div>
         </div>
      </Transition>
