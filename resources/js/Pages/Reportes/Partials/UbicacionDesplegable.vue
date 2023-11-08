@@ -5,6 +5,7 @@ import SwitchButton from './SwitchButton.vue';
 import DtBlock from './DtBlock.vue';
 import { pickBy } from 'lodash';
 import PaginationAxios from '@/Components/PaginationAxios.vue';
+import { usePage, router } from '@inertiajs/vue3'
 //Props
 var props = defineProps({
     ubicacion:Object,
@@ -65,7 +66,7 @@ watch(params, (newParams) =>
     }))
       .then(response => {
           // Obtenemos los datos
-          //console.log(response.data)
+          console.log(response.data)
           nuevosParametros.value = {
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
@@ -86,6 +87,22 @@ watch(params, (newParams) =>
 const loadPage = async (page) =>
 {
    console.log(page);
+   console.log(params)
+   //console.log(usePage().url)
+   axios.get('/getConfirmaciones',
+   {
+     params:{
+       page:page,
+       ubicacion_id: params.ubicacion_id,
+       plataforma_id: params.plataforma_id,
+       status_id: params.status_id,
+       busqueda: params.busqueda
+     }
+   }).then(resp => 
+   {
+     console.log(resp.data)
+     dts.value = resp.data;
+   });
    /*
   let newPage = 'https'+ page.substring(4);
   await axios.get(newPage,{
