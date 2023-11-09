@@ -11,6 +11,8 @@ import ButtonWatch from '@/Components/ButtonWatch.vue';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import PaginationInertia from '@/Components/PaginationInertia.vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 var props = defineProps({
     viajes:Object,
@@ -117,6 +119,13 @@ const reconsultar = (id) =>
       }
 }
  
+let date = ref(null);
+
+const sentDate = () => 
+{
+  console.log(date.value)
+}
+
 </script>
 <template>
   <AppLayout title="Viajes">
@@ -125,6 +134,14 @@ const reconsultar = (id) =>
           <h2 class="mr-4 text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
               Viajes finalizados
           </h2>
+          <div>
+            <VueDatePicker v-model="date" month-picker />
+            <div>
+              <button @click="sentDate()">
+                Check
+              </button>
+            </div>
+          </div>
           <div>
             <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
           </div>
@@ -137,6 +154,15 @@ const reconsultar = (id) =>
              <th class="font-semibold">Confirmación</th>
              <th class="font-semibold">
                 DT
+             </th>
+             <th class="font-semibold">
+                Ubicación
+             </th>
+             <th class="font-semibold">
+                Plataforma
+             </th>
+             <th class="font-semibold">
+                Status final
              </th>
              <th class="font-semibold">
               <div class="flex flex-row justify-center align-middle">
@@ -159,6 +185,9 @@ const reconsultar = (id) =>
           <tr v-for="viaje in viajes.data" :key="viaje.id">
              <td class="text-center">{{ viaje.confirmacion }}</td>
              <td class="text-center">{{ viaje.referencia_dt }}</td>
+             <td class="text-center">{{ viaje.ubicacion }}</td>
+             <td class="text-center">{{ viaje.plataforma }}</td>
+             <td class="text-center">{{ viaje.status }}</td>
              <td class="text-center">{{ viaje.cita }}</td>
              <td class="text-center">{{ viaje.numero_cajas }}</td>
              <td class="text-center">

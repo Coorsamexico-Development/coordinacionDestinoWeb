@@ -17,9 +17,17 @@ class DtController extends Controller
     public function index(Request $request)
     {
         //
-        $viajes = ConfirmacionDt::select('confirmacion_dts.*',
-        'dts.referencia_dt')
-        ->join('dts','confirmacion_dts.dt_id','dts.id');
+        $viajes = ConfirmacionDt::select(
+        'confirmacion_dts.*',
+        'dts.referencia_dt',
+        'status.nombre as status',
+        'ubicaciones.nombre_ubicacion as ubicacion',
+        'plataformas.nombre as plataforma'
+        )
+        ->join('dts','confirmacion_dts.dt_id','dts.id')
+        ->join('status', 'confirmacion_dts.status_id','status.id')
+        ->join('ubicaciones','confirmacion_dts.ubicacion_id','ubicaciones.id')
+        ->join('plataformas', 'confirmacion_dts.plataforma_id','plataformas.id');
 
         if ($request->has("busqueda")) 
         {
