@@ -14,8 +14,10 @@
   //Funcion modales
   let modalWatch = ref(false);
   
-  const modalWatchOpen = () => 
+  let viaje = ref(null);
+  const modalWatchOpen = (dt_id) => 
   {
+    viaje.value = dt_id;
     console.log(props.dt.id)
     modalWatch.value=true;
     axios.get(route('showHistorico'), {params:{
@@ -33,6 +35,7 @@
   const modalWatchClose = () => 
   {
     modalWatch.value=false;
+    viaje.value = null;
   }
   
   let modalOcs = ref(false);
@@ -92,7 +95,7 @@
     </div>
     <div class="justify-center col-start-7 col-end-13 px-2 py-2">
       <div class="flex flex-row-reverse flex-end">
-        <ButtonWatch class=""  @click="modalWatchOpen()"  :color="dt.color" />
+        <ButtonWatch class=""  @click="modalWatchOpen(dt.id)"  :color="dt.color" />
         <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-3 py-1 mx-2 rounded-full w-9" >
               <p class="text-sm text-white">Oc's</p>
         </button>
@@ -117,7 +120,7 @@
   </div>
 
   <div v-if="infoModal !== null">
-     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" />
   </div>
   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" @reconsultar="consultarOcs()" :ocsAxios="ocs" :confirmacion="dt.confirmacion" />
 </template>

@@ -17,7 +17,8 @@
           default: false,
       },
       infoModal:Object,
-      status:Object
+      status:Object,
+      viaje:Number
   });
 
   const camposValores = ref([]);
@@ -253,7 +254,7 @@
                               </div>
                           </div>
                            <div class="flex items-center justify-center">
-                             <ButtonWatch class="w-8 h-6" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
+                             <ButtonWatch class="w-8" :color="'#44BFFC'" @click="consultarHistoria(historia)" />
                           </div>
                        </div>
                      </div>
@@ -274,7 +275,14 @@
                         <Campo :camposValores="camposValores" :status="statusActual" />
                        </div>
                        <div class="mt-2 border-t-2 " v-if="statusActual.status_id == 9">
-                           <h1 class="mt-2 text-lg">Oc's</h1>
+                           <div class="flex flex-row justify-evenly mt-2">
+                              <h1 class="mt-2 text-lg">Oc's</h1>
+                              <a :href="route('downloadIncidenciasReport', {viaje:viaje})">
+                                 <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl ">
+                                   <img class="w-3" src="../../../../assets/img/down_arrow.png" />
+                                 </button>
+                              </a>
+                           </div>
                            <div  class="p-4 mx-2 my-4 bg-white rounded-lg drop-shadow-lg" v-for="oc in ocs" :key="oc.id">
                               <div @click="mostrar(oc)" class="flex justify-between py-1">
                                  <h1 class="text-lg font-semibold">{{ oc.referencia }}</h1>
