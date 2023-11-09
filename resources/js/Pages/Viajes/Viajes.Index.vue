@@ -120,6 +120,7 @@ const reconsultar = (id) =>
 }
  
 let date = ref(null);
+let date2 = ref(null)
 
 const sentDate = () => 
 {
@@ -134,12 +135,13 @@ const sentDate = () =>
           <h2 class="mr-4 text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
               Viajes finalizados
           </h2>
-          <div>
-            <VueDatePicker v-model="date" month-picker />
-            <div>
-              <button @click="sentDate()">
-                Check
-              </button>
+          <div class="flex flex-row">
+            <VueDatePicker class="mx-2" v-model="date" month-picker vertical placeholder="Selecciona una fecha" />
+            <VueDatePicker class="mx-2" v-model="date2" month-picker vertical placeholder="Selecciona una fecha" />
+            <div class="mx-2">
+              <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl ">
+                 <img class="w-3" src="../../../assets/img/down_arrow.png" />
+               </button>
             </div>
           </div>
           <div>
