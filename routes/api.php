@@ -101,7 +101,7 @@ Route::get('/pdf', function()
 {
 
   $confirmacionAll = ConfirmacionDt::select('confirmacion_dts.*')
-  ->where('confirmacion_dts.id','=',1)
+  ->where('confirmacion_dts.id','=',9)
   ->first();
 
   $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
@@ -175,11 +175,11 @@ Route::get('/pdf', function()
   }
    
 
-   /*
+   
     $pdf = App::make('dompdf.wrapper');
 
     $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
-    ->where('confirmacion_dts.confirmacion','=','22680127')
+    ->where('confirmacion_dts.confirmacion','=','23212364')
     ->first();
 
     $statusByConfirmacion = StatusDt::select(
@@ -216,14 +216,15 @@ Route::get('/pdf', function()
       //Consultamos valores
       $valors = Valor::select('valors.*','campos.id as campo_id','status.id as status_id')
       ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
-      ->join('dts','dt_campo_valors.dt_id','dts.id')
-      ->join('confirmacion_dts', 'confirmacion_dts.dt_id','dts.id')
+      ->join('confirmacion_dts', 'confirmacion_dts.id','dt_campo_valors.confirmacion_id')
+      ->join('dts','confirmacion_dts.dt_id','dts.id')
       ->join('campos','dt_campo_valors.campo_id','campos.id')
       ->join('status','campos.status_id','status.id')
       ->where('valors.activo','=', 1)
       ->where('confirmacion_dts.id','=',$confirmacion_dt['id'])
       ->distinct('valors.id')
       ->get();
+
     $data = [
         'confirmacion' =>  '654965',
         'dt' =>  '645312',//$dt['referencia_dt'],
@@ -238,5 +239,5 @@ Route::get('/pdf', function()
       $pdf->set_option('isRemoteEnabled', true);
       $pdf->loadView('pdfs.plantilla_confirmacion', $data);
       return $pdf->stream();
-      */
+      
 });

@@ -111,7 +111,7 @@
                    </div>
                    <!--Firmas -->
                   @if ($statu['status_id'] == 10 || $statu['status_id'] == 11)
-                    <div >
+                    <div style="margin-top:2rem">
                       <table style="width:23rem">
                         <thead>
                           <tr>
