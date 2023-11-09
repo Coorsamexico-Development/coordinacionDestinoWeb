@@ -55,8 +55,7 @@
                     width:30rem; 
                     padding-top:0.1rem;
                     padding-bottom;0rem;
-                    text-align: center;background-color:'.$statu['color'].'; position:absolute;">
-                      
+                    text-align: center;background-color:'.$statu['color'].'; position:absolute;">  
                     </span>'
                    ?>
                      @if (count($statu['status']['campos2']) > 0 )
@@ -126,7 +125,7 @@
                            <tr>
                               <td style="padding-left:1rem; padding-right:1rem; "><?php echo $firma['nombre'] ?></td>
                               <td style="padding-left:1rem; padding-right:1rem; "> <?php echo '<img style="width:10rem"  src="'.$firma['firma'].'" />' ?></td>
-                              <td style="padding-left:1rem; padding-right:1rem; "><?php echo '<img style="width:10rem"  src="'.$firma['foto'].'" />' ?></td>
+                              <td style="padding-left:1rem; padding-right:1rem; "><?php echo '<img style="width:10rem; heigth:5rem"  src="'.$firma['foto'].'" />' ?></td>
                            </tr>
                           @endforeach
                         </tbody>
