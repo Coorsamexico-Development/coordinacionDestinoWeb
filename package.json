@@ -25,7 +25,6 @@
         "@fancyapps/ui": "^5.0.20",
         "@incuca/vue3-toaster": "^1.1.1",
         "@kyvg/vue3-notification": "^3.0.2",
-        "@mathieustan/vue-datepicker": "^0.2.11",
         "@vuepic/vue-datepicker": "^7.2.2",
         "izitoast": "^1.4.0",
         "lodash": "^4.17.21",
