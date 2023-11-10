@@ -122,11 +122,6 @@ const reconsultar = (id) =>
 let date = ref(null);
 let date2 = ref(null)
 
-const sentDate = () => 
-{
-  console.log(date.value)
-}
-
 </script>
 <template>
   <AppLayout title="Viajes">
@@ -139,9 +134,20 @@ const sentDate = () =>
             <VueDatePicker class="mx-2" v-model="date" month-picker vertical placeholder="Selecciona una fecha" />
             <VueDatePicker class="mx-2" v-model="date2" month-picker vertical placeholder="Selecciona una fecha" />
             <div class="mx-2">
-              <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl ">
-                 <img class="w-3" src="../../../assets/img/down_arrow.png" />
-               </button>
+              <a v-if="date !== null && date2 !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:date, fechaFinal:date2})">
+                <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
+                   <p class="text-white text-sm">
+                     Descargar
+                   </p>
+                   <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
+                </button>
+              </a>
+              <button disabled class="bg-[#9D9D9D] px-8 py-2 rounded-2xl flex flex-row align-middle" v-else>
+                <p class="text-white text-sm">
+                     Descargar
+                </p>
+                <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
+              </button>
             </div>
           </div>
           <div>

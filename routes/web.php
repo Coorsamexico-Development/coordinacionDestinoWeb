@@ -10,6 +10,7 @@ use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\UserUbicacioneController;
 use App\Http\Controllers\ValorController;
+use App\Models\ConfirmacionDt;
 use App\Models\StatusDt;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -113,3 +114,5 @@ Route::get('/getIncidenciasByOc',[IncidenciaController::class,'getIncidenciasByO
 Route::get('/downloadIncidenciasReport',[IncidenciaController::class, 'dowloadIncidenciasByOc'])->name('downloadIncidenciasReport');
 //Ruta para guardar datos de facturas
 Route::post('/saveFacturas',[OcController::class, 'saveFacturas'])->name('saveFacturas');
+//Ruta para descargar reporte con incidencias global por fechas
+Route::get('/descargarReporteViajesConIncidencias',[ConfirmacionDtController::class, 'descargarReporteViajesConIncidencias'])->name('descargarReporteViajesConIncidencias');

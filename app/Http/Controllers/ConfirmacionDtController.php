@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use App\Events\NewNotification;
+use App\Exports\ViajesFinalizadosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ConfirmacionDtController extends Controller
 {
@@ -796,4 +798,36 @@ class ConfirmacionDtController extends Controller
     }
   }
   
+  public function descargarReporteViajesConIncidencias (Request $request)
+  {
+     $añoInicial = $request['fechaInicial']['year'];
+     $mesInicial = $request['fechaInicial']['month']+1;
+     $newFechaInicial = null;
+
+     if($mesInicial <= 9)
+     {
+      $newFechaInicial = $añoInicial.'-0'.$mesInicial.'-01';
+     }
+     else
+     {
+      $newFechaInicial = $añoInicial.'-'.$mesInicial.'-01';
+     }
+     
+     $añoFinal = $request['fechaFinal']['year'];
+     $mesFinal = $request['fechaFinal']['month']+1;
+     $newFechaFinal = null;
+
+     if($mesFinal <= 9)
+     {
+      $newFechaFinal = $añoFinal.'-0'.$mesFinal.'-01';
+     }
+     else
+     {
+      $newFechaFinal = $añoFinal.'-'.$mesFinal.'-01';
+     }
+
+     //return $newFechaInicial.'-'.$newFechaFinal;
+
+     return Excel::download(new ViajesFinalizadosExport($newFechaInicial, $newFechaFinal), 'Reporte_Viajes_Con_Incidencias.xlsx');
+  }
 }
