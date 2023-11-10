@@ -55,6 +55,7 @@ class DtController extends Controller
         [
             'viajes' => fn () =>  $viajes->paginate(5),
             'productos' => $productos,
+            'filters' => request()->all(['busqueda', 'fields', 'fechaInicial', 'fechaFinal']),
             'tipos_incidencias' => $tipos_incidencias
         ]);
     }

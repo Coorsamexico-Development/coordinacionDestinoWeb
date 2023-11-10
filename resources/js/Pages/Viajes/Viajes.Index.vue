@@ -12,12 +12,14 @@ import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import PaginationInertia from '@/Components/PaginationInertia.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
+import { pickBy } from "lodash";
 
 var props = defineProps({
     viajes:Object,
     productos:Object,
-    tipos_incidencias:Object
+    tipos_incidencias:Object,
+    filters: Object,
 });
 
 //console.log(props.viajes)
@@ -32,18 +34,27 @@ let infoModal = ref(null);
 let modalWatch = ref(false);
 let modalOcs = ref(false);
 
-const buscador = ref('');
+const params = reactive({
+    busqueda: props.filters.busqueda,
+    fechaInicial: props.filters.fechaInicial,
+    fechaFinal: props.filters.fechaFinal
+});
 
-watch(buscador, (newBusqueda) => 
+
+watch(params, () => 
 {
+  const clearParams = pickBy({ ...params });
+  console.log(clearParams)
+  
   router.visit(route('viajes.index'), 
   {
     preserveScroll:true,
     preserveState:true,
     replace:true,
-    data:{busqueda:newBusqueda},
+    data:clearParams,
     only:['viajes'],
   })
+  
 });
 
 const watchHistorico = (viaje) =>
@@ -119,8 +130,10 @@ const reconsultar = (id) =>
       }
 }
  
-let date = ref(null);
-let date2 = ref(null)
+const sort = (type) => 
+{
+  console.log(type)
+}
 
 </script>
 <template>
@@ -131,10 +144,10 @@ let date2 = ref(null)
               Viajes finalizados
           </h2>
           <div class="flex flex-row">
-            <VueDatePicker class="mx-2" v-model="date" month-picker vertical placeholder="Selecciona una fecha" />
-            <VueDatePicker class="mx-2" v-model="date2" month-picker vertical placeholder="Selecciona una fecha" />
+            <VueDatePicker class="mx-2" v-model="params.fechaInicial" month-picker vertical placeholder="Selecciona una fecha" />
+            <VueDatePicker class="mx-2" v-model="params.fechaFinal" month-picker vertical placeholder="Selecciona una fecha" />
             <div class="mx-2">
-              <a v-if="date !== null && date2 !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:date, fechaFinal:date2})">
+              <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal})">
                 <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
                    <p class="text-white text-sm">
                      Descargar
@@ -151,7 +164,7 @@ let date2 = ref(null)
             </div>
           </div>
           <div>
-            <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
+            <TextInput v-model="params.busqueda" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
           </div>
        </div>
     </template>
@@ -159,20 +172,20 @@ let date2 = ref(null)
       <table class="w-full">
         <thead class="border-1 border-sky-500" >
           <tr >
-             <th class="font-semibold">Confirmación</th>
-             <th class="font-semibold">
+             <th @click="sort('confirmacion')" class="font-semibold">Confirmación</th>
+             <th @click="sort('dt')" class="font-semibold">
                 DT
              </th>
-             <th class="font-semibold">
+             <th @click="sort('ubicacion')" class="font-semibold">
                 Ubicación
              </th>
-             <th class="font-semibold">
+             <th @click="sort('plataforma')" class="font-semibold">
                 Plataforma
              </th>
-             <th class="font-semibold">
+             <th @click="sort('status')" class="font-semibold">
                 Status final
              </th>
-             <th class="font-semibold">
+             <th @click="sort('cita')" class="font-semibold">
               <div class="flex flex-row justify-center align-middle">
                 <img class="w-6 h-6 mr-2" src="../../../assets/img/calendario_blue.png"/>
                 <p>Cita</p>
