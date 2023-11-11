@@ -37,7 +37,8 @@ let modalOcs = ref(false);
 const params = reactive({
     busqueda: props.filters.busqueda,
     fechaInicial: props.filters.fechaInicial,
-    fechaFinal: props.filters.fechaFinal
+    fechaFinal: props.filters.fechaFinal,
+    fields: props.filters.fields
 });
 
 
@@ -130,9 +131,17 @@ const reconsultar = (id) =>
       }
 }
  
-const sort = (type) => 
+const sort = (field) => 
 {
-  console.log(type)
+  if (params.fields === null) 
+    {
+        params.fields = {};// para que no falle hasOwnProperty
+    }
+    if (params.fields.hasOwnProperty(field)) {
+        params.fields[field] = params.fields[field] === 'asc' ? 'desc' : 'asc';
+    } else {
+        params.fields[field] = 'asc';
+    }
 }
 
 </script>
@@ -172,18 +181,90 @@ const sort = (type) =>
       <table class="w-full">
         <thead class="border-1 border-sky-500" >
           <tr >
-             <th @click="sort('confirmacion')" class="font-semibold">Confirmación</th>
-             <th @click="sort('dt')" class="font-semibold">
-                DT
+             <th  class="font-semibold">
+              <span class="block my-1" @click="sort('confirmacion')">
+                Confirmación
+                <template v-if="params.fields && params.fields['confirmacion']">
+                     <svg v-if="params.fields['confirmacion'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                     </svg>
+                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                         fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                     </svg>
+                 </template>
+              </span>
+            </th>
+             <th  class="font-semibold">
+              <span @click="sort('referencia_dt')">
+                 DT
+                 <template v-if="params.fields && params.fields['referencia_dt']">
+                     <svg v-if="params.fields['referencia_dt'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                     </svg>
+                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                         fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                     </svg>
+                 </template>
+              </span>
              </th>
-             <th @click="sort('ubicacion')" class="font-semibold">
+             <th  class="font-semibold">
+              <span @click="sort('ubicacion')">
                 Ubicación
+                <template v-if="params.fields && params.fields['ubicacion']">
+                     <svg v-if="params.fields['ubicacion'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                     </svg>
+                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                         fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                     </svg>
+                 </template>
+              </span>
              </th>
              <th @click="sort('plataforma')" class="font-semibold">
+              <span>
                 Plataforma
+                <template v-if="params.fields && params.fields['plataforma']">
+                     <svg v-if="params.fields['plataforma'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                     </svg>
+                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                         fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                     </svg>
+                 </template>
+              </span>
              </th>
-             <th @click="sort('status')" class="font-semibold">
+             <th  class="font-semibold">
+              <span @click="sort('status')">
                 Status final
+                <template v-if="params.fields && params.fields['status']">
+                     <svg v-if="params.fields['status'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
+                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
+                     </svg>
+                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
+                         fill="currentColor">
+                         <path
+                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                     </svg>
+                 </template>
+              </span>
              </th>
              <th @click="sort('cita')" class="font-semibold">
               <div class="flex flex-row justify-center align-middle">

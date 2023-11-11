@@ -16,6 +16,9 @@ class DtController extends Controller
      */
     public function index(Request $request)
     {
+        request()->validate([
+            'fields' => ['nullable', 'array']
+        ]);
         //
         $viajes = ConfirmacionDt::select(
         'confirmacion_dts.*',
@@ -81,6 +84,14 @@ class DtController extends Controller
                });
 
           }
+        }
+
+        if (request()->has('fields')) 
+        {
+            foreach (request('fields') as $field => $direccion) 
+            {
+                $viajes->orderBy($field, $direccion);
+            }
         }
 
         $viajes->where(function($query)
