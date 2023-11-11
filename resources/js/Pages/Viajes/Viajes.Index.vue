@@ -205,10 +205,10 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
-              <TextInput class="w-20" v-model="params.searchs['confirmacion_dts.confirmacion']"  />
+              <TextInput class="w-24" v-model="params.searchs['confirmacion_dts.confirmacion']"  />
             </th>
              <th  class="font-semibold">
-              <span @click="sort('referencia_dt')">
+              <span class="block my-1" @click="sort('referencia_dt')">
                  DT
                  <template v-if="params.fields && params.fields['referencia_dt']">
                      <svg v-if="params.fields['referencia_dt'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
@@ -223,9 +223,10 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
+              <TextInput class="w-24" v-model="params.searchs['dts.referencia_dt']"  />
              </th>
              <th  class="font-semibold">
-              <span @click="sort('ubicacion')">
+              <span class="block my-1" @click="sort('ubicacion')">
                 Ubicación
                 <template v-if="params.fields && params.fields['ubicacion']">
                      <svg v-if="params.fields['ubicacion'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
@@ -240,9 +241,10 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
+              <TextInput class="w-24" v-model="params.searchs['ubicacion.nombre_ubicacion']"  />
              </th>
-             <th @click="sort('plataforma')" class="font-semibold">
-              <span>
+             <th  class="font-semibold">
+              <span class="block my-1" @click="sort('plataforma')">
                 Plataforma
                 <template v-if="params.fields && params.fields['plataforma']">
                      <svg v-if="params.fields['plataforma'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
@@ -257,9 +259,10 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
+              <TextInput class="w-24" v-model="params.searchs['plataformas.nombre']"  />
              </th>
              <th  class="font-semibold">
-              <span @click="sort('status')">
+              <span class="block my-1" @click="sort('status')">
                 Status final
                 <template v-if="params.fields && params.fields['status']">
                      <svg v-if="params.fields['status'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
@@ -274,6 +277,7 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
+              <TextInput class="w-30" v-model="params.searchs['status.nombre']"  />
              </th>
              <th @click="sort('cita')" class="font-semibold">
               <div class="flex flex-row justify-center align-middle">
