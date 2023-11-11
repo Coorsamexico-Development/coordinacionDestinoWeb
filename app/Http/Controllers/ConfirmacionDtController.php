@@ -827,7 +827,65 @@ class ConfirmacionDtController extends Controller
      }
 
      //return $newFechaInicial.'-'.$newFechaFinal;
-     
-     return Excel::download(new ViajesFinalizadosExport($newFechaInicial, $newFechaFinal), 'Reporte_Viajes_Con_Incidencias.xlsx');
+     //return $request;
+     $confirmacion = '';
+     $dt = '';
+     $ubicacion = '';
+     $plataforma = '';
+     $status = '';
+     if($request->has('searchs'))
+     {
+      if($request['searchs']['confirmacion_dts.confirmacion'] !== null)
+      {
+        if($request['searchs']['confirmacion_dts.confirmacion'] !== '')
+        {
+           //return $request['searchs']['confirmacion_dts.confirmacion'];
+           $confirmacion = strval($request['searchs']['confirmacion_dts.confirmacion']);     
+        }
+      }
+
+      if($request['searchs']['dts.referencia_dt'])
+      {
+        if($request['searchs']['dts.referencia_dt'] !== '')
+        {
+           $dt = strval($request['searchs']['dts.referencia_dt']);
+        }
+      }
+ 
+      if($request['searchs']['status.nombre'] !== null)
+      {
+        if($request['searchs']['status.nombre'] !== '')
+        {
+           $status = strval($request['searchs']['status.nombre']);
+        }
+      }
+ 
+      if($request['searchs']['ubicaciones.nombre_ubicacion'] !== null)
+      {
+        if($request['searchs']['ubicaciones.nombre_ubicacion'] !== '')
+        {
+          $ubicacion = strval($request['searchs']['ubicaciones.nombre_ubicacion']);
+        }
+      }
+ 
+      if($request['searchs']['plataformas.nombre'] !== null)
+      {
+        if($request['searchs']['plataformas.nombre'] !== '')
+        {
+           $plataforma = strval($request['searchs']['plataformas.nombre']);
+        }
+      }
+     }
+
+     return Excel::download(
+      new ViajesFinalizadosExport
+      ($newFechaInicial,
+       $newFechaFinal,
+       $confirmacion,
+       $dt,
+       $ubicacion,
+       $plataforma,
+       $status
+      ), 'Reporte_Viajes_Con_Incidencias.xlsx');
   }
 }

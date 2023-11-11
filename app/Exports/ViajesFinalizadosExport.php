@@ -16,10 +16,23 @@ class ViajesFinalizadosExport implements FromCollection, WithHeadings, WithColum
     /**
     * @return \Illuminate\Support\Query
     */
-    public function __construct(string $fechaInicial, string $fechaFinal)
+    public function __construct(
+     string $fechaInicial,
+     string $fechaFinal,
+     string $confirmacion,
+     string $dt,
+     string $status,
+     string $ubicacion,
+     string $plataforma
+     )
     {
         $this->fechaInicial = $fechaInicial;
         $this->fechaFinal = $fechaFinal;
+        $this->confirmacion = $confirmacion;
+        $this->dt = $dt;
+        $this->status = $status;
+        $this->ubicacion = $ubicacion;
+        $this->plataforma = $plataforma;
     }
 
 
@@ -57,8 +70,11 @@ class ViajesFinalizadosExport implements FromCollection, WithHeadings, WithColum
             $query->where('status.id','=',10) //liberado al 100
               ->orWhere('status.id','=',11); //liberado con incidencias
          })
+         ->where('confirmacion_dts.confirmacion','LIKE','%'.$this->confirmacion.'%')
+         ->where('dts.referencia_dt','LIKE','%'.$this->dt.'%')
          ->orderBy('confirmacion_dts.id')
          ->get();
+
 
          for ($i=0; $i < count($viajes) ; $i++) 
          { 
