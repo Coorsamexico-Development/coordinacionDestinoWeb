@@ -94,6 +94,16 @@ class DtController extends Controller
             }
         }
 
+        if (request()->has('searchs')) {
+            //return $request['searchs'];
+            $viajes->where(function ($query) {
+                foreach (request('searchs') as $field => $search) {
+                    $searchLike = '%' . strtr($search, array("'" => "\\'", "%" => "\\%")) . '%';
+                    $query->where($field, 'LIKE', $searchLike);
+                }
+            });
+        }
+
         $viajes->where(function($query)
           {
             $query->where('confirmacion_dts.status_id','=',10)
@@ -107,7 +117,7 @@ class DtController extends Controller
         [
             'viajes' => fn () =>  $viajes->paginate(5),
             'productos' => $productos,
-            'filters' => request()->all(['busqueda', 'fields', 'fechaInicial', 'fechaFinal']),
+            'filters' => request()->all(['busqueda', 'fields', 'fechaInicial', 'fechaFinal', 'searchs']),
             'tipos_incidencias' => $tipos_incidencias
         ]);
     }

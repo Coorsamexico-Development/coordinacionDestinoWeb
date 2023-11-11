@@ -38,7 +38,15 @@ const params = reactive({
     busqueda: props.filters.busqueda,
     fechaInicial: props.filters.fechaInicial,
     fechaFinal: props.filters.fechaFinal,
-    fields: props.filters.fields
+    fields: props.filters.fields,
+    searchs:{
+        'confirmacion_dts.confirmacion': '',
+        'dts.referencia_dt': '',
+        'status.nombre': '',
+        'ubicaciones.nombre_ubicacion': '',
+        'plataformas.nombre': '',
+        ...props.filters.searchs
+    },
 });
 
 
@@ -197,6 +205,7 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
+              <TextInput class="w-20" v-model="params.searchs['confirmacion_dts.confirmacion']"  />
             </th>
              <th  class="font-semibold">
               <span @click="sort('referencia_dt')">
