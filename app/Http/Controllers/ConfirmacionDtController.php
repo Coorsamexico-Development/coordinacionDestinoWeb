@@ -827,7 +827,7 @@ class ConfirmacionDtController extends Controller
      }
 
      //return $newFechaInicial.'-'.$newFechaFinal;
-
+     
      return Excel::download(new ViajesFinalizadosExport($newFechaInicial, $newFechaFinal), 'Reporte_Viajes_Con_Incidencias.xlsx');
   }
 }

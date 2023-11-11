@@ -164,7 +164,7 @@ const sort = (field) =>
             <VueDatePicker class="mx-2" v-model="params.fechaInicial" month-picker vertical placeholder="Selecciona una fecha" />
             <VueDatePicker class="mx-2" v-model="params.fechaFinal" month-picker vertical placeholder="Selecciona una fecha" />
             <div class="mx-2">
-              <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal})">
+              <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal, searchs:params.searchs})">
                 <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
                    <p class="text-white text-sm">
                      Descargar
