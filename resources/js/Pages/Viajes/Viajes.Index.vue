@@ -241,7 +241,7 @@ const sort = (field) =>
                      </svg>
                  </template>
               </span>
-              <TextInput class="w-24" v-model="params.searchs['ubicacion.nombre_ubicacion']"  />
+              <TextInput class="w-24" v-model="params.searchs['ubicaciones.nombre_ubicacion']"  />
              </th>
              <th  class="font-semibold">
               <span class="block my-1" @click="sort('plataforma')">
