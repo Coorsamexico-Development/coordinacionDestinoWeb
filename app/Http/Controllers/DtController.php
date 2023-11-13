@@ -115,7 +115,7 @@ class DtController extends Controller
 
         return Inertia::render('Viajes/Viajes.Index',
         [
-            'viajes' => fn () =>  $viajes->paginate(5),
+            'viajes' => fn () =>  $viajes->paginate(20),
             'productos' => $productos,
             'filters' => request()->all(['busqueda', 'fields', 'fechaInicial', 'fechaFinal', 'searchs']),
             'tipos_incidencias' => $tipos_incidencias
