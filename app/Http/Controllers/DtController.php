@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
 use App\Models\Producto;
+use App\Models\statusPod;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -112,13 +113,15 @@ class DtController extends Controller
       
         $productos = Producto::all();
         $tipos_incidencias = TipoIncidencia::all();
+        $status_pod = statusPod::all();
 
         return Inertia::render('Viajes/Viajes.Index',
         [
             'viajes' => fn () =>  $viajes->paginate(20),
             'productos' => $productos,
             'filters' => request()->all(['busqueda', 'fields', 'fechaInicial', 'fechaFinal', 'searchs']),
-            'tipos_incidencias' => $tipos_incidencias
+            'tipos_incidencias' => $tipos_incidencias,
+            'status_pod' => $status_pod
         ]);
     }
 

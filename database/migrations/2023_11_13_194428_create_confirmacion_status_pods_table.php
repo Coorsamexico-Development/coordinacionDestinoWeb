@@ -20,6 +20,7 @@ return new class extends Migration
     }
 
     /**
+     * Shalltear Bloodfallen
      * Reverse the migrations.
      */
     public function down(): void

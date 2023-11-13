@@ -20,6 +20,7 @@ var props = defineProps({
     productos:Object,
     tipos_incidencias:Object,
     filters: Object,
+    status_pod:Object
 });
 
 //console.log(props.viajes)

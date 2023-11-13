@@ -11,6 +11,7 @@
   import InputLabel from '@/Components/InputLabel.vue';
   import VueDatePicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
+  import  Select from '@/Components/Select.vue'
 
   const props = defineProps({
        show: {
@@ -148,10 +149,18 @@ watch(document, (documentoCargado) =>
      selection.value = tipo;
    }
 
-   let fechaDeEnvio = ref();
-   let fechaLiberacion = ref();
-   let fechaRecepcion = ref();
-   let fechaFacturacion = ref();
+   let fechaDeEnvio = ref(null);
+   let fechaLiberacion = ref(null);
+   let fechaRecepcion = ref(null);
+   let fechaFacturacion = ref(null);
+
+   watch(fechaDeEnvio, (newFechaDeEnvio) => 
+  {
+      
+  });
+
+   let statusPod = ref(0);
+   
 </script>
 <template>
    <DialogModal :maxWidth="'4xl'" :show="show" @close="close()">
@@ -175,6 +184,13 @@ watch(document, (documentoCargado) =>
                    -->
              </button>
           </a>
+          <div>
+            <Select v-model="statusPod">
+               <option :value="0" disabled >
+                   Selecciona un status
+               </option>
+            </Select>
+          </div>
           <span @click="close()">
              Cerrar
           </span>
