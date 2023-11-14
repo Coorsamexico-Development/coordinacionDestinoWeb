@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\ConfirmacionFechasPodController;
+use App\Http\Controllers\ConfirmacionStatusPodController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
@@ -119,3 +120,5 @@ Route::post('/saveFacturas',[OcController::class, 'saveFacturas'])->name('saveFa
 Route::get('/descargarReporteViajesConIncidencias',[ConfirmacionDtController::class, 'descargarReporteViajesConIncidencias'])->name('descargarReporteViajesConIncidencias');
 //Ruta para guardar registro de fechas por confirmacion
 Route::get('/saveFechasPODConfirmacion',[ConfirmacionFechasPodController::class, 'saveFechasPODConfirmacion'])->name('saveFechasPODConfirmacion');
+//Ruta para guardar registro status pod por confirmacion
+Route::get('/saveStatusPodPorConfirmacion', [ConfirmacionStatusPodController::class,'saveStatusPodPorConfirmacion'])->name('saveStatusPodPorConfirmacion');

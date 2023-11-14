@@ -11,6 +11,7 @@ class confirmacionFechasPod extends Model
     protected $fillable = [
         'confirmacion_dt_id',
         'fecha_pod_id',
-        'activo'
+        'activo',
+        'fecha'
     ];
 }

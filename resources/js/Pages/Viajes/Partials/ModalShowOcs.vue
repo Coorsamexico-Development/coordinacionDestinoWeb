@@ -155,19 +155,26 @@ watch(document, (documentoCargado) =>
    let fechaRecepcion = ref(null);
    let fechaFacturacion = ref(null);
 
+   let spinFechaEnvio = ref(false);
+   let spinFechaLiberacion = ref(false);
+   let spinFechaRecepcion = ref(false);
+   let spinFechaFacturacion = ref(false);
+
    watch(fechaDeEnvio, (newFechaDeEnvio) => 
-  {
+   {
     //console.log(newFechaDeEnvio.getMonth());
     ///console.log(newFechaDeEnvio.getFullYear());
     //console.log(newFechaDeEnvio.getDate());
     let dateEnvio =  newFechaDeEnvio.getFullYear() + '-' + (newFechaDeEnvio.getMonth()+1) + '-' +newFechaDeEnvio.getDate();
-    console.log(dateEnvio)
+    spinFechaEnvio.value = true;
+    //console.log(dateEnvio)
       try 
       {
          axios.get(route('saveFechasPODConfirmacion', {fecha: dateEnvio, tipo:'fechaEnvio', confirmacion:props.viaje})).
          then(response => 
          {
-           console.log(response);
+           //console.log(response);
+           spinFechaEnvio.value = false;
          }).catch(err => 
          {
             console.log(err)
@@ -176,10 +183,105 @@ watch(document, (documentoCargado) =>
       {
          
       }
-      
+  });
+
+   watch(fechaLiberacion, (newfechaLiberacion) => 
+   {
+    //console.log(newFechaDeEnvio.getMonth());
+    ///console.log(newFechaDeEnvio.getFullYear());
+    //console.log(newFechaDeEnvio.getDate());
+    let dateEnvio =  newfechaLiberacion.getFullYear() + '-' + (newfechaLiberacion.getMonth()+1) + '-' +newfechaLiberacion.getDate();
+    spinFechaLiberacion.value = true;
+    //console.log(dateEnvio)
+      try 
+      {
+         axios.get(route('saveFechasPODConfirmacion', {fecha: dateEnvio, tipo:'fechaLiberacion', confirmacion:props.viaje})).
+         then(response => 
+         {
+           //console.log(response);
+           spinFechaLiberacion.value = false;
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
+  });
+
+   watch(fechaRecepcion, (newfechaRecepcion) => 
+   {
+    //console.log(newFechaDeEnvio.getMonth());
+    ///console.log(newFechaDeEnvio.getFullYear());
+    //console.log(newFechaDeEnvio.getDate());
+    let dateEnvio =  newfechaRecepcion.getFullYear() + '-' + (newfechaRecepcion.getMonth()+1) + '-' +newfechaRecepcion.getDate();
+    spinFechaRecepcion.value = true;
+    //console.log(dateEnvio)
+      try 
+      {
+         axios.get(route('saveFechasPODConfirmacion', {fecha: dateEnvio, tipo:'fechaRecepcion', confirmacion:props.viaje})).
+         then(response => 
+         {
+           //console.log(response);
+           spinFechaRecepcion.value = false;
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
+  });
+
+   watch(fechaFacturacion, (newfechaFacturacion) => 
+   {
+    //console.log(newFechaDeEnvio.getMonth());
+    ///console.log(newFechaDeEnvio.getFullYear());
+    //console.log(newFechaDeEnvio.getDate());
+    let dateEnvio =  newfechaFacturacion.getFullYear() + '-' + (newfechaFacturacion.getMonth()+1) + '-' +newfechaFacturacion.getDate();
+    spinFechaFacturacion.value = true;
+    //console.log(dateEnvio)
+      try 
+      {
+         axios.get(route('saveFechasPODConfirmacion', {fecha: dateEnvio, tipo:'fechaFacturacion', confirmacion:props.viaje})).
+         then(response => 
+         {
+           //console.log(response);
+           spinFechaFacturacion.value = false;
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
   });
 
    let statusPod = ref(0);
+   let spinStatusPod = ref(false);
+   watch(statusPod, (newStatusPod) => 
+   {
+    spinStatusPod.value = true;
+    //console.log(newStatusPod)
+      try 
+      {
+         axios.get(route('saveStatusPodPorConfirmacion', {status: newStatusPod, confirmacion:props.viaje})).
+         then(response => 
+         {
+           console.log(response);
+           spinStatusPod.value = false;
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
+  });
    
 </script>
 <template>
@@ -204,7 +306,7 @@ watch(document, (documentoCargado) =>
                    -->
              </button>
           </a>
-          <div>
+          <div class="flex flex-row items-center">
             <Select v-model="statusPod">
                <option :value="0" disabled >
                    Selecciona un status
@@ -213,6 +315,7 @@ watch(document, (documentoCargado) =>
                   {{ statu_pod.nombre }}
                </option>
             </Select>
+            <SpinProgress v-if="spinStatusPod" :inprogress="true" />
           </div>
           <span @click="close()">
              Cerrar
@@ -280,19 +383,31 @@ watch(document, (documentoCargado) =>
       <div v-if="selection == 'fechas'">
           <div class="my-2">
             <InputLabel :value="'Fecha de envio'" />
-            <VueDatePicker v-model="fechaDeEnvio" placeholder="Selecciona una fecha de envio" position="left" :teleport="true"  :enable-time-picker="false" />
+            <div class="flex flex-row items-center">
+               <VueDatePicker class="" v-model="fechaDeEnvio" placeholder="Selecciona una fecha de envio" position="left" :teleport="true"  :enable-time-picker="false" />
+               <SpinProgress v-if="spinFechaEnvio" :inprogress="true" />
+            </div>
           </div>
           <div class="my-2">
             <InputLabel :value="'Fecha de liberación de ventanilla'" />
-            <VueDatePicker v-model="fechaLiberacion" placeholder="Selecciona una fecha de liberación de ventanilla" position="left" :teleport="true"  :enable-time-picker="false" />
+            <div class="flex flex-row items-center">
+               <VueDatePicker v-model="fechaLiberacion" placeholder="Selecciona una fecha de liberación de ventanilla" position="left" :teleport="true"  :enable-time-picker="false" />
+               <SpinProgress v-if="spinFechaLiberacion" :inprogress="true" />
+            </div>
           </div>
           <div class="my-2">
             <InputLabel :value="'Fecha de recepción'" />
-            <VueDatePicker v-model="fechaRecepcion" placeholder="Selecciona una fecha de recepción" position="left" :teleport="true"  :enable-time-picker="false" />
+            <div class="flex flex-row items-center">
+               <VueDatePicker v-model="fechaRecepcion" placeholder="Selecciona una fecha de recepción" position="left" :teleport="true"  :enable-time-picker="false" />
+               <SpinProgress v-if="spinFechaRecepcion" :inprogress="true" />
+            </div>
           </div>
           <div class="my-2">
             <InputLabel :value="'Fecha de facturación'" />
-            <VueDatePicker v-model="fechaFacturacion" placeholder="Selecciona una fecha de facturación" position="left" :teleport="true"  :enable-time-picker="false" />
+            <div  class="flex flex-row items-center">
+               <VueDatePicker v-model="fechaFacturacion" placeholder="Selecciona una fecha de facturación" position="left" :teleport="true"  :enable-time-picker="false" />
+               <SpinProgress v-if="spinFechaFacturacion" :inprogress="true" />
+            </div>
           </div>
       </div>
      </template>

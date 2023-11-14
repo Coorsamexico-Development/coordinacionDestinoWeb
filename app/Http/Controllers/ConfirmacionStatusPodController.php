@@ -31,6 +31,20 @@ class ConfirmacionStatusPodController extends Controller
         //
     }
 
+    public function saveStatusPodPorConfirmacion (Request $request)
+    {
+      //desactivamos los demas registros con misma confirmacion
+      confirmacionStatusPod::where('confirmacion_dt_id','=',$request['confirmacion']) 
+      ->update([
+         'activo' => 0
+      ]);
+
+      confirmacionStatusPod::create([
+         'confirmacion_dt_id' => $request['confirmacion'],
+         'status_pod_id' => $request['status'],
+      ]);
+    }
+
     /**
      * Display the specified resource.
      */

@@ -40,10 +40,61 @@ class ConfirmacionFechasPodController extends Controller
         switch ($request['tipo']) 
         {
             case 'fechaEnvio':
-                   confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion'])
+                //desactivamos los demas registros con misma confirmacion
+                   confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion']) 
+                   ->where('fecha_pod_id','=',1)
                    ->update([
-                    
+                      'activo' => 0
                    ]);
+
+                   confirmacionFechasPod::create([
+                      'confirmacion_dt_id' => $request['confirmacion'],
+                      'fecha_pod_id' => 1,
+                      'fecha' => $request['fecha']
+                   ]);
+
+                break;
+            case 'fechaLiberacion':
+                   //desactivamos los demas registros con misma confirmacion
+                   confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion']) 
+                   ->where('fecha_pod_id','=',2)
+                   ->update([
+                      'activo' => 0
+                   ]);
+
+                   confirmacionFechasPod::create([
+                      'confirmacion_dt_id' => $request['confirmacion'],
+                      'fecha_pod_id' => 2,
+                      'fecha' => $request['fecha']
+                   ]);
+                break;
+            case 'fechaRecepcion':
+                //desactivamos los demas registros con misma confirmacion
+                confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion']) 
+                ->where('fecha_pod_id','=',3)
+                ->update([
+                   'activo' => 0
+                ]);
+
+                confirmacionFechasPod::create([
+                   'confirmacion_dt_id' => $request['confirmacion'],
+                   'fecha_pod_id' => 3,
+                   'fecha' => $request['fecha']
+                ]);
+                break;
+            case 'fechaFacturacion':
+                 //desactivamos los demas registros con misma confirmacion
+                 confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion']) 
+                 ->where('fecha_pod_id','=',4)
+                 ->update([
+                    'activo' => 0
+                 ]);
+ 
+                 confirmacionFechasPod::create([
+                    'confirmacion_dt_id' => $request['confirmacion'],
+                    'fecha_pod_id' => 4,
+                    'fecha' => $request['fecha']
+                 ]);
                 break;
         }
     }

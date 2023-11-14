@@ -153,6 +153,11 @@ const sort = (field) =>
     }
 }
 
+const consultarFechasYStatusPOD = () => 
+{
+  
+}
+
 </script>
 <template>
   <AppLayout title="Viajes">
