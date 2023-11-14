@@ -348,6 +348,9 @@ const consultarFechasYStatusPOD = () =>
                    </button>
                 </a>
              </td>
+             <td class="text-center">
+              {{ viaje.statusPOD }}
+             </td>
           </tr>
         </tbody>
       </table>

@@ -39,10 +39,15 @@ class ConfirmacionStatusPodController extends Controller
          'activo' => 0
       ]);
 
-      confirmacionStatusPod::create([
-         'confirmacion_dt_id' => $request['confirmacion'],
-         'status_pod_id' => $request['status'],
-      ]);
+    }
+
+    public function createAnother (Request $request)
+    {
+        confirmacionStatusPod::updateOrCreate([
+            'confirmacion_dt_id' => $request['confirmacion'],
+            'status_pod_id' => $request['status'],
+            'activo' => 1
+         ]);
     }
 
     /**

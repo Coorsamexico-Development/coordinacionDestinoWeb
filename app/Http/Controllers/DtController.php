@@ -26,12 +26,15 @@ class DtController extends Controller
         'dts.referencia_dt',
         'status.nombre as status',
         'ubicaciones.nombre_ubicacion as ubicacion',
-        'plataformas.nombre as plataforma'
+        'plataformas.nombre as plataforma',
+        'status_pods.nombre as statusPOD'
         )
         ->join('dts','confirmacion_dts.dt_id','dts.id')
         ->join('status', 'confirmacion_dts.status_id','status.id')
         ->join('ubicaciones','confirmacion_dts.ubicacion_id','ubicaciones.id')
-        ->join('plataformas', 'confirmacion_dts.plataforma_id','plataformas.id');
+        ->join('plataformas', 'confirmacion_dts.plataforma_id','plataformas.id')
+        ->join('confirmacion_status_pods','confirmacion_status_pods.confirmacion_dt_id','confirmacion_dts.id')
+        ->join('status_pods','confirmacion_status_pods.status_pod_id','status_pods.id');
 
         if ($request->has("busqueda")) 
         {
@@ -110,6 +113,7 @@ class DtController extends Controller
             $query->where('confirmacion_dts.status_id','=',10)
                 ->orWhere('confirmacion_dts.status_id','=',11);
           });
+        $viajes->where('confirmacion_status_pods.activo','=',1);
       
         $productos = Producto::all();
         $tipos_incidencias = TipoIncidencia::all();

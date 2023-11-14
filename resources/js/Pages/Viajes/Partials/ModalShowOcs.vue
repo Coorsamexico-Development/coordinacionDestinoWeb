@@ -1,5 +1,5 @@
 <script setup>
-  import {ref, watch, computed, reactive, onUpdated } from "vue";
+  import {ref, watch, computed, reactive, onUpdated, onBeforeMount } from "vue";
   import { router, Link, useForm  } from '@inertiajs/vue3'
   import DialogModal from '@/Components/DialogModal.vue';
   import ButtonWatch from '@/Components/ButtonWatch.vue';
@@ -34,6 +34,7 @@
    const close = () => 
    { 
       emit('close');
+      select.value = false;
    };
 
    
@@ -266,18 +267,36 @@ watch(document, (documentoCargado) =>
 
    let statusPod = ref(0);
    let spinStatusPod = ref(false);
+   let select = ref(false);
    watch(statusPod, (newStatusPod) => 
    {
     statusPod.value = props.statusPOD.id
     spinStatusPod.value = true;
     //console.log(newStatusPod)
+    if(select.value == true)
+    {
       try 
       {
          axios.get(route('saveStatusPodPorConfirmacion', {status: newStatusPod, confirmacion:props.viaje})).
          then(response => 
          {
-           console.log(response);
-           spinStatusPod.value = false;
+           //console.log(response);
+           axios.get(route('createAnother', {status: newStatusPod, confirmacion:props.viaje})).
+            then(response => 
+            {
+               spinStatusPod.value = false;
+               select.value = false;
+               router.visit(route('viajes.index'), 
+               {
+                 preserveScroll:true,
+                 preserveState:true,
+                 replace:true,
+                 only:['viajes'],
+               })
+            }).catch(err=> 
+            {
+
+            });           
          }).catch(err => 
          {
             console.log(err)
@@ -286,19 +305,17 @@ watch(document, (documentoCargado) =>
       {
          
       }
+    }
   });
    
-  onUpdated(() => 
+   onUpdated(() => 
    {
-      //console.log(props);
-      spinStatusPod.value= false;
-      if(props.statusPOD.id !== null)
-      {
-       statusPod.value = props.statusPOD.id;
-      }
+      console.log(props)
+      console.log(select.value)
 
       if(props.fechasPOD !== null)
       {
+         console.log(props.fechasPOD)
          for (let index = 0; index < props.fechasPOD.length; index++) 
            {
               const fecha = props.fechasPOD[index];
@@ -322,6 +339,20 @@ watch(document, (documentoCargado) =>
               }
            }
       }
+      
+      if(props.statusPOD !== null)
+      {
+         statusPod.value = props.statusPOD.id;
+      }
+      
+      //console.log(props);
+      /*
+      spinStatusPod.value= false;
+      if(props.statusPOD !== null)
+      {
+         statusPod.value = props.statusPOD.id;
+      }
+      */
    })
 </script>
 <template>
@@ -347,7 +378,7 @@ watch(document, (documentoCargado) =>
              </button>
           </a>
           <div class="flex flex-row items-center">
-            <Select v-model="statusPod">
+            <Select v-model="statusPod" @click="select = true">
                <option :value="0" disabled >
                    Selecciona un status
                </option>
