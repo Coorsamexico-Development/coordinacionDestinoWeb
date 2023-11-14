@@ -24,7 +24,6 @@
        tipos_incidencias:Object,
        status_pod:Object,
        fechasPOD:Object,
-       statusPOD:Object
    });
 
    const emit = defineEmits(["close", "reconsultar"])
@@ -270,7 +269,7 @@ watch(document, (documentoCargado) =>
    let select = ref(false);
    watch(statusPod, (newStatusPod) => 
    {
-    statusPod.value = props.statusPOD.id
+    //statusPod.value = props.statusPOD.id
     spinStatusPod.value = true;
     //console.log(newStatusPod)
     if(select.value == true)
@@ -315,11 +314,11 @@ watch(document, (documentoCargado) =>
 
       if(props.fechasPOD !== null)
       {
-         console.log(props.fechasPOD)
+         //console.log(props.fechasPOD)
          for (let index = 0; index < props.fechasPOD.length; index++) 
            {
               const fecha = props.fechasPOD[index];
-              console.log(fecha)
+              //console.log(fecha)
               switch (fecha.fecha_pod_id) 
               {
                  case 1:
@@ -339,12 +338,6 @@ watch(document, (documentoCargado) =>
               }
            }
       }
-
-      if(props.statusPOD !== null)
-      {
-         statusPod.value = props.statusPOD.id;
-      }
-      
       //console.log(props);
       /*
       spinStatusPod.value= false;

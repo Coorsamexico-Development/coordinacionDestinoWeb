@@ -25,4 +25,9 @@ class ConfirmacionDt extends Model
      {
          return $this->hasMany(Oc::class,'confirmacion_dt_id');
      }
+
+     public function confirmacion_status_pods()
+     {
+        return $this->hasMany(confirmacionStatusPod::class,'confirmacion_dt_id');
+     }
 }

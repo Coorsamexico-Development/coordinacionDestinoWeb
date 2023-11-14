@@ -154,7 +154,7 @@ const sort = (field) =>
     }
 }
 
-let statusPOD = ref(null);
+let statusPOD = ref(0);
 let fechasPOD = ref([]);
 
 const consultarFechasYStatusPOD = () => 
@@ -164,8 +164,7 @@ const consultarFechasYStatusPOD = () =>
          axios.get(route('consultarFechasStatusPOD', {confirmacion:viajeActual.value})).
          then(response => 
          {
-           console.log(response);
-           statusPOD.value = response.data.statusPOD;
+           //console.log(response);
            fechasPOD.value = response.data.fechasPOD;
          }).catch(err => 
          {
@@ -349,7 +348,9 @@ const consultarFechasYStatusPOD = () =>
                 </a>
              </td>
              <td class="text-center">
-              {{ viaje.statusPOD }}
+              <div v-if="viaje.confirmacion_status_pods.length > 0">
+                {{ viaje.confirmacion_status_pods[0].statusPOD }}
+              </div>
              </td>
           </tr>
         </tbody>
@@ -365,7 +366,6 @@ const consultarFechasYStatusPOD = () =>
     :productos="productos" 
     :tipos_incidencias="tipos_incidencias" 
     @reconsultar="reconsultar" 
-    :statusPOD="statusPOD"
     :fechasPOD="fechasPOD"
     />
   </AppLayout>
