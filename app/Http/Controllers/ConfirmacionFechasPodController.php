@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\confirmacionFechasPod;
+use App\Models\fechasPod;
 use Illuminate\Http\Request;
 
 class ConfirmacionFechasPodController extends Controller
@@ -29,8 +30,23 @@ class ConfirmacionFechasPodController extends Controller
     public function store(Request $request)
     {
         //
+        return $request;
     }
 
+    public function saveFechasPODConfirmacion(Request $request)
+    {
+        //return $request;
+        //
+        switch ($request['tipo']) 
+        {
+            case 'fechaEnvio':
+                   confirmacionFechasPod::where('confirmacion_dt_id','=',$request['confirmacion'])
+                   ->update([
+                    
+                   ]);
+                break;
+        }
+    }
     /**
      * Display the specified resource.
      */

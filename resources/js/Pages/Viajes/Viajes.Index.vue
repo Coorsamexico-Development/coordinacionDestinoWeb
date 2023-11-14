@@ -329,6 +329,6 @@ const sort = (field) =>
       <PaginationInertia :pagination="viajes" />
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-    <ModalShowOcs :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />
+    <ModalShowOcs :status_pod="status_pod" :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />
   </AppLayout>
 </template>

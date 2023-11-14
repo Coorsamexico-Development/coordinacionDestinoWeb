@@ -21,7 +21,8 @@
        ocs:Object,
        viaje:Number,
        productos:Object,
-       tipos_incidencias:Object
+       tipos_incidencias:Object,
+       status_pod:Object
    });
 
    const emit = defineEmits(["close", "reconsultar"])
@@ -156,6 +157,25 @@ watch(document, (documentoCargado) =>
 
    watch(fechaDeEnvio, (newFechaDeEnvio) => 
   {
+    //console.log(newFechaDeEnvio.getMonth());
+    ///console.log(newFechaDeEnvio.getFullYear());
+    //console.log(newFechaDeEnvio.getDate());
+    let dateEnvio =  newFechaDeEnvio.getFullYear() + '-' + (newFechaDeEnvio.getMonth()+1) + '-' +newFechaDeEnvio.getDate();
+    console.log(dateEnvio)
+      try 
+      {
+         axios.get(route('saveFechasPODConfirmacion', {fecha: dateEnvio, tipo:'fechaEnvio', confirmacion:props.viaje})).
+         then(response => 
+         {
+           console.log(response);
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
       
   });
 
@@ -188,6 +208,9 @@ watch(document, (documentoCargado) =>
             <Select v-model="statusPod">
                <option :value="0" disabled >
                    Selecciona un status
+               </option>
+               <option v-for="statu_pod in status_pod" :key="statu_pod.id" :value="statu_pod.id">
+                  {{ statu_pod.nombre }}
                </option>
             </Select>
           </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\ConfirmacionFechasPodController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
@@ -116,3 +117,5 @@ Route::get('/downloadIncidenciasReport',[IncidenciaController::class, 'dowloadIn
 Route::post('/saveFacturas',[OcController::class, 'saveFacturas'])->name('saveFacturas');
 //Ruta para descargar reporte con incidencias global por fechas
 Route::get('/descargarReporteViajesConIncidencias',[ConfirmacionDtController::class, 'descargarReporteViajesConIncidencias'])->name('descargarReporteViajesConIncidencias');
+//Ruta para guardar registro de fechas por confirmacion
+Route::get('/saveFechasPODConfirmacion',[ConfirmacionFechasPodController::class, 'saveFechasPODConfirmacion'])->name('saveFechasPODConfirmacion');
