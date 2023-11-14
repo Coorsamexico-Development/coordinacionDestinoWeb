@@ -299,7 +299,7 @@ watch(document, (documentoCargado) =>
             });           
          }).catch(err => 
          {
-            console.log(err)
+            //console.log(err)
          })
       } catch (error) 
       {
@@ -310,8 +310,8 @@ watch(document, (documentoCargado) =>
    
    onUpdated(() => 
    {
-      console.log(props)
-      console.log(select.value)
+      //console.log(props)
+      //console.log(select.value)
 
       if(props.fechasPOD !== null)
       {
@@ -339,7 +339,7 @@ watch(document, (documentoCargado) =>
               }
            }
       }
-      
+
       if(props.statusPOD !== null)
       {
          statusPod.value = props.statusPOD.id;
