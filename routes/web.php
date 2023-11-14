@@ -122,3 +122,4 @@ Route::get('/descargarReporteViajesConIncidencias',[ConfirmacionDtController::cl
 Route::get('/saveFechasPODConfirmacion',[ConfirmacionFechasPodController::class, 'saveFechasPODConfirmacion'])->name('saveFechasPODConfirmacion');
 //Ruta para guardar registro status pod por confirmacion
 Route::get('/saveStatusPodPorConfirmacion', [ConfirmacionStatusPodController::class,'saveStatusPodPorConfirmacion'])->name('saveStatusPodPorConfirmacion');
+Route::get('/consultarFechasStatusPOD',[ConfirmacionDtController::class, 'consultarFechasStatusPOD'])->name('consultarFechasStatusPOD');

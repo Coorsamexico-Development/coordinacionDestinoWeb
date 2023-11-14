@@ -95,6 +95,7 @@ const viajeActual = ref(-1);
 const modalOcsOpen = (id) => 
 {
   viajeActual.value = id;
+  consultarFechasYStatusPOD();
   try 
       {
          axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
@@ -153,9 +154,27 @@ const sort = (field) =>
     }
 }
 
+let statusPOD = ref(null);
+let fechasPOD = ref([]);
+
 const consultarFechasYStatusPOD = () => 
 {
-  
+  try 
+      {
+         axios.get(route('consultarFechasStatusPOD', {confirmacion:viajeActual.value})).
+         then(response => 
+         {
+           console.log(response);
+           statusPOD.value = response.data.statusPOD;
+           fechasPOD.value = response.data.fechasPOD;
+         }).catch(err => 
+         {
+            console.log(err)
+         })
+      } catch (error) 
+      {
+         
+      }
 }
 
 </script>
@@ -300,6 +319,7 @@ const consultarFechasYStatusPOD = () =>
              <th class="font-semibold">Historial</th>
              <th class="font-semibold">POD</th>
              <th class="font-semibold">Documento POD</th>
+             <th class="font-semibold">Status POD</th>
           </tr>
         </thead>
         <tbody>
@@ -334,6 +354,16 @@ const consultarFechasYStatusPOD = () =>
       <PaginationInertia :pagination="viajes" />
     </div>
     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
-    <ModalShowOcs :status_pod="status_pod" :viaje="viajeActual"  :show="modalOcs" @close="modalOcsClose()" :ocs="ocs" :productos="productos" :tipos_incidencias="tipos_incidencias" @reconsultar="reconsultar" />
+    <ModalShowOcs :status_pod="status_pod" 
+    :viaje="viajeActual"  
+    :show="modalOcs"
+    @close="modalOcsClose()" 
+    :ocs="ocs" 
+    :productos="productos" 
+    :tipos_incidencias="tipos_incidencias" 
+    @reconsultar="reconsultar" 
+    :statusPOD="statusPOD"
+    :fechasPOD="fechasPOD"
+    />
   </AppLayout>
 </template>

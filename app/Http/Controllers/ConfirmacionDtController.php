@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
 use App\Events\NewNotification;
 use App\Exports\ViajesFinalizadosExport;
+use App\Models\confirmacionFechasPod;
+use App\Models\confirmacionStatusPod;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ConfirmacionDtController extends Controller
@@ -887,5 +889,20 @@ class ConfirmacionDtController extends Controller
        $plataforma,
        $status
       ), 'Reporte_Viajes_Con_Incidencias.xlsx');
+  }
+
+  public function consultarFechasStatusPOD (Request $request) 
+  {
+     $fechasPod = confirmacionFechasPod::select('confirmacion_fechas_pods.*')
+     ->where('confirmacion_fechas_pods.activo','=',1)
+     ->where('confirmacion_fechas_pods.confirmacion_dt_id','=',$request['confirmacion'])
+     ->get();
+
+     $statusPod = confirmacionStatusPod::select('confirmacion_status_pods.*')
+     ->where('confirmacion_status_pods.activo','=',1)
+     ->where('confirmacion_status_pods.confirmacion_dt_id','=',$request['confirmacion'])
+     ->first();
+
+     return ['fechasPOD' => $fechasPod , 'statusPOD'=> $statusPod];
   }
 }

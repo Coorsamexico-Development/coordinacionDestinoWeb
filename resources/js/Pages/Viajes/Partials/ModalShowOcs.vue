@@ -1,5 +1,5 @@
 <script setup>
-  import {ref, watch, computed, reactive } from "vue";
+  import {ref, watch, computed, reactive, onUpdated } from "vue";
   import { router, Link, useForm  } from '@inertiajs/vue3'
   import DialogModal from '@/Components/DialogModal.vue';
   import ButtonWatch from '@/Components/ButtonWatch.vue';
@@ -22,10 +22,14 @@
        viaje:Number,
        productos:Object,
        tipos_incidencias:Object,
-       status_pod:Object
+       status_pod:Object,
+       fechasPOD:Object,
+       statusPOD:Object
    });
 
    const emit = defineEmits(["close", "reconsultar"])
+
+
 
    const close = () => 
    { 
@@ -264,6 +268,7 @@ watch(document, (documentoCargado) =>
    let spinStatusPod = ref(false);
    watch(statusPod, (newStatusPod) => 
    {
+    statusPod.value = props.statusPOD.id
     spinStatusPod.value = true;
     //console.log(newStatusPod)
       try 
@@ -283,6 +288,41 @@ watch(document, (documentoCargado) =>
       }
   });
    
+  onUpdated(() => 
+   {
+      //console.log(props);
+      spinStatusPod.value= false;
+      if(props.statusPOD.id !== null)
+      {
+       statusPod.value = props.statusPOD.id;
+      }
+
+      if(props.fechasPOD !== null)
+      {
+         for (let index = 0; index < props.fechasPOD.length; index++) 
+           {
+              const fecha = props.fechasPOD[index];
+              console.log(fecha)
+              switch (fecha.fecha_pod_id) 
+              {
+                 case 1:
+                    fechaDeEnvio.value = fecha.fecha;
+                    break;
+              
+                 case 2:
+                   fechaLiberacion.value = fecha.fecha;
+                   break;
+                 case 3:
+                   fechaRecepcion.value = fecha.fecha;
+                  break;
+              
+                 case 4:
+                   fechaFacturacion.value = fecha.fecha;
+                  break;
+              }
+           }
+      }
+   })
 </script>
 <template>
    <DialogModal :maxWidth="'4xl'" :show="show" @close="close()">
