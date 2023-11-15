@@ -9,6 +9,9 @@
  import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
  import '@fancyapps/ui/dist/fancybox/fancybox.css';
  import ModalIncidencias from '../Modals/ModalIncidencias.vue';
+ import VueDatePicker from '@vuepic/vue-datepicker';
+ import '@vuepic/vue-datepicker/dist/main.css';
+ import SpinProgress from "@/Components/SpinProgress.vue";
 
   const emit = defineEmits(["close"])
   const props = defineProps({
@@ -18,7 +21,8 @@
       },
       infoModal:Object,
       status:Object,
-      viaje:Number
+      viaje:Number,
+      dt:Object
   });
 
   const camposValores = ref([]);
@@ -215,6 +219,56 @@
 
    const activeClass = ref('timeline');
    const errorClas = ref('timeline2');
+
+   const cita = ref(props.dt.cita);
+   let spinnerCita = ref(false)
+   watch(cita, (newCita) => 
+   {
+      let year = newCita.getFullYear();
+      let month = newCita.getMonth()+1;
+      let day = newCita.getDate();
+      let hours = newCita.getHours();
+      let minutes = newCita.getMinutes();
+      spinnerCita.value = true;
+      if(day < 10)
+      {
+        day = '0'+day;
+      }
+
+      if(month < 10)
+      {
+         month = '0'+month;
+      }
+
+      if(hours < 10)
+      {
+         hours = '0'+hours;
+      }
+
+      if(minutes < 10)
+      {
+         minutes = '0'+minutes;
+      }
+
+      //console.log(year+'-'+month+'-'+day+' '+hours+':'+minutes )
+      let newFecha = year+'-'+month+'-'+day+' '+hours+':'+minutes ;
+      try 
+      {
+         axios.get(route('changeCita',{fecha:newFecha, viaje:props.viaje})).then(response => 
+         {
+           console.log(response.data)
+           spinnerCita.value = false;
+         })
+         .catch(err => 
+         {
+
+         })
+      } 
+      catch (error) {
+         
+      }
+   });
+
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -227,6 +281,12 @@
          </div>
        </template>
        <template #content  >
+         <div class="my-3">
+            <div class="flex flex-row items-center"> 
+               <VueDatePicker v-model="cita" class="mx-2"  vertical placeholder="Cita" :teleport="true" />
+               <SpinProgress v-if="spinnerCita"  :inprogress="true" />
+            </div>
+         </div>
          <div class="grid w-full grid-cols-2" style="font-family: 'Montserrat';">
            <div class="">
              <h1 class="text-center">Histórico de status</h1>

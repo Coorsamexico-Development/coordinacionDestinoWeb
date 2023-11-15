@@ -18,13 +18,13 @@
   const modalWatchOpen = (dt_id) => 
   {
     viaje.value = dt_id;
-    console.log(props.dt.id)
+    //console.log(props.dt.id)
     modalWatch.value=true;
     axios.get(route('showHistorico'), {params:{
      id:props.dt.id
     }}).then(response =>
     {
-      console.log(response);
+      //console.log(response);
       infoModal.value = response.data.historico;
       status.value = response.data.status;
     }).catch(err => 
@@ -118,9 +118,8 @@
       </div>
     </div>
   </div>
-
   <div v-if="infoModal !== null">
-     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" />
+     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" :dt="dt" />
   </div>
   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" @reconsultar="consultarOcs()" :ocsAxios="ocs" :confirmacion="dt.confirmacion" />
 </template>

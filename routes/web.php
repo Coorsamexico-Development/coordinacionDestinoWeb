@@ -124,3 +124,5 @@ Route::get('/saveFechasPODConfirmacion',[ConfirmacionFechasPodController::class,
 Route::get('/saveStatusPodPorConfirmacion', [ConfirmacionStatusPodController::class,'saveStatusPodPorConfirmacion'])->name('saveStatusPodPorConfirmacion');
 Route::get('/consultarFechasStatusPOD',[ConfirmacionDtController::class, 'consultarFechasStatusPOD'])->name('consultarFechasStatusPOD');
 Route::get('/createAnother',[ConfirmacionStatusPodController::class, 'createAnother'])->name('createAnother');
+//Ruta para cambiar la cita del viaje
+Route::get('/changeCita',[ConfirmacionDtController::class, 'changeCita'])->name('changeCita');

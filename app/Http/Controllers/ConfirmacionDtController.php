@@ -905,4 +905,12 @@ class ConfirmacionDtController extends Controller
 
      return ['fechasPOD' => $fechasPod , 'statusPOD'=> $statusPod];
   }
+
+  public function changeCita (Request $request)
+  {
+     ConfirmacionDt::where('confirmacion_dts.id','=',$request['viaje'])
+     ->update([
+        'confirmacion_dts.cita' =>$request['fecha']
+     ]);
+  }
 }
