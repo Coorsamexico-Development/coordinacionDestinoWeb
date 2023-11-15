@@ -256,7 +256,7 @@
       {
          axios.get(route('changeCita',{fecha:newFecha, viaje:props.viaje})).then(response => 
          {
-           console.log(response.data)
+           //console.log(response.data)
            spinnerCita.value = false;
          })
          .catch(err => 
@@ -282,6 +282,7 @@
        </template>
        <template #content  >
          <div class="my-3">
+            <h1 class="mx-2 font-semibold" style="font-size: 1rem ;">Cita:</h1>
             <div class="flex flex-row items-center"> 
                <VueDatePicker v-model="cita" class="mx-2"  vertical placeholder="Cita" :teleport="true" />
                <SpinProgress v-if="spinnerCita"  :inprogress="true" />
