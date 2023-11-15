@@ -583,7 +583,7 @@ class ConfirmacionDtController extends Controller
               ConfirmacionDt::where('id','=',$confirmacion_Dt['id'])
               ->update([
                  'confirmacion_dts.status_id' => 10, //se libera sin incidencia
-                 'confirmacion_dts.cerrado' => 1
+                 'confirmacion_dts.cerrado' => 0
               ]);
    
                StatusDt::where('confirmacion_dt_id','=',$confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
