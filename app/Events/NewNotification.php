@@ -26,9 +26,10 @@ class NewNotification implements ShouldBroadcast
         //
         $this-> confirmacionDt  = $users = DB::table('confirmacion_dts'
         )
-        ->select('confirmacion_dts.*','dts.referencia_dt as dt', 'status.nombre as status')
+        ->select('confirmacion_dts.*','dts.referencia_dt as dt', 'status.nombre as status', 'ubicaciones.nombre as ubicacion')
         ->join('dts','confirmacion_dts.dt_id','dts.id')
         ->join('status', 'confirmacion_dts.status_id','status.id')
+        ->join('ubicaciones','confirmacion_dts.ubicacion_id','ubicaciones.id')
         ->where('confirmacion_dts.id','=', $confirmacionDt->id)
         ->first(); 
     }

@@ -18,6 +18,7 @@ const watch = (confirmacion) =>
 }
 </script>
 <template>
+    <h1 class="text-lg"><strong>En el CEDIS:</strong>{{ props.toastProps.data.ubicacion }}</h1>
     <h1><strong>El DT : </strong>{{ props.toastProps.data.dt }}</h1>
     <h1><strong>Con confirmación :</strong> {{ props.toastProps.data.confirmacion }}</h1>
     <h1>Ha cambiado al status <strong>{{ props.toastProps.data.status }}</strong></h1>
