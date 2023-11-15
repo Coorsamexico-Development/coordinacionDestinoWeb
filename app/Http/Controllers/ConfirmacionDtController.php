@@ -170,7 +170,7 @@ class ConfirmacionDtController extends Controller
            {
              if($request['ubicacion_id'] !== null)
              {
-                $confirmacionesDts->where('confirmacion_dts.ubicacion_id','LIKE','%'.$request['ubicacion_id'].'%');
+                $confirmacionesDts->where('confirmacion_dts.ubicacion_id','=',$request['ubicacion_id']);
              }
            } 
            if($request->has('search'))
