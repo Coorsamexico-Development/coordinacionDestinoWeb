@@ -38,6 +38,7 @@
   const statusActual = ref(null);
   const ocs = ref([]);
 
+  
   const consultarHistoria = async (historiaIndividual) => 
   {
    //console.log(historiaIndividual)
@@ -50,8 +51,8 @@
       confirmacion_dt_id: historiaIndividual.confirmacion_dt_id
       }}).then(response => 
          {
-              console.log(historiaIndividual.status_id)
-              console.log(response);
+              //console.log(historiaIndividual.status_id)
+              //console.log(response);
               tamañoModal.value = '4xl'
               let camposWithValors = [];
               if(response.data.valors.length > 0)
@@ -94,7 +95,9 @@
          ocs.value = response.data;
       }).catch(err => {
          console.log(err)
-      })
+      });
+
+
 
    }
   catch(err)
@@ -429,7 +432,7 @@
              </div>
            </div>
          </div>
-         <ModalIncidencias :incidencias="incidencias" :show="modalIncidencias" @close="closeModalIncidencias()" />
+         <ModalIncidencias :incidencias="incidencias"  :show="modalIncidencias" :oc="ocActual" :dt="dt.id" @close="closeModalIncidencias()" />
        </template>
    </DialogModal>
 </template>

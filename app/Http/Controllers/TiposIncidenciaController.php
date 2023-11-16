@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
+use App\Models\TipoIncidencia;
 use App\Models\TiposIncidencia;
 use Illuminate\Http\Request;
 
@@ -61,5 +63,13 @@ class TiposIncidenciaController extends Controller
     public function destroy(TiposIncidencia $tiposIncidencia)
     {
         //
+    }
+
+    public function getTiposIncidenciaYProductos (Request $request)
+    {
+       $tipos_incidencia = TipoIncidencia::all();
+       $productos = Producto::all();
+
+       return ['tipos_incidencia' => $tipos_incidencia , 'productos' => $productos];
     }
 }

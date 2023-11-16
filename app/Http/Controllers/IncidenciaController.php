@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exports\IncidenciasExport;
+use App\Models\ConfirmacionDt;
 use App\Models\Evidencia;
 use App\Models\Incidencia;
 use App\Models\Oc;
 use App\Models\Producto;
+use App\Models\StatusDt;
 use App\Models\TipoIncidencia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -189,5 +191,82 @@ class IncidenciaController extends Controller
     public function dowloadIncidenciasByOc (Request $request)
     {
         return Excel::download(new IncidenciasExport($request['viaje']), 'Reporte_Incidencias.xlsx');
+    }
+
+    public function saveIncidenciasByOc (Request $request)
+    {
+        
+        for ($i=0; $i < count($request['incidencias']) ; $i++) 
+        { 
+            $incidencia = $request['incidencias'][$i];
+
+            $producto = Producto::select('productos.*')
+            ->where('productos.SKU','=',$incidencia['sku'])
+            ->first();
+
+            Incidencia::create([
+              'ocs_id' => $request['oc'],
+              'ean_id' => $producto['id'],
+              'cantidad' => $incidencia['cantidad'],
+              'tipo_incidencia_id' => $incidencia['tipo_incidencia_id']
+            ]);
+        }
+        
+
+        //Hay que checar si el viaje tiene incidencias para marcarlo con liberacion con incidencia
+        //y generar otro status_dt del historico
+       $ocs = Oc::select('ocs.*')
+        ->with('incidencias')
+        ->where('confirmacion_dt_id','=',$request['confirmacion'])
+        ->get();
+
+        $hayIncidencias = [];
+
+        for ($x=0; $x < count($ocs) ; $x++) 
+        { 
+           $oc = $ocs[$x];
+           for ($s=0; $s < count($oc['incidencias']) ; $s++) 
+           { 
+              $checkIncidencia = $oc['incidencias'][$s];
+              array_push($hayIncidencias, $checkIncidencia);
+           }
+        }
+        
+      $historico_status = StatusDt::select('status_dts.*')
+        ->where('status_dts.confirmacion_dt_id','=',$request['confirmacion'])
+        ->where(function($query)
+          {
+            $query->where('status_dts.status_id','=',10)
+                ->orWhere('status_dts.status_id','=',11);
+          })
+        ->orderBy('status_dts.id','DESC') //ordenamos por el ultimo status
+        ->first();
+
+        //si hay incidencias checamos el historico para ver si esta liberado con incidencia, sino
+        //hay que asignarlo
+        $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.id','=',$request['confirmacion'])
+        ->first();
+
+        if(count($hayIncidencias) > 0) 
+        {
+            if($historico_status['status_id'] == 10 || $confirmacion['status_id'] == 10) //si esta al 100 se cambiara de status
+            {
+               ConfirmacionDt::where('confirmacion_dts.id','=',$request['confirmacion'])
+               ->update([
+                  'status_id' => 11
+               ]);
+
+               StatusDt::where('status_dts.confirmacion_dt_id','=',$request['confirmacion'])
+               ->update([
+                'activo' => 0
+               ]);
+
+               StatusDt::create([
+                'confirmacion_dt_id' => $request['confirmacion'],
+                'status_id' => 11
+               ]);
+            }
+        }
     }
 }

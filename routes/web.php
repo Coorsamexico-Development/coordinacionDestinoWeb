@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
+use App\Http\Controllers\TiposCampoController;
+use App\Http\Controllers\TiposIncidenciaController;
 use App\Http\Controllers\UserUbicacioneController;
 use App\Http\Controllers\ValorController;
 use App\Models\ConfirmacionDt;
@@ -126,3 +128,7 @@ Route::get('/consultarFechasStatusPOD',[ConfirmacionDtController::class, 'consul
 Route::get('/createAnother',[ConfirmacionStatusPodController::class, 'createAnother'])->name('createAnother');
 //Ruta para cambiar la cita del viaje
 Route::get('/changeCita',[ConfirmacionDtController::class, 'changeCita'])->name('changeCita');
+//Ruta para consultar tipos de incidencia y productos
+Route::get('/getTiposIncidenciaYProductos',[TiposIncidenciaController::class, 'getTiposIncidenciaYProductos'])->name('getTiposIncidenciaYProductos');
+//Ruta para guardar incidencias por oc
+Route::get('/saveIncidenciasByOc', [IncidenciaController::class, 'saveIncidenciasByOc'])->name('saveIncidenciasByOc');
