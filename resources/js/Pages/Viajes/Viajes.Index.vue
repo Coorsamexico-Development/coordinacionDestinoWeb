@@ -67,10 +67,11 @@ watch(params, () =>
   
 });
 
-const dt = ref(null);
+const dtActual = ref(null);
 const watchHistorico = (viaje, dt) =>
 {
-  dt.value = dt;
+  dtActual.value = dt;
+  console.log(dtActual);
   //console.log(viaje)
   modalWatch.value=true;
   axios.get(route('showHistorico'), 
@@ -355,7 +356,6 @@ const consultarFechasYStatusPOD = () =>
                 {{ viaje.confirmacion_status_pods[0].statusPOD }}
               </div>
              </td>
-             <ModalWatchHistoricoStatus :show="modalWatch" :dt="viaje" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
           </tr>
         </tbody>
       </table>
@@ -371,5 +371,8 @@ const consultarFechasYStatusPOD = () =>
     @reconsultar="reconsultar" 
     :fechasPOD="fechasPOD"
     />
-  </AppLayout>
+    <div v-if="dtActual !== null"> 
+      <ModalWatchHistoricoStatus :show="modalWatch" :dt="dtActual" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+    </div>
+ </AppLayout>
 </template>
