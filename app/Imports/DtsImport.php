@@ -57,21 +57,17 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
        $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
        $newFechaActual = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
        $date = ($row['cita'] - 25569) * 86400;
-       $gmtDate= gmdate("Y-m-d", $date);
+       $gmtDate= gmdate("Y-m-d H:i", $date);
        //$mDate = new DateTime($gmtDate);
-       $dateExcel = $gmtDate.' '.$hora_actual;
-      // dd($row);
       $confirmacionDt = ConfirmacionDt::updateOrCreate([
           'confirmacion' => $row['confirmacion'],
           'dt_id' => $dt->id,
           'numero_cajas' => $row['numero_de_cajas'],
-          'cita' => $dateExcel,
+          'cita' => $gmtDate,
           'linea_transporte_id' => $linea_transporte->id,
           'plataforma_id' => $plataforma->id,
           'ubicacion_id' => $ubicacion->id,
           'status_id' => $status->id,
-          'created_at' => $dateExcel,
-          'updated_at' =>$dateExcel,
         ]);
 
       //Creamos el primer registro en la tabla de historico
@@ -79,8 +75,6 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
          'confirmacion_dt_id' => $confirmacionDt->id,
          'status_id' => $status->id,
          'activo' => 1,
-         'created_at' => $dateExcel,
-         'updated_at' =>$dateExcel,
        ]);
     }
 
