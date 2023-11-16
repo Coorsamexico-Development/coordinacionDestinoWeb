@@ -67,8 +67,10 @@ watch(params, () =>
   
 });
 
-const watchHistorico = (viaje) =>
+const dt = ref(null);
+const watchHistorico = (viaje, dt) =>
 {
+  dt.value = dt;
   //console.log(viaje)
   modalWatch.value=true;
   axios.get(route('showHistorico'), 
@@ -92,6 +94,7 @@ const modalWatchClose = () =>
 }
 
 const viajeActual = ref(-1);
+
 const modalOcsOpen = (id) => 
 {
   viajeActual.value = id;
@@ -331,7 +334,7 @@ const consultarFechasYStatusPOD = () =>
              <td class="text-center">{{ viaje.cita }}</td>
              <td class="text-center">{{ viaje.numero_cajas }}</td>
              <td class="text-center">
-              <button @click="watchHistorico(viaje.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
+              <button @click="watchHistorico(viaje.id, viaje)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                 <img class="w-6" src="../../../assets/img/eye.png" />
               </button>
              </td>
@@ -357,7 +360,7 @@ const consultarFechasYStatusPOD = () =>
       </table>
       <PaginationInertia :pagination="viajes" />
     </div>
-    <ModalWatchHistoricoStatus :show="modalWatch" :dt="viajeActual" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+    <ModalWatchHistoricoStatus :show="modalWatch" :dt="dt" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
     <ModalShowOcs :status_pod="status_pod" 
     :viaje="viajeActual"  
     :show="modalOcs"
