@@ -355,12 +355,12 @@ const consultarFechasYStatusPOD = () =>
                 {{ viaje.confirmacion_status_pods[0].statusPOD }}
               </div>
              </td>
+             <ModalWatchHistoricoStatus :show="modalWatch" :dt="viaje" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
           </tr>
         </tbody>
       </table>
       <PaginationInertia :pagination="viajes" />
     </div>
-    <ModalWatchHistoricoStatus :show="modalWatch" :dt="dt" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
     <ModalShowOcs :status_pod="status_pod" 
     :viaje="viajeActual"  
     :show="modalOcs"
