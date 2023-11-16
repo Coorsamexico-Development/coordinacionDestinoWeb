@@ -190,14 +190,14 @@ const consultarFechasYStatusPOD = () =>
             <div class="mx-2">
               <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal, searchs:params.searchs})">
                 <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
-                   <p class="text-white text-sm">
+                   <p class="text-sm text-white">
                      Descargar
                    </p>
                    <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
                 </button>
               </a>
               <button disabled class="bg-[#9D9D9D] px-8 py-2 rounded-2xl flex flex-row align-middle" v-else>
-                <p class="text-white text-sm">
+                <p class="text-sm text-white">
                      Descargar
                 </p>
                 <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
@@ -209,7 +209,7 @@ const consultarFechasYStatusPOD = () =>
           </div>
        </div>
     </template>
-    <div class="py-4 m-8 bg-white rounded-2xl pb-6" style="font-family: 'Montserrat';">
+    <div class="py-4 pb-6 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
       <table class="w-full">
         <thead class="border-1 border-sky-500" >
           <tr >
@@ -340,7 +340,7 @@ const consultarFechasYStatusPOD = () =>
                 <img class="w-6" src="../../../assets/img/eye.png" />
                </button>
              </td>
-             <td class="text-center flex justify-center">
+             <td class="flex justify-center text-center">
                 <a :href="viaje.documetoPOD" data-fancybox   data-type="pdf">
                   <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                      <img class="w-6" src="../../../assets/img/eye.png" />
@@ -357,7 +357,7 @@ const consultarFechasYStatusPOD = () =>
       </table>
       <PaginationInertia :pagination="viajes" />
     </div>
-    <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+    <ModalWatchHistoricoStatus :show="modalWatch" :dt="viajeActual" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
     <ModalShowOcs :status_pod="status_pod" 
     :viaje="viajeActual"  
     :show="modalOcs"
