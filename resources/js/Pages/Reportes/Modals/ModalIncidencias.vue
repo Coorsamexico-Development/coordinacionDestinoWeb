@@ -47,6 +47,7 @@
   const eliminarIncidencia = (incidencia) => 
   {
     console.log(incidencia)
+    /*
     axios.post(route('borrarIncidencia',{
       incidencia_id: incidencia,
 
@@ -58,6 +59,7 @@
     {
       console.log(err)
     })
+    */
   }
 
   let newInidencias = ref([]);
