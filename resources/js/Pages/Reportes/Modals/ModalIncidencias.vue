@@ -9,7 +9,7 @@
   import TextInput from '@/Components/TextInput.vue';
   import axios from 'axios';
   
-  const emit = defineEmits(["close"])
+  const emit = defineEmits(["close", "reconsultarOcsIncidencias"])
   const props = defineProps({
       show: {
           type: Boolean,
@@ -26,7 +26,7 @@
   let tipo_incidencias = ref([]);
   axios.get('/getTiposIncidenciaYProductos').then(response => 
     {
-       console.log(response.data)
+       //console.log(response.data)
        productos.value = response.data.productos;
        tipo_incidencias.value = response.data.tipos_incidencia;
     }).catch(err => 
@@ -44,22 +44,21 @@
      emit('close');
   };
 
-  const eliminarIncidencia = (incidencia) => 
+  const eliminarIncidencia = (incidencia) => //funcion para eliminar las evidencias de la bd
   {
-    console.log(incidencia)
-    /*
+    //console.log(incidencia)
     axios.post(route('borrarIncidencia',{
       incidencia_id: incidencia,
 
     })).then(response => {
       //console.log(response.data)
       //console.log(props.incidencias.length)
+        emit("reconsultarOcsIncidencias", props.dt, props.oc.id)
     })
     .catch(err => 
     {
       console.log(err)
     })
-    */
   }
 
   let newInidencias = ref([]);
@@ -75,13 +74,18 @@
   const saveNewIncidencias = () => 
   {
     //console.log(newInidencias)
-    //console.log(props.oc)
+    //console.log(props.oc.id)
+    //console.log(props.dt)
     axios.get(route('saveIncidenciasByOc',{oc:props.oc.id, incidencias:newInidencias.value, confirmacion:props.dt})).then(response => 
     {
-       console.log(response.data)
+       //console.log(response.data)
+       newInidencias.value = [];
+       emit("reconsultarOcsIncidencias", props.dt, props.oc.id)
     }).then(err => {
 
     })
+    
+    
   }
 
   const eliminarNuevaIncidencia = (key) => 

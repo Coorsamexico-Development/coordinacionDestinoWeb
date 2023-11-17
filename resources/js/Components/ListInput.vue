@@ -45,7 +45,7 @@ const error = computed(() => {
     if (valueText.value !== "" || props.modelValue != "") {
         if (valueText.value !== "") 
         {
-            console.log(valueText.value)
+            //console.log(valueText.value)
             const selectOpcion = props.options.find(opcion => 
             {
                 return (opcion[props.keyOption] + ' - ' + opcion[props.nameOption] ) == valueText.value
@@ -89,7 +89,7 @@ defineExpose({ focus: () => inputlist.value.focus() });
 <template>
     <div class="">
         <input type="text" :list="list"
-            class=" border-indigo-300 rounded-full shadow-sm w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 read-only:bg-gray-300"
+            class="w-full border-indigo-300 rounded-full shadow-sm  focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 read-only:bg-gray-300"
             :class="{ 'border-red-400': error, 'text-red-400': error }" :value="valueText" @keyup="emit('value', valueText)"
             @input="changeText($event.target.value)" ref="inputlist" :disabled="disabled">
         <datalist :id="list">

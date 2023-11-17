@@ -199,6 +199,7 @@ class OcController extends Controller
                 ->with('evidencias')
                 ->join('tipo_incidencias','incidencias.tipo_incidencia_id','tipo_incidencias.id')
                 ->join('productos','incidencias.ean_id','productos.id')
+                ->orderBy('incidencias.id','ASC')
                 ->get();
                }
               ])

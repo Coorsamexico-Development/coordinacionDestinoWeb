@@ -170,8 +170,72 @@ class IncidenciaController extends Controller
 
     public function borrarIncidencia (Request $request)
     {
+      //tomamos la evidencia que se eliminara para buscar la oc y luego la confirmacion
+       $incidencia = Incidencia::select('incidencias.*') 
+       ->where('id','=',$request['incidencia_id'])
+       ->first();
+
+       //Buscamos la oc para tomar la confirmacion
+       $oc = Oc::select('ocs.*')
+       ->where('id','=', $incidencia['ocs_id'])
+       ->first();
+
+       $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('id','=',$oc['confirmacion_dt_id'])
+       ->first();
+
+       //borramos la incidencia
        Incidencia::where('id','=',$request['incidencia_id'])
        ->delete();
+         //Hay que checar si el viaje tiene otras incidencias para marcarlo con liberacion al 100
+        //y generar otro status_dt del historico
+        $ocs = Oc::select('ocs.*')
+        ->with('incidencias')
+        ->where('confirmacion_dt_id','=',$confirmacion['id'])
+        ->get();
+
+        $hayIncidencias = [];
+
+        for ($x=0; $x < count($ocs) ; $x++) 
+        { 
+           $oc = $ocs[$x];
+           for ($s=0; $s < count($oc['incidencias']) ; $s++) 
+           { 
+              $checkIncidencia = $oc['incidencias'][$s];
+              array_push($hayIncidencias, $checkIncidencia);
+           }
+        }
+
+        $historico_status = StatusDt::select('status_dts.*')
+        ->where('status_dts.confirmacion_dt_id','=',$confirmacion['id'])
+        ->where(function($query)
+          {
+            $query->where('status_dts.status_id','=',10)
+                ->orWhere('status_dts.status_id','=',11);
+          })
+        ->orderBy('status_dts.id','DESC') //ordenamos por el ultimo status
+        ->first();
+
+        if(count($hayIncidencias) == 0) 
+        {
+            if($historico_status['status_id'] == 11 || $confirmacion['status_id'] == 11) //si esta al 100 se cambiara de status
+            {
+               ConfirmacionDt::where('confirmacion_dts.id','=',$confirmacion['id'])
+               ->update([
+                  'status_id' => 10
+               ]);
+
+               StatusDt::where('status_dts.confirmacion_dt_id','=',$confirmacion['id'])
+               ->update([
+                'activo' => 0
+               ]);
+
+               StatusDt::create([
+                'confirmacion_dt_id' => $confirmacion['id'],
+                'status_id' => 10
+               ]);
+            }
+        }
     }
 
     public function getIncidenciasByOc (Request $request)

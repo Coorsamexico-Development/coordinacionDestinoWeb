@@ -272,6 +272,26 @@
       }
    });
 
+   const consultarOcsIncidencias = (item, oc) => 
+   {
+      //console.log(props.dt.id)
+      //Consulta para las OCS
+       axios.get('/ocsByViaje',{
+        params:{
+           confirmacion_dt_id: item
+        }
+      }).then(response => {
+         //console.log(response)
+         ocs.value = response.data;
+         let ocIn = ocs.value.filter(ocL => ocL.id == oc);
+         //console.log(ocIn);
+         //console.log(ocIn[0].incidencias)
+         incidencias.value = ocIn[0].incidencias;
+      }).catch(err => {
+         console.log(err)
+      });
+      
+   }
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -432,7 +452,12 @@
              </div>
            </div>
          </div>
-         <ModalIncidencias :incidencias="incidencias"  :show="modalIncidencias" :oc="ocActual" :dt="dt.id" @close="closeModalIncidencias()" />
+         <ModalIncidencias :incidencias="incidencias"  
+         :show="modalIncidencias" 
+         :oc="ocActual" 
+         :dt="dt.id" 
+         @close="closeModalIncidencias()" 
+         @reconsultarOcsIncidencias="consultarOcsIncidencias" />
        </template>
    </DialogModal>
 </template>
