@@ -92,6 +92,7 @@ const ocs = ref([]);
 const modalWatchClose = () => 
 {
   modalWatch.value=false;
+  dtActual.value = null;
 }
 
 const viajeActual = ref(-1);
@@ -178,6 +179,32 @@ const consultarFechasYStatusPOD = () =>
       {
          
       }
+}
+
+const reVisit = (viajeAConsultar) => 
+{
+  //console.log('revisitando')
+  //console.log(viajeAConsultar)
+  router.visit(route('viajes.index'), 
+  {
+    preserveScroll:true,
+    preserveState:true,
+    replace:true,
+    only:['viajes'],
+  });
+
+  axios.get(route('showHistorico'), 
+  {params:{
+   id:viajeAConsultar
+  }}).then(response =>
+  {
+    console.log(response);
+    infoModal.value = response.data.historico;
+    status.value = response.data.status;
+  }).catch(err => 
+  {
+   console.log(err)
+  })
 }
 
 </script>
@@ -372,7 +399,7 @@ const consultarFechasYStatusPOD = () =>
     :fechasPOD="fechasPOD"
     />
     <div v-if="dtActual !== null"> 
-      <ModalWatchHistoricoStatus :show="modalWatch" :dt="dtActual" @close="modalWatchClose()" :infoModal="infoModal" :status="status" />
+      <ModalWatchHistoricoStatus :show="modalWatch" :dt="dtActual" @close="modalWatchClose()" @reVisit="reVisit" :infoModal="infoModal" :status="status" />
     </div>
  </AppLayout>
 </template>

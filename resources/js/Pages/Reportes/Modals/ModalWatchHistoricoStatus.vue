@@ -13,7 +13,7 @@
  import '@vuepic/vue-datepicker/dist/main.css';
  import SpinProgress from "@/Components/SpinProgress.vue";
 
-  const emit = defineEmits(["close"])
+  const emit = defineEmits(["close", "reVisit"])
   const props = defineProps({
       show: {
           type: Boolean,
@@ -77,7 +77,7 @@
                     camposWithValors.push(campoWithValors)
                  }
               }
-              console.log(camposWithValors)
+             // console.log(camposWithValors)
                camposValores.value = camposWithValors;
               //camposValores.value= response.data;
       }).catch(err => 
@@ -91,7 +91,7 @@
             confirmacion_dt_id: historiaIndividual.confirmacion_dt_id
          }
       }).then(response => {
-         console.log(response)
+         //console.log(response)
          ocs.value = response.data;
       }).catch(err => {
          console.log(err)
@@ -291,6 +291,8 @@
          console.log(err)
       });
       
+      //console.log(props.viaje)
+      emit('reVisit',item);
    }
 </script>
 <template>

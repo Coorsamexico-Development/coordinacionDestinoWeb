@@ -4,6 +4,7 @@
   import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
   import ModalAddOcs from "../Partials/ModalAddOcs.vue";
   import axios from "axios";
+  import { router } from '@inertiajs/vue3'
     //Props
   var props = defineProps({
       dt:Object,
@@ -73,6 +74,30 @@
           
       }
   }
+
+  const reVisit = (viajeAConsultar) => 
+  {
+    router.visit(route('reportes.index'), 
+     {
+       preserveScroll:true,
+       preserveState:true,
+       replace:true,
+       only:['contadores','ubicaciones']
+     })
+
+    axios.get(route('showHistorico'), 
+    {params:{
+     id:viajeAConsultar
+    }}).then(response =>
+    {
+      console.log(response);
+      infoModal.value = response.data.historico;
+      status.value = response.data.status;
+    }).catch(err => 
+    {
+     console.log(err)
+    })
+  }
   
 </script>
 <template>
@@ -119,7 +144,7 @@
     </div>
   </div>
   <div v-if="infoModal !== null">
-     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" :dt="dt" />
+     <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" :dt="dt" @reVisit="reVisit" />
   </div>
   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" @reconsultar="consultarOcs()" :ocsAxios="ocs" :confirmacion="dt.confirmacion" />
 </template>
