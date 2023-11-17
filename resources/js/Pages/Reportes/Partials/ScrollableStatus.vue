@@ -74,7 +74,7 @@ const contadorIndividual = computed(() =>
          <p class="text-sm text-white uppercase">
            {{contador.nombre}}:
          </p>
-         <p class="text-4xl font-bold text-white">
+         <p class="text-4xl text-white" style="font-weight:900">
             {{ contador.confirmaciones_dts.length }}
          </p>
       </div>
