@@ -255,12 +255,15 @@
 
       //console.log(year+'-'+month+'-'+day+' '+hours+':'+minutes )
       let newFecha = year+'-'+month+'-'+day+' '+hours+':'+minutes ;
+      //console.log(newFecha)
+      //console.log()
       try 
       {
-         axios.get(route('changeCita',{fecha:newFecha, viaje:props.viaje})).then(response => 
+         axios.get(route('changeCita',{fecha:newFecha, viaje:props.dt.id})).then(response => 
          {
            //console.log(response.data)
            spinnerCita.value = false;
+           emit('reVisit',props.dt.id);
          })
          .catch(err => 
          {

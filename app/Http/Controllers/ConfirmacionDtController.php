@@ -912,5 +912,7 @@ class ConfirmacionDtController extends Controller
      ->update([
         'confirmacion_dts.cita' =>$request['fecha']
      ]);
+
+     return 'ok';
   }
 }
