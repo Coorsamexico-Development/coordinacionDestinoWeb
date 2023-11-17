@@ -1,14 +1,14 @@
 <template>
-    <div class="flex items-center justify-center rounded cursor-pointer hover:border-gray-700"
+    <div class="flex items-center justify-center rounded-full cursor-pointer bg-[#697FEA] px-2"
      @click="selectFile()" @drop="drop" @dragover.prevent="checkDrop">
 
         <input :ref="'filedropzone'" type="file"
                 @input="$emit('update:modelValue', $event.target.files[0])"
                 class="hidden" :accept="accept"
                 @change="setFile"/>
-     <span class="block text-xl font-bold text-gray-500" :class="{'hidden':withFile}">+</span>
+     <span class="block text-xl font-bold text-white" :class="{'hidden':withFile}">+</span>
       <div class="flex flex-col" v-if="withFile">
-            <span class="text-gray-400 text-xm">{{fileName}}</span>
+            <span class="text-white text-xm">{{fileName}}</span>
       </div>
     </div>
 </template>

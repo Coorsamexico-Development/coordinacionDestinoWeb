@@ -133,7 +133,7 @@ watch(buscador, (newBusqueda) =>
     
      <div class="py-4 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
         <table class="w-full">
-            <thead class="border-b-2">
+            <thead class="border-b-2 border-[#44BFFC]">
                 <tr>
                     <th class="font-semibold text-center">SKU</th>
                     <th class="font-semibold">Descripción</th>

@@ -242,9 +242,9 @@ const reVisit = (viajeAConsultar) =>
     </template>
     <div class="py-4 pb-6 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
       <table class="w-full">
-        <thead class="border-1 border-sky-500" >
-          <tr >
-             <th  class="font-semibold">
+        <thead >
+          <tr class="border-b-2 border-[#697FEA]" >
+             <th  class="py-2 font-semibold">
               <span class="block my-1" @click="sort('confirmacion')">
                 Confirmación
                 <template v-if="params.fields && params.fields['confirmacion']">
@@ -262,7 +262,7 @@ const reVisit = (viajeAConsultar) =>
               </span>
               <TextInput class="w-24" v-model="params.searchs['confirmacion_dts.confirmacion']"  />
             </th>
-             <th  class="font-semibold">
+             <th  class="py-2 font-semibold">
               <span class="block my-1" @click="sort('referencia_dt')">
                  DT
                  <template v-if="params.fields && params.fields['referencia_dt']">
@@ -280,7 +280,7 @@ const reVisit = (viajeAConsultar) =>
               </span>
               <TextInput class="w-24" v-model="params.searchs['dts.referencia_dt']"  />
              </th>
-             <th  class="font-semibold">
+             <th  class="py-2 font-semibold">
               <span class="block my-1" @click="sort('ubicacion')">
                 Ubicación
                 <template v-if="params.fields && params.fields['ubicacion']">
@@ -298,7 +298,7 @@ const reVisit = (viajeAConsultar) =>
               </span>
               <TextInput class="w-24" v-model="params.searchs['ubicaciones.nombre_ubicacion']"  />
              </th>
-             <th  class="font-semibold">
+             <th  class="py-2 font-semibold">
               <span class="block my-1" @click="sort('plataforma')">
                 Plataforma
                 <template v-if="params.fields && params.fields['plataforma']">
@@ -316,7 +316,7 @@ const reVisit = (viajeAConsultar) =>
               </span>
               <TextInput class="w-24" v-model="params.searchs['plataformas.nombre']"  />
              </th>
-             <th  class="font-semibold">
+             <th  class="py-2 font-semibold">
               <span class="block my-1" @click="sort('status')">
                 Status final
                 <template v-if="params.fields && params.fields['status']">
@@ -334,51 +334,51 @@ const reVisit = (viajeAConsultar) =>
               </span>
               <TextInput class="w-30" v-model="params.searchs['status.nombre']"  />
              </th>
-             <th @click="sort('cita')" class="font-semibold">
+             <th @click="sort('cita')" class="py-2 font-semibold">
               <div class="flex flex-row justify-center align-middle">
                 <img class="w-6 h-6 mr-2" src="../../../assets/img/calendario_blue.png"/>
                 <p>Cita</p>
               </div>
             </th>
-             <th class="font-semibold">
+             <th class="py-2 font-semibold">
               <div class="flex flex-row justify-center align-middle">
                 <img class="w-6 h-6 mr-2" src="../../../assets/img/cajas.png"/>
                 <p>NO. Cajas</p>
               </div>
             </th>
-             <th class="font-semibold">Historial</th>
-             <th class="font-semibold">POD</th>
-             <th class="font-semibold">Documento POD</th>
-             <th class="font-semibold">Status POD</th>
+             <th class="py-2 font-semibold">Historial</th>
+             <th class="py-2 font-semibold">POD</th>
+             <th class="py-2 font-semibold">Documento POD</th>
+             <th class="py-2 font-semibold">Status POD</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="viaje in viajes.data" :key="viaje.id">
-             <td class="text-center">{{ viaje.confirmacion }}</td>
-             <td class="text-center">{{ viaje.referencia_dt }}</td>
-             <td class="text-center">{{ viaje.ubicacion }}</td>
-             <td class="text-center">{{ viaje.plataforma }}</td>
-             <td class="text-center">{{ viaje.status }}</td>
-             <td class="text-center">{{ viaje.cita }}</td>
-             <td class="text-center">{{ viaje.numero_cajas }}</td>
-             <td class="text-center">
+             <td class="py-2 text-center" >{{ viaje.confirmacion }}</td>
+             <td class="py-2 text-center">{{ viaje.referencia_dt }}</td>
+             <td class="py-2 text-center">{{ viaje.ubicacion }}</td>
+             <td class="py-2 text-center">{{ viaje.plataforma }}</td>
+             <td class="py-2 text-center">{{ viaje.status }}</td>
+             <td class="py-2 text-center">{{ viaje.cita }}</td>
+             <td class="py-2 text-center">{{ viaje.numero_cajas }}</td>
+             <td class="py-2 text-center">
               <button @click="watchHistorico(viaje.id, viaje)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                 <img class="w-6" src="../../../assets/img/eye.png" />
               </button>
              </td>
-             <td class="text-center">
+             <td class="py-2 text-center">
                <button @click="modalOcsOpen(viaje.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                 <img class="w-6" src="../../../assets/img/eye.png" />
                </button>
              </td>
-             <td class="flex justify-center text-center">
+             <td class="flex justify-center py-2 text-center">
                 <a :href="viaje.documetoPOD" data-fancybox   data-type="pdf">
                   <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
                      <img class="w-6" src="../../../assets/img/eye.png" />
                    </button>
                 </a>
              </td>
-             <td class="text-center">
+             <td class="py-2 text-center">
               <div v-if="viaje.confirmacion_status_pods.length > 0">
                 {{ viaje.confirmacion_status_pods[0].statusPOD }}
               </div>
