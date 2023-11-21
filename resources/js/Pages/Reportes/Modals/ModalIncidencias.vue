@@ -125,7 +125,7 @@
             <tbody>
                 <tr v-for="incidencia in incidencias" :key="incidencia.id">
                     <td class="py-2">
-                      <button @click="eliminarIncidencia(incidencia.id)" class="px-1 py-1 bg-red-500 rounded-lg">
+                      <button  v-if="$page.props.auth.user.cans['delete-incidencia-customer']" @click="eliminarIncidencia(incidencia.id)" class="px-1 py-1 bg-red-500 rounded-lg">
                          <img class="w-3 h-4" src="../../../../assets/img/eliminar.png" />
                       </button>
                     </td>
@@ -155,7 +155,7 @@
                 </tr>
                 <tr v-for="(newIncidencia, key) in newInidencias" :key="key">
                    <td class="py-2 text-center">
-                    <button @click="eliminarNuevaIncidencia(key)" class="px-1 py-1 bg-red-500 rounded-lg">
+                    <button v-if="$page.props.auth.user.cans['delete-incidencia-customer']" @click="eliminarNuevaIncidencia(key)" class="px-1 py-1 bg-red-500 rounded-lg">
                          <img class="w-3 h-4" src="../../../../assets/img/eliminar.png" />
                       </button>
                    </td>
@@ -184,7 +184,7 @@
               </button>
           </div>
           <div class="flex justify-center mt-2">
-            <button @click="addNewIncidencia()" class="p-1 px-3 border-2 rounded-full">
+            <button v-if="$page.props.auth.user.cans['create-new-incidencia-customer']" @click="addNewIncidencia()" class="p-1 px-3 border-2 rounded-full">
                <p class="text-lg font-bold text-red-400">+</p>
             </button>
           </div>

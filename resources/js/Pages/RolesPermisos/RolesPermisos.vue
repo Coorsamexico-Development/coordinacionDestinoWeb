@@ -51,7 +51,7 @@
             <div class="py-2 bg-white rounded-lg">
               <div class="flex flex-row justify-center">
                 <h1 class="text-center mr-4">Roles para usuario</h1>
-                <button @click="openModalAddRoles" class="bg-[#697FEA] px-2 rounded-full">
+                <button v-if="$page.props.auth.user.cans['add-new-rol']" @click="openModalAddRoles" class="bg-[#697FEA] px-2 rounded-full">
                    <p class="text-white">+</p>
                 </button>
               </div>
@@ -61,7 +61,7 @@
             <div class="py-2 bg-white rounded-lg">
               <div class="flex flex-row justify-center">
                 <h1 class="text-center mr-4">Permisos asignables</h1>
-                <button @click="openModalAddPermissions" class="bg-[#697FEA] px-2 rounded-full">
+                <button v-if="$page.props.auth.user.cans['add-new-permission']" @click="openModalAddPermissions" class="bg-[#697FEA] px-2 rounded-full">
                    <p class="text-white">+</p>
                 </button>
               </div>
