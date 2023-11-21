@@ -6,6 +6,7 @@ use App\Http\Controllers\ConfirmacionStatusPodController;
 use App\Http\Controllers\DtController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\RolesPermissionController;
@@ -15,10 +16,12 @@ use App\Http\Controllers\TiposIncidenciaController;
 use App\Http\Controllers\UserUbicacioneController;
 use App\Http\Controllers\ValorController;
 use App\Models\ConfirmacionDt;
+use App\Models\RolesPermission;
 use App\Models\StatusDt;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Permutations;
 
 /*
 |--------------------------------------------------------------------------
@@ -132,3 +135,7 @@ Route::get('/changeCita',[ConfirmacionDtController::class, 'changeCita'])->name(
 Route::get('/getTiposIncidenciaYProductos',[TiposIncidenciaController::class, 'getTiposIncidenciaYProductos'])->name('getTiposIncidenciaYProductos');
 //Ruta para guardar incidencias por oc
 Route::get('/saveIncidenciasByOc', [IncidenciaController::class, 'saveIncidenciasByOc'])->name('saveIncidenciasByOc');
+//Ruta para guardado de los roles y permisos
+Route::get('role/permissions', [RolesPermissionController::class, 'setPermission'])->name('roles.permissions');
+//Ruta para obtener los permisos
+Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');

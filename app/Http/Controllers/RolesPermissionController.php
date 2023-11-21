@@ -29,6 +29,23 @@ class RolesPermissionController extends Controller
         ]);
     }
 
+    public function setPermission (Request $request)
+    {
+        $role = Role::select('roles.*')
+        ->where('id','=',$request['rol'])
+        ->first();
+
+        if ($request['checked']) 
+        {
+            $role->permissions()->attach([$request['permission']]);
+        } else {
+            $role->permissions()->detach([$request['permission']]);
+        }
+        return response()->json([
+            'message' => 'ok'
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -43,6 +60,7 @@ class RolesPermissionController extends Controller
     public function store(Request $request)
     {
         //
+
     }
 
     /**

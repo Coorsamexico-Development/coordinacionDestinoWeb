@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permission;
+use App\Models\RolesPermission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -61,5 +62,17 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         //
+    }
+
+    public function getPermisosByRol(Request $request)
+    {
+      $permissions = RolesPermission::select('roles_permissions.permission_id')
+      ->where('roles_permissions.role_id','=',$request['rol'])
+      ->get();
+      
+      return response()->json([
+        'permissonId' => $permissions->pluck('permission_id')
+    ]);
+      
     }
 }
