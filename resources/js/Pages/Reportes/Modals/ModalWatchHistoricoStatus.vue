@@ -157,12 +157,13 @@
 
  const enviarCorreo = () => 
  {
-    console.log(pdf.value.pdf.substring(70));
+    //console.log(pdf.value.pdf.substring(70));
     axios.get('/sentMail', {params:
        {
          emails:emails.value,
          asunto:asunto.value,
-         pdf:pdf.value.pdf.substring(70)
+         pdf:pdf.value.pdf.substring(70),
+         viaje:props.viaje
        }}).then(response => 
        {
           //console.log(response.data);
@@ -172,6 +173,7 @@
           alert(response.data);          
        }).catch(err => 
        {
+         console.log(err)
          console.log(err)
          alert(err);  
        });

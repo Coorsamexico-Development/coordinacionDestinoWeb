@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\DtsExport;
+use App\Exports\IncidenciasExport;
 use App\Imports\DtsImport;
 use App\Mail\PDFMail;
 use App\Models\Cliente;
@@ -149,7 +150,10 @@ class ReporteController extends Controller
           reportes.coordinacion@outlook.com
           c00rs4m3x1c0
         */ 
-
+      //Se guarda el excel en el storage
+      $excel = Excel::store(new IncidenciasExport($request['viaje']), 'Reporte_Incidencias.xlsx','gcs');
+      //buscamos el excel
+      $excelAEnviar = Storage::disk('gcs')->get('Reporte_Incidencias.xlsx');
       //Buscamos la confirmacion
       $file = Storage::disk('gcs')->get('pdfs/'.$request['pdf']);
 
@@ -161,11 +165,14 @@ class ReporteController extends Controller
             $email = $request['emails'][$i];
             Mail::to($email)->send(new PDFMail(
                 $asunto,
-                $file
+                $file,
+                $excelAEnviar
             ));
         }
       }
       
+       //Eliminamos el archivo de excel
+       Storage::disk('gcs')->delete('Reporte_Incidencias.xlsx');
        return 'ok';
     }
 

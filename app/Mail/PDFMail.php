@@ -15,14 +15,16 @@ class PDFMail extends Mailable
 
     protected  $asunto;
     protected  $pdf;
+    protected $excel;
     /**
      * Create a new message instance.
      */
-    public function __construct($asunto, $pdf)
+    public function __construct($asunto, $pdf, $excel)
     {
         //
         $this->asunto = $asunto;
         $this->pdf = $pdf;
+        $this->excel = $excel;
     }
 
     /**
@@ -63,6 +65,9 @@ class PDFMail extends Mailable
         ->subject($this->asunto)
         ->attachData($this->pdf, 'reporte.pdf', [
             'mime' => 'application/pdf',
+        ])
+        ->attachData($this->excel, 'incidencias.xlsx', [
+            'mime' => 'application/xlsx',
         ]);
 
     }
