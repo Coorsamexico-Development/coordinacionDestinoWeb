@@ -3,7 +3,8 @@
   import {ref, watch, computed, reactive } from "vue";
   import TableRoles from './Partials/TableRoles.vue';
   import TablePermissions from './Partials/TablePermissions.vue';
-  import axios from 'axios';
+  import ModalAddRoles from './Partials/ModalAddRoles.vue';
+  import ModalAddPermission from './Partials/ModalAddPermission.vue';
 
   var props = defineProps({
       roles:Object,
@@ -18,6 +19,25 @@
     rol.value = id
   }
  
+ const modalAddRoles = ref(false);
+ const openModalAddRoles = () => 
+ {
+   modalAddRoles.value = true;
+ }
+ const closeModalAddRoles = () => 
+ {
+  modalAddRoles.value = false;
+ }
+
+ const modalAddPermissions = ref(false);
+ const openModalAddPermissions = () => 
+ {
+  modalAddPermissions.value = true;
+ }
+ const closeModalAddPermissions = () => 
+ {
+  modalAddPermissions.value = false;
+ }
 </script>
 <template>
      <AppLayout title="Roles y permisos">
@@ -31,7 +51,7 @@
             <div class="py-2 bg-white rounded-lg">
               <div class="flex flex-row justify-center">
                 <h1 class="text-center mr-4">Roles para usuario</h1>
-                <button class="bg-[#697FEA] px-2 rounded-full">
+                <button @click="openModalAddRoles" class="bg-[#697FEA] px-2 rounded-full">
                    <p class="text-white">+</p>
                 </button>
               </div>
@@ -39,12 +59,19 @@
             </div>
             <!--Permisos-->
             <div class="py-2 bg-white rounded-lg">
-              <h1 class="text-center">Permisos asignables</h1>
+              <div class="flex flex-row justify-center">
+                <h1 class="text-center mr-4">Permisos asignables</h1>
+                <button @click="openModalAddPermissions" class="bg-[#697FEA] px-2 rounded-full">
+                   <p class="text-white">+</p>
+                </button>
+              </div>
               <TablePermissions 
               :permisos="permisos"  
               :rol="rol"
                 />
             </div>
         </div>
+        <ModalAddRoles :show="modalAddRoles" @close="closeModalAddRoles" />
+        <ModalAddPermission :show="modalAddPermissions" @close="closeModalAddPermissions" />
      </AppLayout>
 </template>

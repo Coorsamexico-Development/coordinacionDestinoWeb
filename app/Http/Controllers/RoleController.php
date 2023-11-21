@@ -29,6 +29,9 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        Role::updateOrCreate([
+           'nombre' => $request['nombre']
+        ]);
     }
 
     /**

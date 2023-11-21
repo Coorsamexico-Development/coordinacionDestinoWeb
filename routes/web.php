@@ -9,6 +9,7 @@ use App\Http\Controllers\OcController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\TiposCampoController;
@@ -139,3 +140,7 @@ Route::get('/saveIncidenciasByOc', [IncidenciaController::class, 'saveIncidencia
 Route::get('role/permissions', [RolesPermissionController::class, 'setPermission'])->name('roles.permissions');
 //Ruta para obtener los permisos
 Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
+//Ruta para guardar nuevos roles
+Route::post('/saveRole',[RoleController::class, 'store'])->name('saveRole');
+//Ruta para guardar nuevos permisos
+Route::post('/savePermission', [PermissionController::class, 'store'])->name('savePermission');

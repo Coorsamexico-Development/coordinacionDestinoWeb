@@ -20,7 +20,7 @@ import axios from 'axios';
             rol:props.rol.id
         }));
 
-        console.log(response)
+        //console.log(response)
 
     //emit('selectPermission', id)
   }
@@ -34,9 +34,13 @@ import axios from 'axios';
     //console.log(response)
   }
 
-  watch(props, throttle(function () {
-    if (props.rol.id != -1) {
+  watch(props, throttle(function () 
+  {
+    if(props.rol)
+    {
+      if (props.rol.id != -1) {
       getPermissions()
+      }
     }
 }, 150))
 </script>
