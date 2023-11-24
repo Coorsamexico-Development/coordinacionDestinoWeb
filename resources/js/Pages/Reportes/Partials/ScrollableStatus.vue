@@ -58,15 +58,16 @@ const contadorIndividual = computed(() =>
 
 </script>
 <template>
-   <div class="flex flex-row justify-between my-2">
-      <h1 class="text-lg" style="font-family: 'Montserrat';">{{ statu.nombre }}</h1>
+   <div :id="'status-'+statu.id">
+      <div class="flex flex-row justify-between my-2">
+      <h1 class="text-lg" style="font-family: 'Montserrat';" :id="'status-name-'+statu.id">{{ statu.nombre }}</h1>
       <div v-if="statu.id == 1">
-        <a :href="route('downloadReport')"  class="px-2 rounded-xl bg-[#697FEA] py-1" >
+        <a :href="route('downloadReport')" id="downloadReport"  class="px-2 rounded-xl bg-[#697FEA] py-1" >
            <span style="font-family: 'Montserrat';" class="text-white">Descargar ejemplo</span>
         </a>
       </div>
       <div v-if="statu.id == 1">
-           <ButtonDropZone v-model="document" />
+           <ButtonDropZone id="dropzone" v-model="document" />
         </div>
    </div>
    <div class="grid grid-cols-2 gap-1">
@@ -79,12 +80,13 @@ const contadorIndividual = computed(() =>
          </p>
       </div>
    </div>
-   <!--body-->
-   <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
+    <!--body-->
+     <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
             <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
          </div>
      </div> 
+   </div>
 </template>
 <style>
   ::-webkit-scrollbar {
