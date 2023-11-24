@@ -155,6 +155,12 @@ onMounted(() =>
      { element: '#fecha-hora', popover: { title: 'Hora de la cita', description: 'Podemos ver la hora de la cita a la que fue programado el viaje.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
+     { element: '#botonHistorico', popover: { title: 'Botón para mirar el histórico del viaje (Da click al botón al finalizar de leer)', description: 'Al dar click al botón abrirá una ventana donde se podra ver los cambios de estatus por los que ha pasado el viaje y así mismo su información referente recopilada desde la aplicación.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#cambio-de-cita', popover: { title: 'Cambio de cita', description: 'Primeramente se muestra la fecha y hora de la cita que tiene el viaje pero de igual manera se puede cambiar la fecha y hora de la cita.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
     { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {
           driverObj.moveNext();
         } }},

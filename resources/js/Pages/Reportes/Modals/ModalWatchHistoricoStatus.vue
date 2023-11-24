@@ -311,7 +311,7 @@
          </div>
        </template>
        <template #content  >
-         <div class="my-3">
+         <div class="my-3" id="cambio-de-cita">
             <h1 class="mx-2 font-semibold" style="font-size: 1rem ;">Cita:</h1>
             <div class="flex flex-row items-center"> 
                <VueDatePicker v-model="cita" class="mx-2"  vertical placeholder="Cita" :teleport="true" />

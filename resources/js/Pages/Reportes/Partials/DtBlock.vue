@@ -120,7 +120,7 @@
     </div>
     <div class="justify-center col-start-7 col-end-13 px-2 py-2">
       <div class="flex flex-row-reverse flex-end">
-        <ButtonWatch class=""  @click="modalWatchOpen(dt.id)"  :color="dt.color" />
+        <ButtonWatch class=""  @click="modalWatchOpen(dt.id)"  :color="dt.color" id="botonHistorico" />
         <button @click="modalOcsOpen()" :style="{backgroundColor:dt.color}" class="flex items-center justify-center px-3 py-1 mx-2 rounded-full w-9" >
               <p class="text-sm text-white">Oc's</p>
         </button>
