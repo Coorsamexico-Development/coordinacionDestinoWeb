@@ -113,15 +113,30 @@ onMounted(() =>
     { element: '#status-name-1', popover: { title: 'Estatus general', description: 'Este es un ejemplo de un estatus general de los que se muestran dentro de la página.', side: "top", align: 'start', onNextClick: () => {
       driverObj.moveNext();
     } }},
-    { element: '#status-1', popover: { title: 'Status iniciales', description: 'Esta sección contiene los viajes con status iniciales, por default se deben carga los viajes en el status "A tiempo" si llega a haber un riesgo que se marque desde la aplicación movil se mostrara en tiempo real el cambio.', side: "bottom", align: 'start', onNextClick: () => {
-          driverObj.moveNext();
-        } }},
      { element: '#downloadReport', popover: { title: 'Descarga de ejemplo de viajes', description: 'Este botón te brindara un excel de ejemplo para el llenado de informacion para la carga de información de nuevos viajes.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
     { element: '#dropzone', popover: { title: 'Carga de nuevos viajes', description: 'Botón de importación para la carga de nuevos viajes.', side: "bottom", align: 'start', onNextClick: () => {
           driverObj.moveNext();
         } }},
+     { element: '#cotador-4', popover: { title: 'Contador de viajes global por estatus', description: 'Este es un contador global por estatus.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#status-1', popover: { title: 'Status iniciales', description: 'Esta sección contiene los viajes con status iniciales, por default se deben carga los viajes en el status "A tiempo" si llega a haber un riesgo que se marque desde la aplicación movil se mostrara en tiempo real el cambio.', side: "bottom", align: 'start', onNextClick: () => {
+          driverObj.moveNext();
+        } }},
+     { element: '#ubicacion-1', popover: { title: 'Ubicación', description: 'Los viajes también se seccionan por ubicación para una mejor organización del mismo y facilitar la visibilidad de los mismos.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#ubicacion-contador0', popover: { title: 'Contador por ubicación', description: 'Las ubicaciones también tienen sus contadores propios seccionados igualmente por el color del estatus perteneciente.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#boton-despliegue', popover: { title: 'Botón de despliegue', description: 'Botón para poder desplegar los viajes por ubicación.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#switch-plataformas', popover: { title: 'Switch de plataformas', description: 'Podemos ver las distintas plataformas disponibles ya que igualmente los viajes se seccionan por plataforma y de igual manera tiene un contador del mismo.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
     { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {
           driverObj.moveNext();
         } }},
@@ -130,7 +145,6 @@ onMounted(() =>
    
     driverObj.drive();
   }
-
 
 </script>
 

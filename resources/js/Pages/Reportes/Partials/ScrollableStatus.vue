@@ -71,7 +71,7 @@ const contadorIndividual = computed(() =>
         </div>
    </div>
    <div class="grid grid-cols-2 gap-1">
-      <div class="flex flex-row items-center justify-between w-full p-2 py-3 m-1 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
+      <div :id="'cotador-'+contador.id" class="flex flex-row items-center justify-between w-full p-2 py-3 m-1 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
          <p class="text-sm text-white uppercase">
            {{contador.nombre}}:
          </p>
@@ -83,7 +83,7 @@ const contadorIndividual = computed(() =>
     <!--body-->
      <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-            <UbicacionDesplegable :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
+            <UbicacionDesplegable  :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
          </div>
      </div> 
    </div>

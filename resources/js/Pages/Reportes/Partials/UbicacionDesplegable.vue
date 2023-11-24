@@ -150,17 +150,17 @@ const valores = computed(() =>
 
 </script>
 <template>
-   <div class="bg-white rounded-xl drop-shadow-lg"> <!--main-->
+   <div class="bg-white rounded-xl drop-shadow-lg" :id="'ubicacion-'+ubicacion.id"> <!--main-->
      <div> <!--Header-->
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
           <div class="flex flex-row items-center">
             <div class="flex flex-row mr-2">    
               <div class="mx-4 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
-                <div v-for="(valor, key) in valores" :key="key">
+                <div v-for="(valor, key) in valores"  :key="key">
                    <div v-if="valor.status == statuChild.id">
                       <div class="flex flex-row" v-if="valor.status"> 
-                        <p class="ml-0">
+                        <p class="ml-0" :id="'ubicacion-contador'+key">
                           {{ valor.total }}
                         </p>
                         <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-if="valor.status == 4">
@@ -178,7 +178,7 @@ const valores = computed(() =>
                 </div>
               </div>
             </div>
-            <div>
+            <div id="boton-despliegue">
                <svg @click="showClients(ubicacion.id)" v-if="show" class="mx-2" xmlns="http://www.w3.org/2000/svg" width="27.203" height="15.723" viewBox="0 0 27.203 15.723">
                  <path id="Trazado_4273" data-name="Trazado 4273" d="M0,0,11.48,11.48,22.96,0" transform="translate(25.081 13.602) rotate(180)" fill="none" stroke="#9b9b9b" stroke-linecap="round" stroke-width="3"/>
                </svg>    
@@ -192,7 +192,7 @@ const valores = computed(() =>
      <!--Contenido-->
      <Transition name="slide-fade">
         <div v-if="show" >
-          <SwitchButton @setPlataforma="setPlataforma($event)" :plataformas="plataformas" :ubicacion="ubicacion" :status="status" />
+          <SwitchButton id="switch-plataformas" @setPlataforma="setPlataforma($event)" :plataformas="plataformas" :ubicacion="ubicacion" :status="status" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
              <div class="pb-1" v-for="dt in dts.data" :key="dt.id">
