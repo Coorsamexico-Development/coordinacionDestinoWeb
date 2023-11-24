@@ -195,7 +195,7 @@ const valores = computed(() =>
           <SwitchButton id="switch-plataformas" @setPlataforma="setPlataforma($event)" :plataformas="plataformas" :ubicacion="ubicacion" :status="status" />
           <div v-if="dts !== null">
              <!--SON CONFIRMACIONES las que se listan-->
-             <div class="pb-1" v-for="dt in dts.data" :key="dt.id">
+             <div class="pb-1" :id="'dt-block'+key" v-for="(dt,key) in dts.data" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
              <div class="py-2">

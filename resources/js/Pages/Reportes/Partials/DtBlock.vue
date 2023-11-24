@@ -105,16 +105,16 @@
     <div class="w-4 col-start-1 mr-4 rounded-s-lg" :style="{backgroundColor:dt.color}">
     </div>
     <div class="col-start-2 col-end-7 py-2">
-      <div class="flex flex-row my-1">
+      <div class="flex flex-row my-1" id="dt">
          <h1 class="text-xl font-semibold uppercase">DT: </h1>
          <p class="text-xl ">{{ dt.referencia_dt }} </p>
        </div>
-       <div class="flex flex-row my-1"> 
+       <div class="flex flex-row my-1" id="confirmacion"> 
           <h1 class="text-sm font-semibold uppercase" style="letter-spacing: 2px;">Conf: </h1>
           <p class="text-sm ">{{ dt.confirmacion }}</p>
        </div>
-       <div class="flex flex-row my-1"> 
-          <h1 class="text-xs font-bold uppercase text-[#9B9B9B]">LT: </h1>
+       <div class="flex flex-row my-1" id="linea-transporte"> 
+          <h1 class="text-xs font-bold uppercase text-[#9B9B9B]" >LT: </h1>
           <p class="text-xs text-[#9B9B9B]">{{ dt.linea_transporte }}</p>
        </div>
     </div>
@@ -130,13 +130,13 @@
          <span class="w-2 h-2 mr-2 rounded-full" :style="{backgroundColor:dt.color}"></span>
       </div>
       <div class="flex flex-row items-center justify-center mt-1">
-         <div class="flex flex-row mr-2">
+         <div class="flex flex-row mr-2" id="fecha-cita">
            <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
            <div>
              <p class="text-[#9B9B9B]" style="font-size: 0.7rem;">{{ dt.cita.substring(5,7) }} / {{ dt.cita.substring(8,10) }}  </p>
            </div>
          </div>
-         <div class="flex flex-row"> 
+         <div class="flex flex-row" id="fecha-hora"> 
            <img class="w-3 h-3 mx-1" src="../../../../assets/img/reloj-de-pared.png" />
            <p class="text-xs text-[#9B9B9B]">{{ dt.cita.substring(10,16) }}</p>
          </div>

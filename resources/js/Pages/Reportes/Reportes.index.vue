@@ -137,6 +137,24 @@ onMounted(() =>
      { element: '#switch-plataformas', popover: { title: 'Switch de plataformas', description: 'Podemos ver las distintas plataformas disponibles ya que igualmente los viajes se seccionan por plataforma y de igual manera tiene un contador del mismo.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
+     { element: '#dt-block0', popover: { title: 'Viaje', description: 'Podemos ver los viajes listados y asi mismo cierta información correspondiente al viaje.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#dt', popover: { title: 'DT', description: 'Podemos obervar el dt del viaje con el que fue cargado. Tener en cuenta que puede haber muchos viajes con el mismo dt.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#confirmacion', popover: { title: 'Confirmación', description: 'Podemos obervar la confirmación con la que fue cargado el viaje.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#linea-transporte', popover: { title: 'Línea de transporte', description: 'Podemos ver la línea de transporte a la que fue asignado el viaje cuando se cargo.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#fecha-cita', popover: { title: 'Fecha de la cita', description: 'Podemos ver la fecha de la cita a la que fue programado el viaje.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#fecha-hora', popover: { title: 'Hora de la cita', description: 'Podemos ver la hora de la cita a la que fue programado el viaje.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
     { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {
           driverObj.moveNext();
         } }},
@@ -145,7 +163,7 @@ onMounted(() =>
    
     driverObj.drive();
   }
-
+  
 </script>
 
 <template> 
