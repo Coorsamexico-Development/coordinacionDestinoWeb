@@ -182,9 +182,12 @@ onMounted(() =>
      { element: '#cerrar-modal-ocs', popover: { title: 'Cierra la ventana dando click (CLICKEA)', description: 'Para continuar con el manual, debes cerrar la ventana emergente.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
-    { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {
+     { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {
           driverObj.moveNext();
         } }},
+    { element: '#status-3', popover: { title: 'Status finales', description: 'Esta sección contiene los viajes con status finales, es decir los que fueron liberados con incidencia o al 100% libre de incidencias.', side: "bottom", align: 'start', onNextClick: () => {
+      driverObj.moveNext();
+    } }},
    ],
    });
    
