@@ -131,7 +131,7 @@ onMounted(() =>
      { element: '#ubicacion-contador0', popover: { title: 'Contador por ubicación', description: 'Las ubicaciones también tienen sus contadores propios seccionados igualmente por el color del estatus perteneciente.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
-     { element: '#boton-despliegue', popover: { title: 'Botón de despliegue', description: 'Botón para poder desplegar los viajes por ubicación.', side: "bottom", align: 'start', onNextClick: () => {
+     { element: '#boton-despliegue', popover: { title: 'Botón de despliegue (CLICKEA)', description: 'Botón para poder desplegar los viajes por ubicación.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
      { element: '#switch-plataformas', popover: { title: 'Switch de plataformas', description: 'Podemos ver las distintas plataformas disponibles ya que igualmente los viajes se seccionan por plataforma y de igual manera tiene un contador del mismo.', side: "bottom", align: 'start', onNextClick: () => {
@@ -159,6 +159,27 @@ onMounted(() =>
        driverObj.moveNext();
      } }},
      { element: '#cambio-de-cita', popover: { title: 'Cambio de cita', description: 'Primeramente se muestra la fecha y hora de la cita que tiene el viaje pero de igual manera se puede cambiar la fecha y hora de la cita.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#historico-status', popover: { title: 'Historico de estatus', description: 'Esta sección muestra el histórico por el que ha passado de viajes en cuestión de los estatus y si clickeamos al botón de ver podremos mirar la información recolecata desde la aplicación movil.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#valores-by-status', popover: { title: 'Información recolectada', description: 'Esta sección muestra la información recolectada por la aplicación, seccionada por el viaje actual y el estatus correspondientes.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#cerrar-modal-historico', popover: { title: 'Cierra la ventana dando click (CLICKEA)', description: 'Para continuar con el manual, debes cerrar la ventana emergente.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#botonOcs', popover: { title: 'Botón para mirar y agregar nuevas ocs (CLICKEA)', description: 'Al dar click se abrirá una ventana emergente donde se verán las ordenes de compra creadas y podremos agregar nuevas al viaje actual en el que nos encontraremos.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#boton-add-oc', popover: { title: 'Botón para agregar nuevas ordenes de compra', description: 'Este botón nos sirve para poder dar de alta nuevas ordenes de compra. NOTA: Las ordenes de compra no se pueden repetir.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#ocs-creadas', popover: { title: 'Ordenes de compra creadas', description: 'Aquí podremos ver las ordenes de compra creadas para este el viaje seleccionado.', side: "bottom", align: 'start', onNextClick: () => {
+       driverObj.moveNext();
+     } }},
+     { element: '#cerrar-modal-ocs', popover: { title: 'Cierra la ventana dando click (CLICKEA)', description: 'Para continuar con el manual, debes cerrar la ventana emergente.', side: "bottom", align: 'start', onNextClick: () => {
        driverObj.moveNext();
      } }},
     { element: '#status-2', popover: { title: 'Status de movimiento', description: 'Estos son estatus de movilidad del viaje, que de igual manera se registran los cambios e información mediante la aplicación.', side: "bottom", align: 'start',  onNextClick: () => {

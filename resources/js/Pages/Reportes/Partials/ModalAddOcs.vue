@@ -66,7 +66,7 @@
          <template #title>
           <div class="flex flex-row justify-between">
              <h1>OCS</h1>
-             <span @click="close()">
+             <span id="cerrar-modal-ocs" @click="close()">
                 Cerrar
              </span>
           </div>
@@ -93,7 +93,7 @@
                </table>
           </div>
           <div class="flex justify-center">
-             <button @click="addNewOc()" class="p-2 px-4 border-2 rounded-full">
+             <button id="boton-add-oc"  @click="addNewOc()" class="p-2 px-4 border-2 rounded-full">
                <p class="text-xl font-bold text-red-400">+</p>
             </button>
           </div>
@@ -102,7 +102,7 @@
                Guardar
              </button>
           </div>
-          <div>
+          <div id="ocs-creadas">
              <h1 >OCS Creadas</h1>
              <table class="w-full">
                  <thead>

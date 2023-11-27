@@ -305,7 +305,7 @@
        <template #title>
          <div class="flex flex-row justify-between" style="font-family: 'Montserrat';">
             <h1>Historial</h1>
-            <span @click="close()">
+            <span id="cerrar-modal-historico" @click="close()">
                Cerrar
             </span>
          </div>
@@ -319,7 +319,7 @@
             </div>
          </div>
          <div class="grid w-full grid-cols-2" style="font-family: 'Montserrat';">
-           <div class="">
+           <div class="" id="historico-status">
              <h1 class="text-center">Histórico de status</h1>
              <!--TimeLine-->
              <div  v-for="historia in infoModal" :key="historia.id">
@@ -356,7 +356,7 @@
              </div>
                <!--TimeLine-->
            </div>
-           <div>
+           <div id="valores-by-status">
              <h1 class="" style="text-align: center;">Información</h1>
              <div class="overflow-y-auto" style="height:30rem;" v-if="statusActual !== null">   
                <div class="snap-center" >
