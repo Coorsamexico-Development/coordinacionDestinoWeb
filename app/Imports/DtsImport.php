@@ -25,9 +25,28 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
     public function model(array $row)
     {
         //dd($row);
+        //Evaluador de estandarizado de plataformas
+        $plataforma = null;
+
+       if(str_contains($row['plataforma'], 'WAL'))
+       {
         $plataforma = Plataforma::updateOrCreate([
-           'nombre' => $row['plataforma']
-        ]);
+            'nombre' => 'WALMART'
+         ]);
+       }
+       elseif(str_contains($row['plataforma'], 'SAM'))
+       {
+         $plataforma = Plataforma::updateOrCreate([
+           'nombre' => 'SAMS'
+         ]);
+       }
+       elseif(str_contains($row['plataforma'], 'BAE') || str_contains($row['plataforma'], 'BODEGA') )
+       {
+         $plataforma = Plataforma::updateOrCreate([
+           'nombre' => 'BAE'
+         ]);
+       }
+       
 
 
         $status = Statu::select('status.*')
