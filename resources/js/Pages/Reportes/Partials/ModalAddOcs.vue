@@ -1,10 +1,12 @@
 <script setup>
   import {ref, watch, computed, reactive } from "vue";
+  import { Link, useForm } from '@inertiajs/vue3'
   import DialogModal from '@/Components/DialogModal.vue';
   import ButtonWatch from '@/Components/ButtonWatch.vue';
   import InputLabel from '@/Components/InputLabel.vue';
   import TextInput from '@/Components/TextInput.vue';
   import axios from 'axios';
+  import ButtonDropZone from '@/Components/ButtonDropZone.vue'
  
   const emit = defineEmits(["close","reconsultar"])
  
@@ -59,6 +61,45 @@
          
      }
    }
+
+//Formulario para subir excel
+const document = ref(null)
+const formNewDts = useForm({
+  document: null,
+  confirmacion:props.confirmacion
+});
+
+//Watcher para la carga del reporte
+watch(document, (documentoCargado) => 
+{
+   formNewDts.document = documentoCargado
+   try 
+   {
+      if(formNewDts.document !== null)
+      {
+         formNewDts.post(route('newOcsExcel'),
+         {
+            onSuccess: () => {
+               formNewDts.reset();
+               document.value = null;
+               emit('reconsultar');
+            },
+            onError:(err) => 
+            {
+              console.log(err);
+              formNewDts.reset();
+              document.value = null;
+            }
+         }
+         );
+      }
+   } 
+   catch (error) 
+   {
+     console.log(error)  
+   }
+});
+
  
  </script>
  <template>
@@ -66,6 +107,12 @@
          <template #title>
           <div class="flex flex-row justify-between">
              <h1>OCS</h1>
+             <div class="flex flex-row">
+                <a :href="route('getOcsExample')" class="mx-4 text-white px-2 rounded-xl bg-[#697FEA] py-1 text-sm">
+                  Descargar ejemplo
+                </a>
+                <ButtonDropZone v-model="document"  />
+             </div>
              <span id="cerrar-modal-ocs" @click="close()">
                 Cerrar
              </span>

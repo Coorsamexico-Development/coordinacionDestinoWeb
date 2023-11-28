@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OcsExport;
+use App\Imports\OcsImport;
 use App\Models\ConfirmacionDt;
 use App\Models\Oc;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OcController extends Controller
 {
@@ -232,5 +235,17 @@ class OcController extends Controller
        }
 
        return 'ok';
+    }
+
+    public function getOcsExample (Request $request)
+    {
+      return Excel::download(new OcsExport, 'ejemplo_ocs.xlsx');
+    }
+
+    public function newOcsExcel (Request $request)
+    {
+
+       Excel::import(new OcsImport($request['confirmacion']), $request['document']);
+
     }
 }

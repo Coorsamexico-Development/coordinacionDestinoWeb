@@ -144,3 +144,6 @@ Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol']
 Route::post('/saveRole',[RoleController::class, 'store'])->name('saveRole');
 //Ruta para guardar nuevos permisos
 Route::post('/savePermission', [PermissionController::class, 'store'])->name('savePermission');
+//Creación de Ocs
+Route::get('/getOcsExample', [OcController::class,'getOcsExample'])->name('getOcsExample');
+Route::post('/newOcsExcel', [OcController::class, 'newOcsExcel'])->name('newOcsExcel');
