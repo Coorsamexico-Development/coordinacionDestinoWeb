@@ -17,12 +17,16 @@ class ProductosImport implements ToModel, WithHeadingRow
     {
         //
         //dd($row);
-        Producto::updateOrCreate([
-            'SKU' => $row['sku'],
-            'descripcion' => $row['descripcion'],
-            'DUN 14' => $row['dun_14'],
-            'EAN' => $row['ean']
-        ]);
+        Producto::updateOrCreate(
+            [
+            'SKU' => $row['sku']
+            ],
+            [
+             'descripcion' => $row['descripcion'],
+             'DUN 14' => $row['dun_14'],
+             'EAN' => $row['ean']
+            ]
+        );
 
         //dd($newProd);
     }
