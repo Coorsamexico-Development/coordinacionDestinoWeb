@@ -14,6 +14,9 @@ import PaginationInertia from '@/Components/PaginationInertia.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { pickBy } from "lodash";
+//Driver js
+import { driver } from "driver.js";
+import "driver.js/dist/driver.css";
 
 var props = defineProps({
     viajes:Object,
@@ -207,17 +210,45 @@ const reVisit = (viajeAConsultar) =>
   })
 }
 
+const iniciarRecorrido = async () => 
+{
+  //console.log('hola')
+  //Funciones de driverjs
+  const driverObj = driver({
+    showProgress:true,
+    allowClose:true,
+    nextBtnText: 'Siguiente',
+    prevBtnText:'Anterior',
+    doneBtnText: 'Finalizar',
+    steps: [
+     { element: '#buscadorViajes', popover: { title: 'Buscador de viajes', description: 'Este es un buscador de los viajes cargados, se pueden buscar tanto por confirmacion como su dt del viaje.', side: "left", align: 'start', onNextClick: () => {
+          driverObj.moveNext();
+     } }},
+     { element: '#descargaDeReportes', popover: { title: 'Descarga de reportes', description: 'Se tiene esta sección para una descarga de reporte de los viajes tomando en cuenta un rango de fechas.', side: "left", align: 'start', onNextClick: () => {
+          driverObj.moveNext();
+     } }},
+    ]
+  })
+
+  driverObj.drive();
+}
+
 </script>
 <template>
   <AppLayout title="Viajes">
     <template #header>
-       <div class="flex flex-row justify-between mt-2 align-middle" style="font-family: 'Montserrat';">
-          <h2 class="mr-4 text-xl font-semibold leading-tight text-gray-800" style="font-family: 'Montserrat';">
+       <div class="flex flex-row items-center justify-between mt-2 align-middle" style="font-family: 'Montserrat';">
+          <h2 class="text-xl font-semibold leading-tight text-gray-800 " style="font-family: 'Montserrat';">
               Viajes finalizados
           </h2>
-          <div class="flex flex-row">
-            <VueDatePicker class="mx-2" v-model="params.fechaInicial" month-picker vertical placeholder="Selecciona una fecha" />
-            <VueDatePicker class="mx-2" v-model="params.fechaFinal" month-picker vertical placeholder="Selecciona una fecha" />
+          <div class="px-1 py-2">
+              <button @click="iniciarRecorrido()" class="bg-[#697FEA] px-2 rounded-full">
+                <p style="font-family: 'Montserrat';" class="text-sm text-white">Manual de usuario</p>        
+              </button>
+          </div>
+          <div class="flex flex-row" id="descargaDeReportes">
+            <VueDatePicker class="mx-2" v-model="params.fechaInicial" month-picker vertical placeholder="Selecciona una fecha inicial" />
+            <VueDatePicker class="mx-2" v-model="params.fechaFinal" month-picker vertical placeholder="Selecciona una fecha final" />
             <div class="mx-2">
               <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal, searchs:params.searchs})">
                 <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
@@ -235,7 +266,7 @@ const reVisit = (viajeAConsultar) =>
               </button>
             </div>
           </div>
-          <div>
+          <div id="buscadorViajes">
             <TextInput v-model="params.busqueda" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
           </div>
        </div>
