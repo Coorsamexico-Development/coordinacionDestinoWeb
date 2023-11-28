@@ -71,7 +71,7 @@ class UserUbicacioneController extends Controller
             'ubicacion_id' => 'required'
         ]);
 
-        return $request;
+        //return $request;
         $user =  User::create([
             'email' => $request['email'],
             'name' => $request['nombre'],
