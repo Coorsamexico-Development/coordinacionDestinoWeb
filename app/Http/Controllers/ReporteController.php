@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\DtsExport;
 use App\Exports\IncidenciasExport;
 use App\Imports\DtsImport;
+use App\Mail\PDFExcel;
 use App\Mail\PDFMail;
 use App\Models\Cliente;
 use App\Models\ConfirmacionDt;
@@ -181,11 +182,21 @@ class ReporteController extends Controller
         for ($i=0; $i < count($request['emails'])  ; $i++) 
         { 
             $email = $request['emails'][$i];
-            Mail::to($email)->send(new PDFMail(
+            if($file !== null)
+            {
+              Mail::to($email)->send(new PDFMail(
                 $asunto,
                 $file,
                 $excelAEnviar
-            ));
+              ));
+            }
+            else
+            {
+              Mail::to($email)->send(new PDFExcel(
+                $asunto,
+                $excelAEnviar
+              ));
+            }
         }
       }
       

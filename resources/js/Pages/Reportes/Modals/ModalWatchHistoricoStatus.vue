@@ -166,11 +166,21 @@
  {
     spinnerSend.value = true;
     //console.log(pdf.value.pdf.substring(70));
+    let newPdf = null;
+    //console.log(pdf.value.pdf)
+    if(pdf.value.pdf !== null)
+    {
+      newPdf = pdf.value.pdf.substring(70)
+    }
+    else
+    {
+      newPdf = ''
+    }
     axios.get('/sentMail', {params:
        {
          emails:emails.value,
          asunto:asunto.value,
-         pdf:pdf.value.pdf.substring(70),
+         pdf:newPdf,
          viaje:props.viaje
        }}).then(response => 
        {
@@ -376,7 +386,7 @@
                              <h2 class="text-lg" :style="{color:historia.color}">{{ historia.status }} </h2>
                              <div class="flex flex-row items-center">
                                 <img class="w-4 h-4 mr-2" src="../../../../assets/img/reloj-de-pared.png" />
-                                <h1 class="text-[#9B9B9B] text-base">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
+                                <h1  class="text-[#9B9B9B] text-base">{{historia.created_at.substring(8,10) +'/'+historia.created_at.substring(5,7)+'  '+ ' ' +historia.created_at.substring(11,16) }}</h1>
                               </div>
                           </div>
                            <div class="flex items-center justify-center">
