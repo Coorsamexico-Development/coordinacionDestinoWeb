@@ -12,6 +12,8 @@
  import VueDatePicker from '@vuepic/vue-datepicker';
  import '@vuepic/vue-datepicker/dist/main.css';
  import SpinProgress from "@/Components/SpinProgress.vue";
+ import ModalOk from './ModalOk.vue';
+ import ModalErr from './ModalErr.vue';
 
   const emit = defineEmits(["close", "reVisit"])
   const props = defineProps({
@@ -152,11 +154,17 @@
  }
  const eliminarEmail = (emailSelect) => 
  {
-    emails.value.filter(email => email !== emailSelect );
+    //console.log(emailSelect)
+    //console.log(emails.value)
+    let newEmails = emails.value.filter(email => email !== emailSelect );
+
+    emails.value = newEmails;
  }
 
+ let spinnerSend = ref(false);
  const enviarCorreo = () => 
  {
+    spinnerSend.value = true;
     //console.log(pdf.value.pdf.substring(70));
     axios.get('/sentMail', {params:
        {
@@ -170,12 +178,16 @@
           email.value = '';
           emails.value = [];
           asunto.value = '';
-          alert(response.data);          
+          spinnerSend.value = false
+          openModalOk()
+          //alert(response.data);          
        }).catch(err => 
        {
          console.log(err)
          console.log(err)
-         alert(err);  
+         openModalErr()
+         spinnerSend.value = false
+         //alert(err);  
        });
  }
 
@@ -299,6 +311,29 @@
       //console.log(props.viaje)
       emit('reVisit',item);
    }
+
+   const ok = ref(false); 
+   const err = ref(false)
+   const  openModalOk = () => 
+   {
+      ok.value = true;
+   }
+
+   const closeModalOk = () => 
+   {
+      ok.value = false
+   }
+
+   const  openModalErr = () => 
+   {
+      err.value = true;
+   }
+
+   const closeModalErr = () => 
+   {
+      err.value = false
+   }
+
 </script>
 <template>
    <DialogModal :maxWidth="tamañoModal" :altura="'88%'"  :show="show" @close="close()">
@@ -417,40 +452,53 @@
                </div>
                <div class="mt-8 snap-center" v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
-                       <div class="flex flex-row justify-center">
-                           <h1 class="mx-2">Ver documento final</h1>
+                       <div class="mx-4 my-6">
+                           <h1 class="mb-2 text-lg font-semibold" style="font-family: 'Montserrat';">Ver documento final</h1>
                            <a :href="pdf.pdf" data-fancybox   data-type="pdf">
                               <ButtonWatch :color="'#1D96F1'" />
                            </a>
                        </div>
-                       <div class="grid grid-rows-3 mx-2">
+                       <div class="grid grid-rows-3 mx-2 my-6">
                         <div class="w-full row-start-1 px-2">
-                           <InputLabel>
-                              Para:
-                           </InputLabel>
-                            <TextInput v-model="email" class="w-full h-8">
-                            </TextInput>
-                            <button class="bg-[#44BFFC] text-white px-2 py-1 rounded-lg m-2" @click="agregarCorreo()" >
-                                Agregar correo
-                            </button>
-                           <div class="grid grid-cols-2">
-                              <div class="flex flex-row bg-blue-200 rounded-2xl" v-for="email in emails" :key="email.id">
-                                 <button @click="eliminarEmail(email)" class="px-1 text-red-500">
-                                    x
+                           <h1 class="text-lg font-semibold" style="font-family: 'Montserrat';">Envio de correo</h1>
+                           <div class="flex flex-row items-center justify-center justify-items-center">
+                              <div>
+                                 <TextInput v-model="email" class="w-full h-8" placeholder="Para: ejemplo@.com" type="email" required>
+                                 </TextInput>
+                              </div>
+                              <button class="bg-[#44BFFC] text-white px-2 py-2 rounded-lg m-2 flex flex-row justify-between" @click="agregarCorreo()" >
+                                <svg class="mx-1" width="20px" height="20px"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path fill="" d="M16 17H21M18.5 14.5V19.5M12 19H6.2C5.0799 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2C3 7.0799 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H17.8C18.9201 5 19.4802 5 19.908 5.21799C20.2843 5.40973 20.5903 5.71569 20.782 6.09202C21 6.51984 21 7.0799 21 8.2V11M20.6067 8.26229L15.5499 11.6335C14.2669 12.4888 13.6254 12.9165 12.932 13.0827C12.3192 13.2295 11.6804 13.2295 11.0677 13.0827C10.3743 12.9165 9.73279 12.4888 8.44975 11.6335L3.14746 8.09863" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <p class="" style="font-size: 13px;">
+                                  Agregar correo
+                                </p>  
+                              </button>
+                           </div>
+                           <div class="grid grid-cols-2 mt-2">
+                              <div class="flex flex-row py-1 mx-1 my-1 bg-blue-200 rounded-2xl" v-for="email in emails" :key="email.id">
+                                 <button @click="eliminarEmail(email)" class="px-1 mx-1 bg-red-500 rounded-full">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M17 16L22 21M22 16L17 21M13 19H6.2C5.0799 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2C3 7.0799 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H17.8C18.9201 5 19.4802 5 19.908 5.21799C20.2843 5.40973 20.5903 5.71569 20.782 6.09202C21 6.51984 21 7.0799 21 8.2V12M20.6067 8.26229L15.5499 11.6335C14.2669 12.4888 13.6254 12.9165 12.932 13.0827C12.3192 13.2295 11.6804 13.2295 11.0677 13.0827C10.3743 12.9165 9.73279 12.4888 8.44975 11.6335L3.14746 8.09863" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
                                  </button>
                                   {{ email }}
                               </div>
                            </div>
                         </div>
                         <div class="row-start-2 mt-4">
-                           <InputLabel>
+                           <InputLabel class="my-2 font-semibold">
                               Asunto:
                            </InputLabel>
                            <textarea v-model="asunto" class="w-full"></textarea>
                         </div>
-                        <div class="row-start-3">
-                           <button class="bg-[#4f595e] text-white px-2 py-1 rounded-lg"  @click ="enviarCorreo">
-                             Enviar correo
+                        <div class="row-start-3 my-2" v-if="emails.length > 0">
+                           <button class="bg-[#4f595e] text-white px-2 py-2 rounded-lg flex flex-row items-center"  @click ="enviarCorreo">
+                              <svg class="mx-2" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                               <path d="M19 21V15M19 15L17 17M19 15L21 17M21 11V8.2C21 7.0799 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.0799 3 8.2V15.8C3 16.9201 3 17.4802 3.21799 17.908C3.40973 18.2843 3.71569 18.5903 4.09202 18.782C4.51984 19 5.0799 19 6.2 19H13M20.6067 8.26229L15.5499 11.6335C14.2669 12.4888 13.6254 12.9165 12.932 13.0827C12.3192 13.2295 11.6804 13.2295 11.0677 13.0827C10.3743 12.9165 9.73279 12.4888 8.44975 11.6335L3.14746 8.09863" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                               Enviar correo
+                             <SpinProgress v-if="spinnerSend" :inprogress="true" class="ml-2" :fill="'white'" />
                            </button>
                         </div>
                        </div>
@@ -465,6 +513,9 @@
          :dt="dt.id" 
          @close="closeModalIncidencias()" 
          @reconsultarOcsIncidencias="consultarOcsIncidencias" />
+
+         <ModalOk :show="ok" @close="closeModalOk" />
+         <ModalErr :show="err" @close="closeModalErr" />
        </template>
    </DialogModal>
 </template>
