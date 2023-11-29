@@ -55,11 +55,17 @@ class ReporteController extends Controller
              $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
              ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
            }
+           
+           if($request->has("fecha"))
+           {
+             $query->where("confirmacion_dts.cita", "LIKE", "%" . $request['fecha'] . "%");
+           }
          }
         ]
-       )
-       ->get();
+        );
 
+
+       //return $request;
 
         $plataformas = Plataforma::select('plataformas.*')
         ->with(
@@ -75,14 +81,21 @@ class ReporteController extends Controller
   
              if ($request->has("busqueda")) 
              {
+              //return $request;
                $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
                $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
                ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
              }
+
+             if($request->has("fecha"))
+             {
+               //return $request;
+               $query->where("confirmacion_dts.cita", "LIKE", "%".$request['fecha']."%");
+             }
            }
           ]
-         )
-         ->get();
+          );
+         
 
         //Contadores
 
@@ -102,6 +115,11 @@ class ReporteController extends Controller
                   $query->where("confirmacion_dts.confirmacion", "LIKE", "%" . $search . "%")
                   ->orWhere("dts.referencia_dt", "LIKE", "%" . $search . "%");
                 }
+
+                if($request->has("fecha"))
+                {
+                  $query->where("confirmacion_dts.cita", "LIKE", "%" . $request['fecha'] . "%");
+                }
               }
              ]
             )
@@ -110,8 +128,8 @@ class ReporteController extends Controller
 
         return Inertia::render('Reportes/Reportes.index',[
             'status_padre' => $status_padre,
-            'ubicaciones' => $ubicaciones,
-            'plataformas' => $plataformas,
+            'ubicaciones' => fn() => $ubicaciones->get(),
+            'plataformas' =>  fn() => $plataformas->get() ,
             'contadores' =>  fn () => $contadores->get()
         ]);
     }

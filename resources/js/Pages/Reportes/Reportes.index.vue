@@ -2,7 +2,7 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
-import {ref, watch, onMounted } from "vue";
+import {ref, watch, onMounted, reactive } from "vue";
 import { router } from '@inertiajs/vue3'
 //Importaciones
 import ScrollableStatus from './Partials/ScrollableStatus.vue'
@@ -14,6 +14,8 @@ import Element from './Partials/Elements.vue'
 //Driver js
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
+import ButtonCalendar from '@/Components/ButtonCalendar.vue';
+import { pickBy, throttle } from "lodash"
 
 
 var props = defineProps({
@@ -23,10 +25,18 @@ var props = defineProps({
     contadores:Object
 });
 
+//Filtros
+const params = reactive({
+    fecha:null,
+    busqueda:''
+});
+
 const buscador = ref('');
 
 watch(buscador, (newBusqueda) => 
 {
+  params.busqueda = newBusqueda;
+  /*
   router.visit(route('reportes.index'), {
     preserveScroll:true,
     preserveState:true,
@@ -34,7 +44,8 @@ watch(buscador, (newBusqueda) =>
     data:{busqueda:newBusqueda},
     only:['contadores','ubicaciones', 'plataformas']
   })
-
+  */
+  
 });
 
 
@@ -193,24 +204,112 @@ onMounted(() =>
    
     driverObj.drive();
   }
+
+//Fechas
+let date = ref({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+});
+
+
   
+const changeDate = (newDate) => {
+    date.value = newDate;
+    let fecha = null;
+    //console.log(newDate.month)
+    switch (newDate.month) 
+    {
+      case 0: //Enero
+            fecha = newDate.year + '-' + "01";
+            params.fecha = fecha;
+         break;
+      case 1: //Febrero
+            fecha = newDate.year + '-' + "02";
+            params.fecha = fecha;
+         break;
+      case 2: //Marzo
+            fecha = newDate.year + '-' + "03";
+            params.fecha = fecha;
+         break;
+      case 3: //Abril
+            fecha = newDate.year + '-' + "04";
+            params.fecha = fecha;
+         break;
+      case 4: //Mayo
+            fecha = newDate.year + '-' + "05";
+            params.fecha = fecha;
+         break;
+      case 5: //Junio
+         fecha = newDate.year + '-' + "06";
+         params.fecha = fecha;
+      break;
+      case 6: //Julio
+         fecha = newDate.year + '-' + "07";
+         params.fecha = fecha;
+      break;
+      case 7: //Agosto
+         fecha = newDate.year + '-' + "08";
+         params.fecha = fecha;
+      break;
+      case 8: //Spetiembre
+         fecha = newDate.year + '-' + "09";
+         params.fecha = fecha;
+      break;
+      case 9: //Octubre
+         fecha = newDate.year + '-' + "10";
+         params.fecha = fecha;
+      break;
+      case 10: //Noviembre
+         fecha = newDate.year + '-' + "11";
+         params.fecha = fecha;
+      break;
+      case 11: //Diciembre
+         fecha = newDate.year + '-' + "12";
+         params.fecha = fecha;
+      break;
+    }
+};
+
+//watcher para filtros
+let fechaToComponent = ref(null);
+let buscadorToComponent = ref(null);
+watch(params, throttle(function () 
+  {
+     fechaToComponent.value = params.fecha;
+     buscadorToComponent.value = params.busqueda
+    search();
+ }), 100);
+
+const search = () => 
+{
+   const filters = pickBy(params);
+   //console.log(filters); 
+   router.visit(route('reportes.index'),{
+        data:filters,
+        preserveScroll:true,
+        preserveState:true,
+        only:['contadores','ubicaciones', 'plataformas']
+    });   
+}
+
 </script>
 
 <template> 
    <AppLayout title="Dashboard">
-       <div class="grid grid-cols-4 gap-4 ">
+       <div class="grid items-center grid-cols-4 gap-4 justify-items-center">
            <div class="px-2 py-4">
               <button @click="iniciarRecorrido()" class="bg-[#697FEA] px-2 rounded-full">
                 <p style="font-family: 'Montserrat';" class="text-white">Manual de usuario</p>        
               </button>
            </div>
+           <ButtonCalendar :month="date.month"  :year="date.year"  @change-date="changeDate($event)" />
            <div class="w-full col-start-4 px-2 py-4">
               <TextInput id="buscadorViajes" v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
        <div class="grid w-full grid-cols-3 gap-4 px-8 py-2" id="container-status">
           <div v-for="(statu_padre) in status_padre" :key="statu_padre.id">
-             <ScrollableStatus  :statu="statu_padre" :contadores="contadores" :ubicaciones="ubicaciones" :plataformas="plataformas" :buscador="buscador" />
+             <ScrollableStatus  :statu="statu_padre" :contadores="contadores" :ubicaciones="ubicaciones" :plataformas="plataformas" :buscador="buscadorToComponent"  :fecha="fechaToComponent"/>
           </div>
        </div>
     </AppLayout>

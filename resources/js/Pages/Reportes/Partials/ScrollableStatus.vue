@@ -1,6 +1,6 @@
 <script setup>
 //Importaciones
-import {ref, watch, computed } from "vue";
+import {ref, watch, computed, onUpdated  } from "vue";
 import { Link, useForm } from '@inertiajs/vue3'
 import ButtonDropZone from '@/Components/ButtonDropZone.vue'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
@@ -12,7 +12,8 @@ var props = defineProps({
     ubicaciones:Object,
     plataformas:Object,
     contadores:Object,
-    buscador:String
+    buscador:String,
+    fecha:String
 });
 
 //Formulario para subir excel
@@ -20,6 +21,15 @@ const document = ref(null)
 const formNewDts = useForm({
   document: null,
 });
+
+let fechaToComponent = ref(null);
+let buscadorToComponent = ref(null);
+onUpdated(() => 
+{
+  //console.log(props)
+  fechaToComponent.value = props.fecha;
+  buscadorToComponent.value = props.buscador;
+})
 
 //Watcher para la carga del reporte
 watch(document, (documentoCargado) => 
@@ -83,7 +93,7 @@ const contadorIndividual = computed(() =>
     <!--body-->
      <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
          <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-            <UbicacionDesplegable  :buscador="buscador" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" />
+            <UbicacionDesplegable  :buscador="buscadorToComponent" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" :fecha="fechaToComponent" />
          </div>
      </div> 
    </div>

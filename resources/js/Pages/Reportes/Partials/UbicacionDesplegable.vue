@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import {ref, watch, computed, reactive } from "vue";
+import {ref, watch, computed, reactive, onUpdated } from "vue";
 import SwitchButton from './SwitchButton.vue';
 import DtBlock from './DtBlock.vue';
 import { pickBy } from 'lodash';
@@ -11,8 +11,10 @@ var props = defineProps({
     ubicacion:Object,
     plataformas:Object,
     status:Object,
-    buscador:String
+    buscador:String,
+    fecha:String
 });
+
 //Show para mostrar los hijos
 let show = ref(false)
 //Parametros de busqueda o filtros
@@ -21,8 +23,16 @@ const params = reactive({
     ubicacion_id: -1,
     plataforma_id:1,
     status_id:props.status.id,
-    busqueda:props.buscador
+    busqueda:'',
+    fecha:''
 });
+
+onUpdated(() => 
+{
+  //console.log(props)
+  params.busqueda = props.buscador;
+  params.fecha = props.fecha
+})
 
 const showClients = (ubicacion_id) =>  //funcion para desplegar
 {
@@ -44,13 +54,18 @@ let dtsData = ref([]);
 //Watcher para parametros
 watch(params, (newParams) => 
 {
-  console.log(newParams)
+  //console.log(newParams)
   if(newParams.ubicacion_id == undefined)
   {
     params.ubicacion_id = -1;
   }
 
   if(newParams.buscador !== '')
+  {
+    
+  }
+
+  if(newParams.buscador !== null)
   {
     
   }
@@ -62,16 +77,18 @@ watch(params, (newParams) =>
       ubicacion_id: newParams.ubicacion_id,
       plataforma_id: newParams.plataforma_id,
       status_id: newParams.status_id,
-      busqueda: newParams.busqueda
+      busqueda: newParams.busqueda,
+      fecha:newParams.fecha
     }))
       .then(response => {
           // Obtenemos los datos
-          console.log(response.data)
+          //console.log(response.data)
           nuevosParametros.value = {
             ubicacion_id: newParams.ubicacion_id,
             plataforma_id: newParams.plataforma_id,
             status_id: newParams.status_id,
-            busqueda: newParams.busqueda
+            busqueda: newParams.busqueda,
+            fecha: newParams.fecha
           }
           dts.value = response.data;
           //dtsData.value = response.data.data;
@@ -96,7 +113,8 @@ const loadPage = async (page) =>
        ubicacion_id: params.ubicacion_id,
        plataforma_id: params.plataforma_id,
        status_id: params.status_id,
-       busqueda: params.busqueda
+       busqueda: params.busqueda,
+       fecha:params.fecha
      }
    }).then(resp => 
    {

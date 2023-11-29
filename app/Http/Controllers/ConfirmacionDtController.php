@@ -61,6 +61,15 @@ class ConfirmacionDtController extends Controller
           }
         }
 
+        if($request->has("fecha"))
+         {
+          // return $request;
+           if($request['fecha'] !== null)
+           {
+            $confirmaciones->where("confirmacion_dts.cita", "LIKE", "%" . $request['fecha'] . "%");
+           }
+         }
+
       return  $confirmaciones->paginate(5);
     }
 
