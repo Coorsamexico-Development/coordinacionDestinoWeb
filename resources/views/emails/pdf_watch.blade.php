@@ -8,6 +8,6 @@
         </title>
     </head>
     <body>
-        
+        Correo enviado por Coorsa México
     </body>
 </html>
