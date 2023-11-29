@@ -28,12 +28,7 @@ class PDFExcel extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'P D F Excel',
-        );
-    }
+
 
     /**
      * Get the message content definition.
