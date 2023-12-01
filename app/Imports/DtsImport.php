@@ -28,7 +28,7 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
         //Evaluador de estandarizado de plataformas
         $plataforma = null;
 
-       if(str_contains($row['plataforma'], 'WAL'))
+       if(str_contains($row['plataforma'], 'WAL') || str_contains($row['plataforma'], 'CENTER') || str_contains($row['plataforma'], 'SUPERCENTER') || str_contains($row['plataforma'], 'AUTO'))
        {
         $plataforma = Plataforma::updateOrCreate([
             'nombre' => 'WALMART'
