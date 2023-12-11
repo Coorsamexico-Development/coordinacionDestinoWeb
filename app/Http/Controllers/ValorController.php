@@ -243,7 +243,7 @@ class ValorController extends Controller
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
        where('confirmacion','=',$request['params']['confirmacion'])
       ->first();
-
+      /*
        $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.dt_id','=',$cofnirmacionDt['dt_id'])
        ->get();
@@ -364,6 +364,7 @@ class ValorController extends Controller
                'status_id' => 6
            ]);
        }
+       */
        broadcast(new NewNotification($cofnirmacionDt))->toOthers();
       }
     }
@@ -515,6 +516,128 @@ class ValorController extends Controller
            'confirmacion_dt_id' => $cofnirmacionDt['id'],
            'status_id' => 7
        ]);
+
+       //Copiado de informacion
+       $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('confirmacion_dts.dt_id','=',$cofnirmacionDt['dt_id'])
+       ->get();
+
+       if(count($confirmacionesConMismoDT) > 1 )
+       {
+         $camposAInsertar = DtCampoValor::select(
+          'dt_campo_valors.*',
+          'campos.id as campo_id',
+          'campos.nombre as campo')
+           ->join('campos','dt_campo_valors.campo_id','campos.id')
+           ->with('valores')
+           ->where('dt_campo_valors.confirmacion_id','=',$cofnirmacionDt['id'])
+           ->where(function($query) 
+           {
+             $query->where('campos.status_id','=',4)
+               ->orWhere('campos.status_id','=',6);
+          })
+          ->get();
+
+          $historico_de_status = StatusDt::select('status_dts.*') //son los sattus a replicar para las confirmaciones
+          ->where(
+            'status_dts.confirmacion_dt_id','=',$cofnirmacionDt['id'])
+          ->where(function($query)
+           {
+             $query->where('status_dts.status_id','=',4)
+             ->orWhere('status_dts.status_id','=',6);
+           })
+          ->get();
+
+          for ($i=0; $i < count($confirmacionesConMismoDT) ; $i++) 
+          {
+            //Por confirmacion hay que crear el dt campo valor y luego crear el valor y relacionarlo
+            $confirmacionActual = $confirmacionesConMismoDT[$i];
+            //Hay que guardar los campo_valor
+            if(count($camposAInsertar) > 0)
+            {
+              for ($x=0; $x < count($camposAInsertar) ; $x++) 
+              { 
+                $campoActual = $camposAInsertar[$x];
+                //creamos o sustituimos el dt campo a crear con la confirmacion y el campo actual
+                $newDtCampoValor = DtCampoValor::updateOrCreate([
+                  'campo_id' => $campoActual['campo_id'],
+                  'confirmacion_id' => $confirmacionActual['id']
+                ]);
+            
+                  //Una vez creado el dt creamos el valor igual pero lo asignamos a ese dt campo valor
+                  for ($t=0; $t < count($camposAInsertar[$x]['valores']) ; $t++) 
+                  { 
+                     $valorActual = $camposAInsertar[$x]['valores'][$t];
+                     $newValor = Valor::updateOrCreate([
+                        'valor' => $valorActual['valor'],
+                        'dt_campo_valor_id' => $newDtCampoValor['id'],
+                        'user_id' => $valorActual['user_id']
+                     ]);
+                  }
+              }
+            }
+            
+            if(count($historico_de_status)> 0)
+            {
+            //Un vez guardados los campos vamos a replicar lo mismo para el historico de status
+            for ($s=0; $s < count($historico_de_status) ; $s++) 
+            { 
+               $historia_status = $historico_de_status[$s];
+               $newHistorica = StatusDt::updateOrCreate([
+                 'confirmacion_dt_id' => $confirmacionActual['id'],
+                 'status_id' => $historia_status['status_id']
+               ]);
+            }
+            }
+
+           date_default_timezone_set('America/Mexico_City');
+           $fecha_actual = getdate();
+           $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+           $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual; 
+            //Cambiamos status del viaje
+            ConfirmacionDt::where('confirmacion_dts.id','=',$confirmacionActual['id'])
+            ->update([
+              'status_id' => 7,
+              'updated_at' =>$newFecha,
+            ]);
+
+           StatusDt::where('confirmacion_dt_id','=',$confirmacionActual['id'])
+           ->update([
+             'activo' => 0
+           ]);
+
+           $newStatus = StatusDt::create([
+              'confirmacion_dt_id' => $confirmacionActual['id'],
+              'status_id' => 7,
+              'created_at' => $newFecha,
+              'updated_at' =>$newFecha,
+            ]);
+
+          
+           HorasHistorico::create([
+             'hora_id' => 2,
+             'status_dts_id' => $newStatus['id'],
+             'hora' => $hora_actual
+           ]);
+          }
+       }
+       else
+       {
+           StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
+           ->update([
+             'activo' => 0
+           ]);
+           //Cambiamos status del viaje
+           ConfirmacionDt::where('confirmacion_dts.id','=',$cofnirmacionDt['id'])
+           ->update([
+             'status_id' => 7
+           ]);
+
+           StatusDt::updateOrCreate([
+               'confirmacion_dt_id' => $cofnirmacionDt['id'],
+               'status_id' => 7
+           ]);
+       }
 
        broadcast(new NewNotification($cofnirmacionDt))->toOthers();
        return 'ok fotos';
