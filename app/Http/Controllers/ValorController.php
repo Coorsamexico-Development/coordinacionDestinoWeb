@@ -365,6 +365,20 @@ class ValorController extends Controller
            ]);
        }
        */
+        StatusDt::where('confirmacion_dt_id','=',$cofnirmacionDt['id'])
+        ->update([
+          'activo' => 0
+        ]);
+        //Cambiamos status del viaje
+        ConfirmacionDt::where('confirmacion_dts.id','=',$cofnirmacionDt['id'])
+        ->update([
+          'status_id' => 6
+        ]);
+
+        StatusDt::updateOrCreate([
+            'confirmacion_dt_id' => $cofnirmacionDt['id'],
+            'status_id' => 6
+        ]);
        broadcast(new NewNotification($cofnirmacionDt))->toOthers();
       }
     }
