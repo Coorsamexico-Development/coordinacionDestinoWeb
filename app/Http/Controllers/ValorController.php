@@ -204,7 +204,7 @@ class ValorController extends Controller
 
             if($confirmacion_campo == null)//sino lo encuentra lo creara
             {
-               $confirmacion_campo = DtCampoValor::updateOrCreate(
+               $confirmacion_campo = DtCampoValor::create(
                 [
                    'confirmacion_id' => $request['params']['confirmacion_id'],
                    'campo_id' => $campo['campo_id']
@@ -217,7 +217,7 @@ class ValorController extends Controller
                 ->update(['activo' => 0]);
                 
                 //Crea nuevo valor en la tabla de valores
-                $newValor = Valor::updateOrCreate([
+                $newValor = Valor::create([
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $confirmacion_campo->id,
                     'user_id' => $request['params']['usuario']
@@ -230,7 +230,7 @@ class ValorController extends Controller
                 ->update(['activo' => 0]);
                 
                 //Crea nuevo valor en la tabla de valores
-                $newValor = Valor::updateOrCreate([
+                $newValor = Valor::create([
                     'valor' => $campo['value'],
                     'dt_campo_valor_id' => $confirmacion_campo->id,
                     'user_id' => $request['params']['usuario']
