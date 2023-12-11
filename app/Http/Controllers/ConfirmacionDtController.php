@@ -621,6 +621,8 @@ class ConfirmacionDtController extends Controller
           $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
           $urlFile = Storage::disk('gcs')->url($ruta_file);
 
+          return 'ok doc guardado';
+
           //comprobamos
           $dt_campo = DtCampoValor::select( //buscaremos el valor del archivo o la relacion
             'dt_campo_valors.*'
