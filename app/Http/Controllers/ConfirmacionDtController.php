@@ -616,6 +616,7 @@ class ConfirmacionDtController extends Controller
        {
         if(is_file(($request['file'])))
         {
+          return 'hay archivo';
           $file = request('file');
           $nombre_original = $file->getClientOriginalName();
           $ruta_file = $file->storeAs('docs', $nombre_original, 'gcs');
