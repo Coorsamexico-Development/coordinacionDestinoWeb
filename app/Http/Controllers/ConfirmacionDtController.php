@@ -615,7 +615,7 @@ class ConfirmacionDtController extends Controller
   public function saveDocEnrrampe(Request $request)
   {
        //Si existe un documento hay que guardarlo respectivamente
-       //return  $request;
+       return  $request;
        if($request['file'] !== null)
        {
         if(is_file(($request['file'])))
@@ -664,7 +664,7 @@ class ConfirmacionDtController extends Controller
               ]);  
             }
 
-            
+
             $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
             ->where('confirmacion_dts.id',$request['confirmacion_id'])->first();
             broadcast(new NewNotification($confrimacionDt))->toOthers();
