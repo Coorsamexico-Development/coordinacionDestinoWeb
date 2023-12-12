@@ -530,6 +530,9 @@ class ConfirmacionDtController extends Controller
           ->where('dt_campo_valors.campo_id','=', $valor['campo_id'])
           ->first();
 
+          $valorADesactivar = Valor::where('valors.dt_campo_valor_id','=',$dt_campo_valor['id'])
+          ->update(['activo' => 0]);
+
           if($dt_campo_valor !== null)
           {
               //creamos los valores
