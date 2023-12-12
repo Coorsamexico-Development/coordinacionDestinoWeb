@@ -663,11 +663,12 @@ class ConfirmacionDtController extends Controller
                   'user_id' => $request['usuario']
               ]);  
             }
-        }
 
-        $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
-        ->where('confirmacion_dts.id',$request['confirmacion_id'])->first();
-        broadcast(new NewNotification($confrimacionDt))->toOthers();
+            
+            $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+            ->where('confirmacion_dts.id',$request['confirmacion_id'])->first();
+            broadcast(new NewNotification($confrimacionDt))->toOthers();
+        }
 
        }
 
