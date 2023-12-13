@@ -9,6 +9,7 @@ import ModalViajes from './Modals/ModalViajes.vue'
 import axios from 'axios';
 import { Pagination } from 'swiper/modules';
 import TextInput from '@/Components/TextInput.vue';
+import SpinProgress from '@/Components/SpinProgress.vue';
 
 var props = defineProps({
     productos:Object,
@@ -20,12 +21,13 @@ const formNewProductos = useForm({
   document: null,
 })
 const document = ref(null) 
-
+const showSpinner = ref(false)
 
 //Watcher para la carga del reporte
 watch(document, (documentoCargado) => 
 {
     formNewProductos.document = documentoCargado
+    showSpinner.value = true;
    try 
    {
       if(formNewProductos.document !== null)
@@ -36,12 +38,14 @@ watch(document, (documentoCargado) =>
             onSuccess: () => {
                formNewProductos.reset();
                document.value = null;
+               showSpinner.value = false;
                reconsultar();
             },
             onError:(err) => 
             {
               console.log(err);
               formNewProductos.reset();
+              showSpinner.value = false;
               document.value = null;
             }
          }
@@ -122,8 +126,9 @@ watch(buscador, (newBusqueda) =>
                 </a>
             </button>
           </div>
-          <div class="mx-4">
+          <div class="flex flex-row items-center mx-4">
              <ButtonUploadProd v-model="document" />
+             <SpinProgress  :inprogress="showSpinner" class="w-8 h-8 ml-2" />
           </div>
           <div>
             <TextInput v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
