@@ -48,15 +48,26 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () {
+])->group(function () 
+{
     Route::get('/dashboard', function () 
     {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    //Rutas que son necesarias que estes logueado
+    //Ruta de carga para pantalla de reportes
+    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+    //Manage Users view
+    Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
+    //Roles y permisos index
+    Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');
+    //Modulo de productos
+    Route::get('/productos',[ProductoController::class,'index'])->name('productos.index');
+    //Modulo de viajes
+    Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
 });
 
-//Ruta de carga para pantalla de reportes
-Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
+
 //Ruta para cargar dts
 Route::post('/reportes',[ReporteController::class, 'store'])->name('reportes.store');
 //Ruta para descargar ejemplo de reporte
@@ -77,8 +88,6 @@ Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrramp
 Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');
 //Ver valores
 Route::get('/checkValores',[ValorController::class, 'checkValores'])->name('checkValores');
-//Manage Users view
-Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
 //Edicion de usuario
 Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
 //Creacion de usuario
@@ -95,12 +104,7 @@ Route::get('/consultarConfirmaciones',[ConfirmacionDtController::class, 'consult
 Route::get('/saveOcs',[OcController::class, 'store'])->name('saveOcs');
 //Consultar OCS
 Route::get('/consultarOcs',[OcController::class, 'consultarOcs'])->name('consultarOcs');
-//Roles y permisos index
-Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');
-//Modulo de productos
-Route::get('/productos',[ProductoController::class,'index'])->name('productos.index');
-//Modulo de viajes
-Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
+
 //Descarga de ejemplo de importacion de productos
 Route::get('/getProductosExample', [ProductoController::class,'donwloadExportExample'])->name('donwloadExportExample');
 //Importacion de nuevos productos
