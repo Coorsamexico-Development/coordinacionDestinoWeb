@@ -364,16 +364,16 @@
             </div>
          </div>
          <div class="grid w-full grid-cols-2" style="font-family: 'Montserrat';">
-           <div class="" id="historico-status">
-             <h1 class="text-center">Histórico de status</h1>
+           <div class="my-4" id="historico-status">
+             <h1 class="text-xl font-semibold text-center">Histórico de status</h1>
              <!--TimeLine-->
-             <div  v-for="historia in infoModal" :key="historia.id">
+             <div  v-for="(historia, key) in infoModal" :key="historia.id">
                <!--
                <button @click="cambio(historia.confirmacion_dt_id)">
                   Cambio
-               </button>
+               </button>0
                -->
-               <div  :class="[historia.status.substring(0,8) !== 'Liberada'  ?  activeClass :  errorClas ]"  >
+               <div  :class="[key+1 !== infoModal.length  ?  activeClass :  errorClas ]"  >
                   <div  id="timeline-item" >
                      <div id="timeline-icon"  class="flex items-center"  :style="{backgroundColor:historia.color}" >
                         <img class="w-8" :src="historia.icon" v-if="historia.status == 'Enrampado'" />
@@ -401,8 +401,8 @@
              </div>
                <!--TimeLine-->
            </div>
-           <div id="valores-by-status">
-             <h1 class="" style="text-align: center;">Información</h1>
+           <div id="valores-by-status" class="my-4">
+             <h1 class="text-xl font-semibold text-center" style="text-align: center;">Información</h1>
              <div class="overflow-y-auto" style="height:30rem;" v-if="statusActual !== null">   
                <div class="snap-center" >
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
@@ -459,6 +459,9 @@
                        </div>
                      </div>
                  </div>
+               </div>
+               <div v-if="camposValores.length == 0 && statusActual.status_id !== 11 && statusActual.status_id !== 10"> 
+                  <h1 class="mt-4 text-lg font-semibold text-center">No hay información en este paso</h1>
                </div>
                <div class="mt-8 snap-center" v-if="statusActual.status_id">
                     <div v-if="pdf !== null">
@@ -567,7 +570,7 @@
    height: 38px;
    position: absolute;
    top:0;
-   left:-5.5%;
+   left:-4.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
@@ -622,7 +625,7 @@
    height: 38px;
    position: absolute;
    top:0;
-   left:-5.5%;
+   left:-4.5%;
    right: 0%;
    border-radius: 50%;
    justify-content: center;
