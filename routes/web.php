@@ -151,3 +151,5 @@ Route::post('/savePermission', [PermissionController::class, 'store'])->name('sa
 //Creación de Ocs
 Route::get('/getOcsExample', [OcController::class,'getOcsExample'])->name('getOcsExample');
 Route::post('/newOcsExcel', [OcController::class, 'newOcsExcel'])->name('newOcsExcel');
+//Eliminacion del viaje
+Route::post('/deleteViaje', [ConfirmacionDtController::class, 'deleteViaje'])->name('deleteViaje');

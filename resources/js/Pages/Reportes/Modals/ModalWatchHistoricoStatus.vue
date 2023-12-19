@@ -403,7 +403,7 @@
            </div>
            <div id="valores-by-status" class="my-4">
              <h1 class="text-xl font-semibold text-center" style="text-align: center;">Información</h1>
-             <div class="overflow-y-auto" style="height:30rem;" v-if="statusActual !== null">   
+             <div class="overflow-y-auto min-h-[50%]"  v-if="statusActual !== null">   
                <div class="snap-center" >
                   <div v-if="statusActual.status_id !== 10 || statusActual.status_id !== 11 ">
                     <div v-if="camposValores.length !== 0">

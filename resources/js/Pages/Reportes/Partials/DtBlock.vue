@@ -3,6 +3,7 @@
   import ButtonWatch from '@/Components/ButtonWatch.vue'
   import ModalWatchHistoricoStatus from '../Modals/ModalWatchHistoricoStatus.vue';
   import ModalAddOcs from "../Partials/ModalAddOcs.vue";
+  import ModalConfirmacionDelete from "../Modals/ModalConfirmacionDelete.vue"
   import axios from "axios";
   import { router } from '@inertiajs/vue3'
     //Props
@@ -98,6 +99,51 @@
      console.log(err)
     })
   }
+
+  const modalDeleteViaje = ref(false);
+  const dtAEliminar = ref(null)
+  const eliminarViaje = (dt) => 
+  {   
+     openModalConfirmDeleteViaje();
+     dtAEliminar.value = dt;
+  }
+
+  const openModalConfirmDeleteViaje = () => 
+  {
+    modalDeleteViaje.value = true;
+  }
+
+  const closeModalConfirmDeleteViaje = () => 
+  {
+    modalDeleteViaje.value = false;
+    dtAEliminar.value = null;
+  }
+
+  const confirmacionEliminarViaje = async () =>  //confirmacion de eliminacion de viaje
+  {
+     //console.log(dtAEliminar.value)
+     //console.log('listo para eliminar')
+     await axios.post(route('deleteViaje'), 
+    {params:
+      {
+       dt:dtAEliminar.value
+      }}).then(response =>
+      {
+        // console.log(response);
+        router.visit(route('reportes.index'),
+        {
+        preserveScroll:true,
+        preserveState:true,
+        only:['contadores','ubicaciones', 'plataformas']
+       });  
+       
+       closeModalConfirmDeleteViaje()
+
+      }).catch(err => 
+      {
+       console.log(err)
+      });
+  }
   
 </script>
 <template>
@@ -125,11 +171,11 @@
               <p class="text-sm text-white">Oc's</p>
         </button>
       </div>
-      <div class="flex flex-row-reverse items-center" :style="{color:dt.color}">
+      <div class="flex flex-row-reverse items-center mt-2" :style="{color:dt.color}">
          <h1 class="text-sm">{{ dt.status }}</h1>
          <span class="w-2 h-2 mr-2 rounded-full" :style="{backgroundColor:dt.color}"></span>
       </div>
-      <div class="flex flex-row items-center justify-center mt-1">
+      <div class="flex flex-row items-center justify-center mt-2 ml-20">
          <div class="flex flex-row mr-2" id="fecha-cita">
            <img class="w-3 h-3 mx-1" src="../../../../assets/img/calendario.png" />
            <div>
@@ -141,10 +187,16 @@
            <p class="text-xs text-[#9B9B9B]">{{ dt.cita.substring(10,16) }}</p>
          </div>
       </div>
+      <div class="float-right mt-2 mr-4">
+          <button v-if="dt.status_id == 4 || dt.status_id == 5" class="p-1 bg-red-400 rounded-full" @click="eliminarViaje(dt)">
+            <img class="w-4 h-5" src="../../../../assets/img/eliminar.png" />
+          </button>
+      </div>
     </div>
   </div>
   <div v-if="infoModal !== null">
      <ModalWatchHistoricoStatus :show="modalWatch" @close="modalWatchClose()" :infoModal="infoModal" :status="status" :viaje="viaje" :dt="dt" @reVisit="reVisit" />
   </div>
   <ModalAddOcs :show="modalOcs" @close="modalOcsClose()" @reconsultar="consultarOcs()" :ocsAxios="ocs" :confirmacion="dt.confirmacion" />
+  <ModalConfirmacionDelete :show="modalDeleteViaje" @close="closeModalConfirmDeleteViaje()" @eliminaViaje="confirmacionEliminarViaje()" />
 </template>

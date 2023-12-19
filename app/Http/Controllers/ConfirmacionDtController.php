@@ -929,4 +929,20 @@ class ConfirmacionDtController extends Controller
 
      return 'ok';
   }
+
+  public function deleteViaje (Request $request) 
+  {
+     $dt = $request['params']['dt'];
+     //Borrar historico de los status_dts
+     StatusDt::where('confirmacion_dt_id', '=' ,$dt['id'])
+     ->delete();
+
+     //Borramos el confirmacion_dt
+     ConfirmacionDt::where('id', '=' ,$dt['id'])
+     ->delete();
+
+     //Borramos el dt
+     Dt::where('id','=',$dt['dt_id'])
+     ->delete();
+  }
 }
