@@ -81,7 +81,9 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
        //Buscamos el dt a crear
        $confirmacion_a_buscar = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$row['confirmacion'])
+       ->where('confirmacion_dts.dt_id','=', $dt->id)
        ->first();
+
        if($confirmacion_a_buscar == null)//sino exsite se crea
        {
            $confirmacionDt = ConfirmacionDt::updateOrCreate([
