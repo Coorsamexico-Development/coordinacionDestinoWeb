@@ -1,12 +1,12 @@
 <template>
     <div class="flex items-center justify-center  cursor-pointer bg-[#1D96F1] px-8 py-2 rounded-2xl"
      @click="selectFile()" @drop="drop" @dragover.prevent="checkDrop">
-     <img class="w-5 mr-2" src="../../../../assets/img/DOCS.png" />
+     <img class="w-5 mr-2" />
      <input :ref="'filedropzone'" type="file"
                 @input="$emit('update:modelValue', $event.target.files[0])"
                 class="hidden" :accept="accept"
                 @change="setFile"/>
-     <span class="block text-white text-sm" :class="{'hidden':withFile}">
+     <span class="block text-sm text-white" :class="{'hidden':withFile}">
          Subir nuevos productos
      </span>
       <div class="flex flex-col" v-if="withFile">

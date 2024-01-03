@@ -242,6 +242,7 @@ class ValorController extends Controller
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
        where('confirmacion','=',$request['params']['confirmacion'])
+       ->where('dt_id','=',$request['params']['dt'])
       ->first();
       /*
        $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
@@ -435,7 +436,7 @@ class ValorController extends Controller
          }
     }
 
-    public function documentacionFotos (Request $request)
+    public function documentacionFotos (Request $request) //guarda y cambia a status 7 (en eespera de rampa)
     {
        //RECORRIDO DE PRUEBA
        $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
@@ -488,9 +489,10 @@ class ValorController extends Controller
        //cambiaremos de status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion','=',$request['confirmacion'])
+       ->where('dt_id','=',$request['dt'])
        ->first();
 
-       date_default_timezone_set('America/Mexico_City');
+      date_default_timezone_set('America/Mexico_City');
       $fecha_actual = getdate();
       $hora_actual = ($fecha_actual['hours']-1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
       $newFecha = $fecha_actual['year'].'-'.$fecha_actual['mon'].'-'.$fecha_actual['mday'].' '.$hora_actual;
@@ -760,6 +762,7 @@ class ValorController extends Controller
        //Cambio al sig status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
        where('confirmacion','=',$request['confirmacion'])
+       ->where('dt_id','=',$request['dt'])
        ->first();
     
        date_default_timezone_set('America/Mexico_City');

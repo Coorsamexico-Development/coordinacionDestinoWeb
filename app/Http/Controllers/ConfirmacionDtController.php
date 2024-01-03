@@ -495,6 +495,7 @@ class ConfirmacionDtController extends Controller
        
        $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
+       ->where('confirmacion_dts.dt_id','=',$request['params']['dt'])
        ->first();
 
        $ocs = Oc::select('ocs.*')
@@ -666,7 +667,8 @@ class ConfirmacionDtController extends Controller
 
 
             $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
-            ->where('confirmacion_dts.id',$request['confirmacion_id'])->first();
+            ->where('confirmacion_dts.id',$request['confirmacion_id'])
+            ->first();
             broadcast(new NewNotification($confrimacionDt))->toOthers();
         }
 
