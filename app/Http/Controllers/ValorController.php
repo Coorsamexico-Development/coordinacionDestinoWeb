@@ -241,8 +241,8 @@ class ValorController extends Controller
       //Al hacer el guardado de llegada comprobaremos si alguna otra confirmacion tiene 
       //el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
-       where('confirmacion','=',$request['params']['confirmacion'])
-       ->where('dt_id','=',$request['params']['dt'])
+       where('confirmacion_dts.confirmacion','=',$request['params']['confirmacion'])
+       ->where('confirmacion_dts.dt_id','=',$request['params']['dt'])
       ->first();
       /*
        $confirmacionesConMismoDT = ConfirmacionDt::select('confirmacion_dts.*')
@@ -761,8 +761,8 @@ class ValorController extends Controller
        
        //Cambio al sig status
        $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->
-       where('confirmacion','=',$request['confirmacion'])
-       ->where('dt_id','=',$request['dt'])
+       where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
+       ->where('confirmacion_dts.dt_id','=',$request['dt'])
        ->first();
     
        date_default_timezone_set('America/Mexico_City');
