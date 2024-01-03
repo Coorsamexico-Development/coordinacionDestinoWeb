@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center justify-center  cursor-pointer bg-[#1D96F1] px-8 py-2 rounded-2xl"
      @click="selectFile()" @drop="drop" @dragover.prevent="checkDrop">
-     <img class="w-5 mr-2" />
+     <img class="w-5 mr-2" src="../../../../assets/img/DOCS.png" />
      <input :ref="'filedropzone'" type="file"
                 @input="$emit('update:modelValue', $event.target.files[0])"
                 class="hidden" :accept="accept"
