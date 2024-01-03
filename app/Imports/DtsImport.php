@@ -78,23 +78,32 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
        $date = ($row['cita'] - 25569) * 86400;
        $gmtDate= gmdate("Y-m-d H:i", $date);
        //$mDate = new DateTime($gmtDate);
-      $confirmacionDt = ConfirmacionDt::updateOrCreate([
-          'confirmacion' => $row['confirmacion'],
-          'dt_id' => $dt->id,
-          'numero_cajas' => $row['numero_de_cajas'],
-          'cita' => $gmtDate,
-          'linea_transporte_id' => $linea_transporte->id,
-          'plataforma_id' => $plataforma->id,
-          'ubicacion_id' => $ubicacion->id,
-          'status_id' => $status->id,
-        ]);
+       //Buscamos el dt a crear
+       $confirmacion_a_buscar = ConfirmacionDt::select('confirmacion_dts.*')
+       ->where('confirmacion_dts.confirmacion','=',$row['confirmacion'])
+       ->first();
+       if($confirmacion_a_buscar == null)//sino exsite se crea
+       {
+           $confirmacionDt = ConfirmacionDt::updateOrCreate([
+             'confirmacion' => $row['confirmacion'],
+             'dt_id' => $dt->id,
+             'numero_cajas' => $row['numero_de_cajas'],
+             'cita' => $gmtDate,
+             'linea_transporte_id' => $linea_transporte->id,
+             'plataforma_id' => $plataforma->id,
+             'ubicacion_id' => $ubicacion->id,
+             'status_id' => $status->id,
+           ]);
 
-      //Creamos el primer registro en la tabla de historico
-       StatusDt::updateOrCreate([
-         'confirmacion_dt_id' => $confirmacionDt->id,
-         'status_id' => $status->id,
-         'activo' => 1,
-       ]);
+         //Creamos el primer registro en la tabla de historico
+          StatusDt::updateOrCreate([
+            'confirmacion_dt_id' => $confirmacionDt->id,
+            'status_id' => $status->id,
+            'activo' => 1,
+          ]);
+       }
+       //sino manda mensaje de error
+
     }
 
 
