@@ -939,6 +939,10 @@ class ConfirmacionDtController extends Controller
      StatusDt::where('confirmacion_dt_id', '=' ,$dt['id'])
      ->delete();
 
+     //Borramos las oc asociadas
+     Oc::where('confirmacion_dt_id', '=' ,$dt['id'])
+     ->delete();
+
      //Borramos el confirmacion_dt
      ConfirmacionDt::where('id', '=' ,$dt['id'])
      ->delete();
