@@ -49,5 +49,47 @@ class UbicacionesSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Santa Barbara",
+            'abreviacion' => 'SBA',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Mexicalli",
+            'abreviacion' => 'CUI',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Chihuahua",
+            'abreviacion' => 'CH',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "San Martin de Obispo",
+            'abreviacion' => 'SMO',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+         DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Villahermosa",
+            'abreviacion' => 'VH',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+         DB::table('ubicaciones')->insert([
+            'nombre_ubicacion' => "Chalco",
+            'abreviacion' => 'CH',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
