@@ -34,7 +34,7 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
             'nombre' => 'WALMART'
          ]);
        }
-       elseif(str_contains($row['plataforma'], 'SAM') || str_contains($row['plataforma'], 'SAMS'))
+       elseif(str_contains($row['plataforma'], 'SAM'))
        {
          $plataforma = Plataforma::updateOrCreate([
            'nombre' => 'SAMS'
@@ -44,6 +44,11 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
        {
          $plataforma = Plataforma::updateOrCreate([
            'nombre' => 'BAE'
+         ]);
+       }
+       elseif(str_contains($row['plataforma'], 'ECOM')){
+          $plataforma = Plataforma::updateOrCreate([
+           'nombre' => 'ECOMMERCE'
          ]);
        }
        
