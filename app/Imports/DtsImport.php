@@ -28,29 +28,36 @@ class DtsImport implements ToModel, WithHeadingRow //WithValidation
         //Evaluador de estandarizado de plataformas
         $plataforma = null;
 
-       if(str_contains($row['plataforma'], 'WAL') || str_contains($row['plataforma'], 'CENTER') || str_contains($row['plataforma'], 'SUPERCENTER') || str_contains($row['plataforma'], 'AUTO'))
-       {
-        $plataforma = Plataforma::updateOrCreate([
-            'nombre' => 'WALMART'
-         ]);
-       }
-       elseif(str_contains($row['plataforma'], 'SAM'))
-       {
-         $plataforma = Plataforma::updateOrCreate([
-           'nombre' => 'SAMS'
-         ]);
-       }
-       elseif(str_contains($row['plataforma'], 'BAE') || str_contains($row['plataforma'], 'BODEGA') )
-       {
-         $plataforma = Plataforma::updateOrCreate([
-           'nombre' => 'BAE'
-         ]);
-       }
-       elseif(str_contains($row['plataforma'], 'ECOM')){
+      if (str_contains($row['plataforma'], 'WAL') || str_contains($row['plataforma'], 'CENTER') || str_contains($row['plataforma'], 'SUPERCENTER') || str_contains($row['plataforma'], 'AUTO')) {
           $plataforma = Plataforma::updateOrCreate([
-           'nombre' => 'ECOMMERCE'
-         ]);
-       }
+              'nombre' => 'WALMART'
+          ]);
+      }
+      elseif (str_contains($row['plataforma'], 'SAM')) {
+          $plataforma = Plataforma::updateOrCreate([
+              'nombre' => 'SAMS'
+          ]);
+      }
+      elseif (str_contains($row['plataforma'], 'MI BODEGA')) {
+          $plataforma = Plataforma::updateOrCreate([
+              'nombre' => 'MI BODEGA'
+          ]);
+      }
+      elseif (str_contains($row['plataforma'], 'BODEGA')) {
+          $plataforma = Plataforma::updateOrCreate([
+              'nombre' => 'BODEGA'
+          ]);
+      }
+      elseif (str_contains($row['plataforma'], 'BAE')) {
+          $plataforma = Plataforma::updateOrCreate([
+              'nombre' => 'BAE'
+          ]);
+      }
+      elseif (str_contains($row['plataforma'], 'ECOM')) {
+          $plataforma = Plataforma::updateOrCreate([
+              'nombre' => 'ECOMMERCE'
+          ]);
+      }
        
 
 
