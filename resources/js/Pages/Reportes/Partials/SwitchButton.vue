@@ -19,7 +19,7 @@ const setearPlataforma = (plataforma_id) =>
 
 </script>
 <template>
-    <div class="flex flex-row justify-center py-4">
+    <div class="flex flex-row justify-center py-4 overflow-x-auto">
         <div class="mx-0.5" v-for="plataforma in plataformas" :key="plataforma.id">
           <div @click="setearPlataforma(plataforma.id)">
             <div class="bg-[#C6C6C6] px-4 py-1 rounded-full text-white flex flex-row" v-if="activo === plataforma.id">
