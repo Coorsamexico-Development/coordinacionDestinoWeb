@@ -70,31 +70,41 @@ const contadorIndividual = computed(() =>
 <template>
    <div :id="'status-'+statu.id">
       <div class="flex flex-row justify-between my-2">
-      <h1 class="text-lg" style="font-family: 'Montserrat';" :id="'status-name-'+statu.id">{{ statu.nombre }}</h1>
-      <div v-if="statu.id == 1">
-        <a :href="route('downloadReport')" id="downloadReport"  class="px-2 rounded-xl bg-[#697FEA] py-1" >
-           <span style="font-family: 'Montserrat';" class="text-white">Descargar ejemplo</span>
-        </a>
+         <h1 class="text-lg" style="font-family: 'Montserrat';" :id="'status-name-'+statu.id">{{ statu.nombre }}</h1>
+         <div v-if="statu.id == 1">
+         <a :href="route('downloadReport')" id="downloadReport"  class="px-2 rounded-xl bg-[#697FEA] py-1" >
+            <span style="font-family: 'Montserrat';" class="text-white">Descargar ejemplo</span>
+         </a>
+         </div>
+         <div v-if="statu.id == 1">
+            <ButtonDropZone id="dropzone" v-model="document" />
+         </div>
       </div>
-      <div v-if="statu.id == 1">
-           <ButtonDropZone id="dropzone" v-model="document" />
-        </div>
-   </div>
-   <div class="grid grid-cols-2 gap-1">
-      <div :id="'cotador-'+contador.id" class="flex flex-row items-center justify-between w-full p-2 py-3 m-1 border rounded-lg" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
-         <p class="text-sm text-white uppercase">
-           {{contador.nombre}}:
-         </p>
-         <p class="text-4xl text-white" style="font-weight:900">
-            {{ contador.confirmaciones_dts.length }}
-         </p>
-      </div>
-   </div>
     <!--body-->
      <div class="px-4 py-4 rounded-lg snap-2" style="overflow-y: scroll;">
-         <div v-for="ubicacion in ubicaciones" :key="ubicacion.id">
-            <UbicacionDesplegable  :buscador="buscadorToComponent" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" :fecha="fechaToComponent" />
-         </div>
+         <table>
+            <thead>
+               <tr>
+                  <th>
+                     
+                  </th>
+                  <th :id="'cotador-'+contador.id" scape="col" class="p-4" v-for="contador in contadorIndividual" :key="contador.id" :style="{backgroundColor:contador.color}">
+                     <p class="text-xs text-white uppercase">
+                        {{contador.nombre}}:
+                     </p>
+                     <p class="text-xl text-white" style="font-weight:900">
+                        {{ contador.confirmaciones_dts.length }}
+                     </p>
+                  </th>
+                  <th>
+
+                  </th>
+               </tr>
+            </thead>
+            <tbody v-for="ubicacion in ubicaciones" :key="ubicacion.id">
+               <UbicacionDesplegable  :buscador="buscadorToComponent" :ubicacion="ubicacion" :plataformas="plataformas" :status="statu" :fecha="fechaToComponent" />
+            </tbody>
+         </table>
      </div> 
    </div>
 </template>

@@ -2,6 +2,7 @@
 import axios from "axios";
 import {ref, watch, computed, reactive, onUpdated } from "vue";
 import SwitchButton from './SwitchButton.vue';
+import DialogModal from "@/Components/DialogModal.vue";
 import DtBlock from './DtBlock.vue';
 import { pickBy } from 'lodash';
 import PaginationAxios from '@/Components/PaginationAxios.vue';
@@ -39,6 +40,11 @@ const showClients = (ubicacion_id) =>  //funcion para desplegar
     //console.log(ubicacion_id);
     params.ubicacion_id = ubicacion_id
     show.value = !show.value ;
+}
+
+const closeModal = () => {
+    show.value = false
+    params.ubicacion_id = null;
 }
 
 //El id viene de la emicion de switchButtons
@@ -168,32 +174,36 @@ const valores = computed(() =>
 
 </script>
 <template>
-   <div class="bg-white rounded-xl drop-shadow-lg" :id="'ubicacion-'+ubicacion.id"> <!--main-->
-     <div> <!--Header-->
+   <tr class="bg-white rounded-xl drop-shadow-lg hover:bg-gray-100 cursor-pointer" :id="'ubicacion-'+ubicacion.id" @click="showClients(ubicacion.id)">
+      <td class="p-4">
+        <h1 class="text-sm uppercase" style="font-family: 'Montserrat';">
+          {{ ubicacion.nombre_ubicacion }}
+        </h1>
+      </td>
+      <td class="p-4" v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
+        <div v-for="(valor, key) in valores"  :key="key">
+            <div v-if="valor.status == statuChild.id">
+              <div class="flex flex-row items-center justify-center text-lg" v-if="valor.status"> 
+                <p :id="'ubicacion-contador'+key">
+                  {{ valor.total }}
+                </p>
+              </div>
+            </div>
+        </div>
+      </td>
+      <!-- <td class="p-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+      </td> -->
+     <!-- <div>
         <div class="flex flex-row items-center justify-between p-4 mx-2 mt-4 bg-white rounded-lg">
           <h1 class="text-lg uppercase" style="font-family: 'Montserrat';">{{ ubicacion.nombre_ubicacion }}</h1>
           <div class="flex flex-row items-center">
             <div class="flex flex-row mr-2">    
               <div class="mx-4 text-3xl font-bold"  v-for="statuChild in status.status_hijos" :key="statuChild.id" :style="{color:statuChild.color}">
-                <div v-for="(valor, key) in valores"  :key="key">
-                   <div v-if="valor.status == statuChild.id">
-                      <div class="flex flex-row" v-if="valor.status"> 
-                        <p class="ml-0" :id="'ubicacion-contador'+key">
-                          {{ valor.total }}
-                        </p>
-                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-if="valor.status == 4">
-                        </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 6">
-                        </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 7">
-                        </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 8">
-                        </span>
-                        <span class="bg-[#9B9B9B] absolute h-7 mx-8 mt-1" style="width:2px" v-else-if="valor.status == 10">
-                        </span>
-                      </div>
-                   </div>
-                </div>
+                
               </div>
             </div>
             <div id="boton-despliegue">
@@ -206,13 +216,19 @@ const valores = computed(() =>
             </div>
           </div>
         </div>
-     </div>
+     </div> -->
      <!--Contenido-->
-     <Transition name="slide-fade">
-        <div v-if="show" >
+    </tr>
+
+    <DialogModal
+        :show="show"
+     >
+        <template #title>
+            {{ ubicacion.nombre_ubicacion }}
+        </template>
+        <template #content>
           <SwitchButton id="switch-plataformas" @setPlataforma="setPlataforma($event)" :plataformas="plataformas" :ubicacion="ubicacion" :status="status" />
           <div v-if="dts !== null">
-             <!--SON CONFIRMACIONES las que se listan-->
              <div class="pb-1" :id="'dt-block'+key" v-for="(dt,key) in dts.data" :key="dt.id">
                 <DtBlock :dt="dt"  />
              </div>
@@ -220,9 +236,11 @@ const valores = computed(() =>
                <PaginationAxios @loadPage="loadPage($event)" :pagination="dts" />
              </div>             
           </div>
-        </div>
-     </Transition>
-   </div>
+        </template>
+        <template #footer>
+            <button @click="closeModal">Cerrar</button>
+        </template>
+     </DialogModal>
 </template>
 <style>
 .slide-fade-enter-active {

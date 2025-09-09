@@ -17,4 +17,22 @@ export default defineConfig({
             },
         }),
     ],
+    server: {
+        host: '0.0.0.0',        // ← Permite conexiones desde fuera del contenedor
+        port: 5173,             // ← Puerto predeterminado de Vite
+        hmr: {
+            protocol: 'ws',
+            host: 'localhost',   // ← Host para hot module replacement
+            port: 5173,
+        },
+        watch: {
+            usePolling: true,    // ← Importante: habilita polling para Docker
+            interval: 1000,      // ← Intervalo de polling en ms
+        },
+    },
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+        },
+    },
 });

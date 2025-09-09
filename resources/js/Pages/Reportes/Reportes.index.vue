@@ -307,7 +307,7 @@ const search = () =>
               <TextInput id="buscadorViajes" v-model="buscador" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar" />
            </div>
        </div>
-       <div class="grid w-full grid-cols-3 gap-4 px-8 py-2" id="container-status">
+       <div class="grid w-full grid-cols-[1fr_2fr_1fr] gap-4 px-8 py-2" id="container-status">
           <div v-for="(statu_padre) in status_padre" :key="statu_padre.id">
              <ScrollableStatus  :statu="statu_padre" :contadores="contadores" :ubicaciones="ubicaciones" :plataformas="plataformas" :buscador="buscadorToComponent"  :fecha="fechaToComponent"/>
           </div>
