@@ -61,5 +61,13 @@ class HorasSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('horas')->insert([
+            'id' => 7,
+            'nombre' => "Hora de impresion",
+            'status_id' => 3,
+            'activo' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

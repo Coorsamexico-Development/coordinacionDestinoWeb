@@ -693,7 +693,9 @@ class ValorController extends Controller
       'fotosNames' => ['required', 'array'],
       'fotosNames.*.campo_id' => ['required', 'integer'],
       'fotosNames.*.nombre_foto' => ['required', 'string'],
-      'confirmacion_id' => ['required', 'integer', 'exists:confirmacions,id'],
+      'confirmacion_id' => ['required', 'integer', 'exists:confirmacion_dts,id'],
+      'dt' => ['required', 'integer', 'exists:dts,id'],
+      'confirmacion' => ['required'],
     ]);
     $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
     try {
@@ -706,40 +708,27 @@ class ValorController extends Controller
       }
 
       foreach ($fotosNames as $fotoObject) {
+        // $fotoObject = json_decode($fotoObject, true);
         $url = Storage::disk('gcs')->url('img/fotos/' . $fotoObject['nombre_foto']);
-        $dt_campo_foto = DtCampoValor::select(
-          'dt_campo_valors.*'
-        )
-          ->where('dt_campo_valors.confirmacion_id', '=', $request['confirmacion_id'])
-          ->where('dt_campo_valors.campo_id', '=', $fotoObject['campo_id'])
-          ->first();
+        $dt_campo_foto = DtCampoValor::firstOrCreate(
+          [
+            'confirmacion_id' => $request['confirmacion_id'],
+            'campo_id' => $fotoObject['campo_id']
+          ]
+        );
 
-        if ($dt_campo_foto !== null) {
-          $newValor = Valor::updateOrcreate([
-            'valor' => $url,
-            'dt_campo_valor_id' => $dt_campo_foto['id'],
-            'user_id' => $request['usuario']
-          ]);
-        } else {
-          $dt_campo_foto = DtCampoValor::updateOrcreate(
-            [
-              'confirmacion_id' => $request['confirmacion_id'],
-              'campo_id' => $fotoObject['campo_id']
-            ]
-          );
-
-          $newValor = Valor::updateOrcreate([
-            'valor' => $url,
-            'dt_campo_valor_id' => $dt_campo_foto['id'],
-            'user_id' => $request['usuario']
-          ]);
-        }
+        Valor::updateOrCreate([
+          'valor' => $url,
+          'dt_campo_valor_id' => $dt_campo_foto['id'],
+          'user_id' => $request['usuario']
+        ]);
       }
 
       //Cambio al sig status
-      $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
+      $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
+        ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
         ->where('confirmacion_dts.dt_id', '=', $request['dt'])
-        ->first();
+        ->firstOrFail();
 
       date_default_timezone_set('America/Mexico_City');
       $fecha_actual = getdate();
@@ -766,7 +755,7 @@ class ValorController extends Controller
       ]);
 
       HorasHistorico::updateOrcreate([
-        'hora_id' => 7,
+        'hora_id' => 5,
         'status_dts_id' => $newStatus['id'],
         'hora' => $hora_actual
       ]);
@@ -780,6 +769,7 @@ class ValorController extends Controller
       ], 200);
     } catch (\Exception $e) {
       DB::rollBack();
+      Log::error($e);
       return response()->json([
         'success' => false,
         'message' => 'Error al actualizar los registros',
