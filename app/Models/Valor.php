@@ -13,6 +13,12 @@ class Valor extends Model
         'valor',
         'dt_campo_valor_id',
         'user_id',
-        'activo'
+        'activo',
+        'is_evidencia'
+    ];
+
+    protected $casts = [
+        'is_evidencia' => 'boolean',
+        'activo' => 'boolean',
     ];
 }
