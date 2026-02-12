@@ -800,6 +800,14 @@ class ValorController extends Controller
       ->where('dt_campo_valors.confirmacion_id', '=',  $request['confirmacion_dt_id'])
       ->get();
 
+    $evidencias = Valor::select('valors.*', 'campos.id as campo_id',)
+      ->join('dt_campo_valors', 'valors.dt_campo_valor_id', 'dt_campo_valors.id')
+      ->join('campos', 'dt_campo_valors.campo_id', 'campos.id')
+      ->where('campos.status_id', '=', $status['id'])
+      ->where('valors.is_evidencia', '=', 1)
+      ->where('dt_campo_valors.confirmacion_id', '=',  $request['confirmacion_dt_id'])
+      ->get();
+
     /*
        $valors = Valor::select('valors.*','campos.id as campo_id',)
        ->join('dt_campo_valors','valors.dt_campo_valor_id','dt_campo_valors.id')
@@ -814,6 +822,10 @@ class ValorController extends Controller
        */
 
     //
-    return ['campos' => $campos, 'valors' => $valors];
+    return response()->json([
+      'campos' => $campos,
+      'valors' => $valors,
+      'evidencias' => $evidencias
+    ], 200);
   }
 }
