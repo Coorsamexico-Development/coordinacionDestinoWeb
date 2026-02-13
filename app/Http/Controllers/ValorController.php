@@ -374,6 +374,10 @@ class ValorController extends Controller
 
   public function documentacionValores(Request $request) //pantalla de documentacion
   {
+    $request->validate([
+      'params.confirmacion_id' => 'required',
+      'params.valores' => 'required',
+    ]);
     $valores = $request['params']['valores'];
 
     for ($i = 0; $i < count($valores); $i++) {
@@ -424,6 +428,14 @@ class ValorController extends Controller
 
   public function documentacionFotos(Request $request) //guarda y cambia a status 7 (en eespera de rampa)
   {
+    $request->validate([
+      'dt' => 'required|exists:dts,id',
+      'fotos' => 'array',
+      'fotosNames' => 'array',
+      'confirmacion_id' => 'required',
+      'usuario' => 'required',
+    ]);
+    Log::info($request->all());
     //RECORRIDO DE PRUEBA
     $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
     //Primero guardamos las fotos
@@ -470,7 +482,7 @@ class ValorController extends Controller
 
     //cambiaremos de status
     $cofnirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
-      ->where('confirmacion', '=', $request['confirmacion'])
+      ->where('confirmacion_dts.id', '=', $request['confirmacion_id'])
       ->where('dt_id', '=', $request['dt'])
       ->first();
 
@@ -479,7 +491,7 @@ class ValorController extends Controller
     $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
     $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
 
-    ConfirmacionDt::where('confirmacion', '=', $request['confirmacion'])
+    ConfirmacionDt::where('id', '=', $request['confirmacion_id'])
       ->update([
         'status_id' => 7,
         'updated_at' => $newFecha,

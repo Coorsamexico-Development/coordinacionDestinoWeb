@@ -778,21 +778,23 @@ class ConfirmacionDtController extends Controller
 
   public function getTelephone(Request $request)
   {
-    if ($request['confirmacion']) {
-      $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
-        ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
-        ->first();
+    $request->validate([
+      'confirmacion' => 'required'
+    ]);
 
-      //buscamos el campo del telefono
-      $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
-        ->where('dt_campo_valors.confirmacion_id', '=', $confirmacion_dt['id'])
-        ->where('dt_campo_valors.campo_id', '=', 5)
-        ->first();
+    $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+      ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
+      ->findOrFail();
 
-      return  $telefono = Valor::select('valors.*')
-        ->where('valors.dt_campo_valor_id', '=', $dt_campo_valor['id'])
-        ->first();
-    }
+    //buscamos el campo del telefono
+    $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
+      ->where('dt_campo_valors.confirmacion_id', '=', $confirmacion_dt['id'])
+      ->where('dt_campo_valors.campo_id', '=', 5)
+      ->first();
+
+    return  $telefono = Valor::select('valors.*')
+      ->where('valors.dt_campo_valor_id', '=', $dt_campo_valor['id'])
+      ->first();
   }
 
   public function saveDocPOD(Request $request)
