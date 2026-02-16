@@ -9,7 +9,8 @@ import { Fancybox } from "@fancyapps/ui/dist/fancybox/fancybox.esm.js";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import axios from "axios";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
+import StatusTimeline from "../Components/StatusTimeline.vue";
 import ModalIncidencias from "../Modals/ModalIncidencias.vue";
 import Campo from "../Partials/Campo.vue";
 import ModalErr from "./ModalErr.vue";
@@ -327,6 +328,15 @@ const openModalErr = () => {
 const closeModalErr = () => {
     err.value = false;
 };
+
+const beforeStatusDocumentado = computed(() => {
+    const index = props.infoModal.findIndex((item) => item.status_id == 6);
+
+    if (index == -1 || index == 0) {
+        return null;
+    }
+    return props.infoModal[index - 1];
+});
 </script>
 <template>
     <DialogModal
@@ -371,107 +381,14 @@ const closeModalErr = () => {
                         Histórico de status
                     </h1>
                     <!--TimeLine-->
-                    <div
+                    <StatusTimeline
                         v-for="(historia, key) in infoModal"
                         :key="historia.id"
-                    >
-                        <!--
-               <button @click="cambio(historia.confirmacion_dt_id)">
-                  Cambio
-               </button>0
-               -->
-                        <div
-                            :class="[
-                                key + 1 !== infoModal.length
-                                    ? activeClass
-                                    : errorClas,
-                            ]"
-                        >
-                            <div id="timeline-item">
-                                <div
-                                    id="timeline-icon"
-                                    class="flex items-center"
-                                    :style="{ backgroundColor: historia.color }"
-                                >
-                                    <img
-                                        class="w-8"
-                                        :src="historia.icon"
-                                        v-if="historia.status == 'Enrampado'"
-                                    />
-                                    <img
-                                        class="w-4"
-                                        :src="historia.icon"
-                                        v-else-if="
-                                            historia.status == 'Documentado'
-                                        "
-                                    />
-                                    <img
-                                        class="w-5"
-                                        :src="historia.icon"
-                                        v-else
-                                    />
-                                </div>
-                                <div id="timeline-content">
-                                    <div class="flex flex-row justify-between">
-                                        <div>
-                                            <h2
-                                                class="text-lg"
-                                                :style="{
-                                                    color: historia.color,
-                                                }"
-                                            >
-                                                {{ historia.status }}
-                                            </h2>
-                                            <div
-                                                class="flex flex-row items-center"
-                                            >
-                                                <img
-                                                    class="w-4 h-4 mr-2"
-                                                    src="../../../../assets/img/reloj-de-pared.png"
-                                                />
-                                                <h1
-                                                    class="text-[#9B9B9B] text-base"
-                                                >
-                                                    {{
-                                                        historia.created_at.substring(
-                                                            8,
-                                                            10,
-                                                        ) +
-                                                        "/" +
-                                                        historia.created_at.substring(
-                                                            5,
-                                                            7,
-                                                        ) +
-                                                        "  " +
-                                                        " " +
-                                                        historia.created_at.substring(
-                                                            11,
-                                                            16,
-                                                        )
-                                                    }}
-                                                </h1>
-                                            </div>
-                                        </div>
-                                        <div
-                                            class="flex items-center justify-center"
-                                        >
-                                            <ButtonWatch
-                                                class="w-8"
-                                                :color="'#44BFFC'"
-                                                @click="
-                                                    consultarHistoria(historia)
-                                                "
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="absolute bg-[#9B9B9B] w-11/12 opacity-25 ml-9 mt-2"
-                                    style="height: 2px"
-                                ></div>
-                            </div>
-                        </div>
-                    </div>
+                        :historialStatus="historia"
+                        :beforeStatusDocumentado="beforeStatusDocumentado"
+                        :isLast="key + 1 === infoModal.length"
+                        @consultarHistoria="consultarHistoria"
+                    />
                     <!--TimeLine-->
                 </div>
                 <div id="valores-by-status" class="my-4">

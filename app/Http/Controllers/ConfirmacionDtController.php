@@ -784,7 +784,7 @@ class ConfirmacionDtController extends Controller
 
     $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
       ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
-      ->findOrFail();
+      ->firstOrFail();
 
     //buscamos el campo del telefono
     $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')

@@ -8,6 +8,7 @@ use App\Models\DtCampoValor;
 use App\Models\Valor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DtCampoValorController extends Controller
@@ -50,6 +51,7 @@ class DtCampoValorController extends Controller
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error($e);
             return response()->json([
                 'message' => 'Error al guardar el archivo',
                 'error' => $e->getMessage()
