@@ -47,6 +47,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
   Route::post('campos/{campo}/evidencias', [DtCampoValorController::class, 'storeEvidencias']);
+  // New Product API routes
+  Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
+  Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store']);
 });
 
 //Ruta inicial para obtener DTS
@@ -84,6 +87,8 @@ Route::get('artisan', function () {
 Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para consultar productos
 Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('indexProductos');
+
+
 //Ruta para checar el tipo de incidencias
 Route::get('/checkIncidencias', [IncidenciaController::class, 'checkIncidencias'])->name('checkIncidencias');
 //Save incidencias
