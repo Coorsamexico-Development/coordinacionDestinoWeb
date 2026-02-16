@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CatalogStatusController;
 use App\Http\Controllers\ConfirmacionDtController;
+use App\Http\Controllers\EmailGroupController;
 use App\Http\Controllers\ConfirmacionFechasPodController;
 use App\Http\Controllers\ConfirmacionStatusPodController;
 use App\Http\Controllers\DtController;
@@ -48,33 +50,42 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->group(function () 
-{
-    Route::get('/dashboard', function () 
-    {
+])->group(function () {
+    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
     //Rutas que son necesarias que estes logueado
     //Ruta de carga para pantalla de reportes
     Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
     //Manage Users view
-    Route::get('/usuarios',[UserUbicacioneController::class, 'index'])->name('manageUsers.index');
+    Route::get('/usuarios', [UserUbicacioneController::class, 'index'])->name('manageUsers.index');
     //Roles y permisos index
-    Route::get('/rolesPermisos',[RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');
+    Route::get('/rolesPermisos', [RolesPermissionController::class, 'index'])->name('rolesPermisosIndex');
     //Modulo de productos
-    Route::get('/productos',[ProductoController::class,'index'])->name('productos.index');
+    Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
     //Modulo de viajes
-    Route::get('/viajes',[DtController::class,'index'])->name('viajes.index');
+    Route::get('/viajes', [DtController::class, 'index'])->name('viajes.index');
+    //Catalogs Status
+    Route::get('/catalogs/status', [CatalogStatusController::class, 'index'])->name('catalogs.status.index');
+    Route::put('/catalogs/status/{status}', [CatalogStatusController::class, 'update'])->name('catalogs.status.update');
+
+    //Catalogs Email Groups
+    Route::get('/catalogs/email-groups', [EmailGroupController::class, 'index'])->name('catalogs.email-groups.index');
+    Route::post('/catalogs/email-groups', [EmailGroupController::class, 'store'])->name('catalogs.email-groups.store');
+    Route::put('/catalogs/email-groups/{emailGroup}', [EmailGroupController::class, 'update'])->name('catalogs.email-groups.update');
+    Route::delete('/catalogs/email-groups/{emailGroup}', [EmailGroupController::class, 'destroy'])->name('catalogs.email-groups.destroy');
+    Route::post('/catalogs/email-groups/{emailGroup}/recipients', [EmailGroupController::class, 'addRecipient'])->name('catalogs.email-groups.add-recipient');
+    Route::delete('/catalogs/email-groups/recipients/{recipient}', [EmailGroupController::class, 'removeRecipient'])->name('catalogs.email-groups.remove-recipient');
 });
 
 
 //Ruta para cargar dts
-Route::post('/reportes',[ReporteController::class, 'store'])->name('reportes.store');
+Route::post('/reportes', [ReporteController::class, 'store'])->name('reportes.store');
 //Ruta para descargar ejemplo de reporte
-Route::get('/downloadReport',[ReporteController::class, 'downloadReport'])->name('downloadReport');
+Route::get('/downloadReport', [ReporteController::class, 'downloadReport'])->name('downloadReport');
 //Ruta pra consultar confirmaciones/dts por ubicacion y cliente
-Route::get('/getConfirmaciones',[ConfirmacionDtController::class, 'index'])->name('getConfirmacions');
-Route::get('/getConfirmacionByStatus',[ConfirmacionDtController::class,'getConfirmacionByStatus'])->name('getConfirmacionByStatus');
+Route::get('/getConfirmaciones', [ConfirmacionDtController::class, 'index'])->name('getConfirmacions');
+Route::get('/getConfirmacionByStatus', [ConfirmacionDtController::class, 'getConfirmacionByStatus'])->name('getConfirmacionByStatus');
 //Cambio de status to riesgo
 Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
 Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
@@ -85,71 +96,71 @@ Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorReci
 Route::get('/changeToDescarga', [ConfirmacionDtController::class, 'changeToDescarga'])->name('changeToDescarga');
 Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrrampado'])->name('changeEnrrampado');
 //Ruta para checar historico
-Route::get('/showHistorico',[StatusDtController::class, 'showHistorico'])->name('showHistorico');
+Route::get('/showHistorico', [StatusDtController::class, 'showHistorico'])->name('showHistorico');
 //Ver valores
-Route::get('/checkValores',[ValorController::class, 'checkValores'])->name('checkValores');
+Route::get('/checkValores', [ValorController::class, 'checkValores'])->name('checkValores');
 //Edicion de usuario
-Route::get('/editUser',[UserUbicacioneController::class, 'update'])->name('editUser');
+Route::get('/editUser', [UserUbicacioneController::class, 'update'])->name('editUser');
 //Creacion de usuario
-Route::get('/saveUser',[UserUbicacioneController::class, 'store'])->name('saveUser');
+Route::get('/saveUser', [UserUbicacioneController::class, 'store'])->name('saveUser');
 //Obtener PDF general
-Route::get('/getPDF',[ConfirmacionDtController::class, 'getPDF'])->name('getPDF');
+Route::get('/getPDF', [ConfirmacionDtController::class, 'getPDF'])->name('getPDF');
 //Ruta para enviar correo
-Route::get('/sentMail',[ReporteController::class, 'sentMail'])->name('sentMail');
+Route::get('/sentMail', [ReporteController::class, 'sentMail'])->name('sentMail');
 //Apartado de graficas
-Route::get('/reporteGraficos',[ReporteController::class, 'reporteGraficos'])->name('reportes.graficos.index');
+Route::get('/reporteGraficos', [ReporteController::class, 'reporteGraficos'])->name('reportes.graficos.index');
 //Consulta para checar viejes de grafica por click
-Route::get('/consultarConfirmaciones',[ConfirmacionDtController::class, 'consultarConfirmaciones'])->name('consultarConfirmaciones');
+Route::get('/consultarConfirmaciones', [ConfirmacionDtController::class, 'consultarConfirmaciones'])->name('consultarConfirmaciones');
 //Creacion de OCS
-Route::get('/saveOcs',[OcController::class, 'store'])->name('saveOcs');
+Route::get('/saveOcs', [OcController::class, 'store'])->name('saveOcs');
 //Consultar OCS
-Route::get('/consultarOcs',[OcController::class, 'consultarOcs'])->name('consultarOcs');
+Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
 
 //Descarga de ejemplo de importacion de productos
-Route::get('/getProductosExample', [ProductoController::class,'donwloadExportExample'])->name('donwloadExportExample');
+Route::get('/getProductosExample', [ProductoController::class, 'donwloadExportExample'])->name('donwloadExportExample');
 //Importacion de nuevos productos
-Route::post('/productos',[ProductoController::class, 'store'])->name('productos.store');
+Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
 //Consultar viajes con incidencias del producto a consutar
-Route::get('/viajesByProducto', [ProductoController::class,'viajesByProducto'])->name('viajesByProducto');
+Route::get('/viajesByProducto', [ProductoController::class, 'viajesByProducto'])->name('viajesByProducto');
 //Consultar ocs con incidencias y evidencias por viaje
-Route::get('/ocsByViaje',[OcController::class, 'ocsByViaje'])->name('ocsByViaje');
+Route::get('/ocsByViaje', [OcController::class, 'ocsByViaje'])->name('ocsByViaje');
 //Ruta paara guardar documento POD de la confirmacion
-Route::post('/saveDocPOD',[ConfirmacionDtController::class, 'saveDocPOD'])->name('saveDocPOD');
+Route::post('/saveDocPOD', [ConfirmacionDtController::class, 'saveDocPOD'])->name('saveDocPOD');
 //Ruta para guardar nuevas incidencias referentes a la confirnacion
-Route::post('/saveNewIncidencias',[IncidenciaController::class, 'saveNewIncidencias'])->name('saveNewIncidencias');
+Route::post('/saveNewIncidencias', [IncidenciaController::class, 'saveNewIncidencias'])->name('saveNewIncidencias');
 //RUta para guardar el reportePOD 
-Route::post('/reportePOD',[IncidenciaController::class, 'reportePOD'])->name('reportePOD');
+Route::post('/reportePOD', [IncidenciaController::class, 'reportePOD'])->name('reportePOD');
 //Ruta para borrar incidencias
-Route::post('/borrarIncidencia',[IncidenciaController::class,'borrarIncidencia'])->name('borrarIncidencia');
-Route::get('/getIncidenciasByOc',[IncidenciaController::class,'getIncidenciasByOc'])->name('getIncidenciasByOc');
+Route::post('/borrarIncidencia', [IncidenciaController::class, 'borrarIncidencia'])->name('borrarIncidencia');
+Route::get('/getIncidenciasByOc', [IncidenciaController::class, 'getIncidenciasByOc'])->name('getIncidenciasByOc');
 //Ruta para descargar reportes de incidencia
-Route::get('/downloadIncidenciasReport',[IncidenciaController::class, 'dowloadIncidenciasByOc'])->name('downloadIncidenciasReport');
+Route::get('/downloadIncidenciasReport', [IncidenciaController::class, 'dowloadIncidenciasByOc'])->name('downloadIncidenciasReport');
 //Ruta para guardar datos de facturas
-Route::post('/saveFacturas',[OcController::class, 'saveFacturas'])->name('saveFacturas');
+Route::post('/saveFacturas', [OcController::class, 'saveFacturas'])->name('saveFacturas');
 //Ruta para descargar reporte con incidencias global por fechas
-Route::get('/descargarReporteViajesConIncidencias',[ConfirmacionDtController::class, 'descargarReporteViajesConIncidencias'])->name('descargarReporteViajesConIncidencias');
+Route::get('/descargarReporteViajesConIncidencias', [ConfirmacionDtController::class, 'descargarReporteViajesConIncidencias'])->name('descargarReporteViajesConIncidencias');
 //Ruta para guardar registro de fechas por confirmacion
-Route::get('/saveFechasPODConfirmacion',[ConfirmacionFechasPodController::class, 'saveFechasPODConfirmacion'])->name('saveFechasPODConfirmacion');
+Route::get('/saveFechasPODConfirmacion', [ConfirmacionFechasPodController::class, 'saveFechasPODConfirmacion'])->name('saveFechasPODConfirmacion');
 //Ruta para guardar registro status pod por confirmacion
-Route::get('/saveStatusPodPorConfirmacion', [ConfirmacionStatusPodController::class,'saveStatusPodPorConfirmacion'])->name('saveStatusPodPorConfirmacion');
-Route::get('/consultarFechasStatusPOD',[ConfirmacionDtController::class, 'consultarFechasStatusPOD'])->name('consultarFechasStatusPOD');
-Route::get('/createAnother',[ConfirmacionStatusPodController::class, 'createAnother'])->name('createAnother');
+Route::get('/saveStatusPodPorConfirmacion', [ConfirmacionStatusPodController::class, 'saveStatusPodPorConfirmacion'])->name('saveStatusPodPorConfirmacion');
+Route::get('/consultarFechasStatusPOD', [ConfirmacionDtController::class, 'consultarFechasStatusPOD'])->name('consultarFechasStatusPOD');
+Route::get('/createAnother', [ConfirmacionStatusPodController::class, 'createAnother'])->name('createAnother');
 //Ruta para cambiar la cita del viaje
-Route::get('/changeCita',[ConfirmacionDtController::class, 'changeCita'])->name('changeCita');
+Route::get('/changeCita', [ConfirmacionDtController::class, 'changeCita'])->name('changeCita');
 //Ruta para consultar tipos de incidencia y productos
-Route::get('/getTiposIncidenciaYProductos',[TiposIncidenciaController::class, 'getTiposIncidenciaYProductos'])->name('getTiposIncidenciaYProductos');
+Route::get('/getTiposIncidenciaYProductos', [TiposIncidenciaController::class, 'getTiposIncidenciaYProductos'])->name('getTiposIncidenciaYProductos');
 //Ruta para guardar incidencias por oc
 Route::get('/saveIncidenciasByOc', [IncidenciaController::class, 'saveIncidenciasByOc'])->name('saveIncidenciasByOc');
 //Ruta para guardado de los roles y permisos
 Route::get('role/permissions', [RolesPermissionController::class, 'setPermission'])->name('roles.permissions');
 //Ruta para obtener los permisos
-Route::get('/getPermisosByRol',[PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
+Route::get('/getPermisosByRol', [PermissionController::class, 'getPermisosByRol'])->name('getPermisosByRol');
 //Ruta para guardar nuevos roles
-Route::post('/saveRole',[RoleController::class, 'store'])->name('saveRole');
+Route::post('/saveRole', [RoleController::class, 'store'])->name('saveRole');
 //Ruta para guardar nuevos permisos
 Route::post('/savePermission', [PermissionController::class, 'store'])->name('savePermission');
 //Creación de Ocs
-Route::get('/getOcsExample', [OcController::class,'getOcsExample'])->name('getOcsExample');
+Route::get('/getOcsExample', [OcController::class, 'getOcsExample'])->name('getOcsExample');
 Route::post('/newOcsExcel', [OcController::class, 'newOcsExcel'])->name('newOcsExcel');
 //Eliminacion del viaje
 Route::post('/deleteViaje', [ConfirmacionDtController::class, 'deleteViaje'])->name('deleteViaje');

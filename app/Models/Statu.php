@@ -9,9 +9,12 @@ class Statu extends Model
 {
     use HasFactory;
 
-    public function confirmacionesDts ()
+
+    protected $guarded = ['id'];
+
+    public function confirmacionesDts()
     {
-        return $this->hasMany(ConfirmacionDt::class,'status_id');
+        return $this->hasMany(ConfirmacionDt::class, 'status_id');
     }
 
     public function status_hijos()
@@ -21,10 +24,10 @@ class Statu extends Model
 
     public function campos()
     {
-        return $this->hasMany(Campo::class, 'status_id' ,'status_padre');
+        return $this->hasMany(Campo::class, 'status_id', 'status_padre');
     }
 
-    public function campos2 ()
+    public function campos2()
     {
         return $this->hasMany(Campo::class, 'status_id');
     }
@@ -32,5 +35,10 @@ class Statu extends Model
     public function status_dts()
     {
         return $this->hasMany(StatusDt::class, 'status_id');
+    }
+
+    public function emailGroup()
+    {
+        return $this->belongsTo(EmailGroup::class, 'email_group_id');
     }
 }

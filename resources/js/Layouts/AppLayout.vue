@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
-import Banner from '@/Components/Banner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import ApplicationMark from "@/Components/ApplicationMark.vue";
+import Banner from "@/Components/Banner.vue";
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import NavLink from "@/Components/NavLink.vue";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import { Head, Link, router } from "@inertiajs/vue3";
+import { ref } from "vue";
 
 defineProps({
     title: String,
@@ -15,15 +15,19 @@ defineProps({
 const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
+    router.put(
+        route("current-team.update"),
+        {
+            team_id: team.id,
+        },
+        {
+            preserveState: false,
+        },
+    );
 };
 
 const logout = () => {
-    router.post(route('logout'));
+    router.post(route("logout"));
 };
 </script>
 
@@ -33,7 +37,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-[#f2f2f2] ">
+        <div class="min-h-screen bg-[#f2f2f2]">
             <nav class="border-b border-gray-100 navMenu">
                 <!-- Primary Navigation Menu -->
                 <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -47,42 +51,144 @@ const logout = () => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('dashboard')"
+                                    :active="route().current('dashboard')"
+                                >
                                     Inicio
                                 </NavLink>
-                                <NavLink :href="route('reportes.index')" :active="route().current('reportes.index')">
+                                <NavLink
+                                    :href="route('reportes.index')"
+                                    :active="route().current('reportes.index')"
+                                >
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('reportes.graficos.index')" :active="route().current('reportes.graficos.index')">
+                                <NavLink
+                                    :href="route('reportes.graficos.index')"
+                                    :active="
+                                        route().current(
+                                            'reportes.graficos.index',
+                                        )
+                                    "
+                                >
                                     Reportes
                                 </NavLink>
-                                <NavLink :href="route('productos.index')" :active="route().current('productos.index')">
+                                <NavLink
+                                    :href="route('productos.index')"
+                                    :active="route().current('productos.index')"
+                                >
                                     Productos
                                 </NavLink>
-                                <NavLink :href="route('viajes.index')" :active="route().current('viajes.index')">
+                                <NavLink
+                                    :href="route('viajes.index')"
+                                    :active="route().current('viajes.index')"
+                                >
                                     Viajes
                                 </NavLink>
-                                <NavLink :href="route('manageUsers.index')" :active="route().current('manageUsers.index')">
+                                <NavLink
+                                    :href="route('manageUsers.index')"
+                                    :active="
+                                        route().current('manageUsers.index')
+                                    "
+                                >
                                     Usuarios
                                 </NavLink>
-                                <NavLink :href="route('rolesPermisosIndex')" :active="route().current('rolesPermisosIndex')">
+                                <NavLink
+                                    :href="route('rolesPermisosIndex')"
+                                    :active="
+                                        route().current('rolesPermisosIndex')
+                                    "
+                                >
                                     Roles y Permisos
                                 </NavLink>
+
+                                <div
+                                    class="hidden sm:flex sm:items-center sm:ml-6"
+                                >
+                                    <div class="relative">
+                                        <Dropdown align="right" width="48">
+                                            <template #trigger>
+                                                <button
+                                                    type="button"
+                                                    class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-700 focus:outline-none hover:border-gray-300 focus:border-gray-300"
+                                                >
+                                                    Catálogos
+                                                    <svg
+                                                        class="ml-2 -mr-0.5 h-4 w-4"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20"
+                                                        fill="currentColor"
+                                                    >
+                                                        <path
+                                                            fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </template>
+
+                                            <template #content>
+                                                <DropdownLink
+                                                    :href="
+                                                        route(
+                                                            'catalogs.status.index',
+                                                        )
+                                                    "
+                                                >
+                                                    Estatus
+                                                </DropdownLink>
+                                                <DropdownLink
+                                                    :href="
+                                                        route(
+                                                            'catalogs.email-groups.index',
+                                                        )
+                                                    "
+                                                >
+                                                    Grupos de Email
+                                                </DropdownLink>
+                                            </template>
+                                        </Dropdown>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <div class="relative ml-3">
                                 <!-- Teams Dropdown -->
-                                <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
+                                <Dropdown
+                                    v-if="$page.props.jetstream.hasTeamFeatures"
+                                    align="right"
+                                    width="60"
+                                >
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50">
-                                                {{ $page.props.auth.user.current_team.name }}
+                                            <button
+                                                type="button"
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50"
+                                            >
+                                                {{
+                                                    $page.props.auth.user
+                                                        .current_team.name
+                                                }}
 
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                                <svg
+                                                    class="ml-2 -mr-0.5 h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="1.5"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                                                    />
                                                 </svg>
                                             </button>
                                         </span>
@@ -91,37 +197,109 @@ const logout = () => {
                                     <template #content>
                                         <div class="w-60">
                                             <!-- Team Management -->
-                                            <template v-if="$page.props.jetstream.hasTeamFeatures">
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                            <template
+                                                v-if="
+                                                    $page.props.jetstream
+                                                        .hasTeamFeatures
+                                                "
+                                            >
+                                                <div
+                                                    class="block px-4 py-2 text-xs text-gray-400"
+                                                >
                                                     Manage Team
                                                 </div>
 
                                                 <!-- Team Settings -->
-                                                <DropdownLink :href="route('teams.show', $page.props.auth.user.current_team)">
+                                                <DropdownLink
+                                                    :href="
+                                                        route(
+                                                            'teams.show',
+                                                            $page.props.auth
+                                                                .user
+                                                                .current_team,
+                                                        )
+                                                    "
+                                                >
                                                     Team Settings
                                                 </DropdownLink>
 
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
+                                                <DropdownLink
+                                                    v-if="
+                                                        $page.props.jetstream
+                                                            .canCreateTeams
+                                                    "
+                                                    :href="
+                                                        route('teams.create')
+                                                    "
+                                                >
                                                     Create New Team
                                                 </DropdownLink>
 
                                                 <!-- Team Switcher -->
-                                                <template v-if="$page.props.auth.user.all_teams.length > 1">
-                                                    <div class="border-t border-gray-200" />
+                                                <template
+                                                    v-if="
+                                                        $page.props.auth.user
+                                                            .all_teams.length >
+                                                        1
+                                                    "
+                                                >
+                                                    <div
+                                                        class="border-t border-gray-200"
+                                                    />
 
-                                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                                    <div
+                                                        class="block px-4 py-2 text-xs text-gray-400"
+                                                    >
                                                         Switch Teams
                                                     </div>
 
-                                                    <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
-                                                        <form @submit.prevent="switchToTeam(team)">
-                                                            <DropdownLink as="button">
-                                                                <div class="flex items-center">
-                                                                    <svg v-if="team.id == $page.props.auth.user.current_team_id" class="w-5 h-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    <template
+                                                        v-for="team in $page
+                                                            .props.auth.user
+                                                            .all_teams"
+                                                        :key="team.id"
+                                                    >
+                                                        <form
+                                                            @submit.prevent="
+                                                                switchToTeam(
+                                                                    team,
+                                                                )
+                                                            "
+                                                        >
+                                                            <DropdownLink
+                                                                as="button"
+                                                            >
+                                                                <div
+                                                                    class="flex items-center"
+                                                                >
+                                                                    <svg
+                                                                        v-if="
+                                                                            team.id ==
+                                                                            $page
+                                                                                .props
+                                                                                .auth
+                                                                                .user
+                                                                                .current_team_id
+                                                                        "
+                                                                        class="w-5 h-5 mr-2 text-green-400"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="none"
+                                                                        viewBox="0 0 24 24"
+                                                                        stroke-width="1.5"
+                                                                        stroke="currentColor"
+                                                                    >
+                                                                        <path
+                                                                            stroke-linecap="round"
+                                                                            stroke-linejoin="round"
+                                                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                                        />
                                                                     </svg>
 
-                                                                    <div>{{ team.name }}</div>
+                                                                    <div>
+                                                                        {{
+                                                                            team.name
+                                                                        }}
+                                                                    </div>
                                                                 </div>
                                                             </DropdownLink>
                                                         </form>
@@ -137,14 +315,45 @@ const logout = () => {
                             <div class="relative ml-3">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
-                                        <button v-if="$page.props.jetstream.managesProfilePhotos" class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
-                                            <img class="object-cover w-8 h-8 rounded-full" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                                        <button
+                                            v-if="
+                                                $page.props.jetstream
+                                                    .managesProfilePhotos
+                                            "
+                                            class="flex text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300"
+                                        >
+                                            <img
+                                                class="object-cover w-8 h-8 rounded-full"
+                                                :src="
+                                                    $page.props.auth.user
+                                                        .profile_photo_url
+                                                "
+                                                :alt="
+                                                    $page.props.auth.user.name
+                                                "
+                                            />
                                         </button>
 
-                                        <span v-else class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-700 focus:outline-none ">
-                                                <p class="text-[#1983db] uppercase">{{ $page.props.auth.user.name }}</p>
-                                                <img class="w-8 ml-8" src="../../assets//img/icon_user.png"  />
+                                        <span
+                                            v-else
+                                            class="inline-flex rounded-md"
+                                        >
+                                            <button
+                                                type="button"
+                                                class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-transparent border border-transparent rounded-md hover:text-gray-700 focus:outline-none"
+                                            >
+                                                <p
+                                                    class="text-[#1983db] uppercase"
+                                                >
+                                                    {{
+                                                        $page.props.auth.user
+                                                            .name
+                                                    }}
+                                                </p>
+                                                <img
+                                                    class="w-8 ml-8"
+                                                    src="../../assets//img/icon_user.png"
+                                                />
                                                 <!--
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -156,15 +365,25 @@ const logout = () => {
 
                                     <template #content>
                                         <!-- Account Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                        <div
+                                            class="block px-4 py-2 text-xs text-gray-400"
+                                        >
                                             Manage Account
                                         </div>
 
-                                        <DropdownLink :href="route('profile.show')">
+                                        <DropdownLink
+                                            :href="route('profile.show')"
+                                        >
                                             Profile
                                         </DropdownLink>
 
-                                        <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
+                                        <DropdownLink
+                                            v-if="
+                                                $page.props.jetstream
+                                                    .hasApiFeatures
+                                            "
+                                            :href="route('api-tokens.index')"
+                                        >
                                             API Tokens
                                         </DropdownLink>
 
@@ -183,7 +402,13 @@ const logout = () => {
 
                         <!-- Hamburger -->
                         <div class="flex items-center -mr-2 sm:hidden">
-                            <button class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500" @click="showingNavigationDropdown = ! showingNavigationDropdown">
+                            <button
+                                class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
+                                @click="
+                                    showingNavigationDropdown =
+                                        !showingNavigationDropdown
+                                "
+                            >
                                 <svg
                                     class="w-6 h-6"
                                     stroke="currentColor"
@@ -191,14 +416,22 @@ const logout = () => {
                                     viewBox="0 0 24 24"
                                 >
                                     <path
-                                        :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
+                                        :class="{
+                                            hidden: showingNavigationDropdown,
+                                            'inline-flex':
+                                                !showingNavigationDropdown,
+                                        }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                                        :class="{
+                                            hidden: !showingNavigationDropdown,
+                                            'inline-flex':
+                                                showingNavigationDropdown,
+                                        }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
@@ -211,9 +444,18 @@ const logout = () => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+                <div
+                    :class="{
+                        block: showingNavigationDropdown,
+                        hidden: !showingNavigationDropdown,
+                    }"
+                    class="sm:hidden"
+                >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <ResponsiveNavLink
+                            :href="route('dashboard')"
+                            :active="route().current('dashboard')"
+                        >
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
@@ -221,12 +463,25 @@ const logout = () => {
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="flex items-center px-4">
-                            <div v-if="$page.props.jetstream.managesProfilePhotos" class="mr-3 shrink-0">
-                                <img class="object-cover w-10 h-10 rounded-full" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name">
+                            <div
+                                v-if="
+                                    $page.props.jetstream.managesProfilePhotos
+                                "
+                                class="mr-3 shrink-0"
+                            >
+                                <img
+                                    class="object-cover w-10 h-10 rounded-full"
+                                    :src="
+                                        $page.props.auth.user.profile_photo_url
+                                    "
+                                    :alt="$page.props.auth.user.name"
+                                />
                             </div>
 
                             <div>
-                                <div class="text-base font-medium text-gray-800">
+                                <div
+                                    class="text-base font-medium text-gray-800"
+                                >
                                     {{ $page.props.auth.user.name }}
                                 </div>
                                 <div class="text-sm font-medium text-gray-500">
@@ -236,11 +491,18 @@ const logout = () => {
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
+                            <ResponsiveNavLink
+                                :href="route('profile.show')"
+                                :active="route().current('profile.show')"
+                            >
                                 Profile
                             </ResponsiveNavLink>
 
-                            <ResponsiveNavLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')" :active="route().current('api-tokens.index')">
+                            <ResponsiveNavLink
+                                v-if="$page.props.jetstream.hasApiFeatures"
+                                :href="route('api-tokens.index')"
+                                :active="route().current('api-tokens.index')"
+                            >
                                 API Tokens
                             </ResponsiveNavLink>
 
@@ -252,36 +514,82 @@ const logout = () => {
                             </form>
 
                             <!-- Team Management -->
-                            <template v-if="$page.props.jetstream.hasTeamFeatures">
+                            <template
+                                v-if="$page.props.jetstream.hasTeamFeatures"
+                            >
                                 <div class="border-t border-gray-200" />
 
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <div
+                                    class="block px-4 py-2 text-xs text-gray-400"
+                                >
                                     Manage Team
                                 </div>
 
                                 <!-- Team Settings -->
-                                <ResponsiveNavLink :href="route('teams.show', $page.props.auth.user.current_team)" :active="route().current('teams.show')">
+                                <ResponsiveNavLink
+                                    :href="
+                                        route(
+                                            'teams.show',
+                                            $page.props.auth.user.current_team,
+                                        )
+                                    "
+                                    :active="route().current('teams.show')"
+                                >
                                     Team Settings
                                 </ResponsiveNavLink>
 
-                                <ResponsiveNavLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')" :active="route().current('teams.create')">
+                                <ResponsiveNavLink
+                                    v-if="$page.props.jetstream.canCreateTeams"
+                                    :href="route('teams.create')"
+                                    :active="route().current('teams.create')"
+                                >
                                     Create New Team
                                 </ResponsiveNavLink>
 
                                 <!-- Team Switcher -->
-                                <template v-if="$page.props.auth.user.all_teams.length > 1">
+                                <template
+                                    v-if="
+                                        $page.props.auth.user.all_teams.length >
+                                        1
+                                    "
+                                >
                                     <div class="border-t border-gray-200" />
 
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                    <div
+                                        class="block px-4 py-2 text-xs text-gray-400"
+                                    >
                                         Switch Teams
                                     </div>
 
-                                    <template v-for="team in $page.props.auth.user.all_teams" :key="team.id">
-                                        <form @submit.prevent="switchToTeam(team)">
+                                    <template
+                                        v-for="team in $page.props.auth.user
+                                            .all_teams"
+                                        :key="team.id"
+                                    >
+                                        <form
+                                            @submit.prevent="switchToTeam(team)"
+                                        >
                                             <ResponsiveNavLink as="button">
                                                 <div class="flex items-center">
-                                                    <svg v-if="team.id == $page.props.auth.user.current_team_id" class="w-5 h-5 mr-2 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    <svg
+                                                        v-if="
+                                                            team.id ==
+                                                            $page.props.auth
+                                                                .user
+                                                                .current_team_id
+                                                        "
+                                                        class="w-5 h-5 mr-2 text-green-400"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke-width="1.5"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                        />
                                                     </svg>
                                                     <div>{{ team.name }}</div>
                                                 </div>
@@ -295,13 +603,12 @@ const logout = () => {
                 </div>
             </nav>
 
-
             <header v-if="$slots.header" class="bg-white shadow">
                 <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
-        
+
             <!-- Page Content -->
             <main>
                 <slot />
