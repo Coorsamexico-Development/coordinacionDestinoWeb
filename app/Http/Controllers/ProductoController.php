@@ -20,45 +20,44 @@ class ProductoController extends Controller
         //
 
         $productos = Producto::select(
-        'productos.id as producto_id',
-        'productos.SKU as producto_SKU',
-        'productos.descripcion as producto_descripcion',
-        'productos.DUN 14 as producto_dun14',
-        'productos.EAN as producto_ean',
-        'productos.activo as producto_activo', 
-        'productos.created_at as producto_creacion');
+            'productos.id as producto_id',
+            'productos.SKU as producto_SKU',
+            'productos.descripcion as producto_descripcion',
+            'productos.DUN 14 as producto_dun14',
+            'productos.UM as producto_um',
+            'productos.activo as producto_activo',
+            'productos.created_at as producto_creacion'
+        );
 
-        if ($request->has("busqueda")) 
-        {
-          if($request['busqueda'] !== null)
-          {
-            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
-            $productos->where("productos.SKU", "LIKE", "%" . $search . "%")
-            ->orWhere("productos.descripcion", "LIKE", "%" . $search . "%");
-          }
+        if ($request->has("busqueda")) {
+            if ($request['busqueda'] !== null) {
+                $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+                $productos->where("productos.SKU", "LIKE", "%" . $search . "%")
+                    ->orWhere("productos.descripcion", "LIKE", "%" . $search . "%");
+            }
         }
-        
 
-        return Inertia::render('Productos/Productos.Index',[
-            'productos' => fn () =>  $productos->paginate(5)
+
+        return Inertia::render('Productos/Productos.Index', [
+            'productos' => fn() =>  $productos->paginate(5)
         ]);
     }
 
-    public function donwloadExportExample () 
+    public function donwloadExportExample()
     {
         return Excel::download(new ProductosExport, 'productos_example.xlsx');
     }
 
-    public function viajesByProducto (Request $request)
+    public function viajesByProducto(Request $request)
     {
         $producto = $request['producto'];
 
-      return  Incidencia::select('confirmacion_dts.*')
-        ->join('ocs','incidencias.ocs_id','ocs.id')
-        ->join('confirmacion_dts','ocs.confirmacion_dt_id','confirmacion_dts.id')
-        ->where('incidencias.ean_id','=',$producto['producto_id'])
-        ->groupBy('ocs.confirmacion_dt_id')
-        ->get();
+        return  Incidencia::select('confirmacion_dts.*')
+            ->join('ocs', 'incidencias.ocs_id', 'ocs.id')
+            ->join('confirmacion_dts', 'ocs.confirmacion_dt_id', 'confirmacion_dts.id')
+            ->where('incidencias.ean_id', '=', $producto['producto_id'])
+            ->groupBy('ocs.confirmacion_dt_id')
+            ->get();
     }
 
     /**
@@ -80,13 +79,10 @@ class ProductoController extends Controller
         ]);
 
 
-        try 
-        {
+        try {
             Excel::import(new ProductosImport, $request['document']);
             return redirect()->back();
-        } 
-        catch (\Throwable $th)
-        {
+        } catch (\Throwable $th) {
             //throw $th;
         }
     }
@@ -125,9 +121,9 @@ class ProductoController extends Controller
 
     public function apiIndex(Request $request)
     {
-       return Producto::select('productos.*')
-       ->where('SKU','LIKE',$request['busqueda'])
-       ->where('activo','=',1)
-       ->get();
-    } 
+        return Producto::select('productos.*')
+            ->where('SKU', 'LIKE', $request['busqueda'])
+            ->where('activo', '=', 1)
+            ->get();
+    }
 }

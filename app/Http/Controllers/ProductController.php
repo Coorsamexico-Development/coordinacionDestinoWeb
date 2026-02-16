@@ -20,7 +20,7 @@ class ProductController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('SKU', 'like', "%{$search}%")
                     ->orWhere('descripcion', 'like', "%{$search}%")
-                    ->orWhere('EAN', 'like', "%{$search}%");
+                    ->orWhere('UM', 'like', "%{$search}%");
             });
         }
 
@@ -40,7 +40,7 @@ class ProductController extends Controller
             'SKU' => ['required', 'string', 'max:255', 'unique:productos,SKU'],
             'descripcion' => ['required', 'string'],
             'DUN 14' => ['nullable', 'string'],
-            'EAN' => ['nullable', 'string'],
+            'UM' => ['nullable', 'string'],
             'activo' => ['boolean'],
             'cantidadPOD' => ['nullable', 'integer'],
         ]);

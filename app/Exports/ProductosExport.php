@@ -9,15 +9,15 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class ProductosExport implements WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function headings(): array
     {
         return [
-        "SKU", 
-        "DESCRIPCION", 
-        "DUN 14", 
-        "EAN"
+            "SKU",
+            "DESCRIPCION",
+            "DUN 14",
+            "UM"
         ];
     }
 }
