@@ -121,7 +121,7 @@ class CamposSeeder extends Seeder
         // ]);
 
         // DB::table('campos')->insert([
-        //     'nombre' => "Documento",
+        //     'nombre' => "BITACORA",
         //     'tipo_campo_id' => 4,
         //     'status_id' => 9,
         //     'created_at' => now(),
@@ -166,6 +166,15 @@ class CamposSeeder extends Seeder
             'nombre' => "Teléfono",
             'tipo_campo_id' => 2,
             'status_id' => 5,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        DB::table('campos')->insert([
+            'nombre' => "POD",
+            'tipo_campo_id' => 4,
+            'status_id' => 9,
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -19,6 +19,16 @@ class Incidencia extends Model
 
     public function evidencias()
     {
-        return $this->hasMany(Evidencia::class,'incidencia_id');
+        return $this->hasMany(Evidencia::class, 'incidencia_id');
+    }
+
+    public function tipoIncidencia()
+    {
+        return $this->belongsTo(TipoIncidencia::class, 'tipo_incidencia_id');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'ean_id');
     }
 }
