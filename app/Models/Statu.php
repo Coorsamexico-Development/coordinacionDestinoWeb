@@ -41,4 +41,9 @@ class Statu extends Model
     {
         return $this->belongsTo(EmailGroup::class, 'email_group_id');
     }
+
+    public function recipients()
+    {
+        return $this->hasMany(EmailGroupRecipient::class, 'email_group_id', 'email_group_id');
+    }
 }

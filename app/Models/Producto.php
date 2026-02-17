@@ -16,6 +16,9 @@ class Producto extends Model
         'DUN 14',
         'UM',
         'activo',
-        'cantidadPOD'
+    ];
+
+    protected $casts = [
+        'activo' => 'boolean',
     ];
 }

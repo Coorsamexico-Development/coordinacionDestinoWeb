@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
@@ -27,7 +29,7 @@ class ProductController extends Controller
         // Pagination
         $perPage = $request->input('per_page', 15);
         $products = $query->simplePaginate($perPage);
-
+        Log::info($products);
         return response()->json($products);
     }
 
@@ -39,10 +41,9 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'SKU' => ['required', 'string', 'max:255', 'unique:productos,SKU'],
             'descripcion' => ['required', 'string'],
-            'DUN 14' => ['nullable', 'string'],
-            'UM' => ['nullable', 'string'],
+            'DUN 14' => ['required', 'string'],
+            'UM' => ['required', 'string'],
             'activo' => ['boolean'],
-            'cantidadPOD' => ['nullable', 'integer'],
         ]);
 
         $product = Producto::create($validatedData);

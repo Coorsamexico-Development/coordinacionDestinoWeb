@@ -46,10 +46,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+  Route::post('campos/files', [DtCampoValorController::class, 'storeFile']);
   Route::post('campos/{campo}/evidencias', [DtCampoValorController::class, 'storeEvidencias']);
   // New Product API routes
-  Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-  Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store']);
+  Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'index']);
+  Route::post('/products', [\App\Http\Controllers\Api\ProductController::class, 'store']);
+
+  Route::post('/incidencias', [\App\Http\Controllers\Api\IncidenciaController::class, 'store']);
+  Route::delete('/incidencias/{id}', [\App\Http\Controllers\Api\IncidenciaController::class, 'destroy']);
+  // Incidencias API
 });
 
 //Ruta inicial para obtener DTS

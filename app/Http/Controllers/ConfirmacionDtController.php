@@ -492,7 +492,7 @@ class ConfirmacionDtController extends Controller
 
   public function valoresLiberacion(Request $request)
   {
-    $request->validate([
+    $data = $request->validate([
       'params.dt' => 'required',
       'params.usuario' => 'required',
       'params.confirmacion' => 'required',
@@ -504,114 +504,75 @@ class ConfirmacionDtController extends Controller
       'params.valores.*.campo_id' => 'required',
     ]);
 
-    $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
-      ->where('confirmacion_dts.confirmacion', '=', $request['params']['confirmacion'])
-      ->where('confirmacion_dts.dt_id', '=', $request['params']['dt'])
+    $params = $data['params'];
+
+    $confirmacionDt = ConfirmacionDt::where('confirmacion', $params['confirmacion'])
+      ->where('dt_id', $params['dt'])
+      ->firstOrFail();
+
+    // Actualizar HorasHistorico
+    $status_dt = StatusDt::where('status_id', $params['status_id'])
+      ->where('confirmacion_dt_id', $confirmacionDt->id)
       ->first();
 
-    $ocs = Oc::select('ocs.*')
-      ->with('incidencias')
-      ->where('ocs.confirmacion_dt_id', '=', $confirmacion_Dt['id'])
-      ->get();
+    if ($status_dt) {
+      HorasHistorico::updateOrCreate([
+        'hora_id' => 6, // Hora de folios
+        'status_dts_id' => $status_dt->id,
+        'hora' => $params['horaImpresion']
+      ]);
+    }
 
-    //return $totalIncidencias;
+    // Procesar Valores
+    foreach ($params['valores'] as $valor) {
 
-    $status = Statu::select('status.*')
-      ->where('status.id', '=', $request['params']['status_id'])
-      ->first();
-
-    $status_dt = StatusDt::select('status_dts.*')
-      ->where('status_dts.status_id', '=', $status['id'])
-      ->where('status_dts.confirmacion_dt_id', '=', $confirmacion_Dt['id'])
-      //->where('status_dts.activo','=',1)
-      ->first();
-
-    HorasHistorico::updateOrCreate([
-      'hora_id' => 6, //es la hr de folios
-      'status_dts_id' => $status_dt['id'],
-      'hora' => $request['params']['horaImpresion']
-    ]);
-
-    //Creamos el guardado de los valores
-    for ($i = 0; $i < count($request['params']['valores']); $i++) {
-      $valor = $request['params']['valores'][$i];
-      Log::info($valor);
-      //Buscamos el dt_campo_valor
       $dt_campo_valor = DtCampoValor::firstOrCreate([
-        'confirmacion_id' => $confirmacion_Dt['id'],
+        'confirmacion_id' => $confirmacionDt->id,
         'campo_id' => $valor['campo_id']
       ]);
 
-      $valorADesactivar = Valor::where('valors.dt_campo_valor_id', '=', $dt_campo_valor['id'])
-        ->update(['activo' => 0]);
+      Valor::where('dt_campo_valor_id', $dt_campo_valor->id)->update(['activo' => 0]);
 
-      if ($dt_campo_valor !== null) {
-        //creamos los valores
-        $newValor = Valor::updateOrCreate([
-          'valor' => $valor['value'] ?? '',
-          'dt_campo_valor_id' => $dt_campo_valor['id'],
-          'user_id' => $request['params']['usuario']
-        ]);
-      } else {
-        $newDt_campo_valor = DtCampoValor::create([
-          'confirmacion_id' =>  $confirmacion_Dt['id'],
-          'campo_id' => $valor['campo_id']
-        ]);
-
-        $newValor = Valor::updateOrCreate([
-          'valor' => $valor['value'],
-          'dt_campo_valor_id' => $newDt_campo_valor['id'],
-          'user_id' => $request['params']['usuario']
-        ]);
-      }
-    }
-
-    //debemos validar si salio con alguna incidencia o no para eso recorremos las OCS y con esos sus incidencias
-    //si se llega a encontrar alguna ya se considera liberacion con incidencia}
-    //recorremos las ocs para ver si hay incidencias
-    $totalIncidencias = [];
-    for ($x = 0; $x < count($ocs); $x++) {
-      $oc = $ocs[$x];
-      if (count($oc['incidencias']) > 0) {
-        array_push($totalIncidencias, $oc['incidencias']);
-      }
-    }
-
-    if (count($totalIncidencias) > 0) //si hay al menos alguna incidencia
-    {
-      ConfirmacionDt::where('id', '=', $confirmacion_Dt['id'])
-        ->update([
-          'confirmacion_dts.status_id' => 11 //se libera con incidencia
-        ]);
-
-      StatusDt::where('confirmacion_dt_id', '=', $confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
-        ->update([
-          'activo' => 0
-        ]);
-      //Creamos el primer registro en la tabla de historico
-      $newStatus = StatusDt::updateOrCreate([
-        'confirmacion_dt_id' => $confirmacion_Dt['id'],
-        'status_id' => 11,
-        'activo' => 1,
-      ]);
-    } else {
-      ConfirmacionDt::where('id', '=', $confirmacion_Dt['id'])
-        ->update([
-          'confirmacion_dts.status_id' => 10, //se libera sin incidencia
-          'confirmacion_dts.cerrado' => 0
-        ]);
-
-      StatusDt::where('confirmacion_dt_id', '=', $confirmacion_Dt['id']) //todos los status que tengan esa confirmacion se pasaran a inactivos
-        ->update([
-          'activo' => 0
-        ]);
-      //Creamos el primer registro en la tabla de historico
-      $newStatus = StatusDt::updateOrCreate([
-        'confirmacion_dt_id' => $confirmacion_Dt['id'],
-        'status_id' => 10,
-        'activo' => 1,
+      Valor::create([
+        'valor' => $valor['value'] ?? '',
+        'dt_campo_valor_id' => $dt_campo_valor->id,
+        'user_id' => $params['usuario'],
+        'activo' => 1
       ]);
     }
+
+    // Validar incidencias
+    $ocs = Oc::where('confirmacion_dt_id', $confirmacionDt->id)
+      ->with('incidencias')
+      ->get();
+
+    $hasIncidencias = $ocs->pluck('incidencias')->flatten()->isNotEmpty();
+
+    // Configurar nuevo estado: 11 (Con incidencia) o 10 (Sin incidencia)
+    $newStatusId = $hasIncidencias ? 11 : 10;
+
+    // Actualizar ConfirmacionDt
+    $confirmacionUpdates = ['status_id' => $newStatusId];
+    if (!$hasIncidencias) {
+      $confirmacionUpdates['cerrado'] = 0;
+    }
+
+    $confirmacionDt->update($confirmacionUpdates);
+
+    // Actualizar histórico de estados
+    StatusDt::where('confirmacion_dt_id', $confirmacionDt->id)->update(['activo' => 0]);
+
+    StatusDt::create([
+      'confirmacion_dt_id' => $confirmacionDt->id,
+      'status_id' => $newStatusId,
+      'activo' => 1,
+    ]);
+
+    broadcast(new NewNotification($confirmacionDt))->toOthers();
+    return response()->json([
+      'message' => 'Valores guardados correctamente',
+      'data' => $confirmacionDt
+    ], 200);
   }
 
   public function saveDocEnrrampe(Request $request)
@@ -672,7 +633,6 @@ class ConfirmacionDtController extends Controller
         $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')
           ->where('confirmacion_dts.id', $request['confirmacion_id'])
           ->first();
-        broadcast(new NewNotification($confrimacionDt))->toOthers();
       }
     }
   }
@@ -685,7 +645,7 @@ class ConfirmacionDtController extends Controller
     $status = $request['params']['status'];
     $firmas = $request['params']['firmas'];
 
-    $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+    $confirmaciondt = ConfirmacionDt::select('confirmacion_dts.*')
       ->where('confirmacion_dts.confirmacion', '=', $request['params']['confirmacion'])
       ->first();
 
@@ -723,7 +683,7 @@ class ConfirmacionDtController extends Controller
         }
       ])
       ->join('status', 'status_dts.status_id', 'status.id')
-      ->where('confirmacion_dt_id', '=', $confirmacion_dt['id'])
+      ->where('confirmacion_dt_id', '=', $confirmaciondt['id'])
       ->distinct('status.id')
       ->get();
 
@@ -734,7 +694,7 @@ class ConfirmacionDtController extends Controller
       ->join('campos', 'dt_campo_valors.campo_id', 'campos.id')
       ->join('status', 'campos.status_id', 'status.id')
       ->where('valors.activo', '=', 1)
-      ->where('confirmacion_dts.id', '=', $confirmacion_dt['id'])
+      ->where('confirmacion_dts.id', '=', $confirmaciondt['id'])
       ->distinct('valors.id')
       ->get();
 
@@ -747,7 +707,7 @@ class ConfirmacionDtController extends Controller
       'dt' =>  $dt['referencia_dt'], //$dt['referencia_dt'],
       'status_dt' => $statusByConfirmacion,
       'title' =>  $request['params']['confirmacion'] . '_' . date('Y-m-d H-m'), // $request['confirmacion'].'_'.now(),
-      'cita' =>  $confirmacion_dt['cita'], //$confirmacion_dt['cita']
+      'cita' =>  $confirmaciondt['cita'], //$confirmaciondt['cita']
       'valors' => $valors,
       'firmas' => $firmas
     ];
@@ -772,7 +732,7 @@ class ConfirmacionDtController extends Controller
         'cerrado' => 1
       ]);
 
-    broadcast(new NewNotification($confirmacion_dt))->toOthers();
+    broadcast(new NewNotification($confirmaciondt))->toOthers();
     return 'ok';
   }
 
@@ -782,13 +742,13 @@ class ConfirmacionDtController extends Controller
       'confirmacion' => 'required'
     ]);
 
-    $confirmacion_dt = ConfirmacionDt::select('confirmacion_dts.*')
+    $confirmaciondt = ConfirmacionDt::select('confirmacion_dts.*')
       ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
       ->firstOrFail();
 
     //buscamos el campo del telefono
     $dt_campo_valor = DtCampoValor::select('dt_campo_valors.*')
-      ->where('dt_campo_valors.confirmacion_id', '=', $confirmacion_dt['id'])
+      ->where('dt_campo_valors.confirmacion_id', '=', $confirmaciondt['id'])
       ->where('dt_campo_valors.campo_id', '=', 5)
       ->first();
 
