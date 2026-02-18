@@ -13,7 +13,6 @@ import { computed, ref } from "vue";
 
 const props = defineProps({
     emailGroups: Array,
-    statuses: Array,
 });
 
 const editingGroup = ref(null);
@@ -30,7 +29,6 @@ const form = useForm({
     name: "",
     description: "",
     active: true,
-    status_ids: [],
 });
 
 const recipientForm = useForm({
@@ -50,7 +48,6 @@ const editGroup = (group) => {
     form.name = group.name;
     form.description = group.description;
     form.active = Boolean(group.active);
-    form.status_ids = group.status ? group.status.map((s) => s.id) : [];
 };
 
 const saveGroup = () => {
@@ -271,33 +268,6 @@ const removeRecipient = (recipientId) => {
                                 >Activo</span
                             >
                         </label>
-                    </div>
-
-                    <div v-if="statuses.length > 0">
-                        <InputLabel value="Estatus Asociados" />
-                        <div
-                            class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2"
-                        >
-                            <label
-                                v-for="status in statuses"
-                                :key="status.id"
-                                class="flex items-center"
-                            >
-                                <Checkbox
-                                    v-model:checked="form.status_ids"
-                                    :value="status.id"
-                                />
-                                <span class="ml-2 text-sm text-gray-600">
-                                    {{ status.nombre }}
-                                    <span
-                                        class="ml-1 w-3 h-3 inline-block rounded-full"
-                                        :style="{
-                                            backgroundColor: status.color,
-                                        }"
-                                    ></span>
-                                </span>
-                            </label>
-                        </div>
                     </div>
                 </div>
             </template>

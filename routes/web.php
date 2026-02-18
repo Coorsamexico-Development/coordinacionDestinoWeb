@@ -65,9 +65,7 @@ Route::middleware([
     Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
     //Modulo de viajes
     Route::get('/viajes', [DtController::class, 'index'])->name('viajes.index');
-    //Catalogs Status
-    Route::get('/catalogs/status', [CatalogStatusController::class, 'index'])->name('catalogs.status.index');
-    Route::put('/catalogs/status/{status}', [CatalogStatusController::class, 'update'])->name('catalogs.status.update');
+
 
     //Catalogs Email Groups
     Route::get('/catalogs/email-groups', [EmailGroupController::class, 'index'])->name('catalogs.email-groups.index');

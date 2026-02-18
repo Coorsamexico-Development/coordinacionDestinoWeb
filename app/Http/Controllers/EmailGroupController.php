@@ -12,11 +12,9 @@ class EmailGroupController extends Controller
 {
     public function index()
     {
-        $emailGroups = EmailGroup::with(['recipients', 'status'])->get();
-        $statuses = Statu::all();
+        $emailGroups = EmailGroup::with('recipients')->get();
         return Inertia::render('Catalogs/EmailGroups/Index', [
-            'emailGroups' => $emailGroups,
-            'statuses' => $statuses
+            'emailGroups' => $emailGroups
         ]);
     }
 
@@ -27,11 +25,7 @@ class EmailGroupController extends Controller
             'description' => 'nullable|string|max:255',
         ]);
 
-        $emailGroup = EmailGroup::create($request->except('status_ids'));
-
-        if ($request->has('status_ids')) {
-            Statu::whereIn('id', $request->status_ids)->update(['email_group_id' => $emailGroup->id]);
-        }
+        EmailGroup::create($request->all());
 
         return redirect()->back()->with('success', 'Group created successfully.');
     }
@@ -44,14 +38,7 @@ class EmailGroupController extends Controller
             'active' => 'boolean',
         ]);
 
-        $emailGroup->update($request->except('status_ids'));
-
-        if ($request->has('status_ids')) {
-            // Dissociate old statuses
-            Statu::where('email_group_id', $emailGroup->id)->update(['email_group_id' => null]);
-            // Associate new statuses
-            Statu::whereIn('id', $request->status_ids)->update(['email_group_id' => $emailGroup->id]);
-        }
+        $emailGroup->update($request->all());
 
         return redirect()->back()->with('success', 'Group updated successfully.');
     }

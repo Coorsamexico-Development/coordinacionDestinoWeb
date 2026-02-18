@@ -135,15 +135,6 @@ const logout = () => {
                                                 <DropdownLink
                                                     :href="
                                                         route(
-                                                            'catalogs.status.index',
-                                                        )
-                                                    "
-                                                >
-                                                    Estatus
-                                                </DropdownLink>
-                                                <DropdownLink
-                                                    :href="
-                                                        route(
                                                             'catalogs.email-groups.index',
                                                         )
                                                     "
