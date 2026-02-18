@@ -96,9 +96,21 @@
     <div class="attachment-list">
         @if(isset($bitacoraData['EVIDENCIAS']) && !empty($bitacoraData['EVIDENCIAS']['valores']))
             @foreach($bitacoraData['EVIDENCIAS']['valores'] as $index => $url)
-            <div class="attachment-item">
-                <a href="{{ $url }}">Evidencia {{ $index + 1 }} (Ver imagen)</a>
-            </div>
+                @php
+                    $path = parse_url($url, PHP_URL_PATH);
+                    $extension = pathinfo($path, PATHINFO_EXTENSION);
+                    $isImage = in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp']);
+                @endphp
+                <div class="attachment-item" style="margin-bottom: 15px;">
+                    @if($isImage)
+                        <img src="{{ $url }}" alt="Evidencia {{ $index + 1 }}" style="max-width: 300px; height: auto; display: block; margin-bottom: 5px; border: 1px solid #ddd;">
+                        <a href="{{ $url }}" style="font-size: 11px; color: #555;">(Ver imagen original)</a>
+                    @else
+                        <a href="{{ $url }}" style="font-weight: bold; text-decoration: underline;">
+                           📄 Descargar Evidencia {{ $index + 1 }} ({{ strtoupper($extension) }})
+                        </a>
+                    @endif
+                </div>
             @endforeach
         @else
             <div>No hay evidencias adjuntas.</div>
