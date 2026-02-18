@@ -21,17 +21,19 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-         UserSeeder::class,
-         StatusSeeder::class,
-         PlataformaSeeder::class,
-         UbicacionesSeeder::class,
-         LineasTransporteSeeder::class,
-         TipoCampoSeeder::class,
-         TipoIncidenciasProductosSeeder::class,
-         RolesSeeder::class,
-         HorasSeeder::class,
-         CamposSeeder::class,
-         ProductosSeeder::class
+            //  UserSeeder::class,
+            //  StatusSeeder::class,
+            //  PlataformaSeeder::class,
+            //  UbicacionesSeeder::class,
+            //  LineasTransporteSeeder::class,
+            //  TipoCampoSeeder::class,
+            //  TipoIncidenciasProductosSeeder::class,
+            //  RolesSeeder::class,
+            //  HorasSeeder::class,
+            //  CamposSeeder::class,
+            //  ProductosSeeder::class,
+            BitacoraCamposSeeder::class,
+            UpdateCamposSeeder::class,
         ]);
     }
 }

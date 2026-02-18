@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\DtCampoValorController;
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('artisan', function () {
   Artisan::call('migrate', [
     '--force' => true
@@ -55,6 +57,15 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/incidencias', [\App\Http\Controllers\Api\IncidenciaController::class, 'store']);
   Route::delete('/incidencias/{id}', [\App\Http\Controllers\Api\IncidenciaController::class, 'destroy']);
   // Incidencias API
+
+  // Bitacora API
+  Route::get('confirmacion/{confirmacionDt}/bitacora/campos', [BitacoraController::class, 'indexByConfirmacion']);
+  Route::prefix('bitacora')->group(function () {
+    Route::post('/campos', [BitacoraController::class, 'storeCampo']);
+    Route::put('/campos/{id}', [BitacoraController::class, 'updateCampo']);
+    Route::post('/valores', [BitacoraController::class, 'storeValores']);
+    Route::post('/files', [BitacoraController::class, 'storeFiles']);
+  });
 });
 
 //Ruta inicial para obtener DTS

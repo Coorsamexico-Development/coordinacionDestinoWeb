@@ -377,53 +377,32 @@ class ValorController extends Controller
     $request->validate([
       'params.confirmacion_id' => 'required',
       'params.valores' => 'required',
+      'params.usuario' => 'required',
     ]);
+
     $valores = $request['params']['valores'];
+    $confirmacionId = $request['params']['confirmacion_id'];
+    $usuarioId = $request['params']['usuario'];
 
-    for ($i = 0; $i < count($valores); $i++) {
-      $campo = $valores[$i]; //rescatamos el valor
+    foreach ($valores as $campo) {
+      $dt_campo = DtCampoValor::firstOrCreate([
+        'confirmacion_id' => $confirmacionId,
+        'campo_id' => $campo['campo_id']
+      ]);
 
-      $dt_campo = DtCampoValor::select(
-        'dt_campo_valors.*'
-      )
-        ->where('dt_campo_valors.confirmacion_id', '=', $request['params']['confirmacion_id'])
-        ->where('dt_campo_valors.campo_id', '=', $campo['campo_id'])
-        ->first();
+      //Desactivar valores anteriores
+      Valor::where('dt_campo_valor_id', $dt_campo->id)
+        ->update(['activo' => 0]);
 
-      if ($dt_campo == null) //sino lo encuentra lo creara
-      {
-        $dt_campo = DtCampoValor::create(
-          [
-            'confirmacion_id' => $request['params']['confirmacion_id'],
-            'campo_id' => $campo['campo_id']
-          ]
-        );
-
-        //Hay que encontrar todos los valores anteriores para desactivarlos
-        //y crear uno nuevo
-
-        $valorADesactivar = Valor::where('valors.dt_campo_valor_id', '=', $dt_campo['id'])
-          ->update(['activo' => 0]);
-
-        //Crea nuevo valor en la tabla de valores
-        $newValor = Valor::create([
-          'valor' => $campo['value'],
-          'dt_campo_valor_id' => $dt_campo->id,
-          'user_id' => $request['params']['usuario']
-        ]);
-      } else {
-
-        $valorADesactivar = Valor::where('valors.dt_campo_valor_id', '=', $dt_campo['id'])
-          ->update(['activo' => 0]);
-
-        //Crea nuevo valor en la tabla de valores
-        $newValor = Valor::create([
-          'valor' => $campo['value'],
-          'dt_campo_valor_id' => $dt_campo->id,
-          'user_id' => $request['params']['usuario']
-        ]);
-      }
+      //Crea nuevo valor
+      Valor::create([
+        'valor' => $campo['value'],
+        'dt_campo_valor_id' => $dt_campo->id,
+        'user_id' => $usuarioId
+      ]);
     }
+
+    return response()->json(['message' => 'Valores guardados correctamente']);
   }
 
   public function documentacionFotos(Request $request) //guarda y cambia a status 7 (en eespera de rampa)
