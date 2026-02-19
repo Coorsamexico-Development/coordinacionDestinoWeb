@@ -67,6 +67,8 @@
                 <th>TIPO DE RECHAZO</th>
                 <th>CONFIRMACION</th>
                 <th>O.C</th>
+                <th>FACTURA</th>
+                <th>FOLIO INTERNO</th>
                 <th>FECHA DE REPORTE</th>
                 <th>CLAVE DE PRODUCTO</th>
                 <th>MATERIAL</th>
@@ -87,6 +89,8 @@
                 <td>{{ $item['tipo_rechazo'] }}</td>
                 <td>{{ $item['confirmacion'] }}</td>
                 <td>{{ $item['oc'] }}</td>
+                <td>{{ $item['factura'] }}</td>
+                <td>{{ $item['folio_interno'] }}</td>
                 <td>{{ $item['fecha_reporte'] }}</td>
                 <td>{{ $item['clave_producto'] }}</td>
                 <td>{{ $item['material'] }}</td>

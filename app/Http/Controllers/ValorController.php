@@ -414,7 +414,6 @@ class ValorController extends Controller
       'confirmacion_id' => 'required',
       'usuario' => 'required',
     ]);
-    Log::info($request->all());
     //RECORRIDO DE PRUEBA
     $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
     //Primero guardamos las fotos

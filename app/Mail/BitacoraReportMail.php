@@ -35,13 +35,11 @@ class BitacoraReportMail extends Mailable
 
     protected function prepareBitacoraData()
     {
-        $campos = BitacoraCampo::where('activo', true)->get();
+        $campos = BitacoraCampo::selectValores($this->confirmacion->id);
         $data = [];
 
         foreach ($campos as $campo) {
-            $valores = BitacoraValor::where('confirmacion_dt_id', $this->confirmacion->id)
-                ->where('bitacora_campo_id', $campo->id)
-                ->get();
+            $valores = $campo->valores;
 
             if ($campo->tipo_campo_id == 4) { // Archivo
                 $data[$campo->nombre] = [

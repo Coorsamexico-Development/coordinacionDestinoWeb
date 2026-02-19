@@ -46,4 +46,9 @@ class ConfirmacionDt extends Model
     {
         return $this->belongsTo(Ubicacione::class, 'ubicacion_id');
     }
+
+    public function dt()
+    {
+        return $this->belongsTo(Dt::class, 'dt_id');
+    }
 }

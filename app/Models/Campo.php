@@ -10,9 +10,9 @@ class Campo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'SKU',
-        'descripcion',
-        'EAN',
-        'activo'
+        'nombre',
+        'tipo_campo_id',
+        'status_id',
+        'with_evidencias'
     ];
 }

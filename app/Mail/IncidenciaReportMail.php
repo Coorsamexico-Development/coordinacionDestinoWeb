@@ -32,7 +32,8 @@ class IncidenciaReportMail extends Mailable
             'ocs.incidencias.producto',
             'lineaTransporte',
             'cliente',
-            'ubicacion'
+            'ubicacion',
+            'dt',
         ]);
 
         $this->incidenciasData = $this->prepareIncidenciasData();
@@ -42,12 +43,29 @@ class IncidenciaReportMail extends Mailable
     protected function prepareIncidenciasData()
     {
         $data = [];
+
+        $campos = Valor::select('valors.*', 'campos.nombre as name_campo')
+            ->join('dt_campo_valors', 'dt_campo_valors.id', '=', 'valors.dt_campo_valor_id')
+            ->join('campos', 'campos.id', '=', 'dt_campo_valors.campo_id')
+            ->where('dt_campo_valors.confirmacion_id', $this->confirmacion->id)
+            ->whereIn('campos.nombre', ['FACTURA', 'FOLIO INTERNO'])
+            ->where('valors.activo', 1)
+            ->get();
+
+        $factura = $campos->where('name_campo', 'FACTURA')->first();
+
+        $factura = $factura ? $factura->valor : '';
+        $folioInterno = $campos->where('name_campo', 'FOLIO INTERNO')->first();
+        $folioInterno = $folioInterno ? $folioInterno->valor : '';
+
         foreach ($this->confirmacion->ocs as $oc) {
             foreach ($oc->incidencias as $incidencia) {
                 $data[] = [
                     'tipo_rechazo' => $incidencia->tipoIncidencia->nombre ?? '',
                     'confirmacion' => $this->confirmacion->confirmacion,
                     'oc' => $oc->referencia,
+                    'factura' => $factura,
+                    'folio_interno' => $folioInterno,
                     'fecha_reporte' => $incidencia->created_at->format('Y-m-d'),
                     'clave_producto' => $incidencia->producto->SKU ?? '',
                     'material' => $incidencia->producto->descripcion ?? '',
@@ -55,7 +73,7 @@ class IncidenciaReportMail extends Mailable
                     'um' => $incidencia->producto->UM ?? '',
                     'upc_sku' => $incidencia->producto->SKU ?? '',
                     'incidencia_desc' => $incidencia->tipoIncidencia->nombre ?? '',
-                    'carga' => '', // Placeholder
+                    'carga' => $this->confirmacion->dt->referencia_dt ?? '',
                     'linea' => $this->confirmacion->lineaTransporte->nombre ?? '',
                     'cliente' => $this->confirmacion->cliente->nombre ?? '',
                     'localidad' => $this->confirmacion->ubicacion->nombre_ubicacion ?? '',

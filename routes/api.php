@@ -10,8 +10,10 @@ use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
+use App\Mail\IncidenciaReportMail;
 use App\Models\ConfirmacionDt;
 use App\Models\DtCampoValor;
+use App\Models\EmailGroup;
 use App\Models\StatusDt;
 use App\Models\Valor;
 use Dompdf\Dompdf;
@@ -69,9 +71,9 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 //Ruta inicial para obtener DTS
-Route::get('/dtsApi', [ConfirmacionDtController::class, 'indexApi'])->name('dtsApi');
-Route::get('/changeToRiesgo', [ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
-Route::get('/changePorRecibir', [ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
+Route::get('/dtsApi', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'index'])->name('dtsApi');
+Route::get('/changeToRiesgo', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
+Route::get('/changePorRecibir', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
 //Autenticaciones
 Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
 //Consultar campos a partir del status padre
@@ -118,13 +120,13 @@ Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consul
 //Ruta para cambiar y tomar la hr de folios
 Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
 //Ruta para guardar datos y cambiar al status de liberacion
-Route::post('/valoresLiberacion', [ConfirmacionDtController::class, 'valoresLiberacion'])->name('valoresLiberacion');
+Route::post('/valoresLiberacion', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'valoresLiberacion'])->name('valoresLiberacion');
 //Ruta para guardar documento de la liberacion
-Route::post('/saveDocEnrrampe', [ConfirmacionDtController::class, 'saveDocEnrrampe'])->name('saveDocEnrrampe');
+Route::post('/saveDocEnrrampe', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'saveDocEnrrampe'])->name('saveDocEnrrampe');
 //Valores de firmsas
-Route::post('/firmasLiberacion', [ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
+Route::post('/firmasLiberacion', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
 //Obtener telefono por viaje
-Route::get('/getTelephone', [ConfirmacionDtController::class, 'getTelephone'])->name('getTelephone');
+Route::get('/getTelephone', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'getTelephone'])->name('getTelephone');
 //Consultar OCS por dt y verificar las ocs
 Route::get('/getOcsApi', [OcController::class, 'getOcsApi'])->name('getOcsApi');
 
@@ -263,4 +265,12 @@ Route::get('/pdf', function () {
   $pdf->set_option('isRemoteEnabled', true);
   $pdf->loadView('pdfs.plantilla_confirmacion', $data);
   return $pdf->stream();
+});
+
+
+
+
+Route::get('test/email-incidencia', function () {
+  $confirmacionDt = ConfirmacionDt::where('id', '=', 291)->first();
+  EmailGroup::sendToGroup('customer service', new IncidenciaReportMail($confirmacionDt));
 });

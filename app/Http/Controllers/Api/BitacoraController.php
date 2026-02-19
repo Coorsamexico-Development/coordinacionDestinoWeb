@@ -104,24 +104,7 @@ class BitacoraController extends Controller
 
             DB::commit();
 
-            $emailGroup = EmailGroup::where('name', 'customer service')
-                ->first();
-            if ($emailGroup) {
-                $recipients = $emailGroup->recipients()->get();
-                $emailsTo = $recipients
-                    ->where('type', 'to')
-                    ->pluck('email')->toArray();
-                $emailsCc = $recipients
-                    ->where('type', 'cc')
-                    ->pluck('email')->toArray();
-                $emailsBcc = $recipients
-                    ->where('type', 'bcc')
-                    ->pluck('email')->toArray();
-                Mail::to($emailsTo)
-                    ->cc($emailsCc)
-                    ->bcc($emailsBcc)
-                    ->send(new BitacoraReportMail($confirmacion)); // Replace with actual recipient logic
-            }
+            EmailGroup::sendToGroup('customer service', new BitacoraReportMail($confirmacion));
 
 
 

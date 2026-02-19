@@ -26,7 +26,6 @@ class IncidenciaController extends Controller
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
 
-        Log::info('Saving Incidencia via API', $request->all());
 
         $incidencia = Incidencia::updateOrCreate(
             [

@@ -101,7 +101,6 @@ class IncidenciaController extends Controller
   public function saveIncidencias(Request $request)
   {
     $data = $request['data'];
-    Log::info($data);
     //return $data[0]['evidencias'];
     for ($i = 0; $i < count($data); $i++) {
       $producto = $data[$i];

@@ -29,7 +29,6 @@ class ProductController extends Controller
         // Pagination
         $perPage = $request->input('per_page', 15);
         $products = $query->simplePaginate($perPage);
-        Log::info($products);
         return response()->json($products);
     }
 
