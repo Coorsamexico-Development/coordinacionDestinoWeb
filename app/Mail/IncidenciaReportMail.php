@@ -31,8 +31,9 @@ class IncidenciaReportMail extends Mailable
             'ocs.incidencias.tipoIncidencia',
             'ocs.incidencias.producto',
             'lineaTransporte',
-            'cliente',
+            'plataforma',
             'ubicacion',
+            'origen',
             'dt',
         ]);
 
@@ -75,9 +76,9 @@ class IncidenciaReportMail extends Mailable
                     'incidencia_desc' => $incidencia->tipoIncidencia->nombre ?? '',
                     'carga' => $this->confirmacion->dt->referencia_dt ?? '',
                     'linea' => $this->confirmacion->lineaTransporte->nombre ?? '',
-                    'cliente' => $this->confirmacion->cliente->nombre ?? '',
+                    'plataforma' => $this->confirmacion->plataforma->nombre ?? '',
                     'localidad' => $this->confirmacion->ubicacion->nombre_ubicacion ?? '',
-                    'origen' => '', // Placeholder
+                    'origen' => $this->confirmacion->origen->nombre_ubicacion ?? '',
                     'evidencias' => $incidencia->evidencias
                 ];
             }

@@ -100,7 +100,7 @@
                 <td>{{ $item['incidencia_desc'] }}</td>
                 <td>{{ $item['carga'] }}</td>
                 <td>{{ $item['linea'] }}</td>
-                <td>{{ $item['cliente'] }}</td>
+                <td>{{ $item['plataforma'] }}</td>
                 <td>{{ $item['localidad'] }}</td>
                 <td>{{ $item['origen'] }}</td>
             </tr>

@@ -19,6 +19,7 @@ class ConfirmacionDt extends Model
         'plataforma_id',
         'cliente_id',
         'ubicacion_id',
+        'origen_id',
         'status_id'
     ];
 
@@ -47,8 +48,18 @@ class ConfirmacionDt extends Model
         return $this->belongsTo(Ubicacione::class, 'ubicacion_id');
     }
 
+    public function origen()
+    {
+        return $this->belongsTo(Ubicacione::class, 'origen_id');
+    }
+
     public function dt()
     {
         return $this->belongsTo(Dt::class, 'dt_id');
+    }
+
+    public function plataforma()
+    {
+        return $this->belongsTo(Plataforma::class, 'plataforma_id');
     }
 }
