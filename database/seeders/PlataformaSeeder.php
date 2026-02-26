@@ -21,7 +21,7 @@ class PlataformaSeeder extends Seeder
             'updated_at' => now(),
         ]);
         DB::table('plataformas')->insert([
-            'nombre' => "SAM´S ",
+            'nombre' => "SAMS",
             'clave' => 'SAMS',
             'created_at' => now(),
             'updated_at' => now(),
