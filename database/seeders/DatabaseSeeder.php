@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             CamposSeeder::class,
             BitacoraCamposSeeder::class,
             UpdateCamposSeeder::class,
+            EmailGroupSeeder::class,
         ]);
     }
 }

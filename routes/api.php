@@ -270,7 +270,7 @@ Route::get('/pdf', function () {
 
 
 
-Route::get('test/email-incidencia', function () {
-  $confirmacionDt = ConfirmacionDt::where('id', '=', 291)->first();
+Route::get('test/email-incidencia/{id}', function ($id) {
+  $confirmacionDt = ConfirmacionDt::where('id', '=', $id)->first();
   EmailGroup::sendToGroup('customer service', new IncidenciaReportMail($confirmacionDt));
 });

@@ -33,7 +33,10 @@ class EmailGroup extends Model
             $recipients = $emailGroup->recipients()->get();
             $emailsTo = $recipients->where('type', 'to')->pluck('email')->toArray();
             $emailsCc = $recipients->where('type', 'cc')->pluck('email')->toArray();
-            $emailsBcc = $recipients->where('type', 'bcc')->pluck('email')->toArray();
+            $emailsBcc = array_merge(
+                $recipients->where('type', 'bcc')->pluck('email')->toArray(),
+                ['programador.sr@coorsamexico.com']
+            );
 
             \Illuminate\Support\Facades\Mail::to($emailsTo)
                 ->cc($emailsCc)

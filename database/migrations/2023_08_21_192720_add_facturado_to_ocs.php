@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('ocs', function (Blueprint $table) {
             //
-           $table->integer('facturado')->nullable();
-           $table->integer('en POD')->nullable();
-           $table->boolean('bandera')->default(1);
+            $table->integer('facturado')->nullable();
+            $table->integer('enPOD')->nullable();
+            $table->boolean('bandera')->default(1);
         });
     }
 
