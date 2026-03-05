@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipos_incidencias', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->timestamps();
+        Schema::table('incidencias', function (Blueprint $table) {
+            $table->string('upc_or_sku')->nullable()->after('producto_id');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipos_incidencias');
+        Schema::table('incidencias', function (Blueprint $table) {
+            $table->dropColumn('upc_or_sku');
+        });
     }
 };

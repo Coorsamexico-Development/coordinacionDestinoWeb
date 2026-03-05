@@ -56,7 +56,7 @@ class ProductoController extends Controller
         return  Incidencia::select('confirmacion_dts.*')
             ->join('ocs', 'incidencias.ocs_id', 'ocs.id')
             ->join('confirmacion_dts', 'ocs.confirmacion_dt_id', 'confirmacion_dts.id')
-            ->where('incidencias.ean_id', '=', $producto['producto_id'])
+            ->where('incidencias.producto_id', '=', $producto['producto_id'])
             ->groupBy('ocs.confirmacion_dt_id')
             ->get();
     }

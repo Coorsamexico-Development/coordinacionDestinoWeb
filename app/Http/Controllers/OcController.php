@@ -104,12 +104,12 @@ class OcController extends Controller
             $query->select(
               'incidencias.*',
               'tipo_incidencias.nombre as tipo_incidencia',
-              'productos.SKU as sku'
+              'productos.clave_producto'
             )
               ->with('evidencias')
               ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-              ->join('productos', 'incidencias.ean_id', 'productos.id')
-              ->where('incidencias.ean_id', '=', $request['producto_id'])
+              ->join('productos', 'incidencias.producto_id', 'productos.id')
+              ->where('incidencias.producto_id', '=', $request['producto_id'])
               ->get();
           }
         ])
@@ -122,11 +122,11 @@ class OcController extends Controller
             $query->select(
               'incidencias.*',
               'tipo_incidencias.nombre as tipo_incidencia',
-              'productos.SKU as sku'
+              'productos.clave_producto'
             )
               ->with('evidencias')
               ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-              ->join('productos', 'incidencias.ean_id', 'productos.id')
+              ->join('productos', 'incidencias.producto_id', 'productos.id')
               ->get();
           }
         ])
@@ -204,11 +204,11 @@ class OcController extends Controller
             'incidencias.*',
             'tipo_incidencias.nombre as tipo_incidencia',
             'productos.descripcion as producto',
-            'productos.SKU as sku'
+            'productos.clave_producto'
           )
             ->with('evidencias')
             ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-            ->join('productos', 'incidencias.ean_id', 'productos.id')
+            ->join('productos', 'incidencias.producto_id', 'productos.id')
             ->orderBy('incidencias.id', 'ASC')
             ->get();
         }

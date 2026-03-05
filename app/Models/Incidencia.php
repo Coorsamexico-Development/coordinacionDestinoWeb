@@ -13,7 +13,8 @@ class Incidencia extends Model
         'ocs_id',
         'tipo_incidencia_id',
         'cantidad',
-        'ean_id',
+        'producto_id',
+        'upc_or_sku',
         'cantidadPOD'
     ];
 
@@ -29,6 +30,6 @@ class Incidencia extends Model
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'ean_id');
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
 }

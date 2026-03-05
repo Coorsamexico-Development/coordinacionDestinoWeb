@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Models\Campo;
 use App\Models\DtCampoValor;
 use App\Models\Valor;
+use Illuminate\Support\Facades\Log;
 
 class IncidenciaReportMail extends Mailable
 {
@@ -68,11 +69,11 @@ class IncidenciaReportMail extends Mailable
                     'factura' => $factura,
                     'folio_interno' => $folioInterno,
                     'fecha_reporte' => $incidencia->created_at->format('Y-m-d'),
-                    'clave_producto' => $incidencia->producto->SKU ?? '',
+                    'clave_producto' => $incidencia->producto->clave_producto ?? '',
                     'material' => $incidencia->producto->descripcion ?? '',
                     'cantidad' => $incidencia->cantidad,
                     'um' => $incidencia->producto->UM ?? '',
-                    'upc_sku' => $incidencia->producto->SKU ?? '',
+                    'upc_or_sku' => $incidencia->upc_or_sku ?? '',
                     'incidencia_desc' => $incidencia->tipoIncidencia->nombre ?? '',
                     'carga' => $this->confirmacion->dt->referencia_dt ?? '',
                     'linea' => $this->confirmacion->lineaTransporte->nombre ?? '',
@@ -83,6 +84,7 @@ class IncidenciaReportMail extends Mailable
                 ];
             }
         }
+        Log::info($data);
         return $data;
     }
 

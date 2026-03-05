@@ -96,7 +96,7 @@
                 <td>{{ $item['material'] }}</td>
                 <td>{{ $item['cantidad'] }}</td>
                 <td>{{ $item['um'] }}</td>
-                <td>{{ $item['upc_sku'] }}</td>
+                <td>{{ $item['upc_or_sku'] }}</td>
                 <td>{{ $item['incidencia_desc'] }}</td>
                 <td>{{ $item['carga'] }}</td>
                 <td>{{ $item['linea'] }}</td>

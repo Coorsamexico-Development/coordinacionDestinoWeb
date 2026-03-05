@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('ocs_id')->constrained('ocs');
             $table->foreignId('tipo_incidencia_id')->constrained('tipo_incidencias');
             $table->bigInteger('cantidad');
-            $table->foreignId('ean_id')->constrained('productos');
+            $table->foreignId('producto_id')->constrained('productos');
             $table->timestamps();
         });
     }

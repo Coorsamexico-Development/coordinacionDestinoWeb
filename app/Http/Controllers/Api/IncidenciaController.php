@@ -21,7 +21,8 @@ class IncidenciaController extends Controller
             'oc_id' => 'required|integer',
             'tipo_incidencia_id' => 'required|integer',
             'cantidad' => 'required|numeric',
-            'id' => 'required|integer', // This corresponds to ean_id/product_id
+            'producto_id' => 'required|exists:productos,id', // This corresponds to producto_id/product_id
+            'upc_or_sku' => 'required|string',
             'evidencias' => 'nullable|array',
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
@@ -31,10 +32,11 @@ class IncidenciaController extends Controller
             [
                 'ocs_id' => $request->oc_id,
                 'tipo_incidencia_id' => $request->tipo_incidencia_id,
-                'ean_id' => $request->id // ean_id corresponds to product id
+                'producto_id' => $request->producto_id // producto_id corresponds to product id
             ],
             [
-                'cantidad' => $request->cantidad
+                'cantidad' => $request->cantidad,
+                'upc_or_sku' => $request->upc_or_sku
             ]
         );
 

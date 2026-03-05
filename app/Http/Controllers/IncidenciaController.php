@@ -108,7 +108,7 @@ class IncidenciaController extends Controller
         'ocs_id' => $producto['oc_id'],
         'tipo_incidencia_id' => $producto['tipo_incidencia_id'],
         'cantidad' => $producto['cantidad'],
-        'ean_id' => $producto['id']
+        'producto_id' => $producto['id']
       ]);
 
       //Vamos a recorrer las evidencias
@@ -147,7 +147,7 @@ class IncidenciaController extends Controller
           'ocs_id' => $request['oc_id'],
           'tipo_incidencia_id' => $incidencia['tipo_incidencia_id'],
           'cantidadPOD' => $incidencia['reportePOD'],
-          'ean_id' => $producto['id']
+          'producto_id' => $producto['id']
         ]);
       }
     }
@@ -235,7 +235,7 @@ class IncidenciaController extends Controller
     )
       ->with('evidencias')
       ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-      ->join('productos', 'incidencias.ean_id', 'productos.id')
+      ->join('productos', 'incidencias.producto_id', 'productos.id')
       ->where('ocs_id', '=', $request['oc_id'])
       ->orderBy('incidencias.id', 'ASC')
       ->get();
@@ -258,7 +258,7 @@ class IncidenciaController extends Controller
 
       Incidencia::create([
         'ocs_id' => $request['oc'],
-        'ean_id' => $producto['id'],
+        'producto_id' => $producto['id'],
         'cantidad' => $incidencia['cantidad'],
         'tipo_incidencia_id' => $incidencia['tipo_incidencia_id']
       ]);
