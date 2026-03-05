@@ -7,6 +7,7 @@ use App\Imports\ProductosImport;
 use App\Models\Incidencia;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -23,7 +24,7 @@ class ProductoController extends Controller
             'productos.id as producto_id',
             'productos.SKU as producto_SKU',
             'productos.descripcion as producto_descripcion',
-            'productos.DUN 14 as producto_dun14',
+            'productos.clave_producto as producto_clave',
             'productos.UM as producto_um',
             'productos.activo as producto_activo',
             'productos.created_at as producto_creacion'
@@ -39,7 +40,7 @@ class ProductoController extends Controller
 
 
         return Inertia::render('Productos/Productos.Index', [
-            'productos' => fn() =>  $productos->paginate(5)
+            'productos' => fn() =>  $productos->paginate(10)
         ]);
     }
 
@@ -84,6 +85,7 @@ class ProductoController extends Controller
             return redirect()->back();
         } catch (\Throwable $th) {
             //throw $th;
+            Log::info($th);
         }
     }
 

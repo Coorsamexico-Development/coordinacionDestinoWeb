@@ -16,7 +16,7 @@ class ProductosExport implements WithHeadings
         return [
             "SKU",
             "DESCRIPCION",
-            "DUN 14",
+            "Clave Producto",
             "UM"
         ];
     }

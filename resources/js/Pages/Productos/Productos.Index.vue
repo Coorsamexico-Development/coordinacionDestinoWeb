@@ -149,7 +149,7 @@ watch(buscador, (newBusqueda) => {
                     <tr>
                         <th class="font-semibold text-center">SKU</th>
                         <th class="font-semibold">Descripción</th>
-                        <th class="font-semibold">DUN 14</th>
+                        <th class="font-semibold">Clave Producto</th>
                         <th class="font-semibold">UM</th>
                         <th class="font-semibold">Activo</th>
                         <th class="font-semibold">Viajes</th>
@@ -173,7 +173,7 @@ watch(buscador, (newBusqueda) => {
                             {{ producto.producto_descripcion }}
                         </td>
                         <td class="text-center">
-                            {{ producto.producto_dun14 }}
+                            {{ producto.producto_clave }}
                         </td>
                         <td class="text-center">
                             {{ producto.producto_um }}

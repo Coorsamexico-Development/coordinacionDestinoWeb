@@ -40,7 +40,7 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'SKU' => ['required', 'string', 'max:255', 'unique:productos,SKU'],
             'descripcion' => ['required', 'string'],
-            'DUN 14' => ['required', 'string'],
+            'clave_producto' => ['required', 'string'],
             'UM' => ['required', 'string'],
             'activo' => ['boolean'],
         ]);

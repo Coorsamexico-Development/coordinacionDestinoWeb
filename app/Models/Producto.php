@@ -11,9 +11,9 @@ class Producto extends Model
 
     protected $fillable =
     [
+        'clave_producto',
         'SKU',
         'descripcion',
-        'DUN 14',
         'UM',
         'activo',
     ];

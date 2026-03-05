@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Producto;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -16,15 +17,14 @@ class ProductosImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         //
-        //dd($row);
         Producto::updateOrCreate(
             [
-                'SKU' => $row['sku']
+                'clave_producto' => trim($row['clave_de_producto']),
             ],
             [
-                'descripcion' => $row['descripcion'],
-                'DUN 14' => $row['dun_14'],
-                'UM' => $row['ean']
+                'descripcion' => trim($row['descripcion']),
+                'SKU' => trim($row['upcsku']),
+                'UM' => trim($row['um'])
             ]
         );
 
