@@ -18,32 +18,33 @@ class UserUbicacioneController extends Controller
     public function index(Request $request)
     {
         //
-        $users = User::select('users.*',
-        'ubicaciones.id as ubicacion_id',
-        'ubicaciones.nombre_ubicacion as ubicacion',
-        'roles.nombre as role_name')
-        ->leftJoin('user_ubicaciones','user_ubicaciones.user_id','users.id')
-        ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id','ubicaciones.id')
-        ->leftJoin('roles', 'users.role_id', 'roles.id');
+        $users = User::select(
+            'users.*',
+            'ubicaciones.id as ubicacion_id',
+            'ubicaciones.nombre_ubicacion as ubicacion',
+            'roles.nombre as role_name'
+        )
+            ->leftJoin('user_ubicaciones', 'user_ubicaciones.user_id', 'users.id')
+            ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id', 'ubicaciones.id')
+            ->leftJoin('roles', 'users.role_id', 'roles.id')
+            ->where('users.email', '!=', 'test@coorsamexico.com');
 
-        if ($request->has("busqueda")) 
-        {
-          if($request['busqueda'] !== null)
-          {
-            $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
-            $users->where("users.name", "LIKE", "%" . $search . "%")
-            ->orWhere("users.apellido_paterno", "LIKE", "%" . $search . "%")
-            ->orWhere("users.apellido_materno", "LIKE", "%" . $search . "%");
-          }
+        if ($request->has("busqueda")) {
+            if ($request['busqueda'] !== null) {
+                $search = strtr($request->busqueda, array("'" => "\\'", "%" => "\\%"));
+                $users->where("users.name", "LIKE", "%" . $search . "%")
+                    ->orWhere("users.apellido_paterno", "LIKE", "%" . $search . "%")
+                    ->orWhere("users.apellido_materno", "LIKE", "%" . $search . "%");
+            }
         }
 
         $roles = Role::all();
         $ubicaciones = Ubicacione::all();
 
-        return Inertia::render('ManageUsers/ManageUsers',[
-           'users'=> fn () =>  $users->paginate(5),
-           'roles' => $roles,
-           'ubicaciones' => $ubicaciones
+        return Inertia::render('ManageUsers/ManageUsers', [
+            'users' => fn() =>  $users->paginate(5),
+            'roles' => $roles,
+            'ubicaciones' => $ubicaciones
         ]);
     }
 
@@ -80,13 +81,12 @@ class UserUbicacioneController extends Controller
             'role_id' => $request['role_id'],
             'password' => Hash::make($request['contraseña'])
         ]);
-        
+
         UserUbicacione::updateOrCreate([
             'user_id' => $user['id'],
-        ],['ubicacion_id' => $request['ubicacion_id']]);
+        ], ['ubicacion_id' => $request['ubicacion_id']]);
 
         return redirect()->back();
-
     }
 
     /**
@@ -122,19 +122,19 @@ class UserUbicacioneController extends Controller
             'ubicacion_id' => 'required'
         ]);
 
-      $user =  User::where('id','=',$request['id'])
-        ->update([
-            'email' => $request['email'],
-            'name' => $request['nombre'],
-            'apellido_paterno' => $request['ap_paterno'],
-            'apellido_materno' => $request['ap_materno'],
-            'role_id' => $request['role_id'],
-            'password' => Hash::make($request['contraseña'])
-        ]);
-        
+        $user =  User::where('id', '=', $request['id'])
+            ->update([
+                'email' => $request['email'],
+                'name' => $request['nombre'],
+                'apellido_paterno' => $request['ap_paterno'],
+                'apellido_materno' => $request['ap_materno'],
+                'role_id' => $request['role_id'],
+                'password' => Hash::make($request['contraseña'])
+            ]);
+
         UserUbicacione::updateOrCreate([
             'user_id' => $request['id'],
-        ],['ubicacion_id' => $request['ubicacion_id']]);
+        ], ['ubicacion_id' => $request['ubicacion_id']]);
 
         return redirect()->back();
     }
