@@ -12,7 +12,8 @@ class BitacoraCampo extends Model
     protected $fillable = [
         'nombre',
         'tipo_campo_id',
-        'activo'
+        'activo',
+        'orden'
     ];
 
     public function tipoCampo()
@@ -55,6 +56,7 @@ class BitacoraCampo extends Model
                 $query->where('bitacora_campos.activo', 1)
                     ->orWhereNull('bitacora_valores.confirmacion_dt_id');
             })
+            ->orderBy('bitacora_campos.orden', 'asc')
             ->distinct()
             ->get();
     }

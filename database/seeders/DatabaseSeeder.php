@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             // EmailGroupSeeder::class,
             TipoCampoSeeder::class,
             OpcionesSeeder::class,
+            BitacoraCampoOrdenSeeder::class,
         ]);
     }
 }
