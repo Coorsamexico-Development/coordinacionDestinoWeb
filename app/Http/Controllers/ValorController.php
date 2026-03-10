@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
 use Google\Cloud\Storage\StorageClient;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ValorController extends Controller
@@ -382,31 +383,42 @@ class ValorController extends Controller
 
     $valores = $request['params']['valores'];
     $confirmacionId = $request['params']['confirmacion_id'];
-    $usuarioId = $request['params']['usuario'];
+    $usuarioId = Auth::user()->id;
 
-    foreach ($valores as $campo) {
-      $dt_campo = DtCampoValor::firstOrCreate([
-        'confirmacion_id' => $confirmacionId,
-        'campo_id' => $campo['campo_id']
-      ]);
 
-      //Desactivar valores anteriores
-      Valor::where('dt_campo_valor_id', $dt_campo->id)
-        ->update(['activo' => 0]);
+    try {
+      DB::beginTransaction();
+      foreach ($valores as $campo) {
+        $dt_campo = DtCampoValor::firstOrCreate([
+          'confirmacion_id' => $confirmacionId,
+          'campo_id' => $campo['campo_id']
+        ]);
 
-      //Crea nuevo valor
-      Valor::create([
-        'valor' => $campo['value'],
-        'dt_campo_valor_id' => $dt_campo->id,
-        'user_id' => $usuarioId
-      ]);
+        //Desactivar valores anteriores
+        Valor::where('dt_campo_valor_id', $dt_campo->id)
+          ->update(['activo' => 0]);
+
+        //Crea nuevo valor
+        Valor::create([
+          'valor' => $campo['value'],
+          'dt_campo_valor_id' => $dt_campo->id,
+          'user_id' => $usuarioId
+        ]);
+      }
+
+      DB::commit();
+      return response()->json(['message' => 'Valores guardados correctamente']);
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      return response()->json([
+        'message' => 'Error al guardar valores',
+      ], 500);
     }
-
-    return response()->json(['message' => 'Valores guardados correctamente']);
   }
 
   public function documentacionFotos(Request $request) //guarda y cambia a status 7 (en eespera de rampa)
   {
+    Log::info("llega a documentacion fotos");
     $request->validate([
       'dt' => 'required|exists:dts,id',
       'fotos' => 'array',

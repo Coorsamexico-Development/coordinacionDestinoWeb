@@ -7,7 +7,7 @@ use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
 use App\Http\Controllers\HorasHistoricoController;
 use App\Http\Controllers\IncidenciaController;
-use App\Http\Controllers\OcController;
+use App\Http\Controllers\Api\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
 use App\Mail\IncidenciaReportMail;
@@ -68,31 +68,45 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/valores', [BitacoraController::class, 'storeValores']);
     Route::post('/files', [BitacoraController::class, 'storeFiles']);
   });
+  //Ruta inicial para obtener DTS
+  Route::get('/dtsApi', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'index'])->name('dtsApi');
+  Route::get('/changeToRiesgo', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
+  Route::get('/changePorRecibir', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
+  Route::get('/camposApi', [CampoController::class, 'indexApi']);
+  Route::get('/camposByStatus', [CampoController::class, 'camposByStatus']);
+
+
+  //Guardar campos con valores en valores primera pantalla
+  Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
+  //Guardar fotos segunda pantalla
+  Route::post('/valoresDeDocumentacion', [ValorController::class, 'documentacionValores']);
 });
-
-//Ruta inicial para obtener DTS
-Route::get('/dtsApi', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'index'])->name('dtsApi');
-Route::get('/changeToRiesgo', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changeToRiesgo'])->name('changeToRiesgo');
-Route::get('/changePorRecibir', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'changePorRecibir'])->name('changePorRecibir');
-//Autenticaciones
-Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
-//Consultar campos a partir del status padre
-Route::get('/camposApi', [CampoController::class, 'indexApi']);
-
-
-//Consultar campos a partir de status
-Route::get('/camposByStatus', [CampoController::class, 'camposByStatus']);
-
-
-//Guardar campos con valores en valores primera pantalla
-Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
-//Guardar fotos segunda pantalla
-Route::post('/valoresDeDocumentacion', [ValorController::class, 'documentacionValores']);
 Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 //Ruta de guardado global de enrrampe
 Route::post('/valoresEnrrampado', [ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
 //Guardar docs de la espera de ennrampe
 Route::post('/fotosEnrrampe', [ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
+
+
+//Ruta para guardar ocs
+Route::post('confirmacion-dts/{confirmacionDt}/ocs', [OcController::class, 'store']);
+
+
+Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
+//Ruta para guardar ocs cuadradas
+Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
+Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
+//Consultar OCS por dt y verificar las ocs
+Route::get('/getOcsApi', [OcController::class, 'index'])->name('getOcsApi');
+
+//Autenticaciones
+Route::post('/sanctum/token', [AutenticatheController::class, 'login']);
+//Consultar campos a partir del status padre
+
+
+//Consultar campos a partir de status
+
+
 
 
 Route::get('artisan', function () {
@@ -102,7 +116,6 @@ Route::get('artisan', function () {
   return "ok";
 });
 
-Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para consultar productos
 Route::get('/indexProductos', [ProductoController::class, 'apiIndex'])->name('indexProductos');
 
@@ -114,9 +127,6 @@ Route::post('/saveIncidencias', [IncidenciaController::class, 'saveIncidencias']
 Route::get('/checkIncidenciasByOc', [IncidenciaController::class, 'checkIncidenciasByOc'])->name('checkIncidenciasByOc');
 //Borrar incidencias con evidencias
 Route::get('/eraseIncidenciasWithEvidencias', [IncidenciaController::class, 'eraseIncidenciasWithEvidencias'])->name('eraseIncidenciasWithEvidencias');
-//Ruta para guardar ocs cuadradas
-Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
-Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
 //Ruta para cambiar y tomar la hr de folios
 Route::get('/savehrFolios', [HorasHistoricoController::class, 'savehrFolios'])->name('savehrFolios');
 //Ruta para guardar datos y cambiar al status de liberacion
@@ -127,8 +137,6 @@ Route::post('/saveDocEnrrampe', [\App\Http\Controllers\Api\ConfirmacionDtControl
 Route::post('/firmasLiberacion', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'firmasLiberacion'])->name('firmasLiberacion');
 //Obtener telefono por viaje
 Route::get('/getTelephone', [\App\Http\Controllers\Api\ConfirmacionDtController::class, 'getTelephone'])->name('getTelephone');
-//Consultar OCS por dt y verificar las ocs
-Route::get('/getOcsApi', [OcController::class, 'getOcsApi'])->name('getOcsApi');
 
 //Prueba para la estructura del PDF
 Route::get('/pdf', function () {

@@ -135,64 +135,7 @@ class OcController extends Controller
     }
   }
 
-  public function getOcsApi(Request $request)
-  {
-    return ConfirmacionDt::select(
-      'confirmacion_dts.*'
-    )->where('confirmacion_dts.id', '=', $request['id'])
-      ->with('ocs')
-      ->get();
-  }
 
-  public function saveFacturados(Request $request)
-  {
-    $validated = $request->validate([
-      'ocs' => ['required', 'array'],
-      'ocs.*.oc_id' => ['required', 'integer', 'exists:ocs,id'],
-      'ocs.*.value' => ['required', 'integer']
-    ]);
-
-    try {
-      DB::transaction(function () use ($validated) {
-        foreach ($validated['ocs'] as $data) {
-          Oc::where('id', $data['oc_id'])
-            ->update(['facturado' => $data['value']]);
-        }
-      });
-
-      return response()->json([
-        'success' => true,
-        'message' => 'Registros actualizados correctamente'
-      ], 200);
-    } catch (\Exception $e) {
-      return response()->json([
-        'success' => false,
-        'message' => 'Error al actualizar los registros',
-        'error' => $e->getMessage()
-      ], 500);
-    }
-  }
-
-  public function saveCuadre(Request $request)
-  {
-    $ocsCuadradas =  $request['params']['ocs'];
-    if (count($ocsCuadradas) !== 0) {
-      for ($i = 0; $i < count($ocsCuadradas); $i++) {
-        $oc = $ocsCuadradas[$i];
-        if ($oc['pod'] !== null) {
-          Oc::where('id', '=', $oc['id'])
-            ->update([
-              'enPOD' => $oc['pod']
-            ]);
-        } else {
-          Oc::where('id', '=', $oc['id'])
-            ->update([
-              'enPOD' => $oc['enPOD']
-            ]);
-        }
-      }
-    }
-  }
 
 
   public function ocsByViaje(Request $request)

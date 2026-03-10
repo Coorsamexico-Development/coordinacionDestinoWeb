@@ -13,32 +13,37 @@ class TipoCampoSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+
+        // DB::table('tipos_campos')->insert([
+        //     'nombre' => "text",
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+
+        // DB::table('tipos_campos')->insert([
+        //     'nombre' => "number",
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+
+        // DB::table('tipos_campos')->insert([
+        //     'nombre' => "image",
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+        // DB::table('tipos_campos')->insert([
+        //     'nombre' => "file",
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
         DB::table('tipos_campos')->insert([
-            'nombre' => "text",
+            'nombre' => "autocomplete",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        
-        DB::table('tipos_campos')->insert([
-            'nombre' => "number",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        
-        DB::table('tipos_campos')->insert([
-            'nombre' => "image",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('tipos_campos')->insert([
-            'nombre' => "file",
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
     }
 }

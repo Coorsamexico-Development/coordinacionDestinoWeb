@@ -25,6 +25,11 @@ class BitacoraCampo extends Model
         return $this->hasMany(BitacoraValor::class, 'bitacora_campo_id');
     }
 
+    public function opciones()
+    {
+        return $this->hasMany(Opcion::class, 'bitacora_campo_id');
+    }
+
 
     function scopeSelectValores($query, $confirmacion_id)
     {
@@ -34,6 +39,7 @@ class BitacoraCampo extends Model
             'tipos_campos.nombre as tipo_campo'
         )
             ->with([
+                'opciones',
                 'valores' => function ($query) use ($confirmacion_id) {
                     $query->where('confirmacion_dt_id', $confirmacion_id)
                         ->where('bitacora_valores.activo', 1);
