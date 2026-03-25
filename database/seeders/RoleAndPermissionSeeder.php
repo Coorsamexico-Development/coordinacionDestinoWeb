@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\User;
 
 class RoleAndPermissionSeeder extends Seeder
 {
@@ -29,5 +30,19 @@ class RoleAndPermissionSeeder extends Seeder
         if (!$role->permissions()->where('permissions.id', $permission->id)->exists()) {
             $role->permissions()->attach($permission->id);
         }
+
+        $adminUsers = [
+            'liliachavez021027@gmail.com',
+            'test@coorsamexico.com',
+            'admin@coorsamexico.com',
+        ];
+
+        User::whereNotIn('email', $adminUsers)->update([
+            'role_id'=> $role->id,
+        ]);
+
+        User::whereIn('email', $adminUsers)->update([
+            'role_id'=> 1,
+        ]);
     }
 }

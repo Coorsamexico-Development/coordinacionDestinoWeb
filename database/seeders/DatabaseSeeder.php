@@ -33,9 +33,10 @@ class DatabaseSeeder extends Seeder
             // BitacoraCamposSeeder::class,
             // UpdateCamposSeeder::class,
             // EmailGroupSeeder::class,
-            TipoCampoSeeder::class,
-            OpcionesSeeder::class,
-            BitacoraCampoOrdenSeeder::class,
+            // TipoCampoSeeder::class,
+            // OpcionesSeeder::class,
+            // BitacoraCampoOrdenSeeder::class,
+            RoleAndPermissionSeeder::class,
         ]);
     }
 }

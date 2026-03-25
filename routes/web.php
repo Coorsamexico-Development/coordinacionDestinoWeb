@@ -68,11 +68,11 @@ Route::middleware([
     Route::get('/viajes', [DtController::class, 'index'])->name('viajes.index');
 
     //Modulo de Ubicaciones
-    Route::put('/ubicaciones/{ubicacione}', [UbicacioneController::class, 'update'])->name('ubicaciones.update');
+   Route::middleware(['can:ubicaciones.manager'])->group(function () {
+     Route::put('/ubicaciones/{ubicacione}', [UbicacioneController::class, 'update'])->name('ubicaciones.update');
     Route::delete('/ubicaciones/{ubicacione}', [UbicacioneController::class, 'destroy'])->name('ubicaciones.destroy');
     Route::post('/ubicaciones/{ubicacione}/transfer', [UbicacioneController::class, 'transfer'])->name('ubicaciones.transfer');
-
-
+   });
     //Catalogs Email Groups
     Route::get('/catalogs/email-groups', [EmailGroupController::class, 'index'])->name('catalogs.email-groups.index');
     Route::post('/catalogs/email-groups', [EmailGroupController::class, 'store'])->name('catalogs.email-groups.store');
