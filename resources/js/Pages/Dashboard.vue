@@ -1,6 +1,5 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
+import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 
 <template>
@@ -10,8 +9,6 @@ import Welcome from '@/Components/Welcome.vue';
                 Inicio
             </h2>
         </template>
-       <div class="grid grid-cols-4">
-           
-       </div>
+        <div class="grid grid-cols-4"></div>
     </AppLayout>
 </template>
