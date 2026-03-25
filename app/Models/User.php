@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -78,6 +79,13 @@ class User extends Authenticatable
      {
          return $this->belongsTo(Role::class, 'role_id');
      }
+
+     
+    function permissions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Permission::class, RolesPermission::class, 'role_id', 'id', 'role_id', 'permission_id');
+    }
+
     
     public function getCansAttribute()
     {

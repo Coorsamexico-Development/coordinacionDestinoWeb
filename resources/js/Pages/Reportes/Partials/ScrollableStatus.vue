@@ -115,6 +115,7 @@ const contadorIndividual = computed(() => {
                     <UbicacionDesplegable
                         :buscador="buscadorToComponent"
                         :ubicacion="ubicacion"
+                        :ubicaciones="ubicaciones"
                         :plataformas="plataformas"
                         :status="statu"
                         :fecha="fechaToComponent"

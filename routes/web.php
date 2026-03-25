@@ -16,6 +16,7 @@ use App\Http\Controllers\RolesPermissionController;
 use App\Http\Controllers\StatusDtController;
 use App\Http\Controllers\TiposCampoController;
 use App\Http\Controllers\TiposIncidenciaController;
+use App\Http\Controllers\UbicacioneController;
 use App\Http\Controllers\UserUbicacioneController;
 use App\Http\Controllers\ValorController;
 use App\Models\ConfirmacionDt;
@@ -65,6 +66,11 @@ Route::middleware([
     Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
     //Modulo de viajes
     Route::get('/viajes', [DtController::class, 'index'])->name('viajes.index');
+
+    //Modulo de Ubicaciones
+    Route::put('/ubicaciones/{ubicacione}', [UbicacioneController::class, 'update'])->name('ubicaciones.update');
+    Route::delete('/ubicaciones/{ubicacione}', [UbicacioneController::class, 'destroy'])->name('ubicaciones.destroy');
+    Route::post('/ubicaciones/{ubicacione}/transfer', [UbicacioneController::class, 'transfer'])->name('ubicaciones.transfer');
 
 
     //Catalogs Email Groups
