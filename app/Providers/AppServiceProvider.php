@@ -37,12 +37,12 @@ class AppServiceProvider extends ServiceProvider
         );
 
         try {
-            Permission::get(['id', 'name'])
+            Permission::get(['id', 'nombre'])
                 ->map(function ($permission) {
                     Gate::define(
-                        $permission->name,
+                        $permission->nombre,
                         function (User $user) use ($permission) {
-                            return $user->HasPermission($permission->id);
+                            return $user->hasPermission($permission->id);
                         }
                     );
                 });

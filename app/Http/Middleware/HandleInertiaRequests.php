@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'can' => fn () => $request->user()
-                ? $request->user()->getCanAttribute()
+                ? $request->user()->getCansAttribute()
                 : null,
         ]);
     }
