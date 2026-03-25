@@ -215,59 +215,8 @@ let date = ref({
   
 const changeDate = (newDate) => {
     date.value = newDate;
-    let fecha = null;
-    //console.log(newDate.month)
-    switch (newDate.month) 
-    {
-      case 0: //Enero
-            fecha = newDate.year + '-' + "01";
-            params.fecha = fecha;
-         break;
-      case 1: //Febrero
-            fecha = newDate.year + '-' + "02";
-            params.fecha = fecha;
-         break;
-      case 2: //Marzo
-            fecha = newDate.year + '-' + "03";
-            params.fecha = fecha;
-         break;
-      case 3: //Abril
-            fecha = newDate.year + '-' + "04";
-            params.fecha = fecha;
-         break;
-      case 4: //Mayo
-            fecha = newDate.year + '-' + "05";
-            params.fecha = fecha;
-         break;
-      case 5: //Junio
-         fecha = newDate.year + '-' + "06";
-         params.fecha = fecha;
-      break;
-      case 6: //Julio
-         fecha = newDate.year + '-' + "07";
-         params.fecha = fecha;
-      break;
-      case 7: //Agosto
-         fecha = newDate.year + '-' + "08";
-         params.fecha = fecha;
-      break;
-      case 8: //Spetiembre
-         fecha = newDate.year + '-' + "09";
-         params.fecha = fecha;
-      break;
-      case 9: //Octubre
-         fecha = newDate.year + '-' + "10";
-         params.fecha = fecha;
-      break;
-      case 10: //Noviembre
-         fecha = newDate.year + '-' + "11";
-         params.fecha = fecha;
-      break;
-      case 11: //Diciembre
-         fecha = newDate.year + '-' + "12";
-         params.fecha = fecha;
-      break;
-    }
+    const monthString = String(newDate.month + 1).padStart(2, '0');
+    params.fecha = `${newDate.year}-${monthString}`;
 };
 
 //watcher para filtros

@@ -1,35 +1,28 @@
 <script setup>
-import {ref, watch, computed, reactive } from "vue";
+import { computed } from "vue";
 //Props
 var props = defineProps({
-    confirmaciones:Array,
+    confirmaciones: Array,
     ubicacion: Object,
-    status:Object
+    status: Object,
 });
 
-console.log(props.confirmaciones)
-
-const Newconfirmaciones = computed(() => 
-{
+const Newconfirmaciones = computed(() => {
     let confirmacionesTemporales = [];
-   for (let index = 0; index < props.confirmaciones.length; index++) 
-   {
-     const confirmacion = props.confirmaciones[index];
-     if(confirmacion.status_padre == props.status.id)
-     {
-       if(confirmacion.ubicacion_id == props.ubicacion.id)
-       {
-         confirmacionesTemporales.push(confirmacion)
-       }
-     }
-   }
+    for (let index = 0; index < props.confirmaciones.length; index++) {
+        const confirmacion = props.confirmaciones[index];
+        if (confirmacion.status_padre == props.status.id) {
+            if (confirmacion.ubicacion_id == props.ubicacion.id) {
+                confirmacionesTemporales.push(confirmacion);
+            }
+        }
+    }
 
-   return confirmacionesTemporales;
+    return confirmacionesTemporales;
 });
-
 </script>
 <template>
-   <div class="font-semibold">
-      {{ Newconfirmaciones.length }}
-   </div>
+    <div class="font-semibold">
+        {{ Newconfirmaciones.length }}
+    </div>
 </template>
