@@ -40,6 +40,21 @@ class ConfirmacionDtController extends Controller
             ->join('plataformas', 'confirmacion_dts.plataforma_id', 'plataformas.id')
 
             ->where('confirmacion_dts.cerrado', '=', 0);
+            
+        $user = Auth::user();
+        $ubicacionesIds = $user->ubicaciones->pluck('id')->toArray();
+        
+        if (empty($ubicacionesIds) ) {
+            if (!$user->is_admin) {
+                @throw ValidationException::withMessages([
+                'message'=> 'No has sido asignado a ninguna ubicacion'
+                ]);
+            }
+        }else {
+            $confirmacionesDts
+            ->whereIn('confirmacion_dts.ubicacion_id',
+            $ubicacionesIds);
+        }
 
         if ($request->has('ubicacion_id')) {
             if ($request['ubicacion_id'] !== null) {
@@ -50,22 +65,9 @@ class ConfirmacionDtController extends Controller
             if ($request['search'] !== null) {
                 $confirmacionesDts->where('dts.referencia_dt', 'LIKE', '%' . $request['search'] . '%');
             }
-        }else {
-            $user = Auth::user();
-            $ubicacionesIds = $user->ubicaciones->pluck('id')->toArray();
-            
-            if (empty($ubicacionesIds) ) {
-                if (!$user->is_admin) {
-                    @throw ValidationException::withMessages([
-                    'message'=> 'No has sido asignado a ninguna ubicacion'
-                    ]);
-                }
-            }else {
-                $confirmacionesDts
-                ->whereIn('confirmacion_dts.ubicacion_id',
-                $ubicacionesIds);
-            }
         }
+            
+        
 
         if ($request->has('plataforma_id')) {
             if ($request['plataforma_id'] !== null) {
