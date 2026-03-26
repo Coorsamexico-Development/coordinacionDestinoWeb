@@ -20,12 +20,9 @@ class UserUbicacioneController extends Controller
         //
         $users = User::select(
             'users.*',
-            'ubicaciones.id as ubicacion_id',
-            'ubicaciones.nombre_ubicacion as ubicacion',
             'roles.nombre as role_name'
         )
-            ->leftJoin('user_ubicaciones', 'user_ubicaciones.user_id', 'users.id')
-            ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id', 'ubicaciones.id')
+        ->with('ubicaciones')
             ->leftJoin('roles', 'users.role_id', 'roles.id')
             ->where('users.email', '!=', 'test@coorsamexico.com');
 
@@ -69,10 +66,9 @@ class UserUbicacioneController extends Controller
             'ap_materno' => 'required',
             'contraseña' => 'required',
             'role_id' => 'required',
-            'ubicacion_id' => 'required'
+            'ubicacion_id' => 'required|array'
         ]);
 
-        //return $request;
         $user =  User::create([
             'email' => $request['email'],
             'name' => $request['nombre'],
@@ -82,9 +78,7 @@ class UserUbicacioneController extends Controller
             'password' => Hash::make($request['contraseña'])
         ]);
 
-        UserUbicacione::updateOrCreate([
-            'user_id' => $user['id'],
-        ], ['ubicacion_id' => $request['ubicacion_id']]);
+        $user->ubicaciones()->sync($request['ubicacion_id']);
 
         return redirect()->back();
     }
@@ -117,24 +111,28 @@ class UserUbicacioneController extends Controller
             'nombre' => 'required',
             'ap_paterno' => 'required',
             'ap_materno' => 'required',
-            'contraseña' => 'required',
+            'contraseña' => 'nullable|min:5',
             'role_id' => 'required',
-            'ubicacion_id' => 'required'
+            'ubicacion_id' => 'nullable|array'
         ]);
 
-        $user =  User::where('id', '=', $request['id'])
-            ->update([
+        $newUser = [
                 'email' => $request['email'],
                 'name' => $request['nombre'],
                 'apellido_paterno' => $request['ap_paterno'],
                 'apellido_materno' => $request['ap_materno'],
                 'role_id' => $request['role_id'],
-                'password' => Hash::make($request['contraseña'])
-            ]);
+        ];
 
-        UserUbicacione::updateOrCreate([
-            'user_id' => $request['id'],
-        ], ['ubicacion_id' => $request['ubicacion_id']]);
+        if($request['contraseña'] != null){
+            $newUser['password'] = Hash::make($request['contraseña']);
+        }
+
+        $user =  User::where('id', '=', $request['id'])
+            ->update($newUser);
+
+        $updatedUser = User::find($request['id']);
+        $updatedUser->ubicaciones()->sync($request['ubicacion_id']);
 
         return redirect()->back();
     }

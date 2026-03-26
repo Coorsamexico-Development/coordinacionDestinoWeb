@@ -117,6 +117,11 @@ class User extends Authenticatable
         return $this->role->permissions()->where('permissions.id', $idPermission)->exists();
 
     }
+
+    public function ubicaciones()
+    {
+        return $this->belongsToMany(Ubicacione::class, 'user_ubicaciones', 'user_id', 'ubicacion_id');
+    }
    
 
 }

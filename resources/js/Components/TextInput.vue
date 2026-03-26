@@ -1,17 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 
 defineProps({
     modelValue: String,
-    required:Boolean
+    required: Boolean,
 });
 
-defineEmits(['update:modelValue']);
+defineEmits(["update:modelValue"]);
 
 const input = ref(null);
 
 onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
+    if (input.value.hasAttribute("autofocus")) {
         input.value.focus();
     }
 });
@@ -23,8 +23,8 @@ defineExpose({ focus: () => input.value.focus() });
     <input
         :required="required"
         ref="input"
-        class="border shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-full py-1 text-base"
+        class="border shadow-sm focus:border-indigo-500 focus:ring-indigo-500 rounded-full py-1 text-base placeholder:text-gray-300"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-    >
+    />
 </template>

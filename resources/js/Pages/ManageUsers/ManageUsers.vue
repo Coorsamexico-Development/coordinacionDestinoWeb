@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import ModalNewUser from './Modals/ModalNewUser.vue';
+import ModalUserForm from './Modals/ModalUserForm.vue';
 import TableUsers from './Partials/TableUsers.vue';
 import {ref, watch, computed, reactive } from "vue";
 import TextInput from '@/Components/TextInput.vue';
@@ -62,5 +62,5 @@ watch(buscador, (newBusqueda) =>
             <PaginationInertia :pagination="users" />
         </div>
     </AppLayout>
-    <ModalNewUser :show="modalNewUser" @close="closeModalNewUser()" :ubicaciones="ubicaciones" :roles="roles" />
+    <ModalUserForm :show="modalNewUser" @close="closeModalNewUser()" :ubicaciones="ubicaciones" :roles="roles" :user="null" />
 </template>

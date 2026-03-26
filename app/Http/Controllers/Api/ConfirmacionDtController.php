@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\App;
 use Dompdf\Options;
 use App\Models\Plataforma;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class ConfirmacionDtController extends Controller
 {
@@ -47,6 +49,21 @@ class ConfirmacionDtController extends Controller
         if ($request->has('search')) {
             if ($request['search'] !== null) {
                 $confirmacionesDts->where('dts.referencia_dt', 'LIKE', '%' . $request['search'] . '%');
+            }
+        }else {
+            $user = Auth::user();
+            $ubicacionesIds = $user->ubicaciones->pluck('id')->toArray();
+            
+            if (empty($ubicacionesIds) ) {
+                if (!$user->is_admin) {
+                    @throw ValidationException::withMessages([
+                    'message'=> 'No has sido asignado a ninguna ubicacion'
+                    ]);
+                }
+            }else {
+                $confirmacionesDts
+                ->whereIn('confirmacion_dts.ubicacion_id',
+                $ubicacionesIds);
             }
         }
 

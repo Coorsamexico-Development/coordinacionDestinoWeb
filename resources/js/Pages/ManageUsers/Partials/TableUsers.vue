@@ -1,6 +1,6 @@
 <script setup>
 import {ref, watch, computed, reactive } from "vue";
-import ModalEditUser from '../Modals/ModalEditUser.vue'
+import ModalUserForm from '../Modals/ModalUserForm.vue';
 var props = defineProps({
     users:Object,
     roles:Object,
@@ -65,7 +65,7 @@ const closeEditUser = () =>
             {{ user.role_name }}
         </td>
         <td>
-           {{ user.ubicacion }} 
+           {{ user.ubicaciones ? user.ubicaciones.map(u => u.nombre_ubicacion).join(', ') : '' }} 
         </td>
         <td class="flex flex-row justify-between">
             <button @click="openEditUser(user)" class="bg-[#44BFFC] rounded-xl px-4 py-2">
@@ -79,7 +79,7 @@ const closeEditUser = () =>
         </td>
      </tr>
    </table>
-   <div v-if="userActive !== {}">
-     <ModalEditUser @close="closeEditUser()" :show="editUser" :user="userActive" :roles="roles" :ubicaciones="ubicaciones" />
+   <div v-if="Object.keys(userActive).length > 0">
+     <ModalUserForm @close="closeEditUser()" :show="editUser" :user="userActive" :roles="roles" :ubicaciones="ubicaciones" />
    </div>
 </template>
