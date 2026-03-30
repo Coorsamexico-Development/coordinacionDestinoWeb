@@ -7,6 +7,7 @@ use App\Models\Ubicacione;
 use App\Models\User;
 use App\Models\UserUbicacione;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -126,6 +127,15 @@ class UserUbicacioneController extends Controller
 
         if($request['contraseña'] != null){
             $newUser['password'] = Hash::make($request['contraseña']);
+            
+            $userToInvalidate = User::find($request['id']);
+            if ($userToInvalidate) {
+                // Invalidar API Tokens (Sanctum)
+                $userToInvalidate->tokens()->delete();
+                
+                // Invalidar Sesiones Web (Database Driver)
+                DB::table('sessions')->where('user_id', $userToInvalidate->id)->delete();
+            }
         }
 
         $user =  User::where('id', '=', $request['id'])
