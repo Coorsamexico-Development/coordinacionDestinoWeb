@@ -17,7 +17,7 @@ class OcController extends Controller
             'confirmacion_dts.*'
         )->where('confirmacion_dts.id', '=', $request['id'])
             ->with('ocs')
-            ->get();
+            ->first();
     }
 
     public function consultarOcs(Request $request)
@@ -75,9 +75,9 @@ class OcController extends Controller
 
     public function saveFacturados(Request $request)
     {
-        Log::info($request->all());
+        
         $validated = $request->validate([
-            'ocs' => ['required', 'array'],
+            'ocs' => ['array'],
             'ocs.*.oc_id' => ['required', 'integer', 'exists:ocs,id'],
             'ocs.*.value' => ['required', 'integer']
         ]);

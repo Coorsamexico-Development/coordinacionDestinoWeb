@@ -68,6 +68,13 @@ class HorasHistoricoController extends Controller
 
     public function savehrFolios(Request $request)
     {
+        $request->validate([
+            'confirmacion' => 'required',
+            'status_id' => 'required',
+            'time' => 'nullable|date_format:H:i:s',
+        ]);
+
+
       $confirmacion_Dt = ConfirmacionDt::select('confirmacion_dts.*')
        ->where('confirmacion_dts.confirmacion','=',$request['confirmacion'])
        ->first();
@@ -89,10 +96,20 @@ class HorasHistoricoController extends Controller
             'confirmacion_dt_id' => $confirmacion_Dt['id']
          ]);
        }
+       
 
-       date_default_timezone_set('America/Mexico_City');
-       $fecha_actual = getdate();
-       $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+       if ($request->has('time')){
+           date_default_timezone_set('America/Mexico_City');
+           $fecha_actual = getdate();
+           $hora_actual = $fecha_actual['hours'] . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
+
+       }{
+
+           $hora_actual = $request['time'];
+       }
+
+
+
  
 
        HorasHistorico::updateOrCreate([

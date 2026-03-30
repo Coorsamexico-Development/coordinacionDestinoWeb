@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BitacoraCampoController;
 use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\DtCampoValorController;
 use App\Http\Controllers\AutenticatheController;
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
   // Incidencias API
 
   // Bitacora API
+  Route::get('bitacora/campos', [BitacoraCampoController::class, 'index']);
   Route::get('confirmacion/{confirmacionDt}/bitacora/campos', [BitacoraController::class, 'indexByConfirmacion']);
   Route::prefix('bitacora')->group(function () {
     Route::post('/campos', [BitacoraController::class, 'storeCampo']);

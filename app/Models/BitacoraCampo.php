@@ -32,7 +32,7 @@ class BitacoraCampo extends Model
     }
 
 
-    function scopeSelectValores($query, $confirmacion_id)
+    function scopeSelectValores($query, ?int $confirmacion_id = null)
     {
 
         return $query->select(

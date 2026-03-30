@@ -21,8 +21,7 @@ class BitacoraController extends Controller
      */
     public function indexByConfirmacion(ConfirmacionDt $confirmacionDt)
     {
-        return
-            $campos = BitacoraCampo::selectValores($confirmacionDt->id);
+        $campos = BitacoraCampo::selectValores($confirmacionDt->id);
 
         return response()->json($campos);
     }
