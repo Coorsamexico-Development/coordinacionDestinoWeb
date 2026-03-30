@@ -51,6 +51,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+  Route::post('logout', [AutenticatheController::class, 'logout']);
+  Route::post('valid-token', [AutenticatheController::class, 'validToken']);
+
   Route::post('campos/files', [DtCampoValorController::class, 'storeFile']);
   Route::post('campos/{campo}/evidencias', [DtCampoValorController::class, 'storeEvidencias']);
   // New Product API routes

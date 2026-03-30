@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class AutenticatheController extends Controller
@@ -19,15 +20,7 @@ class AutenticatheController extends Controller
         ]);
 
         //$user = User::where('email', $request->email)->first();
-        $user = User::select(
-            'users.*',
-            'ubicaciones.id as ubicacion_id',
-            'ubicaciones.nombre_ubicacion'
-        )
-            ->leftJoin('user_ubicaciones', 'user_ubicaciones.user_id', 'users.id')
-            ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id', 'ubicaciones.id')
-            ->where('email', $request->email)
-            ->first();
+        $user = User::selectApp()->where('email', $request->email)->first();
 
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
@@ -49,5 +42,20 @@ class AutenticatheController extends Controller
             'success' => true,
             'message' => 'Logout exitoso'
         ], 200);
+    }
+
+    public function validToken(Request $request)  {
+        $user = $request->user();
+        if ($user) {
+            return response()->json([
+                'token' => str($request->header('Authorization'))->replace('Bearer ', ''),
+            'user' => User::selectApp()->where('users.id', $user->id)->first()
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token invalido'
+            ], 401);
+        }
     }
 }

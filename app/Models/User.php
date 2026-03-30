@@ -124,4 +124,15 @@ class User extends Authenticatable
     }
    
 
+    function scopeSelectApp($query){
+        return $query->select(
+            'users.*',
+            'ubicaciones.id as ubicacion_id',
+            'ubicaciones.nombre_ubicacion'
+        )
+            ->leftJoin('user_ubicaciones', 'user_ubicaciones.user_id', 'users.id')
+            ->leftJoin('ubicaciones', 'user_ubicaciones.ubicacion_id', 'ubicaciones.id');
+            
+    }
+
 }
