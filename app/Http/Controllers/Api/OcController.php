@@ -13,25 +13,7 @@ class OcController extends Controller
 {
     public function index(Request $request, ConfirmacionDt $confirmacionDt)
     {
-         return Oc::select('ocs.*')
-                ->with([
-                'incidencias'  => function ($query) use ($request) {
-                    $query->select(
-                        'incidencias.*',
-                        'tipo_incidencias.nombre as tipo_incidencia',
-                        'productos.clave_producto'
-                    )
-                        ->with('evidencias')
-                        ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-                        ->join('productos', 'incidencias.producto_id', 'productos.id');
-
-                    if ($request->has('producto_id')) {
-                        $query->where('incidencias.producto_id', '=', $request['producto_id']);
-                    }
-
-                    $query->get();
-                }
-            ])
+         return Oc::selectIncidencias($request->producto_id)
             ->where('ocs.confirmacion_dt_id', '=', $confirmacionDt->id)
             ->get();
     }

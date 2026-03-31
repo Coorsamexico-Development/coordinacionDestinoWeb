@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\StatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\ConfirmacionDt;
 
@@ -20,6 +21,7 @@ use Dompdf\Options;
 use App\Models\Plataforma;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class ConfirmacionDtController extends Controller
@@ -34,10 +36,23 @@ class ConfirmacionDtController extends Controller
             'status.color',
             'plataformas.nombre as plataforma'
         )
+        ->with([
+            'ocs' => function ($query) {
+                $query->selectIncidencias();
+            }
+        ])
             ->join('dts', 'confirmacion_dts.dt_id', 'dts.id')
             ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
             ->join('status', 'confirmacion_dts.status_id', 'status.id')
             ->join('plataformas', 'confirmacion_dts.plataforma_id', 'plataformas.id')
+            ->where(function ($query) {
+                $query->whereNotIn('status.id', [
+                    StatusEnum::LIBERADA_AL_100->value,
+                    StatusEnum::LIBERADA_CON_INCIDENCIA->value,
+                ])
+                ->orWhereDate('confirmacion_dts.updated_at', '=', date('Y-m-d'));
+
+            })
 
             ->where('confirmacion_dts.cerrado', '=', 0);
             
@@ -76,18 +91,12 @@ class ConfirmacionDtController extends Controller
         }
 
         $plataformas = Plataforma::select('plataformas.*')
-            ->with(
-                ['confirmacionesDts' => function ($query) use ($request) {
-                    $query->select(
-                        'confirmacion_dts.*',
-                    )
-                        ->where('confirmacion_dts.cerrado', '=', 0)
-                        ->where('confirmacion_dts.ubicacion_id', '=', $request['ubicacion_id']);
-                }]
-            )
             ->get();
         //return   $confirmacionesDts->get();
-        return ['dts' => $confirmacionesDts->get(), 'plataformas' => $plataformas];
+        return response()->json(
+            ['dts' => $confirmacionesDts->get(), 
+        'plataformas' => $plataformas,
+    ]);
     }
 
 
