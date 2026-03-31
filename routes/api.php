@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\BitacoraCampoController;
 use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\DtCampoValorController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
 use App\Http\Controllers\ConfirmacionDtController;
@@ -57,8 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('campos/files', [DtCampoValorController::class, 'storeFile']);
   Route::post('campos/{campo}/evidencias', [DtCampoValorController::class, 'storeEvidencias']);
   // New Product API routes
-  Route::get('/products', [\App\Http\Controllers\Api\ProductController::class, 'index']);
-  Route::post('/products', [\App\Http\Controllers\Api\ProductController::class, 'store']);
+  Route::get('/products', [ProductController::class, 'index']);
+  Route::get('/products-by-sku/{sku}', [ProductController::class, 'showBySku']);
+  Route::post('/products', [ProductController::class, 'store']);
 
   Route::post('/incidencias', [\App\Http\Controllers\Api\IncidenciaController::class, 'store']);
   Route::delete('/incidencias/{id}', [\App\Http\Controllers\Api\IncidenciaController::class, 'destroy']);
@@ -85,6 +87,9 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/valoresDeLlegada', [ValorController::class, 'valoresApi']);
   //Guardar fotos segunda pantalla
   Route::post('/valoresDeDocumentacion', [ValorController::class, 'documentacionValores']);
+
+
+  Route::get('confirmacion/{confirmacionDt}/ocs', [OcController::class, 'index']);
 });
 Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 //Ruta de guardado global de enrrampe
@@ -102,7 +107,7 @@ Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('sa
 Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
 Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
 //Consultar OCS por dt y verificar las ocs
-Route::get('/getOcsApi', [OcController::class, 'index'])->name('getOcsApi');
+
 
 //Autenticaciones
 Route::post('/sanctum/token', [AutenticatheController::class, 'login']);

@@ -20,9 +20,9 @@ class ProductController extends Controller
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('SKU', 'like', "%{$search}%")
+                $q->where('sku', 'like', "%{$search}%")
                     ->orWhere('descripcion', 'like', "%{$search}%")
-                    ->orWhere('UM', 'like', "%{$search}%");
+                    ->orWhere('clave_producto', 'like', "%{$search}%");
             });
         }
 
@@ -30,6 +30,20 @@ class ProductController extends Controller
         $perPage = $request->input('per_page', 15);
         $products = $query->simplePaginate($perPage);
         return response()->json($products);
+    }
+
+     /**
+     * Display a listing of the resource.
+     */
+    public function showBySku(Request $request, String $sku)
+    {
+        $query = Producto::where(function ($q) use ($sku) {
+                $q->where('sku', '=', $sku)
+                    ->orWhere('clave_producto', '=', $sku);
+            });
+        return response()->json([
+            "data"=> $query->first(),
+        ]);
     }
 
     /**

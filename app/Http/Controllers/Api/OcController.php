@@ -11,25 +11,10 @@ use Illuminate\Support\Facades\Log;
 
 class OcController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, ConfirmacionDt $confirmacionDt)
     {
-        return ConfirmacionDt::select(
-            'confirmacion_dts.*'
-        )->where('confirmacion_dts.id', '=', $request['id'])
-            ->with('ocs')
-            ->first();
-    }
-
-    public function consultarOcs(Request $request)
-    {
-        $confirmacion = ConfirmacionDt::select('confirmacion_dts.*')
-            ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
-            ->first();
-
-        //return $confirmacion['id'];
-
-        return Oc::select('ocs.*')
-            ->with([
+         return Oc::select('ocs.*')
+                ->with([
                 'incidencias'  => function ($query) use ($request) {
                     $query->select(
                         'incidencias.*',
@@ -47,9 +32,11 @@ class OcController extends Controller
                     $query->get();
                 }
             ])
-            ->where('ocs.confirmacion_dt_id', '=', $confirmacion['id'])
+            ->where('ocs.confirmacion_dt_id', '=', $confirmacionDt->id)
             ->get();
     }
+
+  
 
     public function store(ConfirmacionDt $confirmacionDt, Request $request)
     {
@@ -78,15 +65,15 @@ class OcController extends Controller
         
         $validated = $request->validate([
             'ocs' => ['array'],
-            'ocs.*.oc_id' => ['required', 'integer', 'exists:ocs,id'],
-            'ocs.*.value' => ['required', 'integer']
+            'ocs.*.id' => ['required', 'integer', 'exists:ocs,id'],
+            'ocs.*.facturado' => ['required', 'integer']
         ]);
 
         try {
             DB::transaction(function () use ($validated) {
                 foreach ($validated['ocs'] as $data) {
-                    Oc::where('id', $data['oc_id'])
-                        ->update(['facturado' => $data['value']]);
+                    Oc::where('id', $data['id'])
+                        ->update(['facturado' => $data['facturado']]);
                 }
             });
 

@@ -17,6 +17,8 @@ class IncidenciaController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info($request->all());
+
         $request->validate([
             'oc_id' => 'required|integer',
             'tipo_incidencia_id' => 'required|integer',
@@ -26,6 +28,8 @@ class IncidenciaController extends Controller
             'evidencias' => 'nullable|array',
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
+
+        Log::info("Validado");
 
 
         $incidencia = Incidencia::updateOrCreate(
