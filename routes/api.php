@@ -90,8 +90,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
   Route::get('confirmacion/{confirmacionDt}/ocs', [OcController::class, 'index']);
+  Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 });
-Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 //Ruta de guardado global de enrrampe
 Route::post('/valoresEnrrampado', [ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
 //Guardar docs de la espera de ennrampe
