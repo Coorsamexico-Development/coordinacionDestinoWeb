@@ -170,8 +170,15 @@ class ValorController extends Controller
     $request->validate([
       'params.confirmacion_id' => 'required',
       'params.valores' => 'required',
-      'params.usuario' => 'required',
     ]);
+
+    $confirmacionDt = ConfirmacionDt::where('id', $request['params']['confirmacion_id'])
+      ->first();
+    if ($confirmacionDt->status_id >= StatusEnum::EN_ESPERA_DE_RAMPA->value) {  
+      return response()->json([
+        'message' => 'La confirmacion ya se encuentra en status de documentado o superior'
+      ]);
+    }
 
     $valores = $request['params']['valores'];
     $confirmacionId = $request['params']['confirmacion_id'];
@@ -366,11 +373,22 @@ class ValorController extends Controller
       'fotosNames' => ['required', 'array'],
       'fotosNames.*.campo_id' => ['required', 'integer'],
       'fotosNames.*.nombre_foto' => ['required', 'string'],
-      'confirmacion_id' => ['required', 'integer', 'exists:confirmacion_dts,id'],
+      'confirmacion_id' => ['required', 'integer'],
       'dt' => ['required', 'integer', 'exists:dts,id'],
       'confirmacion' => ['required'],
     ]);
+    
+    $confirmacionDt = ConfirmacionDt::findOrFail($request['confirmacion_id']);
+    
+    if ($confirmacionDt->status_id >= StatusEnum::DESENRAMPADO->value) {
+      return response()->json([
+        'success' => true,
+        'message' => 'La confirmacion ya se encuentra en status de desenrampado o superior'
+      ]);
+    }
+    
     $fotosNames = $request['fotosNames']; //tenemos el arreglo de fotos
+    
     try {
       DB::beginTransaction();
       //Primero guardamos las fotos
@@ -397,11 +415,6 @@ class ValorController extends Controller
         ]);
       }
 
-      //Cambio al sig status
-      $confirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')
-        ->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
-        ->where('confirmacion_dts.dt_id', '=', $request['dt'])
-        ->firstOrFail();
 
       date_default_timezone_set('America/Mexico_City');
       $fecha_actual = getdate();
@@ -409,8 +422,7 @@ class ValorController extends Controller
       $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
 
 
-      ConfirmacionDt::where('confirmacion', '=', $request['confirmacion'])
-        ->update([
+      $confirmacionDt->update([
           'status_id' => 9,
           'updated_at' => $newFecha,
         ]);
@@ -440,7 +452,7 @@ class ValorController extends Controller
         'success' => true,
         'message' => 'Registros actualizados correctamente'
       ], 200);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
       DB::rollBack();
       Log::error($e);
       return response()->json([

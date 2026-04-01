@@ -88,15 +88,19 @@ Route::middleware('auth:sanctum')->group(function () {
   //Guardar fotos segunda pantalla
   Route::post('/valoresDeDocumentacion', [ValorController::class, 'documentacionValores']);
 
+  Route::post('/valoresEnrrampado', [ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
+  //Guardar docs de la espera de ennrampe
+  Route::post('/fotosEnrrampe', [ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
+
+
+  Route::get('/changeEnrrampado', [ConfirmacionDtController::class, 'changeEnrrampado'])->name('changeEnrrampado');
+
+
 
   Route::get('confirmacion/{confirmacionDt}/ocs', [OcController::class, 'index']);
   Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 });
 //Ruta de guardado global de enrrampe
-Route::post('/valoresEnrrampado', [ValorController::class, 'valoresEnrrampado'])->name('valoresEnrrampado');
-//Guardar docs de la espera de ennrampe
-Route::post('/fotosEnrrampe', [ValorController::class, 'fotosEnrrampe'])->name('fotosEnrrampe');
-
 
 //Ruta para guardar ocs
 Route::post('confirmacion-dts/{confirmacionDt}/ocs', [OcController::class, 'store']);

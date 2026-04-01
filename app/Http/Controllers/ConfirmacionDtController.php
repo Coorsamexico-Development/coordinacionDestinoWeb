@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Models\Campo;
 use App\Models\ConfirmacionDt;
 use App\Models\Dt;
@@ -255,11 +256,24 @@ class ConfirmacionDtController extends Controller
     $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
     $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
 
-    ConfirmacionDt::where('id', '=', $request['id'])
-      ->update([
+    $confirmacionDt = ConfirmacionDt::find( $request['id']);
+
+    if ($confirmacionDt === null) {
+      return response()->json([
+        'message' => 'La confirmacion no existe'
+      ]);
+    }
+    
+    if ($confirmacionDt->status_id  >= StatusEnum::ENRAMPADO->value ) {
+      return response()->json([
+        'message' => 'La confirmacion ya se encuentra en status de documentado o superior'
+      ]);
+    }
+
+    $confirmacionDt->update([
         'confirmacion_dts.status_id' => 8,
         'confirmacion_dts.updated_at' => $newFecha,
-      ]);
+    ]);
 
     StatusDt::where('id', '=', $request['id'])
       ->update([
