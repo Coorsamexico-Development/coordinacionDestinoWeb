@@ -24,6 +24,7 @@ use App\Mail\IncidenciaReportMail;
 use App\Models\confirmacionFechasPod;
 use App\Models\confirmacionStatusPod;
 use App\Models\EmailGroup;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -167,11 +168,9 @@ class ConfirmacionDtController extends Controller
 
   public function changeToEnEspera(Request $request)
   {
-    date_default_timezone_set('America/Mexico_City');
-    $fecha_actual = getdate();
-    $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-    $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
-
+     $newFecha = $request->has('updated_at') ? 
+        Carbon::parse($request->updated_at)->format('Y-m-d H:i:s') : 
+        Carbon::now()->format('Y-m-d H:i:s');
     ConfirmacionDt::where('id', '=', $request['id'])
       ->update([
         'confirmacion_dts.status_id' => 9,
@@ -195,11 +194,15 @@ class ConfirmacionDtController extends Controller
   public function changeToEnDocumentacion(Request $request)
   {
 
-    date_default_timezone_set('America/Mexico_City');
-    $fecha_actual = getdate();
-    $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-    $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
+    $request->validate([
+      'id' => 'required',
+      'updated_at' => 'sometimes|date',
+    ]);
+    $newFecha = $request->has('updated_at') ?
+      $request->updated_at :
+      Carbon::now();
 
+        
     ConfirmacionDt::where('id', '=', $request['id'])
       ->update([
         'confirmacion_dts.status_id' => 8,
@@ -251,10 +254,17 @@ class ConfirmacionDtController extends Controller
 
   public function changeEnrrampado(Request $request)
   {
-    date_default_timezone_set('America/Mexico_City');
-    $fecha_actual = getdate();
-    $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-    $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
+
+    $request->validate([
+      'id' => 'required',
+      'updated_at' => 'sometimes|date',
+    ]);
+    
+    $newFecha = $request->has('updated_at') ? 
+        $request->updated_at : 
+        Carbon::now();
+
+    $horaActual = Carbon::parse($newFecha)->setTimezone('America/Mexico_City')->format('Y-m-d H:i:s');
 
     $confirmacionDt = ConfirmacionDt::find( $request['id']);
 
@@ -291,7 +301,7 @@ class ConfirmacionDtController extends Controller
     HorasHistorico::create([
       'hora_id' => 5,
       'status_dts_id' => $newStatus['id'],
-      'hora' => $hora_actual
+      'hora' => $horaActual
     ]);
 
     $confrimacionDt = ConfirmacionDt::select('confirmacion_dts.*')

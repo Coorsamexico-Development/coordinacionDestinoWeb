@@ -14,4 +14,6 @@ class HorasHistorico extends Model
      'status_dts_id',
      'hora'
      ];
+
+   
 }

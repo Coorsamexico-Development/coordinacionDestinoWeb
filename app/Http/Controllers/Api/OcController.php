@@ -48,7 +48,7 @@ class OcController extends Controller
         $validated = $request->validate([
             'ocs' => ['array'],
             'ocs.*.id' => ['required', 'integer', 'exists:ocs,id'],
-            'ocs.*.facturado' => ['required', 'integer']
+            'ocs.*.facturado' => ['required', 'integer'],
         ]);
 
         try {

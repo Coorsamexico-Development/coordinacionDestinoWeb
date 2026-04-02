@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\App;
 use Dompdf\Options;
 use App\Models\Plataforma;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -102,10 +103,13 @@ class ConfirmacionDtController extends Controller
 
     public function changeToRiesgo(Request $request)
     {
-        date_default_timezone_set('America/Mexico_City');
-        $fecha_actual = getdate();
-        $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-        $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
+        $request->validate([
+            'id' => 'required',
+            'updated_at' => 'sometimes|date',
+        ]);
+        $newFecha = $request->has('updated_at') ? 
+        $request->updated_at : 
+        Carbon::now();
 
         ConfirmacionDt::where('id', '=', $request['id'])
             ->update([
@@ -139,11 +143,14 @@ class ConfirmacionDtController extends Controller
 
     public function changePorRecibir(Request $request) //o a tiempo
     {
+        $request->validate([
+            'id' => 'required',
+            'updated_at' => 'sometimes|date',
+        ]);
+        $newFecha = $request->has('updated_at') ? 
+        $request->updated_at : 
+        Carbon::now();
 
-        date_default_timezone_set('America/Mexico_City');
-        $fecha_actual = getdate();
-        $hora_actual = ($fecha_actual['hours'] - 1) . ":" . $fecha_actual['minutes'] . ":" . $fecha_actual['seconds'];
-        $newFecha = $fecha_actual['year'] . '-' . $fecha_actual['mon'] . '-' . $fecha_actual['mday'] . ' ' . $hora_actual;
 
         ConfirmacionDt::where('id', '=', $request['id'])
             ->update([
@@ -178,21 +185,24 @@ class ConfirmacionDtController extends Controller
     public function valoresLiberacion(Request $request)
     {
         $data = $request->validate([
-            'params.dt' => 'required',
-            'params.usuario' => 'required',
-            'params.confirmacion' => 'required',
-            'params.status_id' => 'required',
-            'params.horaImpresion' => 'required',
-            'params.valores' => 'required|array',
-            'params.valores.*.id' => 'required',
-            'params.valores.*.value' => 'nullable',
-            'params.valores.*.campo_id' => 'required',
+            'dt' => 'required',
+            'usuario' => 'required',
+            'confirmacion' => 'required',
+            'status_id' => 'required',
+            'horaImpresion' => 'required',
+            'valores' => 'required|array',
+            'valores.*.id' => 'required',
+            'valores.*.value' => 'nullable',
+            'valores.*.campo_id' => 'required',
+            'updated_at' => 'sometimes|date',
         ]);
 
-        $params = $data['params'];
+        $newFecha = $request->has('updated_at') ? 
+        $request->updated_at : 
+        Carbon::now();
 
-        $confirmacionDt = ConfirmacionDt::where('confirmacion', $params['confirmacion'])
-            ->where('dt_id', $params['dt'])
+        $confirmacionDt = ConfirmacionDt::where('confirmacion', $data['confirmacion'])
+            ->where('dt_id', $data['dt'])
             ->firstOrFail();
 
         if ($confirmacionDt->status_id >= StatusEnum::LIBERADA_AL_100->value) {
@@ -203,7 +213,7 @@ class ConfirmacionDtController extends Controller
         }
 
         // Actualizar HorasHistorico
-        $status_dt = StatusDt::where('status_id', $params['status_id'])
+        $status_dt = StatusDt::where('status_id', $data['status_id'])
             ->where('confirmacion_dt_id', $confirmacionDt->id)
             ->first();
 
@@ -211,12 +221,12 @@ class ConfirmacionDtController extends Controller
             HorasHistorico::updateOrCreate([
                 'hora_id' => 6, // Hora de folios
                 'status_dts_id' => $status_dt->id,
-                'hora' => $params['horaImpresion']
+                'hora' => $data['horaImpresion']
             ]);
         }
 
         // Procesar Valores
-        foreach ($params['valores'] as $valor) {
+        foreach ($data['valores'] as $valor) {
 
             $dt_campo_valor = DtCampoValor::firstOrCreate([
                 'confirmacion_id' => $confirmacionDt->id,
@@ -228,7 +238,7 @@ class ConfirmacionDtController extends Controller
             Valor::create([
                 'valor' => $valor['value'] ?? '',
                 'dt_campo_valor_id' => $dt_campo_valor->id,
-                'user_id' => $params['usuario'],
+                'user_id' => $data['usuario'],
                 'activo' => 1
             ]);
         }
@@ -249,6 +259,8 @@ class ConfirmacionDtController extends Controller
             $confirmacionUpdates['cerrado'] = 0;
         }
 
+        $confirmacionUpdates['updated_at'] = $newFecha;
+
         $confirmacionDt->update($confirmacionUpdates);
 
         // Actualizar histórico de estados
@@ -258,6 +270,8 @@ class ConfirmacionDtController extends Controller
             'confirmacion_dt_id' => $confirmacionDt->id,
             'status_id' => $newStatusId,
             'activo' => 1,
+            'updated_at' => $newFecha,
+            'created_at' => $newFecha,
         ]);
 
         broadcast(new NewNotification($confirmacionDt))->toOthers();

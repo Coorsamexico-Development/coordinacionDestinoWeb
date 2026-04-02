@@ -6,6 +6,7 @@ use App\Models\ConfirmacionDt;
 use App\Models\HorasHistorico;
 use App\Models\Statu;
 use App\Models\StatusDt;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HorasHistoricoController extends Controller
@@ -72,6 +73,7 @@ class HorasHistoricoController extends Controller
             'confirmacion' => 'required',
             'status_id' => 'required',
             'time' => 'nullable|date_format:H:i:s',
+            'updated_at' => 'sometimes|date'
         ]);
 
 
@@ -91,9 +93,15 @@ class HorasHistoricoController extends Controller
 
        if($status_dt == null)
        {
+         
+        $newFecha = $request->has('updated_at') ? 
+        $request->updated_at : 
+        Carbon::now();
         $status_dt = StatusDt::create([
             'status_id' =>  $status['id'],
-            'confirmacion_dt_id' => $confirmacion_Dt['id']
+            'confirmacion_dt_id' => $confirmacion_Dt['id'],
+            'updated_at' => $newFecha,
+            'created_at' => $newFecha,
          ]);
        }
        
