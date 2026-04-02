@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Evidencia;
 use App\Models\Incidencia;
+use App\Models\Oc;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +21,8 @@ class IncidenciaController extends Controller
     {
 
         $request->validate([
-            'oc_id' => 'required|integer',
+            'confirmacion_dt_id' => 'required|integer',
+            'oc_referencia' => 'required|string',
             'tipo_incidencia_id' => 'required|integer',
             'cantidad' => 'required|numeric',
             'clave_producto' => 'required', // This corresponds to producto_id/product_id
@@ -29,12 +31,17 @@ class IncidenciaController extends Controller
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
 
-        $producto = Producto::where('clave_producto', $request->clave_producto)->firstOrFail();
+        $oc = Oc::
+        where('confirmacion_dt_id', $request->confirmacion_dt_id)
+        ->where('referencia', $request->oc_referencia)
+        ->firstOrFail();
 
+        $producto = Producto::where('clave_producto', $request->clave_producto)->firstOrFail();
+   
 
         $incidencia = Incidencia::updateOrCreate(
             [
-                'ocs_id' => $request->oc_id,
+                'ocs_id' => $oc->id,
                 'tipo_incidencia_id' => $request->tipo_incidencia_id,
                 'producto_id' => $producto->id // producto_id corresponds to product id
             ],

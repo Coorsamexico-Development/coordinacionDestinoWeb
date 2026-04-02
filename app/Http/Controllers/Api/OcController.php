@@ -75,17 +75,25 @@ class OcController extends Controller
 
     public function saveCuadre(Request $request)
     {
-        $ocsCuadradas =  $request['params']['ocs'];
+        $request->validate([
+            'ocs' => ['array'],
+            'ocs.*.confirmacion_dt_id' => ['required'],
+            'ocs.*.referencia' => ['required', 'string'],
+            'ocs.*.enPOD' => ['required', 'integer'],
+        ]);
+        $ocsCuadradas =  $request['ocs'];
         if (count($ocsCuadradas) !== 0) {
             for ($i = 0; $i < count($ocsCuadradas); $i++) {
                 $oc = $ocsCuadradas[$i];
                 if ($oc['pod'] !== null) {
-                    Oc::where('id', '=', $oc['id'])
+                    Oc::where('confirmacion_dt_id', '=', $oc['confirmacion_dt_id'])
+                        ->where('referencia', '=', $oc['referencia'])
                         ->update([
                             'enPOD' => $oc['pod']
                         ]);
                 } else {
-                    Oc::where('id', '=', $oc['id'])
+                    Oc::where('confirmacion_dt_id', '=', $oc['confirmacion_dt_id'])
+                        ->where('referencia', '=', $oc['referencia'])
                         ->update([
                             'enPOD' => $oc['enPOD']
                         ]);
