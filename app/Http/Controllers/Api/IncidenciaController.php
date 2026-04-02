@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Evidencia;
 use App\Models\Incidencia;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -22,18 +23,20 @@ class IncidenciaController extends Controller
             'oc_id' => 'required|integer',
             'tipo_incidencia_id' => 'required|integer',
             'cantidad' => 'required|numeric',
-            'producto_id' => 'required|exists:productos,id', // This corresponds to producto_id/product_id
+            'clave_producto' => 'required', // This corresponds to producto_id/product_id
             'upc_or_sku' => 'required|string',
             'evidencias' => 'nullable|array',
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
+
+        $producto = Producto::where('clave_producto', $request->clave_producto)->firstOrFail();
 
 
         $incidencia = Incidencia::updateOrCreate(
             [
                 'ocs_id' => $request->oc_id,
                 'tipo_incidencia_id' => $request->tipo_incidencia_id,
-                'producto_id' => $request->producto_id // producto_id corresponds to product id
+                'producto_id' => $producto->id // producto_id corresponds to product id
             ],
             [
                 'cantidad' => $request->cantidad,

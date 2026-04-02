@@ -99,6 +99,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
   Route::get('confirmacion/{confirmacionDt}/ocs', [OcController::class, 'index']);
   Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
+
+  Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
 });
 //Ruta de guardado global de enrrampe
 
@@ -108,7 +110,7 @@ Route::post('confirmacion-dts/{confirmacionDt}/ocs', [OcController::class, 'stor
 
 Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para guardar ocs cuadradas
-Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
+
 Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
 //Consultar OCS por dt y verificar las ocs
 

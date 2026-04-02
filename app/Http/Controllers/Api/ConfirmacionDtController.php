@@ -195,6 +195,13 @@ class ConfirmacionDtController extends Controller
             ->where('dt_id', $params['dt'])
             ->firstOrFail();
 
+        if ($confirmacionDt->status_id >= StatusEnum::LIBERADA_AL_100->value) {
+            return response()->json([
+                'message' => 'La DT ya se encuentra liberada',
+                'data' => $confirmacionDt
+            ]);
+        }
+
         // Actualizar HorasHistorico
         $status_dt = StatusDt::where('status_id', $params['status_id'])
             ->where('confirmacion_dt_id', $confirmacionDt->id)

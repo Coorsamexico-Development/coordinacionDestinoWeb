@@ -52,14 +52,17 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'SKU' => ['required', 'string', 'max:255', 'unique:productos,SKU'],
+            'SKU' => ['required', 'string', 'max:255'],
             'descripcion' => ['required', 'string'],
             'clave_producto' => ['required', 'string'],
             'UM' => ['required', 'string'],
             'activo' => ['boolean'],
         ]);
 
-        $product = Producto::create($validatedData);
+        $product = Producto::updateOrCreate(
+            ['clave_producto' => $validatedData['clave_producto']],
+            $validatedData
+        );
 
         return response()->json([
             'message' => 'Product created successfully',
