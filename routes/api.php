@@ -12,6 +12,7 @@ use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\Api\OcController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ValorController;
+use App\Mail\BitacoraReportMail;
 use App\Mail\IncidenciaReportMail;
 use App\Models\ConfirmacionDt;
 use App\Models\DtCampoValor;
@@ -297,4 +298,10 @@ Route::get('/pdf', function () {
 Route::get('test/email-incidencia/{id}', function ($id) {
   $confirmacionDt = ConfirmacionDt::where('id', '=', $id)->first();
   EmailGroup::sendToGroup('customer service', new IncidenciaReportMail($confirmacionDt));
+});
+
+Route::get('test/email-bitacora/{id}', function ($id) {
+  $confirmacionDt = ConfirmacionDt::where('id', '=', $id)->first();
+  EmailGroup::sendToGroup('customer service', new BitacoraReportMail($confirmacionDt));
+  return "ok";
 });

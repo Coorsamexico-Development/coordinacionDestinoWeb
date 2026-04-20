@@ -25,6 +25,8 @@ class BitacoraReportMail extends Mailable
     public function __construct(ConfirmacionDt $confirmacion)
     {
         $this->confirmacion = $confirmacion->load([
+            'dt',
+            'plataforma',
             'lineaTransporte',
             'cliente',
             'ubicacion'

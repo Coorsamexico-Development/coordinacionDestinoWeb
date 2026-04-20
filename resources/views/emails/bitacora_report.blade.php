@@ -29,7 +29,7 @@
             <!-- Static Fields -->
             <tr class="row-bg">
                 <td>Carga</td>
-                <td>General</td> <!-- Placeholder/Static per request context? Or verify where 'Carga' comes from. Assuming General for now or empty -->
+                <td>{{ $confirmacion->dt->referencia_dt }}</td> <!-- Placeholder/Static per request context? Or verify where 'Carga' comes from. Assuming General for now or empty -->
             </tr>
             <tr>
                 <td>Cedis</td>
@@ -45,7 +45,7 @@
             </tr>
             <tr class="row-bg">
                 <td>Plataforma</td>
-                <td>{{ $confirmacion->plataforma_id }}</td> 
+                <td>{{ $confirmacion->plataforma->nombre ?? '' }}</td> 
             </tr>
             <tr>
                 <td>Línea de transporte</td>
