@@ -1,36 +1,38 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import {ref, watch, computed, reactive } from "vue";
-import { router, Link, useForm  } from '@inertiajs/vue3'
-import PaginationAxios from '@/Components/PaginationAxios.vue';
-import axios from 'axios';
-import ModalWatchHistoricoStatus from '../Reportes/Modals/ModalWatchHistoricoStatus.vue';
-import ModalShowOcs from './Partials/ModalShowOcs.vue';
-import TextInput from '@/Components/TextInput.vue';
-import ButtonWatch from '@/Components/ButtonWatch.vue';
-import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
-import '@fancyapps/ui/dist/fancybox/fancybox.css';
-import PaginationInertia from '@/Components/PaginationInertia.vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import AppLayout from "@/Layouts/AppLayout.vue";
+import { ref, watch, computed, reactive } from "vue";
+import { router, Link, useForm } from "@inertiajs/vue3";
+import PaginationAxios from "@/Components/PaginationAxios.vue";
+import axios from "axios";
+import ModalWatchHistoricoStatus from "../Reportes/Modals/ModalWatchHistoricoStatus.vue";
+import ModalShowOcs from "./Partials/ModalShowOcs.vue";
+import TextInput from "@/Components/TextInput.vue";
+import ButtonWatch from "@/Components/ButtonWatch.vue";
+import { Fancybox } from "@fancyapps/ui/dist/fancybox/fancybox.esm.js";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+import PaginationInertia from "@/Components/PaginationInertia.vue";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import ModalDeleteViaje from "./Partials/ModalDeleteViaje.vue";
+import ModalDeleteDt from "./Partials/ModalDeleteDt.vue";
 import { pickBy } from "lodash";
 //Driver js
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 var props = defineProps({
-    viajes:Object,
-    productos:Object,
-    tipos_incidencias:Object,
+    viajes: Object,
+    productos: Object,
+    tipos_incidencias: Object,
     filters: Object,
-    status_pod:Object
+    status_pod: Object,
 });
 
 //console.log(props.viajes)
 
 Fancybox.bind("[data-fancybox]", {
     // Your custom options
- });
+});
 
 //Infomracion del historico para el modal
 let status = ref([]);
@@ -43,394 +45,703 @@ const params = reactive({
     fechaInicial: props.filters.fechaInicial,
     fechaFinal: props.filters.fechaFinal,
     fields: props.filters.fields,
-    searchs:{
-        'confirmacion_dts.confirmacion': '',
-        'dts.referencia_dt': '',
-        'status.nombre': '',
-        'ubicaciones.nombre_ubicacion': '',
-        'plataformas.nombre': '',
-        ...props.filters.searchs
+    searchs: {
+        "confirmacion_dts.confirmacion": "",
+        "dts.referencia_dt": "",
+        "status.nombre": "",
+        "ubicaciones.nombre_ubicacion": "",
+        "plataformas.nombre": "",
+        ...props.filters.searchs,
     },
 });
 
+watch(params, () => {
+    const clearParams = pickBy({ ...params });
+    console.log(clearParams);
 
-watch(params, () => 
-{
-  const clearParams = pickBy({ ...params });
-  console.log(clearParams)
-  
-  router.visit(route('viajes.index'), 
-  {
-    preserveScroll:true,
-    preserveState:true,
-    replace:true,
-    data:clearParams,
-    only:['viajes'],
-  })
-  
+    router.visit(route("viajes.index"), {
+        preserveScroll: true,
+        preserveState: true,
+        replace: true,
+        data: clearParams,
+        only: ["viajes"],
+    });
 });
 
 const dtActual = ref(null);
-const watchHistorico = (viaje, dt) =>
-{
-  dtActual.value = dt;
-  console.log(dtActual);
-  //console.log(viaje)
-  modalWatch.value=true;
-  axios.get(route('showHistorico'), 
-  {params:{
-   id:viaje
-  }}).then(response =>
-  {
-    console.log(response);
-    infoModal.value = response.data.historico;
-    status.value = response.data.status;
-  }).catch(err => 
-  {
-   console.log(err)
-  })
-}
+const watchHistorico = (viaje, dt) => {
+    dtActual.value = dt;
+    console.log(dtActual);
+    //console.log(viaje)
+    modalWatch.value = true;
+    axios
+        .get(route("showHistorico"), {
+            params: {
+                id: viaje,
+            },
+        })
+        .then((response) => {
+            console.log(response);
+            infoModal.value = response.data.historico;
+            status.value = response.data.status;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
 const ocs = ref([]);
-const modalWatchClose = () => 
-{
-  modalWatch.value=false;
-  dtActual.value = null;
-}
+const modalWatchClose = () => {
+    modalWatch.value = false;
+    dtActual.value = null;
+};
 
 const viajeActual = ref(-1);
 
-const modalOcsOpen = (id) => 
-{
-  viajeActual.value = id;
-  consultarFechasYStatusPOD();
-  try 
-      {
-         axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
-          {
-             ocs.value = response.data;
-             modalOcs.value = true
-          })
-          .catch(err=> 
-          {
-              
-          })   
-      } 
-      catch (error) 
-      {
-          
-      }
-}
+const modalOcsOpen = (id) => {
+    viajeActual.value = id;
+    consultarFechasYStatusPOD();
+    try {
+        axios
+            .get(route("ocsByViaje", { confirmacion_dt_id: id }))
+            .then((response) => {
+                ocs.value = response.data;
+                modalOcs.value = true;
+            })
+            .catch((err) => {});
+    } catch (error) {}
+};
 
-const modalOcsClose = () => 
-{
-  modalOcs.value = false;
-  ocs.value = [];
-  viajeActual.value = -1;
-}
+const modalOcsClose = () => {
+    modalOcs.value = false;
+    ocs.value = [];
+    viajeActual.value = -1;
+};
 
-const reconsultar = (id) => 
-{
-   try 
-      {
-         axios.get(route('ocsByViaje', {confirmacion_dt_id:id})).then(response => 
-          {
-             ocs.value = response.data;
-             modalOcs.value = true
-          })
-          .catch(err=> 
-          {
-              
-          })   
-      } 
-      catch (error) 
-      {
-          
-      }
-}
- 
-const sort = (field) => 
-{
-  if (params.fields === null) 
-    {
-        params.fields = {};// para que no falle hasOwnProperty
+const reconsultar = (id) => {
+    try {
+        axios
+            .get(route("ocsByViaje", { confirmacion_dt_id: id }))
+            .then((response) => {
+                ocs.value = response.data;
+                modalOcs.value = true;
+            })
+            .catch((err) => {});
+    } catch (error) {}
+};
+
+const sort = (field) => {
+    if (params.fields === null) {
+        params.fields = {}; // para que no falle hasOwnProperty
     }
     if (params.fields.hasOwnProperty(field)) {
-        params.fields[field] = params.fields[field] === 'asc' ? 'desc' : 'asc';
+        params.fields[field] = params.fields[field] === "asc" ? "desc" : "asc";
     } else {
-        params.fields[field] = 'asc';
+        params.fields[field] = "asc";
     }
-}
+};
 
 let statusPOD = ref(0);
 let fechasPOD = ref([]);
 
-const consultarFechasYStatusPOD = () => 
-{
-  try 
-      {
-         axios.get(route('consultarFechasStatusPOD', {confirmacion:viajeActual.value})).
-         then(response => 
-         {
-           //console.log(response);
-           fechasPOD.value = response.data.fechasPOD;
-         }).catch(err => 
-         {
-            console.log(err)
-         })
-      } catch (error) 
-      {
-         
-      }
-}
+const consultarFechasYStatusPOD = () => {
+    try {
+        axios
+            .get(
+                route("consultarFechasStatusPOD", {
+                    confirmacion: viajeActual.value,
+                }),
+            )
+            .then((response) => {
+                //console.log(response);
+                fechasPOD.value = response.data.fechasPOD;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } catch (error) {}
+};
 
-const reVisit = (viajeAConsultar) => 
-{
-  //console.log('revisitando')
-  //console.log(viajeAConsultar)
-  router.visit(route('viajes.index'), 
-  {
-    preserveScroll:true,
-    preserveState:true,
-    replace:true,
-    only:['viajes'],
-  });
+const reVisit = (viajeAConsultar) => {
+    //console.log('revisitando')
+    //console.log(viajeAConsultar)
+    router.visit(route("viajes.index"), {
+        preserveScroll: true,
+        preserveState: true,
+        replace: true,
+        only: ["viajes"],
+    });
 
-  axios.get(route('showHistorico'), 
-  {params:{
-   id:viajeAConsultar
-  }}).then(response =>
-  {
-    //console.log(response);
-    infoModal.value = response.data.historico;
-    status.value = response.data.status;
-  }).catch(err => 
-  {
-   console.log(err)
-  })
-}
+    axios
+        .get(route("showHistorico"), {
+            params: {
+                id: viajeAConsultar,
+            },
+        })
+        .then((response) => {
+            //console.log(response);
+            infoModal.value = response.data.historico;
+            status.value = response.data.status;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
 
-const iniciarRecorrido = async () => 
-{
-  //console.log('hola')
-  //Funciones de driverjs
-  const driverObj = driver({
-    showProgress:true,
-    allowClose:true,
-    nextBtnText: 'Siguiente',
-    prevBtnText:'Anterior',
-    doneBtnText: 'Finalizar',
-    steps: [
-     { element: '#buscadorViajes', popover: { title: 'Buscador de viajes', description: 'Este es un buscador de los viajes cargados, se pueden buscar tanto por confirmacion como su dt del viaje.', side: "left", align: 'start', onNextClick: () => {
-          driverObj.moveNext();
-     } }},
-     { element: '#descargaDeReportes', popover: { title: 'Descarga de reportes', description: 'Se tiene esta sección para una descarga de reporte de los viajes tomando en cuenta un rango de fechas.', side: "left", align: 'start', onNextClick: () => {
-          driverObj.moveNext();
-     } }},
-    ]
-  })
+const iniciarRecorrido = async () => {
+    //console.log('hola')
+    //Funciones de driverjs
+    const driverObj = driver({
+        showProgress: true,
+        allowClose: true,
+        nextBtnText: "Siguiente",
+        prevBtnText: "Anterior",
+        doneBtnText: "Finalizar",
+        steps: [
+            {
+                element: "#buscadorViajes",
+                popover: {
+                    title: "Buscador de viajes",
+                    description:
+                        "Este es un buscador de los viajes cargados, se pueden buscar tanto por confirmacion como su dt del viaje.",
+                    side: "left",
+                    align: "start",
+                    onNextClick: () => {
+                        driverObj.moveNext();
+                    },
+                },
+            },
+            {
+                element: "#descargaDeReportes",
+                popover: {
+                    title: "Descarga de reportes",
+                    description:
+                        "Se tiene esta sección para una descarga de reporte de los viajes tomando en cuenta un rango de fechas.",
+                    side: "left",
+                    align: "start",
+                    onNextClick: () => {
+                        driverObj.moveNext();
+                    },
+                },
+            },
+        ],
+    });
 
-  driverObj.drive();
-}
+    driverObj.drive();
+};
 
+const modalDelete = ref(false);
+const viajeAEliminar = ref(null);
+
+const confirmarEliminacion = (viaje) => {
+    viajeAEliminar.value = viaje;
+    modalDelete.value = true;
+};
+
+const closeModalDelete = () => {
+    modalDelete.value = false;
+    viajeAEliminar.value = null;
+};
+
+const modalDeleteDt = ref(false);
+const dtAEliminar = ref(null);
+
+const confirmarEliminacionDt = (viaje) => {
+    dtAEliminar.value = viaje;
+    modalDeleteDt.value = true;
+};
+
+const closeModalDeleteDt = () => {
+    modalDeleteDt.value = false;
+    dtAEliminar.value = null;
+};
 </script>
 <template>
-  <AppLayout title="Viajes">
-    <template #header>
-       <div class="flex flex-row items-center justify-between mt-2 align-middle" style="font-family: 'Montserrat';">
-          <h2 class="text-xl font-semibold leading-tight text-gray-800 " style="font-family: 'Montserrat';">
-              Viajes finalizados
-          </h2>
-          <div class="px-1 py-2">
-              <button @click="iniciarRecorrido()" class="bg-[#697FEA] px-2 rounded-full">
-                <p style="font-family: 'Montserrat';" class="text-sm text-white">Manual de usuario</p>        
-              </button>
-          </div>
-          <div class="flex flex-row" id="descargaDeReportes">
-            <VueDatePicker class="mx-2" v-model="params.fechaInicial" month-picker vertical placeholder="Selecciona una fecha inicial" />
-            <VueDatePicker class="mx-2" v-model="params.fechaFinal" month-picker vertical placeholder="Selecciona una fecha final" />
-            <div class="mx-2">
-              <a v-if="params.fechaInicial !== null && params.fechaFinal !== null" :href="route('descargarReporteViajesConIncidencias', {fechaInicial:params.fechaInicial, fechaFinal:params.fechaFinal, searchs:params.searchs})">
-                <button  class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle">
-                   <p class="text-sm text-white">
-                     Descargar
-                   </p>
-                   <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
-                </button>
-              </a>
-              <button disabled class="bg-[#9D9D9D] px-8 py-2 rounded-2xl flex flex-row align-middle" v-else>
-                <p class="text-sm text-white">
-                     Descargar
-                </p>
-                <img  class="w-3 ml-3" src="../../../assets/img/down_arrow.png" />
-              </button>
+    <AppLayout title="Viajes">
+        <template #header>
+            <div
+                class="flex flex-row items-center justify-between mt-2 align-middle"
+                style="font-family: &quot;Montserrat&quot;"
+            >
+                <h2
+                    class="text-xl font-semibold leading-tight text-gray-800"
+                    style="font-family: &quot;Montserrat&quot;"
+                >
+                    Lista de Viajes
+                </h2>
+                <div class="px-1 py-2">
+                    <button
+                        @click="iniciarRecorrido()"
+                        class="bg-[#697FEA] px-2 rounded-full"
+                    >
+                        <p
+                            style="font-family: &quot;Montserrat&quot;"
+                            class="text-sm text-white"
+                        >
+                            Manual de usuario
+                        </p>
+                    </button>
+                </div>
+                <div class="flex flex-row" id="descargaDeReportes">
+                    <VueDatePicker
+                        class="mx-2"
+                        v-model="params.fechaInicial"
+                        month-picker
+                        vertical
+                        placeholder="Selecciona una fecha inicial"
+                    />
+                    <VueDatePicker
+                        class="mx-2"
+                        v-model="params.fechaFinal"
+                        month-picker
+                        vertical
+                        placeholder="Selecciona una fecha final"
+                    />
+                    <div class="mx-2">
+                        <a
+                            v-if="
+                                params.fechaInicial !== null &&
+                                params.fechaFinal !== null
+                            "
+                            :href="
+                                route('descargarReporteViajesConIncidencias', {
+                                    fechaInicial: params.fechaInicial,
+                                    fechaFinal: params.fechaFinal,
+                                    searchs: params.searchs,
+                                })
+                            "
+                        >
+                            <button
+                                class="bg-[#44BFFC] px-8 py-2 rounded-2xl flex flex-row align-middle"
+                            >
+                                <p class="text-sm text-white">Descargar</p>
+                                <img
+                                    class="w-3 ml-3"
+                                    src="../../../assets/img/down_arrow.png"
+                                />
+                            </button>
+                        </a>
+                        <button
+                            disabled
+                            class="bg-[#9D9D9D] px-8 py-2 rounded-2xl flex flex-row align-middle"
+                            v-else
+                        >
+                            <p class="text-sm text-white">Descargar</p>
+                            <img
+                                class="w-3 ml-3"
+                                src="../../../assets/img/down_arrow.png"
+                            />
+                        </button>
+                    </div>
+                </div>
+                <div id="buscadorViajes">
+                    <TextInput
+                        v-model="params.busqueda"
+                        class="w-full px-2 py-1 bg-transparent"
+                        placeholder="Buscar"
+                    />
+                </div>
             </div>
-          </div>
-          <div id="buscadorViajes">
-            <TextInput v-model="params.busqueda" class="w-full px-2 py-1 bg-transparent" placeholder="Buscar"  />
-          </div>
-       </div>
-    </template>
-    <div class="py-4 pb-6 m-8 bg-white rounded-2xl" style="font-family: 'Montserrat';">
-      <table class="w-full">
-        <thead >
-          <tr class="border-b-2 border-[#697FEA]" >
-             <th  class="py-2 font-semibold">
-              <span class="block my-1" @click="sort('confirmacion')">
-                Confirmación
-                <template v-if="params.fields && params.fields['confirmacion']">
-                     <svg v-if="params.fields['confirmacion'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
-                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                     </svg>
-                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
-                         fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                     </svg>
-                 </template>
-              </span>
-              <TextInput class="w-24" v-model="params.searchs['confirmacion_dts.confirmacion']"  />
-            </th>
-             <th  class="py-2 font-semibold">
-              <span class="block my-1" @click="sort('referencia_dt')">
-                 DT
-                 <template v-if="params.fields && params.fields['referencia_dt']">
-                     <svg v-if="params.fields['referencia_dt'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
-                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                     </svg>
-                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
-                         fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                     </svg>
-                 </template>
-              </span>
-              <TextInput class="w-24" v-model="params.searchs['dts.referencia_dt']"  />
-             </th>
-             <th  class="py-2 font-semibold">
-              <span class="block my-1" @click="sort('ubicacion')">
-                Ubicación
-                <template v-if="params.fields && params.fields['ubicacion']">
-                     <svg v-if="params.fields['ubicacion'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
-                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                     </svg>
-                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
-                         fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                     </svg>
-                 </template>
-              </span>
-              <TextInput class="w-24" v-model="params.searchs['ubicaciones.nombre_ubicacion']"  />
-             </th>
-             <th  class="py-2 font-semibold">
-              <span class="block my-1" @click="sort('plataforma')">
-                Plataforma
-                <template v-if="params.fields && params.fields['plataforma']">
-                     <svg v-if="params.fields['plataforma'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
-                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                     </svg>
-                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
-                         fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                     </svg>
-                 </template>
-              </span>
-              <TextInput class="w-24" v-model="params.searchs['plataformas.nombre']"  />
-             </th>
-             <th  class="py-2 font-semibold">
-              <span class="block my-1" @click="sort('status')">
-                Status final
-                <template v-if="params.fields && params.fields['status']">
-                     <svg v-if="params.fields['status'] === 'asc'" xmlns="http://www.w3.org/2000/svg"
-                         class="inline w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-                     </svg>
-                     <svg v-else xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 20 20"
-                         fill="currentColor">
-                         <path
-                             d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                     </svg>
-                 </template>
-              </span>
-              <TextInput class="w-30" v-model="params.searchs['status.nombre']"  />
-             </th>
-             <th @click="sort('cita')" class="py-2 font-semibold">
-              <div class="flex flex-row justify-center align-middle">
-                <img class="w-6 h-6 mr-2" src="../../../assets/img/calendario_blue.png"/>
-                <p>Cita</p>
-              </div>
-            </th>
-             <th class="py-2 font-semibold">
-              <div class="flex flex-row justify-center align-middle">
-                <img class="w-6 h-6 mr-2" src="../../../assets/img/cajas.png"/>
-                <p>NO. Cajas</p>
-              </div>
-            </th>
-             <th class="py-2 font-semibold">Historial</th>
-             <th class="py-2 font-semibold">POD</th>
-             <th class="py-2 font-semibold">Documento POD</th>
-             <th class="py-2 font-semibold">Status POD</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="viaje in viajes.data" :key="viaje.id">
-             <td class="py-2 text-center" >{{ viaje.confirmacion }}</td>
-             <td class="py-2 text-center">{{ viaje.referencia_dt }}</td>
-             <td class="py-2 text-center">{{ viaje.ubicacion }}</td>
-             <td class="py-2 text-center">{{ viaje.plataforma }}</td>
-             <td class="py-2 text-center">{{ viaje.status }}</td>
-             <td class="py-2 text-center">{{ viaje.cita }}</td>
-             <td class="py-2 text-center">{{ viaje.numero_cajas }}</td>
-             <td class="py-2 text-center">
-              <button @click="watchHistorico(viaje.id, viaje)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
-                <img class="w-6" src="../../../assets/img/eye.png" />
-              </button>
-             </td>
-             <td class="py-2 text-center">
-               <button @click="modalOcsOpen(viaje.id)" class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
-                <img class="w-6" src="../../../assets/img/eye.png" />
-               </button>
-             </td>
-             <td class="flex justify-center py-2 text-center">
-                <a :href="viaje.documetoPOD" data-fancybox   data-type="pdf">
-                  <button class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2">
-                     <img class="w-6" src="../../../assets/img/eye.png" />
-                   </button>
-                </a>
-             </td>
-             <td class="py-2 text-center">
-              <div v-if="viaje.confirmacion_status_pods.length > 0">
-                {{ viaje.confirmacion_status_pods[0].statusPOD }}
-              </div>
-             </td>
-          </tr>
-        </tbody>
-      </table>
-      <PaginationInertia :pagination="viajes" />
-    </div>
-    <ModalShowOcs :status_pod="status_pod" 
-    :viaje="viajeActual"  
-    :show="modalOcs"
-    @close="modalOcsClose()" 
-    :ocs="ocs" 
-    :productos="productos" 
-    :tipos_incidencias="tipos_incidencias" 
-    @reconsultar="reconsultar" 
-    :fechasPOD="fechasPOD"
-    />
-    <div v-if="dtActual !== null"> 
-      <ModalWatchHistoricoStatus :show="modalWatch" :dt="dtActual" @close="modalWatchClose()" @reVisit="reVisit" :infoModal="infoModal" :status="status" />
-    </div>
- </AppLayout>
+        </template>
+        <div
+            class="py-4 pb-6 m-8 bg-white rounded-2xl"
+            style="font-family: &quot;Montserrat&quot;"
+        >
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b-2 border-[#697FEA]">
+                        <th class="py-2 font-semibold">
+                            <span
+                                class="block my-1"
+                                @click="sort('confirmacion')"
+                            >
+                                Confirmación
+                                <template
+                                    v-if="
+                                        params.fields &&
+                                        params.fields['confirmacion']
+                                    "
+                                >
+                                    <svg
+                                        v-if="
+                                            params.fields['confirmacion'] ===
+                                            'asc'
+                                        "
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"
+                                        />
+                                    </svg>
+                                </template>
+                            </span>
+                            <TextInput
+                                class="w-24"
+                                v-model="
+                                    params.searchs[
+                                        'confirmacion_dts.confirmacion'
+                                    ]
+                                "
+                            />
+                        </th>
+                        <th class="py-2 font-semibold">
+                            <span
+                                class="block my-1"
+                                @click="sort('referencia_dt')"
+                            >
+                                DT
+                                <template
+                                    v-if="
+                                        params.fields &&
+                                        params.fields['referencia_dt']
+                                    "
+                                >
+                                    <svg
+                                        v-if="
+                                            params.fields['referencia_dt'] ===
+                                            'asc'
+                                        "
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"
+                                        />
+                                    </svg>
+                                </template>
+                            </span>
+                            <TextInput
+                                class="w-24"
+                                v-model="params.searchs['dts.referencia_dt']"
+                            />
+                        </th>
+                        <th class="py-2 font-semibold">
+                            <span class="block my-1" @click="sort('ubicacion')">
+                                Ubicación
+                                <template
+                                    v-if="
+                                        params.fields &&
+                                        params.fields['ubicacion']
+                                    "
+                                >
+                                    <svg
+                                        v-if="
+                                            params.fields['ubicacion'] === 'asc'
+                                        "
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"
+                                        />
+                                    </svg>
+                                </template>
+                            </span>
+                            <TextInput
+                                class="w-24"
+                                v-model="
+                                    params.searchs[
+                                        'ubicaciones.nombre_ubicacion'
+                                    ]
+                                "
+                            />
+                        </th>
+                        <th class="py-2 font-semibold">
+                            <span
+                                class="block my-1"
+                                @click="sort('plataforma')"
+                            >
+                                Plataforma
+                                <template
+                                    v-if="
+                                        params.fields &&
+                                        params.fields['plataforma']
+                                    "
+                                >
+                                    <svg
+                                        v-if="
+                                            params.fields['plataforma'] ===
+                                            'asc'
+                                        "
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"
+                                        />
+                                    </svg>
+                                </template>
+                            </span>
+                            <TextInput
+                                class="w-24"
+                                v-model="params.searchs['plataformas.nombre']"
+                            />
+                        </th>
+                        <th class="py-2 font-semibold">
+                            <span class="block my-1" @click="sort('status')">
+                                Status final
+                                <template
+                                    v-if="
+                                        params.fields && params.fields['status']
+                                    "
+                                >
+                                    <svg
+                                        v-if="params.fields['status'] === 'asc'"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="inline w-4 h-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h7a1 1 0 100-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z"
+                                        />
+                                    </svg>
+                                </template>
+                            </span>
+                            <TextInput
+                                class="w-30"
+                                v-model="params.searchs['status.nombre']"
+                            />
+                        </th>
+                        <th @click="sort('cita')" class="py-2 font-semibold">
+                            <div
+                                class="flex flex-row justify-center align-middle"
+                            >
+                                <img
+                                    class="w-6 h-6 mr-2"
+                                    src="../../../assets/img/calendario_blue.png"
+                                />
+                                <p>Cita</p>
+                            </div>
+                        </th>
+                        <th class="py-2 font-semibold">
+                            <div
+                                class="flex flex-row justify-center align-middle"
+                            >
+                                <img
+                                    class="w-6 h-6 mr-2"
+                                    src="../../../assets/img/cajas.png"
+                                />
+                                <p>NO. Cajas</p>
+                            </div>
+                        </th>
+                        <th class="py-2 font-semibold">Historial</th>
+                        <th class="py-2 font-semibold">POD</th>
+                        <th class="py-2 font-semibold">Documento POD</th>
+                        <th class="py-2 font-semibold">Status POD</th>
+                        <th class="py-2 font-semibold">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="viaje in viajes.data" :key="viaje.id">
+                        <td class="py-2 text-center">
+                            {{ viaje.confirmacion }}
+                        </td>
+                        <td class="py-2 text-center">
+                            {{ viaje.referencia_dt }}
+                        </td>
+                        <td class="py-2 text-center">{{ viaje.ubicacion }}</td>
+                        <td class="py-2 text-center">{{ viaje.plataforma }}</td>
+                        <td class="py-2 text-center">{{ viaje.status }}</td>
+                        <td class="py-2 text-center">{{ viaje.cita }}</td>
+                        <td class="py-2 text-center">
+                            {{ viaje.numero_cajas }}
+                        </td>
+                        <td class="py-2 text-center">
+                            <button
+                                @click="watchHistorico(viaje.id, viaje)"
+                                class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2"
+                            >
+                                <img
+                                    class="w-6"
+                                    src="../../../assets/img/eye.png"
+                                />
+                            </button>
+                        </td>
+                        <td class="py-2 text-center">
+                            <button
+                                @click="modalOcsOpen(viaje.id)"
+                                class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2"
+                            >
+                                <img
+                                    class="w-6"
+                                    src="../../../assets/img/eye.png"
+                                />
+                            </button>
+                        </td>
+                        <td class="flex justify-center py-2 text-center">
+                            <a
+                                :href="viaje.documetoPOD"
+                                data-fancybox
+                                data-type="pdf"
+                            >
+                                <button
+                                    class="bg-[#697FEA] px-4 py-1 rounded-2xl mt-2"
+                                >
+                                    <img
+                                        class="w-6"
+                                        src="../../../assets/img/eye.png"
+                                    />
+                                </button>
+                            </a>
+                        </td>
+                        <td class="py-2 text-center">
+                            <div
+                                v-if="viaje.confirmacion_status_pods.length > 0"
+                            >
+                                {{
+                                    viaje.confirmacion_status_pods[0].statusPOD
+                                }}
+                            </div>
+                        </td>
+                        <td class="py-2 text-center">
+                            <div
+                                class="flex flex-row space-x-2 justify-center items-center"
+                            >
+                                <button
+                                    title="Eliminar este viaje"
+                                    @click="confirmarEliminacion(viaje)"
+                                    class="p-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-300 shadow-sm border border-red-200"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                    </svg>
+                                </button>
+                                <button
+                                    title="Eliminar DT completo y sus confirmaciones"
+                                    @click="confirmarEliminacionDt(viaje)"
+                                    class="p-2 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-lg transition-all duration-300 shadow-sm border border-amber-200 flex items-center space-x-1"
+                                >
+                                    <span class="text-[10px] font-bold">DT</span
+                                    >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-5 w-5"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <PaginationInertia :pagination="viajes" />
+        </div>
+        <ModalShowOcs
+            :status_pod="status_pod"
+            :viaje="viajeActual"
+            :show="modalOcs"
+            @close="modalOcsClose()"
+            :ocs="ocs"
+            :productos="productos"
+            :tipos_incidencias="tipos_incidencias"
+            @reconsultar="reconsultar"
+            :fechasPOD="fechasPOD"
+        />
+        <div v-if="dtActual !== null">
+            <ModalWatchHistoricoStatus
+                :show="modalWatch"
+                :dt="dtActual"
+                @close="modalWatchClose()"
+                @reVisit="reVisit"
+                :infoModal="infoModal"
+                :status="status"
+            />
+        </div>
+
+        <ModalDeleteViaje
+            :show="modalDelete"
+            :viaje="viajeAEliminar"
+            @close="closeModalDelete"
+        />
+        <ModalDeleteDt
+            :show="modalDeleteDt"
+            :dt="dtAEliminar"
+            @close="closeModalDeleteDt"
+        />
+    </AppLayout>
 </template>

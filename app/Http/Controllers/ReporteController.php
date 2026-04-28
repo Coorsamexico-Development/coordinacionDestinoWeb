@@ -47,7 +47,8 @@ class ReporteController extends Controller
          {
            $query->select(
              'confirmacion_dts.*',
-             'dts.referencia_dt'
+             'dts.referencia_dt',
+             'dts.id as dt_id'
            )->join('dts','confirmacion_dts.dt_id','dts.id');
 
            if ($request->has("busqueda")) 
@@ -76,6 +77,7 @@ class ReporteController extends Controller
              $query->select(
                'confirmacion_dts.*',
                'dts.referencia_dt',
+               'dts.id as dt_id',
                'status.status_padre as status_padre'
              )->join('dts','confirmacion_dts.dt_id','dts.id')
              ->join('status','confirmacion_dts.status_id','status.id');
@@ -108,6 +110,7 @@ class ReporteController extends Controller
                 $query->select(
                   'confirmacion_dts.*',
                   'dts.referencia_dt',
+                  'dts.id as dt_id',
                 )->join('dts','confirmacion_dts.dt_id','dts.id');
 
                 if ($request->has("busqueda")) 

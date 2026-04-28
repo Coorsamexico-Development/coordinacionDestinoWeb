@@ -168,3 +168,5 @@ Route::get('/getOcsExample', [OcController::class, 'getOcsExample'])->name('getO
 Route::post('/newOcsExcel', [OcController::class, 'newOcsExcel'])->name('newOcsExcel');
 //Eliminacion del viaje
 Route::post('/deleteViaje', [ConfirmacionDtController::class, 'deleteViaje'])->name('deleteViaje');
+Route::delete('/confirmacion_dts/{confirmacionDt}', [ConfirmacionDtController::class, 'destroy'])->name('confirmacion_dts.destroy');
+Route::delete('/dts/{dt}', [DtController::class, 'destroy'])->name('dts.destroy');

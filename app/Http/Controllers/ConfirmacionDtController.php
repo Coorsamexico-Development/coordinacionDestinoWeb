@@ -112,13 +112,6 @@ class ConfirmacionDtController extends Controller
     return  $confirmaciones->paginate(5);
   }
 
-  /**
-   * Show the form for creating a new resource.
-   */
-  public function create()
-  {
-    //
-  }
 
   /**
    * Store a newly created resource in storage.
@@ -136,13 +129,7 @@ class ConfirmacionDtController extends Controller
     //
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   */
-  public function edit(ConfirmacionDt $confirmacionDt)
-  {
-    //
-  }
+
 
   /**
    * Update the specified resource in storage.
@@ -157,7 +144,21 @@ class ConfirmacionDtController extends Controller
    */
   public function destroy(ConfirmacionDt $confirmacionDt)
   {
-    //
+      $fechaEliminacion = now()->format('Ymd_His');
+
+      $confirmacionDt->confirmacion = $confirmacionDt->confirmacion . '_eliminado_' . $fechaEliminacion;
+      $confirmacionDt->save();
+
+      $ocs = Oc::where('confirmacion_dt_id', $confirmacionDt->id)->get();
+      foreach ($ocs as $oc) {
+          $oc->referencia = $oc->referencia . '_eliminado_' . $fechaEliminacion;
+          $oc->save();
+          $oc->delete();
+      }
+
+      $confirmacionDt->delete();
+
+      return redirect()->back()->with('success', 'Confirmación eliminada correctamente.');
   }
 
 

@@ -3,13 +3,16 @@ import ButtonWatch from "@/Components/ButtonWatch.vue";
 import { router } from "@inertiajs/vue3";
 import axios from "axios";
 import { ref } from "vue";
-import ModalConfirmacionDelete from "../Modals/ModalConfirmacionDelete.vue";
 import ModalWatchHistoricoStatus from "../Modals/ModalWatchHistoricoStatus.vue";
 import ModalAddOcs from "../Partials/ModalAddOcs.vue";
+import ModalDeleteViaje from "../../Viajes/Partials/ModalDeleteViaje.vue";
+import ModalDeleteDt from "../../Viajes/Partials/ModalDeleteDt.vue";
 //Props
 var props = defineProps({
     dt: Object,
 });
+
+const emit = defineEmits(["deleted"]);
 
 let infoModal = ref(null);
 let status = ref([]);
@@ -90,46 +93,32 @@ const reVisit = (viajeAConsultar) => {
 };
 
 const modalDeleteViaje = ref(false);
-const dtAEliminar = ref(null);
-const eliminarViaje = (dt) => {
-    openModalConfirmDeleteViaje();
-    dtAEliminar.value = dt;
-};
-
-const openModalConfirmDeleteViaje = () => {
+const viajeAEliminar = ref(null);
+const confirmarEliminacionViaje = (dt) => {
+    viajeAEliminar.value = dt;
     modalDeleteViaje.value = true;
 };
 
-const closeModalConfirmDeleteViaje = () => {
+const closeModalDeleteViaje = () => {
     modalDeleteViaje.value = false;
+    viajeAEliminar.value = null;
+};
+
+const modalDeleteDt = ref(false);
+const dtAEliminar = ref(null);
+const confirmarEliminacionDt = (dt) => {
+    dtAEliminar.value = dt;
+    modalDeleteDt.value = true;
+};
+
+const closeModalDeleteDt = () => {
+    modalDeleteDt.value = false;
     dtAEliminar.value = null;
 };
 
-const confirmacionEliminarViaje = async () =>
-    //confirmacion de eliminacion de viaje
-    {
-        //console.log(dtAEliminar.value)
-        //console.log('listo para eliminar')
-        await axios
-            .post(route("deleteViaje"), {
-                params: {
-                    dt: dtAEliminar.value,
-                },
-            })
-            .then((response) => {
-                // console.log(response);
-                router.visit(route("reportes.index"), {
-                    preserveScroll: true,
-                    preserveState: true,
-                    only: ["contadores", "ubicaciones", "plataformas"],
-                });
-
-                closeModalConfirmDeleteViaje();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+const onDelete = () => {
+    emit("deleted");
+};
 </script>
 <template>
     <div
@@ -209,16 +198,49 @@ const confirmacionEliminarViaje = async () =>
                     </p>
                 </div>
             </div>
-            <div class="float-right mt-2 mr-4">
+            <div class="flex flex-row space-x-2 mt-4 justify-end mr-4">
                 <button
                     v-if="dt.status_id == 4 || dt.status_id == 5"
-                    class="p-1 bg-red-400 rounded-full"
-                    @click="eliminarViaje(dt)"
+                    title="Eliminar viaje individual"
+                    @click="confirmarEliminacionViaje(dt)"
+                    class="p-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white rounded-lg transition-all duration-300 shadow-sm border border-red-200"
                 >
-                    <img
-                        class="w-4 h-5"
-                        src="../../../../assets/img/eliminar.png"
-                    />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                    </svg>
+                </button>
+                <button
+                    v-if="dt.status_id == 4 || dt.status_id == 5"
+                    title="Eliminar DT completo y sus confirmaciones"
+                    @click="confirmarEliminacionDt(dt)"
+                    class="p-2 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-lg transition-all duration-300 shadow-sm border border-amber-200 flex items-center space-x-1"
+                >
+                    <span class="text-[10px] font-bold">DT</span>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -241,9 +263,16 @@ const confirmacionEliminarViaje = async () =>
         :ocsAxios="ocs"
         :confirmacion="dt.confirmacion"
     />
-    <ModalConfirmacionDelete
+    <ModalDeleteViaje
         :show="modalDeleteViaje"
-        @close="closeModalConfirmDeleteViaje()"
-        @eliminaViaje="confirmacionEliminarViaje()"
+        :viaje="viajeAEliminar"
+        @close="closeModalDeleteViaje()"
+        @deleted="onDelete()"
+    />
+    <ModalDeleteDt
+        :show="modalDeleteDt"
+        :dt="dtAEliminar"
+        @close="closeModalDeleteDt()"
+        @deleted="onDelete()"
     />
 </template>

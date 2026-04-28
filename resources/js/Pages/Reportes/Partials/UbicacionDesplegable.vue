@@ -71,26 +71,30 @@ watch(params, (newParams) => {
     if (newParams.buscador !== null) {
     }
 
-    if (newParams.ubicacion_id !== -1) {
+    consultarDts();
+});
+
+const consultarDts = () => {
+    if (params.ubicacion_id !== -1) {
         axios
             .get(
                 route("getConfirmacions", {
-                    ubicacion_id: newParams.ubicacion_id,
-                    plataforma_id: newParams.plataforma_id,
-                    status_id: newParams.status_id,
-                    busqueda: newParams.busqueda,
-                    fecha: newParams.fecha,
+                    ubicacion_id: params.ubicacion_id,
+                    plataforma_id: params.plataforma_id,
+                    status_id: params.status_id,
+                    busqueda: params.busqueda,
+                    fecha: params.fecha,
                 }),
             )
             .then((response) => {
                 // Obtenemos los datos
                 //console.log(response.data)
                 nuevosParametros.value = {
-                    ubicacion_id: newParams.ubicacion_id,
-                    plataforma_id: newParams.plataforma_id,
-                    status_id: newParams.status_id,
-                    busqueda: newParams.busqueda,
-                    fecha: newParams.fecha,
+                    ubicacion_id: params.ubicacion_id,
+                    plataforma_id: params.plataforma_id,
+                    status_id: params.status_id,
+                    busqueda: params.busqueda,
+                    fecha: params.fecha,
                 };
                 dts.value = response.data;
                 //dtsData.value = response.data.data;
@@ -99,7 +103,7 @@ watch(params, (newParams) => {
                 // Capturamos los errores
             });
     }
-});
+};
 
 //Reconsulta al paginado
 const loadPage = async (page) => {
@@ -276,7 +280,7 @@ const valores = computed(() => {
                     v-for="(dt, key) in dts.data"
                     :key="dt.id"
                 >
-                    <DtBlock :dt="dt" />
+                    <DtBlock :dt="dt" @deleted="consultarDts" />
                 </div>
                 <div class="py-2">
                     <PaginationAxios

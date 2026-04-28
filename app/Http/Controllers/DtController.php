@@ -24,6 +24,7 @@ class DtController extends Controller
         $viajes = ConfirmacionDt::select(
         'confirmacion_dts.*',
         'dts.referencia_dt',
+        'dts.id as dt_id',
         'status.nombre as status',
         'ubicaciones.nombre_ubicacion as ubicacion',
         'plataformas.nombre as plataforma',
@@ -119,11 +120,11 @@ class DtController extends Controller
             });
         }
 
-        $viajes->where(function($query)
-          {
-            $query->where('confirmacion_dts.status_id','=',10)
-                ->orWhere('confirmacion_dts.status_id','=',11);
-          });
+        // $viajes->where(function($query)
+        //   {
+        //     $query->where('confirmacion_dts.status_id','=',10)
+        //         ->orWhere('confirmacion_dts.status_id','=',11);
+        //   });
        
       
         $productos = Producto::all();
@@ -185,6 +186,28 @@ class DtController extends Controller
      */
     public function destroy(Dt $dt)
     {
-        //
+        $fechaEliminacion = now()->format('Ymd_His');
+
+        $dt->referencia_dt = $dt->referencia_dt . '_eliminado_' . $fechaEliminacion;
+        $dt->save();
+
+        $confirmaciones = ConfirmacionDt::where('dt_id', $dt->id)->get();
+        foreach ($confirmaciones as $confirmacion) {
+            $confirmacion->confirmacion = $confirmacion->confirmacion . '_eliminado_' . $fechaEliminacion;
+            $confirmacion->save();
+
+            $ocs = \App\Models\Oc::where('confirmacion_dt_id', $confirmacion->id)->get();
+            foreach ($ocs as $oc) {
+                $oc->referencia = $oc->referencia . '_eliminado_' . $fechaEliminacion;
+                $oc->save();
+                $oc->delete();
+            }
+
+            $confirmacion->delete();
+        }
+
+        $dt->delete();
+
+        return redirect()->back()->with('success', 'DT eliminado correctamente.');
     }
 }
