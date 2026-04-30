@@ -55,7 +55,8 @@ class ConfirmacionDtController extends Controller
 
             })
 
-            ->where('confirmacion_dts.cerrado', '=', 0);
+            ->where('confirmacion_dts.cerrado', '=', 0)
+            ->withTrashed();
             
         $user = Auth::user();
         $ubicacionesIds = $user->ubicaciones->pluck('id')->toArray();
@@ -95,7 +96,8 @@ class ConfirmacionDtController extends Controller
             ->get();
         //return   $confirmacionesDts->get();
         return response()->json(
-            ['dts' => $confirmacionesDts->get(), 
+            ['dts' => $confirmacionesDts
+            ->get(), 
         'plataformas' => $plataformas,
     ]);
     }

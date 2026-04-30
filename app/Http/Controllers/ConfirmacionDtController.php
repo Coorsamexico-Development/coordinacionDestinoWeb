@@ -639,11 +639,15 @@ class ConfirmacionDtController extends Controller
       ->delete();
 
     //Borramos el confirmacion_dt
-    ConfirmacionDt::where('id', '=', $dt['id'])
-      ->delete();
+    $confirmacion = ConfirmacionDt::find($dt['id']);
+    if ($confirmacion) {
+        $confirmacion->delete();
+    }
 
     //Borramos el dt
-    Dt::where('id', '=', $dt['dt_id'])
-      ->delete();
+    $viaje = Dt::find($dt['dt_id']);
+    if ($viaje) {
+        $viaje->delete();
+    }
   }
 }

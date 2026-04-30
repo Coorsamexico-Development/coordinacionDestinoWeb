@@ -11,6 +11,10 @@ use Carbon\Carbon;
 class ConfirmacionDt extends Model
 {
     use HasFactory, SoftDeletes;
+    
+    protected $dispatchesEvents = [
+        'deleted' => \App\Events\ConfirmacionDtDeleted::class,
+    ];
 
     protected $fillable =
     [
