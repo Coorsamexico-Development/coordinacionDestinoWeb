@@ -47,6 +47,11 @@ class ConfirmacionDt extends Model
         return $this->belongsTo(LineaTransporte::class, 'linea_transporte_id');
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Statu::class, 'status_id');
+    }
+
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');

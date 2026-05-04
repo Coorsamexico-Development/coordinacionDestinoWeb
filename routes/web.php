@@ -82,6 +82,7 @@ Route::middleware([
     Route::delete('/catalogs/email-groups/recipients/{recipient}', [EmailGroupController::class, 'removeRecipient'])->name('catalogs.email-groups.remove-recipient');
     Route::get('/getProximasCitas', [ConfirmacionDtController::class, 'getProximasCitas'])->name('getProximasCitas');
     Route::post('/toggleContacto', [ConfirmacionDtController::class, 'toggleContacto'])->name('toggleContacto');
+    Route::post('/updateStatus', [ConfirmacionDtController::class, 'updateStatus'])->name('updateStatus');
 });
 
 

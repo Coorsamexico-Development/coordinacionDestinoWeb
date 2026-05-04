@@ -51,6 +51,25 @@ const toggleContacto = async (notif) => {
     }
 };
 
+const setManualStatus = async (notif, newStatusId) => {
+    if (!notif.cliente_contactado || notif.status_id == newStatusId) return;
+
+    try {
+        const response = await axios.post(route("updateStatus"), {
+            id: notif.id,
+            status_id: newStatusId,
+        });
+
+        if (response.data.success) {
+            notif.status_id = response.data.status_id;
+            notif.status_nombre = response.data.status_nombre;
+            notif.status_color = response.data.status_color;
+        }
+    } catch (error) {
+        console.error("Error al actualizar status manualmente:", error);
+    }
+};
+
 const closeDrawer = () => {
     isOpen.value = false;
 };
@@ -232,21 +251,16 @@ onMounted(() => {
                                             class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
                                             >Viaje</span
                                         >
-                                        <ChevronRight
-                                            class="w-3 h-3 text-slate-300"
-                                        />
-                                        <span
-                                            class="text-[10px] font-black text-blue-600 uppercase tracking-widest"
-                                            >ID {{ notif.id }}</span
-                                        >
                                     </div>
                                     <h3
                                         class="text-2xl font-black text-slate-900 tracking-tighter"
                                     >
                                         #{{ notif.confirmacion }}
                                     </h3>
+                                    <!-- Control Segmentado de Status -->
                                     <div
-                                        class="flex items-center gap-1.5 mt-1.5"
+                                        v-if="!notif.cliente_contactado"
+                                        class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all duration-300 bg-white shadow-sm border border-slate-200 text-slate-900"
                                     >
                                         <div
                                             class="w-2 h-2 rounded-full"
@@ -256,9 +270,73 @@ onMounted(() => {
                                             }"
                                         ></div>
                                         <span
-                                            class="text-[10px] font-bold text-slate-500 uppercase tracking-wider"
-                                            >{{ notif.status_nombre }}</span
+                                            class="text-[9px] font-black uppercase tracking-wider"
+                                            >A Tiempo</span
                                         >
+                                    </div>
+                                    <div
+                                        v-else
+                                        class="inline-flex p-1 bg-slate-100/80 rounded-2xl border border-slate-200/50 mt-3 transition-all"
+                                    >
+                                        <!-- Opción A Tiempo (ID 4) -->
+                                        <button
+                                            @click="setManualStatus(notif, 4)"
+                                            class="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all duration-300"
+                                            :class="
+                                                notif.status_id == 4
+                                                    ? 'bg-white shadow-sm border border-slate-200 text-slate-900'
+                                                    : 'text-slate-400 hover:text-slate-600 hover:bg-white/40'
+                                            "
+                                        >
+                                            <div
+                                                class="w-2 h-2 rounded-full"
+                                                :class="
+                                                    notif.status_id == 4
+                                                        ? 'animate-pulse'
+                                                        : 'opacity-50'
+                                                "
+                                                :style="{
+                                                    backgroundColor:
+                                                        notif.status_id == 4
+                                                            ? notif.status_color
+                                                            : '#94a3b8',
+                                                }"
+                                            ></div>
+                                            <span
+                                                class="text-[9px] font-black uppercase tracking-wider"
+                                                >A Tiempo</span
+                                            >
+                                        </button>
+
+                                        <!-- Opción En Riesgo (ID 5) -->
+                                        <button
+                                            @click="setManualStatus(notif, 5)"
+                                            class="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all duration-300"
+                                            :class="
+                                                notif.status_id == 5
+                                                    ? 'bg-white shadow-sm border border-slate-200 text-slate-900'
+                                                    : 'text-slate-400 hover:text-slate-600 hover:bg-white/40'
+                                            "
+                                        >
+                                            <div
+                                                class="w-2 h-2 rounded-full"
+                                                :class="
+                                                    notif.status_id == 5
+                                                        ? 'animate-pulse'
+                                                        : 'opacity-50'
+                                                "
+                                                :style="{
+                                                    backgroundColor:
+                                                        notif.status_id == 5
+                                                            ? notif.status_color
+                                                            : '#94a3b8',
+                                                }"
+                                            ></div>
+                                            <span
+                                                class="text-[9px] font-black uppercase tracking-wider"
+                                                >En Riesgo</span
+                                            >
+                                        </button>
                                     </div>
                                 </div>
 

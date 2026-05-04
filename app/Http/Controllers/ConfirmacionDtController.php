@@ -25,6 +25,7 @@ use App\Models\confirmacionFechasPod;
 use App\Models\confirmacionStatusPod;
 use App\Models\EmailGroup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -81,12 +82,13 @@ class ConfirmacionDtController extends Controller
   public function getProximasCitas()
   {
     $ahora = Carbon::now('America/Mexico_City');
-    $enUnaHora = $ahora->copy()->addHour();
+    $enUnaHora = $ahora->copy()->addHours(1);
     $enDosHoras = $ahora->copy()->addHours(2);
 
     // Actualizar a "En Riesgo" (ID 5) las que estén a 1 hora o menos de la cita
     // y que aún estén en status_id = 4 (A Tiempo)
-    ConfirmacionDt::whereBetween('cita', [$ahora->toDateTimeString(), $enUnaHora->toDateTimeString()])
+    ConfirmacionDt::
+    where('cita', '<=', $enUnaHora->toDateTimeString())
       ->join('status', 'confirmacion_dts.status_id', 'status.id')
       ->where('status.status_padre', StatusEnum::EN_TRANSITO->value)
       ->where('confirmacion_dts.cliente_contactado', '=', 0)
@@ -109,7 +111,7 @@ class ConfirmacionDtController extends Controller
     ->leftJoin('clientes', 'confirmacion_dts.cliente_id', 'clientes.id')
     ->leftJoin('plataformas', 'confirmacion_dts.plataforma_id', 'plataformas.id')
     ->leftJoin('ubicaciones', 'confirmacion_dts.ubicacion_id', 'ubicaciones.id')
-    ->whereBetween('confirmacion_dts.cita', [$ahora->copy()->toDateTimeString(), $enDosHoras->toDateTimeString()])
+    ->where('confirmacion_dts.cita', '<=', $enDosHoras->toDateTimeString())
     ->where('status.status_padre', StatusEnum::EN_TRANSITO->value)
     ->orderBy('confirmacion_dts.cita', 'asc')
     ->get();
@@ -117,7 +119,52 @@ class ConfirmacionDtController extends Controller
     return response()->json($confirmaciones);
   }
 
-  public function toggleContacto(Request $request)
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:confirmacion_dts,id',
+            'status_id' => 'required'
+        ]);
+
+        try {
+          DB::beginTransaction();
+          $confirmacion = ConfirmacionDt::findOrFail($request->id);
+        $confirmacion->status_id = $request->status_id;
+        $confirmacion->save();
+        
+        StatusDt::where('confirmacion_dt_id', $confirmacion->id)->update([
+          'activo' => 0,
+        ]);
+        StatusDt::create([
+          'confirmacion_dt_id' => $confirmacion->id,
+          'status_id' => $request->status_id,
+          'activo' => 1,
+        ]);
+        
+
+        DB::commit();
+        // Recargar con relaciones para devolver colores y nombres correctos
+        $confirmacion = ConfirmacionDt::with('status')->find($confirmacion->id);
+
+        return response()->json([
+            'success' => true,
+            'status_id' => $confirmacion->status_id,
+            'status_nombre' => $confirmacion->status->nombre,
+            'status_color' => $confirmacion->status->color
+        ]);
+        } catch (\Exception $e) {
+          DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el estado',
+                'error' => $e->getMessage()
+            ]);
+        }
+        
+
+    }
+
+    public function toggleContacto(Request $request)
   {
       $request->validate([
           'id' => 'required|exists:confirmacion_dts,id',
