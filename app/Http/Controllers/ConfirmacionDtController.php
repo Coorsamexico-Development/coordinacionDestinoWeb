@@ -78,6 +78,64 @@ class ConfirmacionDtController extends Controller
     return  $confirmaciones->paginate(5);
   }
 
+  public function getProximasCitas()
+  {
+    $ahora = Carbon::now('America/Mexico_City');
+    $enUnaHora = $ahora->copy()->addHour();
+    $enDosHoras = $ahora->copy()->addHours(2);
+
+    // Actualizar a "En Riesgo" (ID 5) las que estén a 1 hora o menos de la cita
+    // y que aún estén en status_id = 4 (A Tiempo)
+    ConfirmacionDt::whereBetween('cita', [$ahora->toDateTimeString(), $enUnaHora->toDateTimeString()])
+      ->join('status', 'confirmacion_dts.status_id', 'status.id')
+      ->where('status.status_padre', StatusEnum::EN_TRANSITO->value)
+      ->where('confirmacion_dts.cliente_contactado', '=', 0)
+      ->where('status.id', '!=', StatusEnum::EN_RIESGO->value)
+      ->update(['status_id' => StatusEnum::EN_RIESGO->value]);
+
+    $confirmaciones = ConfirmacionDt::select(
+      'confirmacion_dts.*',
+      'dts.referencia_dt',
+      'linea_transportes.nombre as linea_transporte',
+      'status.nombre as status_nombre',
+      'status.color as status_color',
+      'plataformas.nombre as plataforma_nombre',
+      'ubicaciones.nombre_ubicacion',
+      'clientes.nombre as cliente_nombre'
+    )
+    ->join('dts', 'confirmacion_dts.dt_id', 'dts.id')
+    ->join('linea_transportes', 'confirmacion_dts.linea_transporte_id', 'linea_transportes.id')
+    ->join('status', 'confirmacion_dts.status_id', 'status.id')
+    ->leftJoin('clientes', 'confirmacion_dts.cliente_id', 'clientes.id')
+    ->leftJoin('plataformas', 'confirmacion_dts.plataforma_id', 'plataformas.id')
+    ->leftJoin('ubicaciones', 'confirmacion_dts.ubicacion_id', 'ubicaciones.id')
+    ->whereBetween('confirmacion_dts.cita', [$ahora->copy()->toDateTimeString(), $enDosHoras->toDateTimeString()])
+    ->where('status.status_padre', StatusEnum::EN_TRANSITO->value)
+    ->orderBy('confirmacion_dts.cita', 'asc')
+    ->get();
+
+    return response()->json($confirmaciones);
+  }
+
+  public function toggleContacto(Request $request)
+  {
+      $request->validate([
+          'id' => 'required|exists:confirmacion_dts,id',
+          'cliente_contactado' => 'required|boolean'
+      ]);
+
+      $confirmacion = ConfirmacionDt::find($request->id);
+      $confirmacion->cliente_contactado = $request->cliente_contactado;
+      $confirmacion->save();
+
+      return response()->json([
+          'success' => true,
+          'message' => 'Estado de contacto actualizado',
+          'cliente_contactado' => $confirmacion->cliente_contactado
+      ]);
+  }
+
+
   public function getConfirmacionByStatus(Request $request)
   {
     request()->validate([

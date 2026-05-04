@@ -80,6 +80,8 @@ Route::middleware([
     Route::delete('/catalogs/email-groups/{emailGroup}', [EmailGroupController::class, 'destroy'])->name('catalogs.email-groups.destroy');
     Route::post('/catalogs/email-groups/{emailGroup}/recipients', [EmailGroupController::class, 'addRecipient'])->name('catalogs.email-groups.add-recipient');
     Route::delete('/catalogs/email-groups/recipients/{recipient}', [EmailGroupController::class, 'removeRecipient'])->name('catalogs.email-groups.remove-recipient');
+    Route::get('/getProximasCitas', [ConfirmacionDtController::class, 'getProximasCitas'])->name('getProximasCitas');
+    Route::post('/toggleContacto', [ConfirmacionDtController::class, 'toggleContacto'])->name('toggleContacto');
 });
 
 

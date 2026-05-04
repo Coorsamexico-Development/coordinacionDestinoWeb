@@ -27,7 +27,9 @@ class ConfirmacionDt extends Model
         'cliente_id',
         'ubicacion_id',
         'origen_id',
-        'status_id'
+        'status_id',
+        'documentopod',
+        'cliente_contactado'
     ];
 
     public function ocs()
