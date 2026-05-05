@@ -4,14 +4,14 @@ import { computed } from "vue";
 var props = defineProps({
     confirmaciones: Array,
     ubicacion: Object,
-    status: Object,
+    statusId: Number,
 });
 
 const Newconfirmaciones = computed(() => {
     let confirmacionesTemporales = [];
     for (let index = 0; index < props.confirmaciones.length; index++) {
         const confirmacion = props.confirmaciones[index];
-        if (confirmacion.status_padre == props.status.id) {
+        if (confirmacion.status_id == props.statusId) {
             if (confirmacion.ubicacion_id == props.ubicacion.id) {
                 confirmacionesTemporales.push(confirmacion);
             }

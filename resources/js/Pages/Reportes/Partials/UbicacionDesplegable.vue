@@ -271,7 +271,7 @@ const valores = computed(() => {
                 @setPlataforma="setPlataforma($event)"
                 :plataformas="plataformas"
                 :ubicacion="ubicacion"
-                :status="status"
+                :statusId="params.status_id"
             />
             <div v-if="dts !== null">
                 <div
