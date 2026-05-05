@@ -47,6 +47,8 @@ const showClients = (
 const closeModal = () => {
     show.value = false;
     params.ubicacion_id = null;
+    params.status_id = props.status.id;
+    params.plataforma_id = 1;
 };
 
 //El id viene de la emicion de switchButtons
