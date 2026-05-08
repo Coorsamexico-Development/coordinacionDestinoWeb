@@ -295,13 +295,13 @@ Route::get('/pdf', function () {
 
 
 
-Route::get('test/email-incidencia/{id}', function ($id) {
-  $confirmacionDt = ConfirmacionDt::where('id', '=', $id)->first();
-  EmailGroup::sendToGroup('customer service', new IncidenciaReportMail($confirmacionDt));
-});
+Route::get('/logs', function () {
+    $logFile = storage_path('logs/laravel.log');
+    if (! file_exists($logFile)) {
+        return response()->json(['error' => 'Log file not found'], 404);
+    }
 
-Route::get('test/email-bitacora/{id}', function ($id) {
-  $confirmacionDt = ConfirmacionDt::where('id', '=', $id)->first();
-  EmailGroup::sendToGroup('customer service', new BitacoraReportMail($confirmacionDt));
-  return "ok";
+    $logs = file_get_contents($logFile);
+
+    return response()->json(['logs' => $logs]);
 });
