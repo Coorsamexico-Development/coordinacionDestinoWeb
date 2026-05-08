@@ -4,7 +4,7 @@ ARG GID=1000
 
 ENV TZ=UTC
 RUN apk add --update bash libpng-dev libxml2-dev zip unzip curl sqlite supervisor npm libzip-dev
-RUN npm install -g npm@latest
+
 RUN apk add --no-cache nginx wget
 RUN docker-php-ext-install mysqli pdo pdo_mysql zip gd
 
@@ -15,8 +15,14 @@ COPY docker/php.ini /usr/local/etc/php/php.ini
 
 RUN mkdir -p /app
 COPY . /app
-# COPY ./src /app
 
+RUN touch /app/storage/logs/laravel.log
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
+
+RUN chown -R www-data: /app
+# COPY ./src /app
+RUN npm install -g npm@latest
 RUN sh -c "wget http://getcomposer.org/composer.phar && chmod a+x composer.phar && mv composer.phar /usr/local/bin/composer"
 RUN cd /app && \
     /usr/local/bin/composer install --ignore-platform-reqs --optimize-autoloader --no-dev
@@ -34,6 +40,5 @@ RUN cd /app && \
 
 
 
-RUN chown -R www-data: /app
 
 CMD sh /app/docker/startup.sh

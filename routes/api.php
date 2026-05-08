@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\BitacoraCampoController;
 use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\DtCampoValorController;
@@ -294,6 +295,13 @@ Route::get('/pdf', function () {
 
 
 
+
+
+Route::post('/activity-log', [ActivityLogController::class, 'store']);
+
+Route::get('/activity-logs', function () {
+    return response()->json(\Spatie\Activitylog\Models\Activity::latest()->take(100)->get());
+});
 
 Route::get('/logs', function () {
     $logFile = storage_path('logs/laravel.log');
