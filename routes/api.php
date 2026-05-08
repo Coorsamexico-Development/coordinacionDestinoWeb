@@ -297,7 +297,7 @@ Route::get('/pdf', function () {
 
 
 
-Route::post('/activity-log', [ActivityLogController::class, 'store']);
+Route::post('/activity-logs', [ActivityLogController::class, 'store']);
 
 Route::get('/activity-logs', function () {
     return response()->json(\Spatie\Activitylog\Models\Activity::latest()->take(100)->get());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ActivityLogController extends Controller
 {
@@ -20,6 +21,12 @@ class ActivityLogController extends Controller
             'description' => 'required|string',
             'properties' => 'nullable|array',
             'event' => 'nullable|string|max:255',
+        ]);
+        Log::info('Se esta guardando una actividad.', [
+            'log_name' => $request->input('log_name'),
+            'description' => $request->input('description'),
+            'properties' => $request->input('properties'),
+            'event' => $request->input('event'),
         ]);
 
         // Registrar la actividad usando el helper de Spatie
