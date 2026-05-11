@@ -83,8 +83,7 @@ class IncidenciaReportMail extends Mailable
                     'evidencias' => $incidencia->evidencias
                 ];
             }
-        }
-        Log::info($data);
+        }   
         return $data;
     }
 

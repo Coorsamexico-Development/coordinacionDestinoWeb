@@ -70,7 +70,7 @@ class ValorController extends Controller
 
     $confirmacionDt = ConfirmacionDt::select('confirmacion_dts.*')->where('confirmacion_dts.confirmacion', '=', $request['confirmacion'])
         ->where('confirmacion_dts.id', '=', $request['confirmacion_id'])
-        ->first();
+        ->firstOrFail();
 
     if ($confirmacionDt->status_id >= StatusEnum::DOCUMENTADO->value) {  
       return response()->json([
@@ -90,11 +90,11 @@ class ValorController extends Controller
 
     // Se recorren los datos y se extraen los campos para insertarlos en la BD
     foreach ($data as $campo) {
-      $condicionesBusqueda = $tipo == 'guardar'
-        ? ['dt_id' => $request['dt'], 'campo_id' => $campo['campo_id']]
-        : ['confirmacion_id' => $request['confirmacion_id'], 'campo_id' => $campo['campo_id']];
+      
 
-      $dt_campo = DtCampoValor::firstOrCreate($condicionesBusqueda);
+      $dt_campo = DtCampoValor::firstOrCreate(
+        ['confirmacion_id' => $request['confirmacion_id'], 'campo_id' => $campo['campo_id']]
+      );
 
       // Desactivamos valores anteriores
       Valor::where('dt_campo_valor_id', $dt_campo->id)->update(['activo' => 0]);
@@ -107,32 +107,7 @@ class ValorController extends Controller
       ]);
     }
 
-    if ($tipo == 'guardar') {
-      // Recorrido para fotos
-      if (isset($fotos['campo_id'])) {
-        $campo_foto = $fotos['campo_id'];
-        $dt_campo_foto = DtCampoValor::firstOrCreate([
-          'dt_id' => $request['dt'],
-          'campo_id' => $campo_foto
-        ]);
-
-        // Desactivar fotos anteriores
-        Valor::where('dt_campo_valor_id', $dt_campo_foto->id)->update(['activo' => 0]);
-
-        // Insertar nuevas fotos
-        if (isset($fotos['fotos']['fotos'])) {
-          foreach ($fotos['fotos']['fotos'] as $foto) {
-            if ($foto['id'] !== 0) {
-              Valor::create([
-                'valor' => $foto['base64'],
-                'dt_campo_valor_id' => $dt_campo_foto->id,
-                'user_id' => $usuarioId
-              ]);
-            }
-          }
-        }
-      }
-    } else {
+   
       // Actualizamos status de la confirmacion
       // Al hacer el guardado de llegada comprobaremos si alguna otra confirmacion tiene 
       // el mismo dt en dado caso de eso se copiara la misma informacion de valores desde a tiempo
@@ -153,7 +128,7 @@ class ValorController extends Controller
       ]);
       
       broadcast(new NewNotification($confirmacionDt))->toOthers();
-    }
+    
 
     return response()->json([
       'message' => 'Valores guardados correctamente',
