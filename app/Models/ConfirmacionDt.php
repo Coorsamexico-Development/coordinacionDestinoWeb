@@ -42,6 +42,11 @@ class ConfirmacionDt extends Model
         return $this->hasMany(confirmacionStatusPod::class, 'confirmacion_dt_id');
     }
 
+    public function facturas()
+    {
+        return $this->hasMany(Factura::class, 'confirmacion_dt_id');
+    }
+
     public function lineaTransporte()
     {
         return $this->belongsTo(LineaTransporte::class, 'linea_transporte_id');

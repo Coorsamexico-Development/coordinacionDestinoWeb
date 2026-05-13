@@ -31,6 +31,7 @@ class IncidenciasExport implements FromQuery, WithHeadings
                 'confirmacion_dts.confirmacion',
                 'dts.referencia_dt',
                 'ocs.referencia',
+                'facturas.factura as factura',
                 'productos.clave_producto',
                 'incidencias.upc_or_sku as sku',
                 'productos.descripcion as producto',
@@ -39,6 +40,7 @@ class IncidenciasExport implements FromQuery, WithHeadings
                 'incidencias.cantidadPOD as cantidadPOD',
             )
             ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
+            ->leftJoin('facturas', 'incidencias.factura_id', 'facturas.id')
             ->join('productos', 'incidencias.producto_id', 'productos.id')
             ->rightJoin('ocs', 'incidencias.ocs_id', 'ocs.id')
             ->rightJoin('confirmacion_dts', 'ocs.confirmacion_dt_id', 'confirmacion_dts.id')
@@ -53,6 +55,7 @@ class IncidenciasExport implements FromQuery, WithHeadings
             "Confirmación",
             "DT",
             "OC",
+            "Factura",
             "clave_producto",
             "SKU",
             "Descripción",

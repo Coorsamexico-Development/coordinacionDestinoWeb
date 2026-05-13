@@ -195,9 +195,7 @@ class ValorController extends Controller
       'confirmacion_id' => 'required',
       'updated_at'  =>  'sometimes|date'
     ]);
-    $confirmacionDt = ConfirmacionDt::where('id', $request['confirmacion_id'])
-      ->where('dt_id', $request['dt'])
-      ->first();
+    $confirmacionDt = ConfirmacionDt::findOrFail($request['confirmacion_id']);
     if ($confirmacionDt->status_id >= StatusEnum::EN_ESPERA_DE_RAMPA->value) {  
       return response()->json([
         'message' => 'La confirmacion ya se encuentra en status de documentado o superior'
@@ -241,63 +239,88 @@ class ValorController extends Controller
 
     $confirmacionesConMismoDT = ConfirmacionDt::where('dt_id', $confirmacionDt->dt_id)->get();
 
-    // Copiado de informacion a otras confirmaciones
-    if ($confirmacionesConMismoDT->count() > 1) {
-      $camposAInsertar = DtCampoValor::join('campos', 'dt_campo_valors.campo_id', 'campos.id')
-        ->with('valores')
-        ->where('dt_campo_valors.confirmacion_id', $confirmacionDt->id)
-        ->whereIn('campos.status_id', [4, 6])
-        ->select('dt_campo_valors.*', 'campos.id as campo_id', 'campos.nombre as campo')
-        ->get();
+    // // Copiado de informacion a otras confirmaciones
+    // if ($confirmacionesConMismoDT->count() > 1) {
+    //   $camposAInsertar = DtCampoValor::join('campos', 'dt_campo_valors.campo_id', 'campos.id')
+    //     ->with('valores')
+    //     ->where('dt_campo_valors.confirmacion_id', $confirmacionDt->id)
+    //     ->whereIn('campos.status_id', [4, 6])
+    //     ->select('dt_campo_valors.*', 'campos.id as campo_id', 'campos.nombre as campo')
+    //     ->get();
 
-      $historico_de_status = StatusDt::where('confirmacion_dt_id', $confirmacionDt->id)
-        ->whereIn('status_id', [4, 6])
-        ->get();
+    //   $historico_de_status = StatusDt::where('confirmacion_dt_id', $confirmacionDt->id)
+    //     ->whereIn('status_id', [4, 6])
+    //     ->get();
 
-      foreach ($confirmacionesConMismoDT as $confirmacionActual) {
-        if ($confirmacionActual->id !== $confirmacionDt->id) {
-          // Si hay campos para insertar de esta confirmación
-          foreach ($camposAInsertar as $campoActual) {
-            $newDtCampoValor = DtCampoValor::updateOrCreate([
-              'campo_id' => $campoActual->campo_id,
-              'confirmacion_id' => $confirmacionActual->id
-            ]);
+    //   foreach ($confirmacionesConMismoDT as $confirmacionActual) {
+    //     if ($confirmacionActual->id !== $confirmacionDt->id) {
+    //       // Si hay campos para insertar de esta confirmación
+    //       foreach ($camposAInsertar as $campoActual) {
+    //         $newDtCampoValor = DtCampoValor::updateOrCreate([
+    //           'campo_id' => $campoActual->campo_id,
+    //           'confirmacion_id' => $confirmacionActual->id
+    //         ]);
 
-            foreach ($campoActual->valores as $valorActual) {
-              Valor::updateOrCreate([
-                'valor' => $valorActual->valor,
-                'dt_campo_valor_id' => $newDtCampoValor->id,
-                'user_id' => $valorActual->user_id
-              ]);
-            }
-          }
+    //         foreach ($campoActual->valores as $valorActual) {
+    //           Valor::updateOrCreate([
+    //             'valor' => $valorActual->valor,
+    //             'dt_campo_valor_id' => $newDtCampoValor->id,
+    //             'user_id' => $valorActual->user_id
+    //           ]);
+    //         }
+    //       }
 
-          // Replicar historico_de_status a las demás
-          foreach ($historico_de_status as $historia_status) {
-            StatusDt::updateOrCreate([
-              'confirmacion_dt_id' => $confirmacionActual->id,
-              'status_id' => $historia_status->status_id
-            ]);
-          }
-        }
-      }
-    }
+    //       // Replicar historico_de_status a las demás
+    //       foreach ($historico_de_status as $historia_status) {
+    //         StatusDt::updateOrCreate([
+    //           'confirmacion_dt_id' => $confirmacionActual->id,
+    //           'status_id' => $historia_status->status_id
+    //         ]);
+    //       }
+    //     }
+    //   }
+    // }
 
     // Actualizamos Status General en un único bucle correcto para sí misma y las copiadas
-    foreach ($confirmacionesConMismoDT as $confirmacionActual) {
-      ConfirmacionDt::where('id', $confirmacionActual->id)
+    // foreach ($confirmacionesConMismoDT as $confirmacionActual) {
+    //   ConfirmacionDt::where('id', $confirmacionActual->id)
+    //     ->update([
+    //       'status_id' => 7,
+    //       'updated_at' => $newFecha,
+    //     ]);
+
+    //   StatusDt::where('confirmacion_dt_id', $confirmacionActual->id)
+    //     ->update([
+    //       'activo' => 0
+    //     ]);
+
+    //   $newStatus = StatusDt::create([
+    //     'confirmacion_dt_id' => $confirmacionActual->id,
+    //     'status_id' => 7,
+    //     'created_at' => $newFecha,
+    //     'updated_at' => $newFecha,
+    //   ]);
+
+    //   HorasHistorico::create([
+    //     'hora_id' => 2,
+    //     'status_dts_id' => $newStatus->id,
+    //     'hora' => $horaActual
+    //   ]);
+    // }
+
+    ConfirmacionDt::where('id', $confirmacionDt->id)
         ->update([
           'status_id' => 7,
           'updated_at' => $newFecha,
         ]);
 
-      StatusDt::where('confirmacion_dt_id', $confirmacionActual->id)
+      StatusDt::where('confirmacion_dt_id', $confirmacionDt->id)
         ->update([
           'activo' => 0
         ]);
 
       $newStatus = StatusDt::create([
-        'confirmacion_dt_id' => $confirmacionActual->id,
+        'confirmacion_dt_id' => $confirmacionDt->id,
         'status_id' => 7,
         'created_at' => $newFecha,
         'updated_at' => $newFecha,
@@ -308,7 +331,6 @@ class ValorController extends Controller
         'status_dts_id' => $newStatus->id,
         'hora' => $horaActual
       ]);
-    }
 
     broadcast(new NewNotification($confirmacionDt))->toOthers();
     return 'ok fotos';

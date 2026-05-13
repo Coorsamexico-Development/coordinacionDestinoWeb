@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evidencia;
+use App\Models\Factura;
 use App\Models\Incidencia;
 use App\Models\Oc;
 use App\Models\Producto;
@@ -27,6 +28,7 @@ class IncidenciaController extends Controller
             'cantidad' => 'required|numeric',
             'clave_producto' => 'required', // This corresponds to producto_id/product_id
             'upc_or_sku' => 'required|string',
+            'factura' => 'nullable|exists:facturas,factura', // Opcional (folio)
             'evidencias' => 'nullable|array',
             'evidencias.*' => 'file|image|max:10240', // Max 10MB per image
         ]);
@@ -39,11 +41,17 @@ class IncidenciaController extends Controller
         $producto = Producto::where('clave_producto', $request->clave_producto)->firstOrFail();
    
 
+        $factura = null;
+        if ($request->filled('factura')) {
+            $factura = Factura::where('factura', $request->factura)->first();
+        }
+
         $incidencia = Incidencia::updateOrCreate(
             [
                 'ocs_id' => $oc->id,
                 'tipo_incidencia_id' => $request->tipo_incidencia_id,
-                'producto_id' => $producto->id // producto_id corresponds to product id
+                'producto_id' => $producto->id, // producto_id corresponds to product id
+                'factura_id' => $factura?->id
             ],
             [
                 'cantidad' => $request->cantidad,

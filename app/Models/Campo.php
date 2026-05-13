@@ -13,6 +13,11 @@ class Campo extends Model
         'nombre',
         'tipo_campo_id',
         'status_id',
-        'with_evidencias'
+        'with_evidencias',
+        'active'
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
     ];
 }

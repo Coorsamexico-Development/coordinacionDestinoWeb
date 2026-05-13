@@ -15,6 +15,7 @@ import ModalIncidencias from "../Modals/ModalIncidencias.vue";
 import Campo from "../Partials/Campo.vue";
 import ModalErr from "./ModalErr.vue";
 import ModalOk from "./ModalOk.vue";
+import ItemsIncidenciasList from "../Components/ItemsIncidenciasList.vue";
 
 const emit = defineEmits(["close", "reVisit"]);
 const props = defineProps({
@@ -40,6 +41,7 @@ const close = () => {
 
 const statusActual = ref(null);
 const ocs = ref([]);
+const facturas = ref([]);
 
 const consultarHistoria = async (historiaIndividual) => {
     //console.log(historiaIndividual)
@@ -110,6 +112,20 @@ const consultarHistoria = async (historiaIndividual) => {
             .then((response) => {
                 //console.log(response)
                 ocs.value = response.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        //Consulta para las Facturas
+        axios
+            .get("/facturas", {
+                params: {
+                    confirmacion_dt_id: historiaIndividual.confirmacion_dt_id,
+                },
+            })
+            .then((response) => {
+                facturas.value = response.data;
             })
             .catch((err) => {
                 console.log(err);
@@ -203,20 +219,17 @@ const enviarCorreo = () => {
 
 const modalIncidencias = ref(false);
 const incidencias = ref(null);
-const openModalIncidencias = (oc) => {
+const ocActual = ref(null);
+const typeActual = ref("oc");
+const openModalIncidencias = (item, type) => {
     modalIncidencias.value = true;
-    incidencias.value = oc.incidencias;
+    incidencias.value = item.incidencias;
+    ocActual.value = item;
+    typeActual.value = type;
 };
 
 const closeModalIncidencias = () => {
     modalIncidencias.value = false;
-};
-
-let showThings = ref(false);
-let ocActual = ref(-1);
-const mostrar = (oc) => {
-    ocActual.value = oc;
-    showThings.value = !showThings.value;
 };
 /*
   Prueba para subida de archivos
@@ -286,28 +299,31 @@ watch(cita, (newCita) => {
     } catch (error) {}
 });
 
-const consultarOcsIncidencias = (item, oc) => {
-    //console.log(props.dt.id)
-    //Consulta para las OCS
+const consultarIncidencias = (item, itemId, type) => {
+    const endpoint = type === "oc" ? "/ocsByViaje" : "/facturas";
     axios
-        .get("/ocsByViaje", {
+        .get(endpoint, {
             params: {
                 confirmacion_dt_id: item,
             },
         })
         .then((response) => {
-            //console.log(response)
-            ocs.value = response.data;
-            let ocIn = ocs.value.filter((ocL) => ocL.id == oc);
-            //console.log(ocIn);
-            //console.log(ocIn[0].incidencias)
-            incidencias.value = ocIn[0].incidencias;
+            if (type === "oc") {
+                ocs.value = response.data;
+            } else {
+                facturas.value = response.data;
+            }
+
+            const items = type === "oc" ? ocs.value : facturas.value;
+            const itemFound = items.filter((i) => i.id == itemId);
+            if (itemFound.length > 0) {
+                incidencias.value = itemFound[0].incidencias;
+            }
         })
         .catch((err) => {
             console.log(err);
         });
 
-    //console.log(props.viaje)
     emit("reVisit", item);
 };
 
@@ -399,7 +415,7 @@ const beforeStatusDocumentado = computed(() => {
                         Información
                     </h1>
                     <div
-                        class="overflow-y-auto min-h-[50%]"
+                        class="overflow-y-auto min-h-[50%] max-h-[70vh]"
                         v-if="statusActual !== null"
                     >
                         <div class="snap-center">
@@ -416,157 +432,23 @@ const beforeStatusDocumentado = computed(() => {
                                             :status="statusActual"
                                         />
                                     </div>
-                                    <div
-                                        class="mt-2 border-t-2"
+                                    <ItemsIncidenciasList
+                                        v-if="statusActual.status_id == 6"
+                                        title="Facturas"
+                                        :items="facturas"
+                                        type="factura"
+                                        @openIncidencias="openModalIncidencias"
+                                    />
+
+                                    <ItemsIncidenciasList
                                         v-if="statusActual.status_id == 9"
-                                    >
-                                        <div
-                                            class="flex flex-row mt-2 justify-evenly"
-                                        >
-                                            <h1 class="mt-2 text-lg">Oc's</h1>
-                                            <a
-                                                :href="
-                                                    route(
-                                                        'downloadIncidenciasReport',
-                                                        { viaje: viaje },
-                                                    )
-                                                "
-                                            >
-                                                <button
-                                                    class="bg-[#44BFFC] px-8 py-2 rounded-2xl"
-                                                >
-                                                    <img
-                                                        class="w-3"
-                                                        src="../../../../assets/img/down_arrow.png"
-                                                    />
-                                                </button>
-                                            </a>
-                                        </div>
-                                        <div
-                                            class="p-4 mx-2 my-4 bg-white rounded-lg drop-shadow-lg"
-                                            v-for="oc in ocs"
-                                            :key="oc.id"
-                                        >
-                                            <div
-                                                @click="mostrar(oc)"
-                                                class="flex justify-between py-1"
-                                            >
-                                                <h1
-                                                    class="text-lg font-semibold"
-                                                >
-                                                    {{ oc.referencia }}
-                                                </h1>
-                                                <div>
-                                                    <svg
-                                                        v-if="showThings"
-                                                        class="mx-2"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="27.203"
-                                                        height="15.723"
-                                                        viewBox="0 0 27.203 15.723"
-                                                    >
-                                                        <path
-                                                            id="Trazado_4273"
-                                                            data-name="Trazado 4273"
-                                                            d="M0,0,11.48,11.48,22.96,0"
-                                                            transform="translate(25.081 13.602) rotate(180)"
-                                                            fill="none"
-                                                            stroke="#9b9b9b"
-                                                            stroke-linecap="round"
-                                                            stroke-width="3"
-                                                        />
-                                                    </svg>
-                                                    <svg
-                                                        v-if="!showThings"
-                                                        class="mx-2 rotate-180"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="27.203"
-                                                        height="15.723"
-                                                        viewBox="0 0 27.203 15.723"
-                                                    >
-                                                        <path
-                                                            id="Trazado_4273"
-                                                            data-name="Trazado 4273"
-                                                            d="M0,0,11.48,11.48,22.96,0"
-                                                            transform="translate(25.081 13.602) rotate(180)"
-                                                            fill="none"
-                                                            stroke="#9b9b9b"
-                                                            stroke-linecap="round"
-                                                            stroke-width="3"
-                                                        />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <Transition
-                                                    name="slide-fade"
-                                                    class="mt-2 border-t-2"
-                                                >
-                                                    <div
-                                                        v-if="
-                                                            showThings &&
-                                                            oc.id == ocActual.id
-                                                        "
-                                                    >
-                                                        <table
-                                                            class="w-full mt-2"
-                                                        >
-                                                            <thead>
-                                                                <tr>
-                                                                    <td
-                                                                        class="text-center"
-                                                                    >
-                                                                        Facturado
-                                                                    </td>
-                                                                    <td
-                                                                        class="text-center"
-                                                                    >
-                                                                        En POD
-                                                                    </td>
-                                                                    <td
-                                                                        class="text-center"
-                                                                    >
-                                                                        Incidencias
-                                                                    </td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td
-                                                                        class="text-center"
-                                                                    >
-                                                                        {{
-                                                                            oc.facturado
-                                                                        }}
-                                                                    </td>
-                                                                    <td
-                                                                        class="text-center"
-                                                                    >
-                                                                        {{
-                                                                            oc.enPOD
-                                                                        }}
-                                                                    </td>
-                                                                    <td
-                                                                        class="flex justify-center"
-                                                                    >
-                                                                        <ButtonWatch
-                                                                            @click="
-                                                                                openModalIncidencias(
-                                                                                    oc,
-                                                                                )
-                                                                            "
-                                                                            class="w-8 h-6"
-                                                                            :color="'#44BFFC'"
-                                                                        />
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </Transition>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        title="Oc's"
+                                        :items="ocs"
+                                        type="oc"
+                                        downloadRoute="downloadIncidenciasReport"
+                                        :viaje="viaje"
+                                        @openIncidencias="openModalIncidencias"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -739,9 +621,10 @@ const beforeStatusDocumentado = computed(() => {
                 :incidencias="incidencias"
                 :show="modalIncidencias"
                 :oc="ocActual"
+                :type="typeActual"
                 :dt="dt.id"
                 @close="closeModalIncidencias()"
-                @reconsultarOcsIncidencias="consultarOcsIncidencias"
+                @reconsultarIncidencias="consultarIncidencias"
             />
 
             <ModalOk :show="ok" @close="closeModalOk" />

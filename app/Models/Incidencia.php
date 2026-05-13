@@ -15,8 +15,14 @@ class Incidencia extends Model
         'cantidad',
         'producto_id',
         'upc_or_sku',
-        'cantidadPOD'
+        'cantidadPOD',
+        'factura_id'
     ];
+
+    public function factura()
+    {
+        return $this->belongsTo(Factura::class, 'factura_id');
+    }
 
     public function evidencias()
     {
@@ -31,5 +37,22 @@ class Incidencia extends Model
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    public function scopeWithDetails($query)
+    {
+        return $query->select(
+            'incidencias.*',
+            'tipo_incidencias.nombre as tipo_incidencia',
+            'productos.descripcion as producto',
+            'facturas.factura',
+            'productos.clave_producto',
+            'productos.SKU as sku'
+        )
+        ->with('evidencias')
+        ->leftJoin('facturas', 'incidencias.factura_id', 'facturas.id')
+        ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
+        ->join('productos', 'incidencias.producto_id', 'productos.id')
+        ->orderBy('incidencias.id', 'ASC');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailGroupController;
 use App\Http\Controllers\ConfirmacionFechasPodController;
 use App\Http\Controllers\ConfirmacionStatusPodController;
 use App\Http\Controllers\DtController;
+use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\IncidenciaController;
 use App\Http\Controllers\OcController;
 use App\Http\Controllers\PermissionController;
@@ -83,7 +84,10 @@ Route::middleware([
     Route::get('/getProximasCitas', [ConfirmacionDtController::class, 'getProximasCitas'])->name('getProximasCitas');
     Route::post('/toggleContacto', [ConfirmacionDtController::class, 'toggleContacto'])->name('toggleContacto');
     Route::post('/updateStatus', [ConfirmacionDtController::class, 'updateStatus'])->name('updateStatus');
-});
+
+    // Facturas Web
+    Route::get('/facturas', [FacturaController::class, 'index'])->name('facturas.index');
+    });
 
 
 //Ruta para cargar dts
@@ -158,6 +162,8 @@ Route::get('/changeCita', [ConfirmacionDtController::class, 'changeCita'])->name
 Route::get('/getTiposIncidenciaYProductos', [TiposIncidenciaController::class, 'getTiposIncidenciaYProductos'])->name('getTiposIncidenciaYProductos');
 //Ruta para guardar incidencias por oc
 Route::get('/saveIncidenciasByOc', [IncidenciaController::class, 'saveIncidenciasByOc'])->name('saveIncidenciasByOc');
+//Ruta para guardar incidencias por factura
+Route::get('/saveIncidenciasByFactura', [IncidenciaController::class, 'saveIncidenciasByFactura'])->name('saveIncidenciasByFactura');
 //Ruta para guardado de los roles y permisos
 Route::get('role/permissions', [RolesPermissionController::class, 'setPermission'])->name('roles.permissions');
 //Ruta para obtener los permisos

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ActivityLogController;
 use App\Http\Controllers\Api\BitacoraCampoController;
 use App\Http\Controllers\Api\BitacoraController;
 use App\Http\Controllers\Api\DtCampoValorController;
+use App\Http\Controllers\Api\FacturaController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\AutenticatheController;
 use App\Http\Controllers\CampoController;
@@ -103,6 +104,12 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/fotosDocumentacion', [ValorController::class, 'documentacionFotos']);
 
   Route::post('/saveCuadre', [OcController::class, 'saveCuadre'])->name('saveCuadre');
+
+  // Facturas API
+  Route::get('/facturas', [FacturaController::class, 'index']);
+  Route::post('/facturas', [FacturaController::class, 'store']);
+  Route::post('/detachOc', [FacturaController::class, 'detachOc']);
+  Route::delete('/facturas/{factura}', [FacturaController::class, 'destroy']);
 });
 //Ruta de guardado global de enrrampe
 
@@ -110,7 +117,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('confirmacion-dts/{confirmacionDt}/ocs', [OcController::class, 'store']);
 
 
-Route::put('/saveFacturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
+Route::put('ocs/save-facturados', [OcController::class, 'saveFacturados'])->name('saveFacturados');
 //Ruta para guardar ocs cuadradas
 
 Route::get('/consultarOcs', [OcController::class, 'consultarOcs'])->name('consultarOcs');
@@ -294,6 +301,16 @@ Route::get('/pdf', function () {
 });
 
 
+
+Route::get('/confirmaciones/{confirmacionDt}/mail-incidencias', 
+function (ConfirmacionDt $confirmacionDt) {
+  EmailGroup::sendToGroup('customer service', new IncidenciaReportMail($confirmacionDt));
+
+  return response()->json([
+    'message' => 'Email sent successfully',
+    'confirmacion' => $confirmacionDt
+  ]);
+});
 
 
 

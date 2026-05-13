@@ -47,14 +47,14 @@ class OcController extends Controller
         
         $validated = $request->validate([
             'ocs' => ['array'],
-            'ocs.*.id' => ['required', 'integer', 'exists:ocs,id'],
+            'ocs.*.referencia' => ['required', 'string', 'exists:ocs,referencia'],
             'ocs.*.facturado' => ['required', 'integer'],
         ]);
 
         try {
             DB::transaction(function () use ($validated) {
                 foreach ($validated['ocs'] as $data) {
-                    Oc::where('id', $data['id'])
+                    Oc::where('referencia', $data['referencia'])
                         ->update(['facturado' => $data['facturado']]);
                 }
             });

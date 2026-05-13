@@ -18,6 +18,11 @@ class Oc extends Model
         'bandera'
     ];
 
+    public function facturas()
+    {
+        return $this->belongsToMany(Factura::class, 'factura_oc', 'oc_id', 'factura_id');
+    }
+
     public function incidencias()
     {
         return $this->hasMany(Incidencia::class,'ocs_id');
@@ -28,19 +33,11 @@ class Oc extends Model
         return $query->select('ocs.*')
                 ->with([
                 'incidencias'  => function ($query) use ($productoId) {
-                    $query->select(
-                        'incidencias.*',
-                        'tipo_incidencias.nombre as tipo_incidencia',
-                        'productos.clave_producto'
-                    )
-                        ->with('evidencias')
-                        ->join('tipo_incidencias', 'incidencias.tipo_incidencia_id', 'tipo_incidencias.id')
-                        ->join('productos', 'incidencias.producto_id', 'productos.id');
+                    $query->withDetails();
 
                     if ($productoId !== null) {
                         $query->where('incidencias.producto_id', '=', $productoId);
                     }
-                    $query->get();
                 }
             ]);
     }

@@ -91,6 +91,7 @@ class ConfirmacionDtController extends Controller
                 $confirmacionesDts->where('confirmacion_dts.plataforma_id', 'LIKE', '%' . $request['plataforma_id'] . '%');
             }
         }
+        $confirmacionesDts->orderBy('confirmacion_dts.created_at', $request->has('order') ? $request['order'] : 'desc');
 
         $plataformas = Plataforma::select('plataformas.*')
             ->get();
